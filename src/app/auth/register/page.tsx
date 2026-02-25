@@ -15,9 +15,6 @@ export default function RegisterPage() {
   const [uploading, setUploading] = useState(false)
   const [error, setError] = useState('')
   const [isSignedIn, setIsSignedIn] = useState(false)
-  const [magicEmail, setMagicEmail] = useState('')
-  const [magicSent, setMagicSent] = useState(false)
-  const [sendingMagic, setSendingMagic] = useState(false)
   const idRef = useRef<HTMLInputElement>(null)
   const selfieRef = useRef<HTMLInputElement>(null)
   const licenseRef = useRef<HTMLInputElement>(null)
@@ -42,32 +39,10 @@ export default function RegisterPage() {
     if (error) console.error('Google sign-in error:', error.message)
   }
 
-  const handleMagicLink = async () => {
-    setError('')
-    if (!magicEmail || !magicEmail.includes('@')) {
-      setError('تکایە ئیمەیڵێکی دروست بنووسە')
-      return
-    }
-    setSendingMagic(true)
-    if (role) localStorage.setItem('ridemate_role', role)
-    const { error } = await supabase.auth.signInWithOtp({
-      email: magicEmail,
-      options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
-      },
-    })
-    setSendingMagic(false)
-    if (error) {
-      setError('هەڵە لە ناردنی لینک: ' + error.message)
-      return
-    }
-    setMagicSent(true)
-  }
-
   const handleContinueFromDetails = () => {
     setError('')
     if (!isSignedIn) {
-      setError('تکایە سەرەتا چوونەژوورەوە بکە')
+      setError('تکایە سەرەتا بە گووگڵ چوونەژوورەوە بکە')
       return
     }
     setStep('verify')
@@ -182,46 +157,12 @@ export default function RegisterPage() {
               </div>
             </div>
           ) : (
-            <>
-              <div style={{ ...card, cursor: 'pointer' }} onClick={handleGoogleSignIn}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                  <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59a14.5 14.5 0 0 1 0-9.18l-7.98-6.19a24.01 24.01 0 0 0 0 21.56l7.98-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-                  <span style={{ fontWeight: 600, color: '#44403c' }}>{ku.continueWithGoogle}</span>
-                </div>
+            <div style={{ ...card, cursor: 'pointer' }} onClick={handleGoogleSignIn}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59a14.5 14.5 0 0 1 0-9.18l-7.98-6.19a24.01 24.01 0 0 0 0 21.56l7.98-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+                <span style={{ fontWeight: 600, color: '#44403c' }}>{ku.continueWithGoogle}</span>
               </div>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', margin: '0.75rem 0', color: '#a8a29e', fontSize: '0.85rem' }}>
-                <div style={{ flex: 1, borderTop: '1px solid #e7e5e4' }} />
-                <span>{ku.or}</span>
-                <div style={{ flex: 1, borderTop: '1px solid #e7e5e4' }} />
-              </div>
-
-              {magicSent ? (
-                <div style={{ ...card, border: '1.5px solid #16a34a', background: '#f0fdf4', textAlign: 'center' }}>
-                  <span style={{ fontSize: '2rem', display: 'block', marginBottom: '0.5rem' }}>📬</span>
-                  <p style={{ fontWeight: 600, color: '#16a34a', marginBottom: '0.25rem' }}>لینکەکە نێردرا!</p>
-                  <p style={{ fontSize: '0.8rem', color: '#78716c', lineHeight: 1.7 }}>ئیمەیڵەکەت بکەرەوە و کلیک لە لینکەکە بکە بۆ چوونەژوورەوە</p>
-                </div>
-              ) : (
-                <div>
-                  <label style={label}>ئیمەیڵ</label>
-                  <input
-                    style={{ ...input, direction: 'ltr', textAlign: 'left' }}
-                    type="email"
-                    placeholder="email@example.com"
-                    value={magicEmail}
-                    onChange={e => setMagicEmail(e.target.value)}
-                  />
-                  <button
-                    style={{ ...btn, background: '#1c1917', opacity: sendingMagic ? 0.5 : 1 }}
-                    disabled={sendingMagic}
-                    onClick={handleMagicLink}
-                  >
-                    {sendingMagic ? '...چاوەڕوان بە' : 'لینکی چوونەژوورەوە بنێرە'}
-                  </button>
-                </div>
-              )}
-            </>
+            </div>
           )}
 
           <button style={{ ...btn, opacity: isSignedIn ? 1 : 0.5, marginTop: '1rem' }} disabled={!isSignedIn} onClick={handleContinueFromDetails}>{ku.continue}</button>
