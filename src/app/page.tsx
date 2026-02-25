@@ -21,8 +21,11 @@ export default function LandingPage() {
       </div>
 
       <div style={{ padding: '0 1.25rem 1.5rem' }}>
+        <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '1rem', padding: '1rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <span style={{ fontSize: '1.5rem' }}>🚗</span>
+          <p style={{ color: '#57534e', fontSize: '0.9rem' }}><span style={{ color: '#df6530', fontWeight: 700 }}>ڕێ</span> ئاپێکە بۆ هاوسەفەری نێوان هەولێر و سلێمانی و دهۆک</p>
+        </div>
         {[
-          { icon: '🚗', text: 'ڕێ ئاپێکە بۆ هاوسەفەری نێوان هەولێر و سلێمانی و دهۆک' },
           { icon: '🪪', text: ku.step1 },
           { icon: '🗺️', text: ku.step2 },
           { icon: '🤝', text: ku.step3 },
