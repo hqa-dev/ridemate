@@ -34,19 +34,10 @@ export default function LandingPage() {
         ))}
       </div>
 
-      <div style={{ padding: '0 1.25rem 1rem' }}>
+      <div style={{ padding: '0 1.25rem 2rem' }}>
         <div style={{ background: '#fae8d8', border: '1px solid #f5cdb0', borderRadius: '1rem', padding: '1rem' }}>
           <p style={{ color: '#92400e', fontSize: '0.85rem', lineHeight: 1.8 }}>
             هاوڕێیەکی نزیکی خۆم، حەمە، هەر کە ڕێی ئەکەوتە دەرەوەی هەولێر، پۆستیێکی ئەکرد و ئەیوت ئەچم بۆ هەولێر و ٣ شوێنی بەتاڵم هەیە، ئەوەی دێ بەخێر بێ. نرخەکەشی قاوەیەک بۆ شۆفێر، و قسەیەکی خۆش بۆ ڕێگا.
-          </p>
-        </div>
-      </div>
-
-      <div style={{ padding: '0 1.25rem 2rem' }}>
-        <div style={{ background: '#f5f5f4', border: '1px solid #e7e5e4', borderRadius: '1rem', padding: '0.85rem 1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <span style={{ fontSize: '1.1rem' }}>🔒</span>
-          <p style={{ color: '#78716c', fontSize: '0.8rem', lineHeight: 1.7 }}>
-            بۆ سەلامەتی هەمووان، پێویستە کۆپییەکی ناسنامەکەت و سێلفییەک بنێری بۆ ئەوەی دڵنیابین خۆتی
           </p>
         </div>
       </div>
