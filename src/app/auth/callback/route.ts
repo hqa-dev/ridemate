@@ -10,11 +10,30 @@ export async function GET(request: Request) {
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     
     if (!error) {
-      // Redirect to home after successful auth
+      const { data: { user } } = await supabase.auth.getUser()
+      
+      if (user) {
+        // Check if user has uploaded verification docs
+        const { data: idFile } = await supabase.storage
+          .from('documents')
+          .list(user.id, { search: 'id' })
+        
+        const { data: selfieFile } = await supabase.storage
+          .from('documents')
+          .list(user.id, { search: 'selfie' })
+        
+        const hasId = idFile && idFile.length > 0
+        const hasSelfie = selfieFile && selfieFile.length > 0
+        
+        if (!hasId || !hasSelfie) {
+          // Not verified yet, send to verify step
+          return NextResponse.redirect(`${origin}/auth/verify`)
+        }
+      }
+      
       return NextResponse.redirect(`${origin}/home`)
     }
   }
 
-  // If something went wrong, redirect back to register
   return NextResponse.redirect(`${origin}/auth/register`)
 }
