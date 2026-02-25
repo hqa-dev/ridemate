@@ -21,6 +21,9 @@ export default function LandingPage() {
       </div>
 
       <div style={{ padding: '0 1.25rem 1.5rem' }}>
+        <p style={{ color: '#78716c', fontSize: '0.9rem', marginBottom: '1.25rem', lineHeight: 1.7 }}>
+          ڕێ ئاپێکە بۆ هاوسەفەری نێوان هەولێر و سلێمانی و دهۆک
+        </p>
         <h2 style={{ fontSize: '1rem', fontWeight: 600, color: '#57534e', marginBottom: '1rem' }}>{ku.howItWorks}</h2>
         {[
           { icon: '🪪', text: ku.step1 },
