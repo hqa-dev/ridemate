@@ -20,6 +20,20 @@ export default function LandingPage() {
         </p>
       </div>
 
+      <div style={{ padding: '0 1.25rem 1.5rem' }}>
+        <h2 style={{ fontSize: '1rem', fontWeight: 600, color: '#57534e', marginBottom: '1rem' }}>{ku.howItWorks}</h2>
+        {[
+          { icon: '🪪', text: ku.step1 },
+          { icon: '🗺️', text: ku.step2 },
+          { icon: '🤝', text: ku.step3 },
+        ].map((step, i) => (
+          <div key={i} style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '1rem', padding: '1rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <span style={{ fontSize: '1.5rem' }}>{step.icon}</span>
+            <p style={{ color: '#57534e', fontSize: '0.9rem' }}>{step.text}</p>
+          </div>
+        ))}
+      </div>
+
       <div style={{ padding: '0 1.25rem 1rem' }}>
         <div style={{ background: '#fae8d8', border: '1px solid #f5cdb0', borderRadius: '1rem', padding: '1rem' }}>
           <p style={{ color: '#92400e', fontSize: '0.85rem', lineHeight: 1.8 }}>
@@ -35,20 +49,6 @@ export default function LandingPage() {
             بۆ سەلامەتی هەمووان، پێویستە کۆپییەکی ناسنامەکەت و سێلفییەک بنێری بۆ ئەوەی دڵنیابین خۆتی
           </p>
         </div>
-      </div>
-
-      <div style={{ padding: '0 1.25rem 1.5rem' }}>
-        <h2 style={{ fontSize: '1rem', fontWeight: 600, color: '#57534e', marginBottom: '1rem' }}>{ku.howItWorks}</h2>
-        {[
-          { icon: '🪪', text: ku.step1 },
-          { icon: '🗺️', text: ku.step2 },
-          { icon: '🤝', text: ku.step3 },
-        ].map((step, i) => (
-          <div key={i} style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '1rem', padding: '1rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <span style={{ fontSize: '1.5rem' }}>{step.icon}</span>
-            <p style={{ color: '#57534e', fontSize: '0.9rem' }}>{step.text}</p>
-          </div>
-        ))}
       </div>
 
       <div style={{ padding: '0 1.25rem 3rem' }}>
