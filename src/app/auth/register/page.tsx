@@ -1,0 +1,137 @@
+'use client'
+import { useState } from 'react'
+import Link from 'next/link'
+import { ku } from '@/lib/translations'
+import { createClient } from '@/lib/supabase/client'
+
+type Step = 'role' | 'details' | 'verify'
+
+export default function RegisterPage() {
+  const [step, setStep] = useState<Step>('role')
+  const [role, setRole] = useState('')
+  const supabase = createClient()
+
+  const handleGoogleSignIn = async () => {
+    // Save role to localStorage so we can use it after redirect
+    if (role) localStorage.setItem('ridemate_role', role)
+    
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    })
+    if (error) console.error('Google sign-in error:', error.message)
+  }
+
+  const card = { background: 'white', border: '1px solid #e7e5e4', borderRadius: '1rem', padding: '1.25rem', marginBottom: '0.75rem' }
+  const btn = { background: '#df6530', color: 'white', border: 'none', borderRadius: '0.75rem', padding: '0.85rem', fontSize: '1rem', fontWeight: 600, cursor: 'pointer', width: '100%', marginBottom: '0.5rem' } as React.CSSProperties
+  const btnSec = { background: '#f5f5f4', color: '#44403c', border: 'none', borderRadius: '0.75rem', padding: '0.75rem', cursor: 'pointer', width: '100%' } as React.CSSProperties
+  const input = { width: '100%', background: '#f5f5f4', border: '1px solid #e7e5e4', borderRadius: '0.75rem', padding: '0.75rem 1rem', fontSize: '0.95rem', outline: 'none', marginBottom: '0.75rem' } as React.CSSProperties
+  const label = { fontSize: '0.85rem', color: '#57534e', display: 'block', marginBottom: '0.4rem' } as React.CSSProperties
+  const upload = { border: '2px dashed #e7e5e4', borderRadius: '1rem', padding: '2rem', textAlign: 'center', cursor: 'pointer', marginBottom: '0.75rem' } as React.CSSProperties
+
+  return (
+    <div style={{ direction: 'rtl', minHeight: '100vh', background: '#fafaf9', maxWidth: '480px', margin: '0 auto', padding: '0 1.25rem 3rem' }}>
+
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.25rem 0' }}>
+        <Link href="/" style={{ color: '#78716c', textDecoration: 'none', fontSize: '0.9rem' }}>{ku.back}</Link>
+        <span style={{ fontSize: '1.4rem', fontWeight: 700, color: '#df6530' }}>ڕێ</span>
+        <div style={{ width: '60px' }} />
+      </div>
+
+      <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '2rem' }}>
+        {[1,2,3].map(n => (
+          <div key={n} style={{ height: '4px', flex: 1, borderRadius: '999px', background: (step === 'role' && n === 1) || (step === 'details' && n <= 2) || step === 'verify' ? '#df6530' : '#e7e5e4' }} />
+        ))}
+      </div>
+
+      {step === 'role' && (
+        <div>
+          <h1 style={{ fontSize: '1.6rem', fontWeight: 700, marginBottom: '0.5rem' }}>{ku.iAm}</h1>
+          <p style={{ color: '#78716c', marginBottom: '1.5rem' }}>{ku.chooseRole}</p>
+          {[
+            { value: 'passenger', icon: '🧳', label: ku.passenger, desc: ku.passengerDesc },
+            { value: 'driver', icon: '🚗', label: ku.driver, desc: ku.driverDesc },
+            { value: 'both', icon: '🔄', label: ku.both, desc: ku.bothDesc },
+          ].map(opt => (
+            <div key={opt.value} onClick={() => setRole(opt.value)} style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: role === opt.value ? '#fae8d8' : 'white', border: `1.5px solid ${role === opt.value ? '#df6530' : '#e7e5e4'}`, borderRadius: '1rem', padding: '1rem 1.25rem', cursor: 'pointer', marginBottom: '0.65rem' }}>
+              <span style={{ fontSize: '1.75rem' }}>{opt.icon}</span>
+              <div>
+                <div style={{ fontWeight: 600, color: '#1c1917' }}>{opt.label}</div>
+                <div style={{ fontSize: '0.8rem', color: '#78716c' }}>{opt.desc}</div>
+              </div>
+            </div>
+          ))}
+          <button style={{ ...btn, opacity: role ? 1 : 0.5, marginTop: '1rem' }} disabled={!role} onClick={() => setStep('details')}>{ku.continue}</button>
+        </div>
+      )}
+
+      {step === 'details' && (
+        <div>
+          <h1 style={{ fontSize: '1.6rem', fontWeight: 700, marginBottom: '0.5rem' }}>{ku.createAccount}</h1>
+          <p style={{ color: '#78716c', marginBottom: '1.5rem' }}>{ku.enterDetails}</p>
+          <div style={{ ...card, cursor: 'pointer' }} onClick={handleGoogleSignIn}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59a14.5 14.5 0 0 1 0-9.18l-7.98-6.19a24.01 24.01 0 0 0 0 21.56l7.98-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+              <span style={{ fontWeight: 600, color: '#44403c' }}>{ku.continueWithGoogle}</span>
+            </div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', margin: '1rem 0', color: '#a8a29e', fontSize: '0.85rem' }}>
+            <div style={{ flex: 1, borderTop: '1px solid #e7e5e4' }} />
+            <span>{ku.or}</span>
+            <div style={{ flex: 1, borderTop: '1px solid #e7e5e4' }} />
+          </div>
+          <label style={label}>{ku.fullName}</label>
+          <input style={input} placeholder={ku.fullName} />
+          <label style={label}>{ku.phone}</label>
+          <input style={{ ...input, direction: 'ltr', textAlign: 'left' }} type="tel" placeholder="+964 750 000 0000" />
+          <label style={label}>{ku.email} ({ku.optional})</label>
+          <input style={{ ...input, direction: 'ltr', textAlign: 'left' }} type="email" placeholder="email@example.com" />
+          <label style={label}>{ku.password}</label>
+          <input style={{ ...input, direction: 'ltr', textAlign: 'left', marginBottom: '1.5rem' }} type="password" placeholder="••••••••" />
+          <button style={btn} onClick={() => setStep('verify')}>{ku.continue}</button>
+          <button style={btnSec} onClick={() => setStep('role')}>{ku.back}</button>
+        </div>
+      )}
+
+      {step === 'verify' && (
+        <div>
+          <h1 style={{ fontSize: '1.6rem', fontWeight: 700, marginBottom: '0.5rem' }}>{ku.verifyIdentity}</h1>
+          <p style={{ color: '#78716c', marginBottom: '1.5rem', lineHeight: 1.8 }}>{ku.verifyDesc}</p>
+          <div style={upload}>
+            <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🪪</div>
+            <div style={{ fontWeight: 600, color: '#44403c' }}>{ku.uploadId}</div>
+            <div style={{ fontSize: '0.8rem', color: '#a8a29e', marginTop: '0.25rem' }}>{ku.uploadIdDesc}</div>
+          </div>
+          <div style={upload}>
+            <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🤳</div>
+            <div style={{ fontWeight: 600, color: '#44403c' }}>{ku.takeSelfie}</div>
+            <div style={{ fontSize: '0.8rem', color: '#a8a29e', marginTop: '0.25rem' }}>{ku.takeSelfieDesc}</div>
+          </div>
+          {(role === 'driver' || role === 'both') && (
+            <div>
+              <div style={{ fontSize: '0.7rem', color: '#a8a29e', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1rem' }}>{ku.carDetails}</div>
+              <label style={label}>{ku.carMake}</label>
+              <input style={input} placeholder="Toyota, Kia..." />
+              <label style={label}>{ku.carModel}</label>
+              <input style={input} placeholder="Camry, Cerato..." />
+              <div style={{ display: 'flex', gap: '0.75rem' }}>
+                <div style={{ flex: 1 }}><label style={label}>{ku.carColor}</label><input style={input} /></div>
+                <div style={{ flex: 1 }}><label style={label}>{ku.plateNumber}</label><input style={input} /></div>
+              </div>
+              <div style={upload}>
+                <div style={{ fontSize: '2rem' }}>📄</div>
+                <div style={{ fontWeight: 600, color: '#44403c', fontSize: '0.9rem' }}>{ku.uploadLicense}</div>
+              </div>
+            </div>
+          )}
+          <Link href="/home">
+            <button style={{ ...btn, marginTop: '0.5rem' }}>{ku.submitVerification}</button>
+          </Link>
+          <button style={btnSec} onClick={() => setStep('details')}>{ku.back}</button>
+        </div>
+      )}
+    </div>
+  )
+}
