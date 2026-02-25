@@ -8,6 +8,7 @@ export default function VerifyPage() {
   const [selfieFile, setSelfieFile] = useState<File | null>(null)
   const [uploading, setUploading] = useState(false)
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState(false)
   const [role, setRole] = useState('')
   const idRef = useRef<HTMLInputElement>(null)
   const selfieRef = useRef<HTMLInputElement>(null)
@@ -44,7 +45,7 @@ export default function VerifyPage() {
     }
 
     setUploading(false)
-    window.location.href = '/home'
+    setSuccess(true)
   }
 
   const uploadStyle = (hasFile: boolean) => ({
@@ -68,11 +69,17 @@ export default function VerifyPage() {
       <h1 style={{ fontSize: '1.6rem', fontWeight: 700, marginBottom: '0.5rem' }}>{ku.verifyIdentity}</h1>
       <p style={{ color: '#78716c', marginBottom: '1.5rem', lineHeight: 1.8 }}>{ku.verifyDesc}</p>
 
+      {success && (
+        <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '0.75rem', padding: '0.75rem 1rem', marginBottom: '1rem', color: '#16a34a', fontSize: '0.85rem', lineHeight: 1.8 }}>
+          ✓ کاتێک دڵنیابوونەوە لە ناسنامەکەت تەواو بوو، بە زووترین کات ئاگادارت دەکەینەوە
+        </div>
+      )}
+
       {error && (
         <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '0.75rem', padding: '0.75rem 1rem', marginBottom: '1rem', color: '#dc2626', fontSize: '0.85rem' }}>{error}</div>
       )}
 
-      <input type="file" accept="image/*" ref={idRef} style={{ display: 'none' }} onChange={e => setIdFile(e.target.files?.[0] || null)} />
+      {!success && <><input type="file" accept="image/*" ref={idRef} style={{ display: 'none' }} onChange={e => setIdFile(e.target.files?.[0] || null)} />
       <div style={uploadStyle(!!idFile)} onClick={() => idRef.current?.click()}>
         <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🪪</div>
         <div style={{ fontWeight: 600, color: idFile ? '#16a34a' : '#44403c' }}>{idFile ? idFile.name : ku.uploadId}</div>
@@ -89,6 +96,10 @@ export default function VerifyPage() {
       <button style={{ ...btn, marginTop: '0.5rem', opacity: uploading ? 0.5 : 1 }} disabled={uploading} onClick={handleSubmit}>
         {uploading ? '...چاوەڕوان بە' : ku.submitVerification}
       </button>
+      </>}
+      {success && (
+        <a href="/home" style={{ display: 'block', background: '#df6530', color: 'white', border: 'none', borderRadius: '0.75rem', padding: '0.85rem', fontSize: '1rem', fontWeight: 600, cursor: 'pointer', width: '100%', textAlign: 'center', textDecoration: 'none', marginTop: '1rem' }}>بڕۆ بۆ سەرەکی</a>
+      )}
     </div>
   )
 }
