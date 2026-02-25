@@ -13,20 +13,14 @@ export async function GET(request: Request) {
       const { data: { user } } = await supabase.auth.getUser()
       
       if (user) {
-        // Check if user has uploaded verification docs
-        const { data: idFile } = await supabase.storage
+        const { data: files } = await supabase.storage
           .from('documents')
-          .list(user.id, { search: 'id' })
+          .list(user.id)
         
-        const { data: selfieFile } = await supabase.storage
-          .from('documents')
-          .list(user.id, { search: 'selfie' })
-        
-        const hasId = idFile && idFile.length > 0
-        const hasSelfie = selfieFile && selfieFile.length > 0
+        const hasId = files?.some(f => f.name.startsWith('id'))
+        const hasSelfie = files?.some(f => f.name.startsWith('selfie'))
         
         if (!hasId || !hasSelfie) {
-          // Not verified yet, send to verify step
           return NextResponse.redirect(`${origin}/auth/verify`)
         }
       }
@@ -35,5 +29,5 @@ export async function GET(request: Request) {
     }
   }
 
-  return NextResponse.redirect(`${origin}/auth/register`)
+  return NextResponse.redirect(`${origin}/auth/login`)
 }

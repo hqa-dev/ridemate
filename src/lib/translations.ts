@@ -13,7 +13,7 @@ export const ku = {
 
   signIn: 'چوونە ژوورەوە',
   signUp: 'تۆمارکردن',
-signOut: 'بۆ دەرەوەرە',
+signOut: 'دەرچوون',
   welcomeBack: 'بەخێربێیتەوە',
   noAccount: 'هەژمارت نییە؟',
   continueWithGoogle: 'بە گووگڵ بەژداربە',
