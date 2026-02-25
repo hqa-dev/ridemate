@@ -10,17 +10,14 @@ export default function LandingPage() {
         <div />
       </div>
 
-      <div style={{ padding: '2rem 1.25rem' }}>
+      <div style={{ padding: '2rem 1.25rem 1.5rem' }}>
         <h1 style={{ fontSize: '2rem', fontWeight: 700, color: '#1c1917', marginBottom: '0.75rem', lineHeight: 1.5 }}>
           {ku.heroLine1}<br />
           <span style={{ color: '#df6530' }}>ڕێ</span> ئەکەین
         </h1>
-        <p style={{ color: '#78716c', fontSize: '1rem', lineHeight: 1.75, marginBottom: '2rem' }}>
+        <p style={{ color: '#78716c', fontSize: '1rem', lineHeight: 1.75 }}>
           {ku.heroSubtitle}
         </p>
-        <Link href="/auth/register" style={{ background: '#df6530', color: 'white', padding: '0.85rem 1.5rem 0.85rem 3.5rem', borderRadius: '0.75rem', textAlign: 'center', textDecoration: 'none', fontWeight: 600, fontSize: '1rem', display: 'block' }}>
-          با بڕۆین
-        </Link>
       </div>
 
       <div style={{ padding: '0 1.25rem 1rem' }}>
@@ -40,7 +37,7 @@ export default function LandingPage() {
         </div>
       </div>
 
-      <div style={{ padding: '0 1.25rem 3rem' }}>
+      <div style={{ padding: '0 1.25rem 1.5rem' }}>
         <h2 style={{ fontSize: '1rem', fontWeight: 600, color: '#57534e', marginBottom: '1rem' }}>{ku.howItWorks}</h2>
         {[
           { icon: '🪪', text: ku.step1 },
@@ -52,6 +49,12 @@ export default function LandingPage() {
             <p style={{ color: '#57534e', fontSize: '0.9rem' }}>{step.text}</p>
           </div>
         ))}
+      </div>
+
+      <div style={{ padding: '0 1.25rem 3rem' }}>
+        <Link href="/auth/register" style={{ background: '#df6530', color: 'white', padding: '0.85rem 1.5rem', borderRadius: '0.75rem', textAlign: 'center', textDecoration: 'none', fontWeight: 600, fontSize: '1rem', display: 'block' }}>
+          با بڕۆین
+        </Link>
       </div>
     </main>
   )
