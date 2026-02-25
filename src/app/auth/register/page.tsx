@@ -1,5 +1,5 @@
 'use client'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { ku } from '@/lib/translations'
 import { createClient } from '@/lib/supabase/client'
@@ -14,10 +14,19 @@ export default function RegisterPage() {
   const [licenseFile, setLicenseFile] = useState<File | null>(null)
   const [uploading, setUploading] = useState(false)
   const [error, setError] = useState('')
+  const [isSignedIn, setIsSignedIn] = useState(false)
   const idRef = useRef<HTMLInputElement>(null)
   const selfieRef = useRef<HTMLInputElement>(null)
   const licenseRef = useRef<HTMLInputElement>(null)
   const supabase = createClient()
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) setIsSignedIn(true)
+    }
+    checkAuth()
+  }, [])
 
   const handleGoogleSignIn = async () => {
     if (role) localStorage.setItem('ridemate_role', role)
@@ -28,6 +37,15 @@ export default function RegisterPage() {
       },
     })
     if (error) console.error('Google sign-in error:', error.message)
+  }
+
+  const handleContinueFromDetails = () => {
+    setError('')
+    if (!isSignedIn) {
+      setError('تکایە سەرەتا بە گووگڵ چوونەژوورەوە بکە')
+      return
+    }
+    setStep('verify')
   }
 
   const handleSubmitVerification = async () => {
@@ -45,21 +63,18 @@ export default function RegisterPage() {
 
     setUploading(true)
 
-    // Upload ID
     const idExt = idFile.name.split('.').pop()
     const { error: idErr } = await supabase.storage
       .from('documents')
       .upload(`${user.id}/id.${idExt}`, idFile, { upsert: true })
     if (idErr) { setError('هەڵەی ئەپلۆدی ناسنامە: ' + idErr.message); setUploading(false); return }
 
-    // Upload selfie
     const selfieExt = selfieFile.name.split('.').pop()
     const { error: selfieErr } = await supabase.storage
       .from('documents')
       .upload(`${user.id}/selfie.${selfieExt}`, selfieFile, { upsert: true })
     if (selfieErr) { setError('هەڵەی ئەپلۆدی سێلفی: ' + selfieErr.message); setUploading(false); return }
 
-    // Upload license if driver
     if ((role === 'driver' || role === 'both') && licenseFile) {
       const licExt = licenseFile.name.split('.').pop()
       const { error: licErr } = await supabase.storage
@@ -68,7 +83,6 @@ export default function RegisterPage() {
       if (licErr) { setError('هەڵەی ئەپلۆدی مۆڵەت: ' + licErr.message); setUploading(false); return }
     }
 
-    // Update profile role
     await supabase.from('profiles').update({ role: role || 'passenger' }).eq('id', user.id)
 
     setUploading(false)
@@ -130,26 +144,23 @@ export default function RegisterPage() {
         <div>
           <h1 style={{ fontSize: '1.6rem', fontWeight: 700, marginBottom: '0.5rem' }}>{ku.createAccount}</h1>
           <p style={{ color: '#78716c', marginBottom: '1.5rem' }}>{ku.enterDetails}</p>
-          <div style={{ ...card, cursor: 'pointer' }} onClick={handleGoogleSignIn}>
+
+          {error && (
+            <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '0.75rem', padding: '0.75rem 1rem', marginBottom: '1rem', color: '#dc2626', fontSize: '0.85rem' }}>{error}</div>
+          )}
+
+          <div style={{ ...card, cursor: 'pointer', border: isSignedIn ? '1.5px solid #16a34a' : '1px solid #e7e5e4', background: isSignedIn ? '#f0fdf4' : 'white' }} onClick={!isSignedIn ? handleGoogleSignIn : undefined}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59a14.5 14.5 0 0 1 0-9.18l-7.98-6.19a24.01 24.01 0 0 0 0 21.56l7.98-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-              <span style={{ fontWeight: 600, color: '#44403c' }}>{ku.continueWithGoogle}</span>
+              {isSignedIn ? (
+                <span style={{ fontSize: '1.2rem' }}>✓</span>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59a14.5 14.5 0 0 1 0-9.18l-7.98-6.19a24.01 24.01 0 0 0 0 21.56l7.98-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+              )}
+              <span style={{ fontWeight: 600, color: isSignedIn ? '#16a34a' : '#44403c' }}>{isSignedIn ? 'چوونەژوورەوە سەرکەوتوو بوو ✓' : ku.continueWithGoogle}</span>
             </div>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', margin: '1rem 0', color: '#a8a29e', fontSize: '0.85rem' }}>
-            <div style={{ flex: 1, borderTop: '1px solid #e7e5e4' }} />
-            <span>{ku.or}</span>
-            <div style={{ flex: 1, borderTop: '1px solid #e7e5e4' }} />
-          </div>
-          <label style={label}>{ku.fullName}</label>
-          <input style={input} placeholder={ku.fullName} />
-          <label style={label}>{ku.phone}</label>
-          <input style={{ ...input, direction: 'ltr', textAlign: 'left' }} type="tel" placeholder="+964 750 000 0000" />
-          <label style={label}>{ku.email} ({ku.optional})</label>
-          <input style={{ ...input, direction: 'ltr', textAlign: 'left' }} type="email" placeholder="email@example.com" />
-          <label style={label}>{ku.password}</label>
-          <input style={{ ...input, direction: 'ltr', textAlign: 'left', marginBottom: '1.5rem' }} type="password" placeholder="••••••••" />
-          <button style={btn} onClick={() => setStep('verify')}>{ku.continue}</button>
+
+          <button style={{ ...btn, opacity: isSignedIn ? 1 : 0.5, marginTop: '1rem' }} disabled={!isSignedIn} onClick={handleContinueFromDetails}>{ku.continue}</button>
           <button style={btnSec} onClick={() => setStep('role')}>{ku.back}</button>
         </div>
       )}
