@@ -51,7 +51,6 @@ export default function RideDetailPage() {
     setRide(data)
     if (user && data.driver_id === user.id) setIsOwnRide(true)
 
-    // Check if already requested
     if (user) {
       const { data: existing } = await supabase
         .from('ride_requests')
@@ -155,7 +154,6 @@ export default function RideDetailPage() {
         {ride.price_type === 'coffee'
           ? <>
               <span style={{ background: '#f5f5f4', color: '#57534e', padding: '0.35rem 0.85rem', borderRadius: '999px', fontSize: '0.9rem' }}>{ku.coffeeAndConvo}</span>
-              
             </>
           : <span style={{ background: '#f5f5f4', color: '#57534e', padding: '0.35rem 0.85rem', borderRadius: '999px', fontSize: '0.9rem' }}>{ride.price_iqd?.toLocaleString()} دینار</span>
         }
@@ -194,18 +192,24 @@ export default function RideDetailPage() {
       )}
 
       {showModal && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', zIndex: 200 }}>
-          <div style={{ background: 'white', width: '100%', maxWidth: '480px', borderRadius: '1.5rem 1.5rem 0 0', padding: '1.5rem 1.25rem 2rem', direction: 'rtl' }}>
-            <h2 style={{ fontWeight: 700, marginBottom: '0.5rem' }}>دەمەوێ!</h2>
-            <p style={{ color: '#78716c', fontSize: '0.85rem', marginBottom: '1.25rem', lineHeight: 1.8 }}>{ku.whereExactly}</p>
-            <label style={{ fontSize: '0.85rem', color: '#57534e', display: 'block', marginBottom: '0.4rem' }}>سواربوون:</label>
-            <input value={pickup} onChange={e => setPickup(e.target.value)} style={{ ...inp, marginBottom: '0.75rem' }} placeholder="لە کوێ سوار دەبی؟" />
-            <label style={{ fontSize: '0.85rem', color: '#57534e', display: 'block', marginBottom: '0.4rem' }}>دابەزین:</label>
-            <input value={dropoff} onChange={e => setDropoff(e.target.value)} style={{ ...inp, marginBottom: '1rem' }} placeholder="لە کوێ دادەبەزی؟" />
-            <button style={{ ...btn, background: '#f0fdf4', color: '#16a34a', border: '1px solid #bbf7d0', marginBottom: '0.5rem', opacity: sending ? 0.5 : 1 }} disabled={sending} onClick={handleSendRequest}>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', zIndex: 200 }} onClick={() => setShowModal(false)}>
+          <div style={{ background: 'white', width: '100%', maxWidth: '480px', borderRadius: '1.5rem 1.5rem 0 0', padding: '1.25rem 1.25rem 1.5rem', direction: 'rtl' }} onClick={e => e.stopPropagation()}>
+            <div style={{ width: '2.5rem', height: '0.25rem', background: '#d6d3d1', borderRadius: '1rem', margin: '0 auto 1rem' }} />
+            <h2 style={{ fontWeight: 700, fontSize: '1.1rem', marginBottom: '0.75rem' }}>دەمەوێ!</h2>
+            <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
+              <div style={{ flex: 1 }}>
+                <label style={{ fontSize: '0.75rem', color: '#78716c', display: 'block', marginBottom: '0.25rem' }}>سواربوون</label>
+                <input value={pickup} onChange={e => setPickup(e.target.value)} style={{ ...inp, fontSize: '0.85rem', padding: '0.6rem 0.75rem' }} placeholder="لە کوێ سوار دەبی؟" />
+              </div>
+              <div style={{ flex: 1 }}>
+                <label style={{ fontSize: '0.75rem', color: '#78716c', display: 'block', marginBottom: '0.25rem' }}>دابەزین</label>
+                <input value={dropoff} onChange={e => setDropoff(e.target.value)} style={{ ...inp, fontSize: '0.85rem', padding: '0.6rem 0.75rem' }} placeholder="لە کوێ دادەبەزی؟" />
+              </div>
+            </div>
+            <button style={{ ...btn, background: '#16a34a', color: 'white', marginBottom: '0.5rem', opacity: sending ? 0.5 : 1 }} disabled={sending} onClick={handleSendRequest}>
               {sending ? '...چاوەڕوان بە' : ku.sendRequest}
             </button>
-            <button style={{ ...btnSec, background: '#fef2f2', color: '#dc2626', border: '1px solid #fecaca' }} onClick={() => setShowModal(false)}>{ku.cancel}</button>
+            <button style={{ ...btnSec, color: '#78716c', background: 'transparent', border: 'none' }} onClick={() => setShowModal(false)}>{ku.cancel}</button>
           </div>
         </div>
       )}
