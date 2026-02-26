@@ -31,6 +31,7 @@ export default function HomePage() {
       .gte('departure_time', new Date().toISOString())
       .order('departure_time', { ascending: true })
 
+    if (from && to && from === to) { setRides([]); setLoading(false); return }
     if (from) query = query.eq('from_city', from)
     if (to) query = query.eq('to_city', to)
 
