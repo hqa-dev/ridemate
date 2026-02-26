@@ -4,10 +4,10 @@ import Link from 'next/link'
 import { ku } from '@/lib/translations'
 import { createClient } from '@/lib/supabase/client'
 
-type Step = 'role' | 'details' | 'verify'
+type Step = 'signin' | 'role' | 'verify'
 
 export default function RegisterPage() {
-  const [step, setStep] = useState<Step>('role')
+  const [step, setStep] = useState<Step>('signin')
   const [role, setRole] = useState('')
   const [idFile, setIdFile] = useState<File | null>(null)
   const [selfieFile, setSelfieFile] = useState<File | null>(null)
@@ -28,23 +28,18 @@ export default function RegisterPage() {
         setIsSignedIn(true)
         setUserName(user.user_metadata?.full_name || user.email || '')
 
-        // Check if already has verification docs
-        const { data: files } = await supabase.storage
-          .from('documents')
-          .list(user.id)
-        const hasId = files?.some(f => f.name.startsWith('id'))
-        const hasSelfie = files?.some(f => f.name.startsWith('selfie'))
-        if (hasId && hasSelfie) {
+        const { data: profile } = await supabase.from('profiles').select('role, verification_status').eq('id', user.id).single()
+        if (profile?.role && profile?.verification_status !== 'none') {
           window.location.href = '/home'
           return
         }
+        setStep('role')
       }
     }
     checkAuth()
   }, [])
 
   const handleGoogleSignIn = async () => {
-    if (role) localStorage.setItem('ridemate_role', role)
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -54,60 +49,43 @@ export default function RegisterPage() {
     if (error) console.error('Google sign-in error:', error.message)
   }
 
-  const handleContinueFromDetails = async () => {
-    setError('')
-    if (!isSignedIn) {
-      setError('تکایە سەرەتا بە گووگڵ چوونەژوورەوە بکە')
-      return
-    }
+  const handleRoleSubmit = async () => {
+    if (!role) return
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return
+
     if (role === 'passenger') {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (user) {
-        await supabase.from('profiles').update({ role: 'passenger', verification_status: 'verified' }).eq('id', user.id)
-      }
+      await supabase.from('profiles').update({ role: 'passenger', verification_status: 'verified' }).eq('id', user.id)
       window.location.href = '/home'
       return
     }
+
+    await supabase.from('profiles').update({ role }).eq('id', user.id)
     setStep('verify')
   }
 
   const handleSubmitVerification = async () => {
     setError('')
     const { data: { user } } = await supabase.auth.getUser()
-    if (!user) {
-      setError('تکایە سەرەتا چوونەژوورەوە بکە')
-      return
-    }
-
-    if (!idFile || !selfieFile) {
-      setError('تکایە وێنەی ناسنامە و سێلفی بنێرە')
-      return
-    }
+    if (!user) { setError('تکایە سەرەتا چوونەژوورەوە بکە'); return }
+    if (!idFile || !selfieFile) { setError('تکایە وێنەی ناسنامە و سێلفی بنێرە'); return }
 
     setUploading(true)
 
     const idExt = idFile.name.split('.').pop()
-    const { error: idErr } = await supabase.storage
-      .from('documents')
-      .upload(`${user.id}/id.${idExt}`, idFile, { upsert: true })
-    if (idErr) { setError('هەڵەی ئەپلۆدی ناسنامە: ' + idErr.message); setUploading(false); return }
+    const { error: idErr } = await supabase.storage.from('documents').upload(`${user.id}/id.${idExt}`, idFile, { upsert: true })
+    if (idErr) { setError(idErr.message); setUploading(false); return }
 
     const selfieExt = selfieFile.name.split('.').pop()
-    const { error: selfieErr } = await supabase.storage
-      .from('documents')
-      .upload(`${user.id}/selfie.${selfieExt}`, selfieFile, { upsert: true })
-    if (selfieErr) { setError('هەڵەی ئەپلۆدی سێلفی: ' + selfieErr.message); setUploading(false); return }
+    const { error: selfieErr } = await supabase.storage.from('documents').upload(`${user.id}/selfie.${selfieExt}`, selfieFile, { upsert: true })
+    if (selfieErr) { setError(selfieErr.message); setUploading(false); return }
 
     if ((role === 'driver' || role === 'both') && licenseFile) {
       const licExt = licenseFile.name.split('.').pop()
-      const { error: licErr } = await supabase.storage
-        .from('documents')
-        .upload(`${user.id}/license.${licExt}`, licenseFile, { upsert: true })
-      if (licErr) { setError('هەڵەی ئەپلۆدی مۆڵەت: ' + licErr.message); setUploading(false); return }
+      await supabase.storage.from('documents').upload(`${user.id}/license.${licExt}`, licenseFile, { upsert: true })
     }
 
-    await supabase.from('profiles').update({ role: role || 'passenger', verification_status: 'pending' }).eq('id', user.id)
-
+    await supabase.from('profiles').update({ verification_status: 'pending' }).eq('id', user.id)
     setUploading(false)
     window.location.href = '/home'
   }
@@ -115,8 +93,6 @@ export default function RegisterPage() {
   const card = { background: 'white', border: '1px solid #e7e5e4', borderRadius: '1rem', padding: '1.25rem', marginBottom: '0.75rem' }
   const btn = { background: '#df6530', color: 'white', border: 'none', borderRadius: '0.75rem', padding: '0.85rem', fontSize: '1rem', fontWeight: 600, cursor: 'pointer', width: '100%', marginBottom: '0.5rem' } as React.CSSProperties
   const btnSec = { background: '#f5f5f4', color: '#44403c', border: 'none', borderRadius: '0.75rem', padding: '0.75rem', cursor: 'pointer', width: '100%' } as React.CSSProperties
-  const input = { width: '100%', background: '#f5f5f4', border: '1px solid #e7e5e4', borderRadius: '0.75rem', padding: '0.75rem 1rem', fontSize: '0.95rem', outline: 'none', marginBottom: '0.75rem' } as React.CSSProperties
-  const label = { fontSize: '0.85rem', color: '#57534e', display: 'block', marginBottom: '0.4rem' } as React.CSSProperties
   const uploadStyle = (hasFile: boolean) => ({
     border: `2px dashed ${hasFile ? '#16a34a' : '#e7e5e4'}`,
     background: hasFile ? '#f0fdf4' : 'transparent',
@@ -129,7 +105,6 @@ export default function RegisterPage() {
 
   return (
     <div style={{ direction: 'rtl', minHeight: '100vh', background: '#fafaf9', maxWidth: '480px', margin: '0 auto', padding: '0 1.25rem 3rem' }}>
-
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.25rem 0' }}>
         <Link href="/" style={{ color: '#78716c', textDecoration: 'none', fontSize: '0.9rem' }}>{ku.back}</Link>
         <span style={{ fontSize: '1.4rem', fontWeight: 700, color: '#df6530' }}>ڕێ</span>
@@ -138,35 +113,14 @@ export default function RegisterPage() {
 
       <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '2rem' }}>
         {[1,2,3].map(n => (
-          <div key={n} style={{ height: '4px', flex: 1, borderRadius: '999px', background: (step === 'role' && n === 1) || (step === 'details' && n <= 2) || step === 'verify' ? '#df6530' : '#e7e5e4' }} />
+          <div key={n} style={{ height: '4px', flex: 1, borderRadius: '999px', background: (step === 'signin' && n === 1) || (step === 'role' && n <= 2) || step === 'verify' ? '#df6530' : '#e7e5e4' }} />
         ))}
       </div>
 
-      {step === 'role' && (
-        <div>
-          <h1 style={{ fontSize: '1.6rem', fontWeight: 700, marginBottom: '0.5rem' }}>{ku.iAm}</h1>
-          <p style={{ color: '#78716c', marginBottom: '1.5rem' }}>{ku.chooseRole}</p>
-          {[
-            { value: 'passenger', icon: '🧳', label: ku.passenger, desc: ku.passengerDesc },
-            { value: 'driver', icon: '🚗', label: ku.driver, desc: ku.driverDesc },
-            { value: 'both', icon: '🔄', label: ku.both, desc: ku.bothDesc },
-          ].map(opt => (
-            <div key={opt.value} onClick={() => setRole(opt.value)} style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: role === opt.value ? '#fae8d8' : 'white', border: `1.5px solid ${role === opt.value ? '#df6530' : '#e7e5e4'}`, borderRadius: '1rem', padding: '1rem 1.25rem', cursor: 'pointer', marginBottom: '0.65rem' }}>
-              <span style={{ fontSize: '1.75rem' }}>{opt.icon}</span>
-              <div>
-                <div style={{ fontWeight: 600, color: '#1c1917' }}>{opt.label}</div>
-                <div style={{ fontSize: '0.8rem', color: '#78716c' }}>{opt.desc}</div>
-              </div>
-            </div>
-          ))}
-          <button style={{ ...btn, opacity: role ? 1 : 0.5, marginTop: '1rem' }} disabled={!role} onClick={() => setStep('details')}>{ku.continue}</button>
-        </div>
-      )}
-
-      {step === 'details' && (
+      {step === 'signin' && (
         <div>
           <h1 style={{ fontSize: '1.6rem', fontWeight: 700, marginBottom: '0.5rem' }}>{ku.createAccount}</h1>
-          <p style={{ color: '#78716c', marginBottom: '1.5rem' }}>{ku.enterDetails}</p>
+          <p style={{ color: '#78716c', marginBottom: '1.5rem' }}>بە گووگڵ چوونەژوورەوە بکە بۆ دەستپێکردن</p>
 
           {error && (
             <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '0.75rem', padding: '0.75rem 1rem', marginBottom: '1rem', color: '#dc2626', fontSize: '0.85rem' }}>{error}</div>
@@ -191,8 +145,29 @@ export default function RegisterPage() {
             </div>
           )}
 
-          <button style={{ ...btn, opacity: isSignedIn ? 1 : 0.5, marginTop: '1rem' }} disabled={!isSignedIn} onClick={handleContinueFromDetails}>{ku.continue}</button>
-          <button style={btnSec} onClick={() => setStep('role')}>{ku.back}</button>
+          <button style={{ ...btn, opacity: isSignedIn ? 1 : 0.5, marginTop: '1rem' }} disabled={!isSignedIn} onClick={() => setStep('role')}>{ku.continue}</button>
+        </div>
+      )}
+
+      {step === 'role' && (
+        <div>
+          <h1 style={{ fontSize: '1.6rem', fontWeight: 700, marginBottom: '0.5rem' }}>{ku.iAm}</h1>
+          <p style={{ color: '#78716c', marginBottom: '1.5rem' }}>{ku.chooseRole}</p>
+          {[
+            { value: 'passenger', icon: '🧳', label: ku.passenger, desc: ku.passengerDesc },
+            { value: 'driver', icon: '🚗', label: ku.driver, desc: ku.driverDesc },
+            { value: 'both', icon: '🔄', label: ku.both, desc: ku.bothDesc },
+          ].map(opt => (
+            <div key={opt.value} onClick={() => setRole(opt.value)} style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: role === opt.value ? '#fae8d8' : 'white', border: `1.5px solid ${role === opt.value ? '#df6530' : '#e7e5e4'}`, borderRadius: '1rem', padding: '1rem 1.25rem', cursor: 'pointer', marginBottom: '0.65rem' }}>
+              <span style={{ fontSize: '1.75rem' }}>{opt.icon}</span>
+              <div>
+                <div style={{ fontWeight: 600, color: '#1c1917' }}>{opt.label}</div>
+                <div style={{ fontSize: '0.8rem', color: '#78716c' }}>{opt.desc}</div>
+              </div>
+            </div>
+          ))}
+          <button style={{ ...btn, opacity: role ? 1 : 0.5, marginTop: '1rem' }} disabled={!role} onClick={handleRoleSubmit}>{ku.continue}</button>
+          <button style={btnSec} onClick={() => setStep('signin')}>{ku.back}</button>
         </div>
       )}
 
@@ -220,29 +195,20 @@ export default function RegisterPage() {
           </div>
 
           {(role === 'driver' || role === 'both') && (
-            <div>
-              <div style={{ fontSize: '0.7rem', color: '#a8a29e', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1rem' }}>{ku.carDetails}</div>
-              <label style={label}>{ku.carMake}</label>
-              <input style={input} placeholder="Toyota, Kia..." />
-              <label style={label}>{ku.carModel}</label>
-              <input style={input} placeholder="Camry, Cerato..." />
-              <div style={{ display: 'flex', gap: '0.75rem' }}>
-                <div style={{ flex: 1 }}><label style={label}>{ku.carColor}</label><input style={input} /></div>
-                <div style={{ flex: 1 }}><label style={label}>{ku.plateNumber}</label><input style={input} /></div>
-              </div>
+            <>
               <input type="file" accept="image/*,.pdf" ref={licenseRef} style={{ display: 'none' }} onChange={e => setLicenseFile(e.target.files?.[0] || null)} />
               <div style={uploadStyle(!!licenseFile)} onClick={() => licenseRef.current?.click()}>
                 <div style={{ fontSize: '2rem' }}>📄</div>
                 <div style={{ fontWeight: 600, color: licenseFile ? '#16a34a' : '#44403c', fontSize: '0.9rem' }}>{licenseFile ? licenseFile.name : ku.uploadLicense}</div>
                 {licenseFile && <div style={{ fontSize: '0.8rem', color: '#a8a29e', marginTop: '0.25rem' }}>✓ ئەپلۆد کرا</div>}
               </div>
-            </div>
+            </>
           )}
 
           <button style={{ ...btn, marginTop: '0.5rem', opacity: uploading ? 0.5 : 1 }} disabled={uploading} onClick={handleSubmitVerification}>
             {uploading ? '...چاوەڕوان بە' : ku.submitVerification}
           </button>
-          <button style={btnSec} onClick={() => setStep('details')}>{ku.back}</button>
+          <button style={btnSec} onClick={() => setStep('role')}>{ku.back}</button>
         </div>
       )}
     </div>
