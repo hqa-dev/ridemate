@@ -2,8 +2,8 @@ export const ku = {
   appName: 'ڕێگا',
 
   home: 'سەرەکی',
-  myRides: 'ڕێیەکانم',
-  profile: 'پڕۆفایل',
+  myRides: 'ڕێ',
+  profile: 'خۆت',
   postRide: 'پۆست',
   back: 'گەڕانەوە',
 
