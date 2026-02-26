@@ -210,17 +210,16 @@ export default function RideDetailPage() {
       )}
 
       {showModal && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', zIndex: 200 }} onClick={() => setShowModal(false)}>
-          <div style={{ background: 'white', width: '100%', maxWidth: '480px', borderRadius: '1.5rem 1.5rem 0 0', padding: '1.25rem 1.25rem 1.5rem', direction: 'rtl' }} onClick={e => e.stopPropagation()}>
-            <div style={{ width: '2.5rem', height: '0.25rem', background: '#d6d3d1', borderRadius: '1rem', margin: '0 auto 1rem' }} />
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 200, padding: '1.25rem' }} onClick={() => setShowModal(false)}>
+          <div style={{ background: 'white', width: '100%', maxWidth: '420px', borderRadius: '1.5rem', padding: '1.5rem 1.25rem', direction: 'rtl' }} onClick={e => e.stopPropagation()}>
             <h2 style={{ fontWeight: 700, fontSize: '1.1rem', marginBottom: '0.75rem' }}>دەمەوێ!</h2>
             <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
               <div style={{ flex: 1 }}>
-                <label style={{ fontSize: '0.75rem', color: '#78716c', display: 'block', marginBottom: '0.25rem' }}>سواربوون</label>
+                <label style={{ fontSize: '0.75rem', color: '#78716c', display: 'block', marginBottom: '0.25rem', textAlign: 'right' }}>سواربوون</label>
                 <input value={pickup} onChange={e => setPickup(e.target.value)} style={{ ...inp, fontSize: '0.85rem', padding: '0.6rem 0.75rem' }} placeholder="لە کوێ سوار دەبی؟" />
               </div>
               <div style={{ flex: 1 }}>
-                <label style={{ fontSize: '0.75rem', color: '#78716c', display: 'block', marginBottom: '0.25rem' }}>دابەزین</label>
+                <label style={{ fontSize: '0.75rem', color: '#78716c', display: 'block', marginBottom: '0.25rem', textAlign: 'right' }}>دابەزین</label>
                 <input value={dropoff} onChange={e => setDropoff(e.target.value)} style={{ ...inp, fontSize: '0.85rem', padding: '0.6rem 0.75rem' }} placeholder="لە کوێ دادەبەزی؟" />
               </div>
             </div>
