@@ -12,6 +12,8 @@ export default function ProfilePage() {
   const [editingName, setEditingName] = useState(false)
   const [newName, setNewName] = useState('')
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [editingPhone, setEditingPhone] = useState(false)
+  const [newPhone, setNewPhone] = useState('')
   const router = useRouter()
   const supabase = createClient()
 
@@ -32,6 +34,13 @@ export default function ProfilePage() {
     }
     loadProfile()
   }, [])
+
+  const handleSavePhone = async () => {
+    if (!newPhone.trim() || !user) return
+    await supabase.from('profiles').update({ phone: newPhone.trim() }).eq('id', user.id)
+    setProfile({ ...profile, phone: newPhone.trim() })
+    setEditingPhone(false)
+  }
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
@@ -114,6 +123,32 @@ export default function ProfilePage() {
         <span style={{ fontSize: '0.9rem', color: '#44403c' }}>ناسینەوە</span>
         <span style={{ background: status.bg, color: status.color, fontSize: '0.75rem', padding: '0.2rem 0.6rem', borderRadius: '999px', fontWeight: 600 }}>{status.text}</span>
       </div>}
+
+      <div style={{ ...card, cursor: !editingPhone ? 'pointer' : 'default' }} onClick={() => { if (!editingPhone) { setNewPhone(profile?.phone || ''); setEditingPhone(true) } }}>
+        {editingPhone ? (
+          <div>
+            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginBottom: '0.5rem' }}>
+              <input
+                value={newPhone}
+                onChange={e => setNewPhone(e.target.value)}
+                placeholder="07501234567"
+                onClick={e => e.stopPropagation()}
+                dir="ltr"
+                type="tel"
+                style={{ flex: 1, background: '#f5f5f4', border: '1px solid #e7e5e4', borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.9rem', outline: 'none' }}
+              />
+              <button onClick={handleSavePhone} style={{ background: '#16a34a', color: 'white', border: 'none', borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>save</button>
+              <button onClick={() => setEditingPhone(false)} style={{ background: 'none', border: 'none', color: '#a8a29e', fontSize: '0.85rem', cursor: 'pointer' }}>cancel</button>
+            </div>
+            <p style={{ fontSize: '0.7rem', color: '#a8a29e', lineHeight: 1.6 }}>ئەم ژمارەیە دوای قبوڵکردنی داواکاری سەرنشین پیشان دەدرێت</p>
+          </div>
+        ) : (
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ color: '#44403c', fontSize: '0.9rem' }}>{profile?.phone ? 'ژمارەی مۆبایل' : 'ژمارەی مۆبایل زیاد بکە'}</span>
+            {profile?.phone && <span style={{ color: '#a8a29e', fontSize: '0.85rem' }} dir="ltr">{profile.phone}</span>}
+          </div>
+        )}
+      </div>
 
       <div style={{ ...card, cursor: canChangeName() && !editingName ? 'pointer' : 'default' }} onClick={() => { if (canChangeName() && !editingName) { setNewName(displayName); setEditingName(true) } }}>
         {editingName ? (
