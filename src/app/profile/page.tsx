@@ -72,7 +72,7 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div style={{ direction: 'rtl', minHeight: '100vh', background: '#fafaf9', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem' }}>
+      <div style={{ direction: 'rtl', minHeight: '100vh', background: '#fafaf9', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem', overflow: 'hidden' }}>
         <BottomNav />
       </div>
     )
@@ -92,7 +92,7 @@ export default function ProfilePage() {
   const status = statusMap[verificationStatus] || statusMap.none
 
   return (
-    <div style={{ direction: 'rtl', minHeight: '100vh', background: '#fafaf9', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem' }}>
+    <div style={{ direction: 'rtl', minHeight: '100vh', background: '#fafaf9', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem', overflowX: 'hidden' }}>
       <h1 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '1.5rem' }}>{ku.profileTitle}</h1>
 
       <div style={{ ...card, display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -117,7 +117,7 @@ export default function ProfilePage() {
         <span style={{ background: status.bg, color: status.color, fontSize: '0.75rem', padding: '0.2rem 0.6rem', borderRadius: '999px', fontWeight: 600 }}>{status.text}</span>
       </div>
 
-      <div style={card}>
+      <div style={{ ...card, cursor: canChangeName() && !editingName ? 'pointer' : 'default' }} onClick={() => { if (canChangeName() && !editingName) { setNewName(displayName); setEditingName(true) } }}>
         {editingName ? (
           <div>
             <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginBottom: '0.5rem' }}>
@@ -125,6 +125,7 @@ export default function ProfilePage() {
                 value={newName}
                 onChange={e => setNewName(e.target.value)}
                 placeholder={displayName}
+                onClick={e => e.stopPropagation()}
                 style={{ flex: 1, background: '#f5f5f4', border: '1px solid #e7e5e4', borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.9rem', outline: 'none', direction: 'rtl' }}
               />
               <button onClick={handleSaveName} style={{ background: '#16a34a', color: 'white', border: 'none', borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>بەڵێ</button>
@@ -133,9 +134,7 @@ export default function ProfilePage() {
             <p style={{ fontSize: '0.7rem', color: '#a8a29e', lineHeight: 1.6 }}>ناوەکەت تەنها مانگی یەکجار دەتوانی بیگۆڕیت</p>
           </div>
         ) : canChangeName() ? (
-          <button onClick={() => { setNewName(displayName); setEditingName(true) }} style={{ background: 'none', border: 'none', color: '#44403c', fontSize: '0.9rem', cursor: 'pointer', padding: 0 }}>
-            ناوەکەت بگۆڕە
-          </button>
+          <span style={{ color: '#44403c', fontSize: '0.9rem' }}>ناوەکەت بگۆڕە</span>
         ) : (
           <div>
             <span style={{ color: '#a8a29e', fontSize: '0.9rem' }}>ناوەکەت بگۆڕە</span>
@@ -144,22 +143,22 @@ export default function ProfilePage() {
         )}
       </div>
 
-      <div style={card}>
+      <div style={{ ...card, cursor: !showDeleteConfirm ? 'pointer' : 'default' }} onClick={() => { if (!showDeleteConfirm) setShowDeleteConfirm(true) }}>
         {showDeleteConfirm ? (
           <div>
             <p style={{ fontSize: '0.85rem', color: '#dc2626', marginBottom: '0.75rem', lineHeight: 1.7 }}>دڵنیایت دەتەوێ ئەکاونتەکەت بسڕیتەوە؟ ئەم کارە پێجەوانە ناکرێتەوە.</p>
             <div style={{ display: 'flex', gap: '0.5rem' }}>
               <button onClick={handleDeleteAccount} style={{ flex: 1, background: '#dc2626', color: 'white', border: 'none', borderRadius: '0.5rem', padding: '0.5rem', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>بەڵێ دڵنیام</button>
-              <button onClick={() => setShowDeleteConfirm(false)} style={{ flex: 1, background: '#f5f5f4', color: '#44403c', border: 'none', borderRadius: '0.5rem', padding: '0.5rem', fontSize: '0.85rem', cursor: 'pointer' }}>پاشگەز</button>
+              <button onClick={(e) => { e.stopPropagation(); setShowDeleteConfirm(false) }} style={{ flex: 1, background: '#f5f5f4', color: '#44403c', border: 'none', borderRadius: '0.5rem', padding: '0.5rem', fontSize: '0.85rem', cursor: 'pointer' }}>پاشگەز</button>
             </div>
           </div>
         ) : (
-          <button onClick={() => setShowDeleteConfirm(true)} style={{ background: 'none', border: 'none', color: '#a8a29e', fontSize: '0.85rem', cursor: 'pointer', padding: 0 }}>سڕینەوەی ئەکاونت</button>
+          <span style={{ color: '#a8a29e', fontSize: '0.85rem' }}>سڕینەوەی ئەکاونت</span>
         )}
       </div>
 
-      <div style={card}>
-        <button onClick={handleSignOut} style={{ background: 'none', border: 'none', color: '#dc2626', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', padding: 0 }}>{ku.signOut}</button>
+      <div style={{ ...card, cursor: 'pointer' }} onClick={handleSignOut}>
+        <span style={{ color: '#dc2626', fontWeight: 600, fontSize: '0.9rem' }}>{ku.signOut}</span>
       </div>
 
       <BottomNav />
