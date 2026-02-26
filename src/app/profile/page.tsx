@@ -87,9 +87,8 @@ export default function ProfilePage() {
   const statusMap: Record<string, { text: string; bg: string; color: string }> = {
     verified: { text: 'ناسراوە ✓', bg: '#f0fdf4', color: '#16a34a' },
     pending: { text: 'چاوەڕوانی ناسینەوە', bg: '#fffbeb', color: '#d97706' },
-    none: { text: 'نەناسراوە', bg: '#fef2f2', color: '#dc2626' },
   }
-  const status = statusMap[verificationStatus] || statusMap.none
+  const status = statusMap[verificationStatus]
 
   return (
     <div style={{ direction: 'rtl', minHeight: '100vh', background: '#fafaf9', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem', overflowX: 'hidden' }}>
@@ -110,10 +109,10 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      <div style={{ ...card, display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: verificationStatus === 'none' ? 'pointer' : 'default' }} onClick={() => { if (verificationStatus === 'none') router.push('/auth/verify') }}>
+      {status && <div style={{ ...card, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <span style={{ fontSize: '0.9rem', color: '#44403c' }}>ناسینەوە</span>
         <span style={{ background: status.bg, color: status.color, fontSize: '0.75rem', padding: '0.2rem 0.6rem', borderRadius: '999px', fontWeight: 600 }}>{status.text}</span>
-      </div>
+      </div>}
 
       <div style={{ ...card, cursor: canChangeName() && !editingName ? 'pointer' : 'default' }} onClick={() => { if (canChangeName() && !editingName) { setNewName(displayName); setEditingName(true) } }}>
         {editingName ? (
