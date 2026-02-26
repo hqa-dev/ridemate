@@ -41,7 +41,7 @@ export default function LandingPage() {
 
       <div style={{ padding: '0 1.25rem 2rem' }}>
         <Link href="/auth/register" style={{ background: '#df6530', color: 'white', padding: '0.85rem 1.5rem', borderRadius: '0.75rem', textAlign: 'center', textDecoration: 'none', fontWeight: 600, fontSize: '1rem', display: 'block' }}>
-          با بڕۆین
+          بڕۆین؟
         </Link>
       </div>
 
