@@ -59,7 +59,7 @@ export default function HomePage() {
       <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '1rem', padding: '0.75rem 1.25rem', marginBottom: '1.25rem' }}>
         <div>
           <select className="ride-select" value={from} onChange={e => setFrom(e.target.value)} style={select}>
-            <option value="">لە: {ku.allCities}</option>
+            <option value="">لە کوێ؟</option>
             {Object.entries(CITIES).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
           </select>
         </div>
@@ -70,7 +70,7 @@ export default function HomePage() {
         </div>
         <div>
           <select className="ride-select" value={to} onChange={e => setTo(e.target.value)} style={select}>
-            <option value="">بۆ: {ku.allCities}</option>
+            <option value="">بۆ کوێ؟</option>
             {Object.entries(CITIES).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
           </select>
         </div>
