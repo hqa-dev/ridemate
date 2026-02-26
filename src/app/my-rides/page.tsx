@@ -12,9 +12,6 @@ const CITIES: Record<string, string> = {
 
 export default function MyRidesPage() {
   const [tab, setTab] = useState<'upcoming' | 'requests' | 'joined'>('upcoming')
-  useEffect(() => {
-    if (userRole === 'passenger') setTab('joined')
-  }, [userRole])
   const [myRides, setMyRides] = useState<any[]>([])
   const [requests, setRequests] = useState<any[]>([])
   const [myRequests, setMyRequests] = useState<any[]>([])
@@ -25,6 +22,10 @@ export default function MyRidesPage() {
   useEffect(() => {
     loadData()
   }, [])
+
+  useEffect(() => {
+    if (userRole === 'passenger') setTab('joined')
+  }, [userRole])
 
   async function loadData() {
     setLoading(true)
