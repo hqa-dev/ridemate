@@ -15,6 +15,7 @@ export default function RegisterPage() {
   const [uploading, setUploading] = useState(false)
   const [error, setError] = useState('')
   const [isSignedIn, setIsSignedIn] = useState(false)
+  const [userName, setUserName] = useState('')
   const idRef = useRef<HTMLInputElement>(null)
   const selfieRef = useRef<HTMLInputElement>(null)
   const licenseRef = useRef<HTMLInputElement>(null)
@@ -23,7 +24,21 @@ export default function RegisterPage() {
   useEffect(() => {
     const checkAuth = async () => {
       const { data: { user } } = await supabase.auth.getUser()
-      if (user) setIsSignedIn(true)
+      if (user) {
+        setIsSignedIn(true)
+        setUserName(user.user_metadata?.full_name || user.email || '')
+
+        // Check if already has verification docs
+        const { data: files } = await supabase.storage
+          .from('documents')
+          .list(user.id)
+        const hasId = files?.some(f => f.name.startsWith('id'))
+        const hasSelfie = files?.some(f => f.name.startsWith('selfie'))
+        if (hasId && hasSelfie) {
+          window.location.href = '/home'
+          return
+        }
+      }
     }
     checkAuth()
   }, [])
@@ -83,7 +98,7 @@ export default function RegisterPage() {
       if (licErr) { setError('هەڵەی ئەپلۆدی مۆڵەت: ' + licErr.message); setUploading(false); return }
     }
 
-    await supabase.from('profiles').update({ role: role || 'passenger' }).eq('id', user.id)
+    await supabase.from('profiles').update({ role: role || 'passenger', verification_status: 'pending' }).eq('id', user.id)
 
     setUploading(false)
     window.location.href = '/home'
@@ -153,7 +168,10 @@ export default function RegisterPage() {
             <div style={{ ...card, border: '1.5px solid #16a34a', background: '#f0fdf4' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                 <span style={{ fontSize: '1.2rem' }}>✓</span>
-                <span style={{ fontWeight: 600, color: '#16a34a' }}>چوونەژوورەوە سەرکەوتوو بوو</span>
+                <div>
+                  <span style={{ fontWeight: 600, color: '#16a34a', display: 'block' }}>چوونەژوورەوە سەرکەوتوو بوو</span>
+                  {userName && <span style={{ fontSize: '0.8rem', color: '#57534e' }}>بەخێربێیتەوە، {userName}</span>}
+                </div>
               </div>
             </div>
           ) : (
