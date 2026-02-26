@@ -95,14 +95,7 @@ export default function ProfilePage() {
     <div style={{ direction: 'rtl', minHeight: '100vh', background: '#fafaf9', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem', overflowX: 'hidden' }}>
       <h1 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '1.5rem' }}>{ku.profileTitle}</h1>
 
-      <div style={{ ...card, display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        {avatarUrl ? (
-          <img src={avatarUrl} alt="" style={{ width: 56, height: 56, borderRadius: 12, objectFit: 'cover' }} referrerPolicy="no-referrer" />
-        ) : (
-          <div style={{ width: 56, height: 56, borderRadius: 12, background: '#fae8d8', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', fontWeight: 700, color: '#df6530' }}>
-            {displayName.charAt(0)}
-          </div>
-        )}
+      <div style={{ ...card, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
         <div>
           <div style={{ fontWeight: 700, fontSize: '1.1rem', color: '#1c1917' }}>{displayName}</div>
           {displayEmail && <div style={{ fontSize: '0.8rem', color: '#a8a29e' }} dir="ltr">{displayEmail}</div>}
@@ -110,6 +103,13 @@ export default function ProfilePage() {
             {role && <span style={{ background: '#f5f5f4', color: '#57534e', fontSize: '0.7rem', padding: '0.15rem 0.5rem', borderRadius: '999px', fontWeight: 600 }}>{role === 'passenger' ? ku.passenger : role === 'driver' ? ku.driver : ku.both}</span>}
           </div>
         </div>
+        {avatarUrl ? (
+          <img src={avatarUrl} alt="" style={{ width: 60, height: 60, borderRadius: 12, objectFit: 'cover' }} referrerPolicy="no-referrer" />
+        ) : (
+          <div style={{ width: 60, height: 60, borderRadius: 12, background: '#fae8d8', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', fontWeight: 700, color: '#df6530' }}>
+            {displayName.charAt(0)}
+          </div>
+        )}
       </div>
 
       <div style={{ ...card, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
