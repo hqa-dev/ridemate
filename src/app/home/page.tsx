@@ -115,6 +115,7 @@ export default function HomePage() {
               </div>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '0.5rem' }}>
                 {carDisplay ? <p style={{ fontSize: '0.75rem', color: '#a8a29e', margin: 0 }}>{carDisplay}</p> : <div />}
+              </div>
               <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.4rem', flexWrap: 'wrap' }}>
                 {ride.smoking !== null && (
                   <span style={{ background: ride.smoking ? '#fef2f2' : '#f0fdf4', color: ride.smoking ? '#dc2626' : '#16a34a', fontSize: '0.7rem', padding: '0.15rem 0.5rem', borderRadius: '999px', fontWeight: 600 }}>
