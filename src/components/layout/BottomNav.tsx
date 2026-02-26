@@ -57,7 +57,7 @@ export function BottomNav() {
             gap: '0.05rem', textDecoration: 'none',
             color: active ? '#df6530' : '#a8a29e'
           }}>
-            <item.Icon active={active} />
+            <div style={{ width: 24, height: 24, display: "flex", alignItems: "center", justifyContent: "center" }}><item.Icon active={active} /></div>
             <span style={{ fontSize: '0.65rem', fontWeight: active ? 600 : 400 }}>{item.label}</span>
           </Link>
         )
