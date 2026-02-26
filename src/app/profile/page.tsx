@@ -110,7 +110,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      <div style={{ ...card, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ ...card, display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: verificationStatus === 'none' ? 'pointer' : 'default' }} onClick={() => { if (verificationStatus === 'none') router.push('/auth/verify') }}>
         <span style={{ fontSize: '0.9rem', color: '#44403c' }}>ناسینەوە</span>
         <span style={{ background: status.bg, color: status.color, fontSize: '0.75rem', padding: '0.2rem 0.6rem', borderRadius: '999px', fontWeight: 600 }}>{status.text}</span>
       </div>
