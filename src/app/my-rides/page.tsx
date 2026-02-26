@@ -69,6 +69,12 @@ export default function MyRidesPage() {
     setLoading(false)
   }
 
+  async function handleCancelRide(rideId: string) {
+    if (!confirm('دڵنیایت دەتەوێ ئەم ڕێیە بسڕیتەوە؟')) return
+    await supabase.from('rides').delete().eq('id', rideId)
+    setMyRides(prev => prev.filter(r => r.id !== rideId))
+  }
+
   async function updateRequestStatus(requestId: string, status: string) {
     const { error } = await supabase
       .from('ride_requests')
@@ -77,6 +83,17 @@ export default function MyRidesPage() {
 
     if (!error) {
       setRequests(prev => prev.map(r => r.id === requestId ? { ...r, status } : r))
+      if (status === 'approved') {
+        const req = requests.find(r => r.id === requestId)
+        if (req) {
+          const ride = myRides.find(r => r.id === req.ride_id)
+          if (ride && ride.available_seats > 0) {
+            const newSeats = ride.available_seats - 1
+            await supabase.from('rides').update({ available_seats: newSeats }).eq('id', req.ride_id)
+            setMyRides(prev => prev.map(r => r.id === req.ride_id ? { ...r, available_seats: newSeats } : r))
+          }
+        }
+      }
     }
   }
 
@@ -120,12 +137,15 @@ export default function MyRidesPage() {
             <span style={{ fontSize: '0.8rem', color: '#a8a29e' }} dir="ltr">
               {new Date(ride.departure_time).toLocaleDateString([], { month: 'long', day: 'numeric' })}
             </span>
-            <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.5rem' }}>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
               <span style={{ fontSize: '0.75rem', color: '#78716c' }}>{ride.available_seats} {ku.seatsLeft}</span>
               {ride.price_type === 'coffee'
                 ? <span style={{ background: '#f5f5f4', color: '#57534e', fontSize: '0.7rem', padding: '0.15rem 0.5rem', borderRadius: '999px' }}>{ku.coffeeAndConvo}</span>
                 : <span style={{ background: '#f5f5f4', color: '#57534e', fontSize: '0.7rem', padding: '0.15rem 0.5rem', borderRadius: '999px' }}>{ride.price_iqd?.toLocaleString()} دینار</span>
               }
+              </div>
+              <button onClick={() => handleCancelRide(ride.id)} style={{ background: 'none', border: 'none', color: '#dc2626', fontSize: '0.75rem', cursor: 'pointer', padding: '0.25rem' }}>سڕینەوە</button>
             </div>
           </div>
         ))
