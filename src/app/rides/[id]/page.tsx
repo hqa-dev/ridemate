@@ -21,7 +21,7 @@ export default function RideDetailPage() {
   const [loading, setLoading] = useState(true)
   const [requested, setRequested] = useState(false)
   const [showModal, setShowModal] = useState(false)
-  const [pickup, setPickup] = useState('')
+  const [pickup: pickup || null, setPickup] = useState('')
   const [dropoff, setDropoff] = useState('')
   const [sending, setSending] = useState(false)
   const [currentUserId, setCurrentUserId] = useState<string | null>(null)
@@ -75,7 +75,7 @@ export default function RideDetailPage() {
     const { error } = await supabase.from('ride_requests').insert({
       ride_id: rideId,
       passenger_id: currentUserId,
-      pickup,
+      pickup: pickup || null,
       dropoff: dropoff || null,
       status: 'pending',
     })
