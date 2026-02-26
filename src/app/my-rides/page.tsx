@@ -94,7 +94,7 @@ export default function MyRidesPage() {
           <div style={{ display: 'flex', background: '#f5f5f4', borderRadius: '0.75rem', padding: '0.25rem', marginBottom: '1.25rem' }}>
             {tabs.map(t => (
               <button key={t} onClick={() => setTab(t)} style={{ flex: 1, padding: '0.6rem', borderRadius: '0.6rem', border: 'none', cursor: 'pointer', fontWeight: tab === t ? 600 : 400, background: tab === t ? 'white' : 'transparent', color: tab === t ? '#1c1917' : '#78716c', fontSize: '0.85rem' }}>
-                {t === 'upcoming' ? ku.upcoming : t === 'requests' ? ku.requests : 'داواکاریەکانم'}
+                {t === 'upcoming' ? 'ڕێی خۆم' : t === 'requests' ? 'داوای خەڵک' : 'داوای خۆم'}
                 {t === 'requests' && requests.filter(r => r.status === 'pending').length > 0 && (
                   <span style={{ background: '#df6530', color: 'white', fontSize: '0.7rem', padding: '0.1rem 0.4rem', borderRadius: '999px', marginRight: '0.4rem' }}>
                     {requests.filter(r => r.status === 'pending').length}
