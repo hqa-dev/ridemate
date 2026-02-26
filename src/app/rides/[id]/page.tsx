@@ -224,6 +224,8 @@ export default function RideDetailPage() {
                 <input value={dropoff} onChange={e => setDropoff(e.target.value)} style={{ ...inp, fontSize: '0.85rem', padding: '0.6rem 0.75rem' }} placeholder="لە کوێ دادەبەزی؟" />
               </div>
             </div>
+            <p style={{ fontSize: "0.75rem", color: "#a8a29e", textAlign: "center", marginBottom: "0.75rem", lineHeight: 1.6 }}>دوای ئەوەی داواکارییەکت پەسەند کرا، ژمارەی مۆبایلەکەت لەگەڵ شۆفێر شێر دەکرێ</p>
+            <p style={{ fontSize: "0.75rem", color: "#a8a29e", textAlign: "center", marginBottom: "0.75rem", lineHeight: 1.6 }}>دوای ئەوەی داواکارییەکت پەسەند کرا، ژمارەی مۆبایلەکەت لەگەڵ شۆفێر شێر دەکرێ</p>
             <button style={{ ...btn, background: '#16a34a', color: 'white', marginBottom: '0.5rem', opacity: sending ? 0.5 : 1 }} disabled={sending} onClick={handleSendRequest}>
               {sending ? '...چاوەڕوان بە' : ku.sendRequest}
             </button>
