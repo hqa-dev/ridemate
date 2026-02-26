@@ -26,6 +26,7 @@ export default function RideDetailPage() {
   const [sending, setSending] = useState(false)
   const [currentUserId, setCurrentUserId] = useState<string | null>(null)
   const [isOwnRide, setIsOwnRide] = useState(false)
+  const [requestStatus, setRequestStatus] = useState<string | null>(null)
 
   useEffect(() => {
     loadRide()
@@ -54,11 +55,14 @@ export default function RideDetailPage() {
     if (user) {
       const { data: existing } = await supabase
         .from('ride_requests')
-        .select('id')
+        .select('id, status')
         .eq('ride_id', rideId)
         .eq('passenger_id', user.id)
         .maybeSingle()
-      if (existing) setRequested(true)
+      if (existing) {
+        setRequested(true)
+        setRequestStatus(existing.status)
+      }
     }
 
     setLoading(false)
@@ -184,11 +188,25 @@ export default function RideDetailPage() {
       {!isOwnRide && (
         !requested
           ? <button style={btn} onClick={() => setShowModal(true)}>دەمەوێ!</button>
-          : <div style={{ ...card, textAlign: 'center' }}>
+          : requestStatus === 'accepted' ? (
+            <div style={{ ...card, textAlign: 'center', border: '1.5px solid #16a34a', background: '#f0fdf4' }}>
+              <span style={{ fontSize: '2rem', display: 'block', marginBottom: '0.5rem' }}>✅</span>
+              <p style={{ fontWeight: 600, color: '#16a34a', marginBottom: '0.75rem' }}>قبوڵ کرا!</p>
+              {driver.phone ? (
+                <a href={'https://wa.me/' + driver.phone.replace(/^0/, '964')} target="_blank" style={{ display: 'block', background: '#25D366', color: 'white', border: 'none', borderRadius: '0.75rem', padding: '0.75rem', fontSize: '0.95rem', fontWeight: 600, textDecoration: 'none', textAlign: 'center' }}>
+                  واتسئاپ بۆ شۆفێر
+                </a>
+              ) : (
+                <p style={{ color: '#a8a29e', fontSize: '0.85rem' }}>شۆفێر ژمارەی مۆبایلی زیاد نەکردووە</p>
+              )}
+            </div>
+          ) : (
+            <div style={{ ...card, textAlign: 'center' }}>
               <span style={{ fontSize: '2rem', display: 'block', marginBottom: '0.5rem' }}>⏳</span>
               <p style={{ fontWeight: 600, color: '#44403c' }}>{ku.requestSent}</p>
               <p style={{ fontSize: '0.8rem', color: '#a8a29e', marginTop: '0.25rem' }}>{ku.contactRevealNote}</p>
             </div>
+          )
       )}
 
       {showModal && (
