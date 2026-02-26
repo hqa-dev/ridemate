@@ -100,7 +100,7 @@ export default function ProfilePage() {
           <div style={{ fontWeight: 700, fontSize: '1.1rem', color: '#1c1917' }}>{displayName}</div>
           {displayEmail && <div style={{ fontSize: '0.8rem', color: '#a8a29e' }} dir="ltr">{displayEmail}</div>}
           <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.3rem' }}>
-            {role && <span style={{ background: '#f5f5f4', color: '#57534e', fontSize: '0.7rem', padding: '0.15rem 0.5rem', borderRadius: '999px', fontWeight: 600 }}>{role === 'passenger' ? ku.passenger : role === 'driver' ? ku.driver : ku.both}</span>}
+            {role && <span style={{ background: '#f5f5f4', color: '#57534e', fontSize: '0.7rem', padding: '0.15rem 0.5rem', borderRadius: '999px', fontWeight: 600 }}>{role === 'passenger' ? ku.passenger : role === 'driver' ? ku.driver : ku.both + ' (شۆفێر و سەرنشین)'}</span>}
           </div>
         </div>
         {avatarUrl ? (
