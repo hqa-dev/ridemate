@@ -129,7 +129,7 @@ export default function MyRidesPage() {
             </div>
           </div>
         ))
-      ) : (
+      ) : tab === 'requests' ? (
         requests.length === 0 ? (
           <p style={{ textAlign: 'center', color: '#a8a29e', padding: '3rem 0' }}>هێشتا داواکارییەکت نییە</p>
         ) : requests.map(req => {
@@ -165,7 +165,7 @@ export default function MyRidesPage() {
             </div>
           )
         })
-      )}
+      ) : null}
       {tab === 'joined' && (
         !loading && myRequests.length === 0 ? (
           <p style={{ textAlign: 'center', color: '#a8a29e', padding: '3rem 0' }}>هێشتا داواکارییەکت نەکردووە</p>
