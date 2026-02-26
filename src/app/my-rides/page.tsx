@@ -86,9 +86,9 @@ export default function MyRidesPage() {
       if (status === 'approved') {
         const req = requests.find(r => r.id === requestId)
         if (req) {
-          const ride = myRides.find(r => r.id === req.ride_id)
-          if (ride && ride.available_seats > 0) {
-            const newSeats = ride.available_seats - 1
+          const { data: freshRide } = await supabase.from('rides').select('available_seats').eq('id', req.ride_id).single()
+          if (freshRide && freshRide.available_seats > 0) {
+            const newSeats = freshRide.available_seats - 1
             await supabase.from('rides').update({ available_seats: newSeats }).eq('id', req.ride_id)
             setMyRides(prev => prev.map(r => r.id === req.ride_id ? { ...r, available_seats: newSeats } : r))
           }
