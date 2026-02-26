@@ -95,17 +95,19 @@ export default function ProfilePage() {
     <div style={{ direction: 'rtl', minHeight: '100vh', background: '#fafaf9', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem', overflowX: 'hidden' }}>
       <h1 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '1.5rem' }}>{ku.profileTitle}</h1>
 
-      <div style={{ ...card, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.6rem', padding: '1.5rem 1.25rem' }}>
+      <div style={{ ...card, display: 'flex', alignItems: 'center', gap: '1rem', direction: 'ltr' }}>
         {avatarUrl ? (
-          <img src={avatarUrl} alt="" style={{ width: 72, height: 72, borderRadius: 14, objectFit: 'cover' }} referrerPolicy="no-referrer" />
+          <img src={avatarUrl} alt="" style={{ width: 64, height: 64, borderRadius: 12, objectFit: 'cover', flexShrink: 0 }} referrerPolicy="no-referrer" />
         ) : (
-          <div style={{ width: 72, height: 72, borderRadius: 14, background: '#fae8d8', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', fontWeight: 700, color: '#df6530' }}>
+          <div style={{ width: 64, height: 64, borderRadius: 12, background: '#fae8d8', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem', fontWeight: 700, color: '#df6530', flexShrink: 0 }}>
             {displayName.charAt(0)}
           </div>
         )}
-        <div style={{ fontWeight: 700, fontSize: '1.15rem', color: '#1c1917' }}>{displayName}</div>
-        {displayEmail && <div style={{ fontSize: '0.8rem', color: '#a8a29e', marginTop: '-0.3rem' }} dir="ltr">{displayEmail}</div>}
-        {role && <span style={{ background: '#f5f5f4', color: '#57534e', fontSize: '0.7rem', padding: '0.2rem 0.6rem', borderRadius: '999px', fontWeight: 600 }}>{role === 'passenger' ? ku.passenger : role === 'driver' ? ku.driver : ku.both + ' (شۆفێر و سەرنشین)'}</span>}
+        <div style={{ textAlign: 'right', flex: 1 }}>
+          <div style={{ fontWeight: 700, fontSize: '1.1rem', color: '#1c1917' }}>{displayName}</div>
+          {displayEmail && <div style={{ fontSize: '0.8rem', color: '#a8a29e' }}>{displayEmail}</div>}
+          {role && <div style={{ marginTop: '0.3rem' }}><span style={{ background: '#f5f5f4', color: '#57534e', fontSize: '0.7rem', padding: '0.15rem 0.5rem', borderRadius: '999px', fontWeight: 600 }}>{role === 'passenger' ? ku.passenger : role === 'driver' ? ku.driver : ku.both + ' (شۆفێر و سەرنشین)'}</span></div>}
+        </div>
       </div>
 
       <div style={{ ...card, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
