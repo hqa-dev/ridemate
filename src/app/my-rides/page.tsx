@@ -192,7 +192,7 @@ export default function MyRidesPage() {
       ) : null}
       {tab === 'joined' && (
         !loading && myRequests.length === 0 ? (
-          <p style={{ textAlign: 'center', color: '#a8a29e', padding: '3rem 0' }}>هێشتا داواکارییەکت نەکردووە</p>
+          <p style={{ textAlign: 'center', color: '#a8a29e', padding: '3rem 0' }}>هیچ داواکارییەکت نەکردووە</p>
         ) : myRequests.map(req => {
           const ride = req.ride || {}
           const driver = ride.driver || {}
