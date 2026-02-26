@@ -152,14 +152,14 @@ export default function PostRidePage() {
         <div style={section}>
           <label style={label}>{ku.from}</label>
           <select className="ride-select" value={fromCity} onChange={e => setFromCity(e.target.value)} style={select}>
-            <option value="">شارێک هەڵبژێرە</option>
+            <option value="">لە کوێ؟</option>
             {CITIES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
           </select>
         </div>
         <div style={section}>
           <label style={label}>{ku.to}</label>
           <select className="ride-select" value={toCity} onChange={e => setToCity(e.target.value)} style={select}>
-            <option value="">شارێک هەڵبژێرە</option>
+            <option value="">بۆ کوێ؟</option>
             {CITIES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
           </select>
         </div>
