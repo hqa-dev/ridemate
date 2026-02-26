@@ -52,6 +52,11 @@ export default function AdminPage() {
     setPending(prev => prev.filter(p => p.id !== userId))
   }
 
+  const handleDecline = async (userId: string) => {
+    await supabase.from('profiles').update({ verification_status: 'none' }).eq('id', userId)
+    setPending(prev => prev.filter(p => p.id !== userId))
+  }
+
   if (loading) return <div style={{ padding: '2rem', textAlign: 'center' }}>Loading...</div>
   if (!authorized) return <div style={{ padding: '2rem', textAlign: 'center', color: '#dc2626' }}>Access denied</div>
 
@@ -75,12 +80,20 @@ export default function AdminPage() {
               <div style={{ fontSize: '0.8rem', color: '#a8a29e' }}>{p.email}</div>
               <div style={{ fontSize: '0.75rem', color: '#78716c', marginTop: '0.25rem' }}>Role: {p.role}</div>
             </div>
-            <button
-              onClick={() => handleApprove(p.id)}
-              style={{ background: '#16a34a', color: 'white', border: 'none', borderRadius: '0.75rem', padding: '0.6rem 1.5rem', fontSize: '0.9rem', fontWeight: 600, cursor: 'pointer' }}
-            >
-              Approve
-            </button>
+            <div style={{ display: 'flex', gap: '0.5rem' }}>
+              <button
+                onClick={() => handleApprove(p.id)}
+                style={{ background: '#16a34a', color: 'white', border: 'none', borderRadius: '0.75rem', padding: '0.6rem 1.25rem', fontSize: '0.9rem', fontWeight: 600, cursor: 'pointer' }}
+              >
+                Approve
+              </button>
+              <button
+                onClick={() => handleDecline(p.id)}
+                style={{ background: '#dc2626', color: 'white', border: 'none', borderRadius: '0.75rem', padding: '0.6rem 1.25rem', fontSize: '0.9rem', fontWeight: 600, cursor: 'pointer' }}
+              >
+                Decline
+              </button>
+            </div>
           </div>
 
           <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
