@@ -25,7 +25,7 @@ export async function GET(request: Request) {
         }
       }
       
-      return NextResponse.redirect(`${origin}/home`)
+      return NextResponse.redirect(`${origin}/auth/confirm`)
     }
   }
 
