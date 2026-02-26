@@ -87,6 +87,7 @@ export default function ProfilePage() {
   const statusMap: Record<string, { text: string; bg: string; color: string }> = {
     verified: { text: 'ناسراوە ✓', bg: '#f0fdf4', color: '#16a34a' },
     pending: { text: 'لە چاوەڕوانی ناسیندایە', bg: '#fffbeb', color: '#d97706' },
+    none: { text: 'ڕەتکراوە — پەیوەندی بە ئادمین بکە', bg: '#fef2f2', color: '#dc2626' },
   }
   const status = statusMap[verificationStatus]
 
