@@ -190,7 +190,7 @@ export default function MyRidesPage() {
               <div style={{ fontSize: '0.85rem', color: '#57534e' }}>شۆفێر: {driver.full_name || 'نەزانراو'}</div>
               {req.status === 'approved' && driver.phone && (
                 <a href={'https://wa.me/' + driver.phone.replace(/^0/, '964')} target="_blank" style={{ display: 'block', background: '#25D366', color: 'white', border: 'none', borderRadius: '0.75rem', padding: '0.65rem', fontSize: '0.9rem', fontWeight: 600, textDecoration: 'none', textAlign: 'center', marginTop: '0.75rem' }}>
-                  واتسئاپ بۆ شۆفێر
+                  لە واتساپەوە پەیامێک بۆ شۆفێر بنێرە
                 </a>
               )}
             </div>

@@ -194,7 +194,7 @@ export default function RideDetailPage() {
               <p style={{ fontWeight: 600, color: '#16a34a', marginBottom: '0.75rem' }}>قبوڵ کرا!</p>
               {driver.phone ? (
                 <a href={'https://wa.me/' + driver.phone.replace(/^0/, '964')} target="_blank" style={{ display: 'block', background: '#25D366', color: 'white', border: 'none', borderRadius: '0.75rem', padding: '0.75rem', fontSize: '0.95rem', fontWeight: 600, textDecoration: 'none', textAlign: 'center' }}>
-                  واتسئاپ بۆ شۆفێر
+                  لە واتساپەوە پەیامێک بۆ شۆفێر بنێرە
                 </a>
               ) : (
                 <p style={{ color: '#a8a29e', fontSize: '0.85rem' }}>شۆفێر ژمارەی مۆبایلی زیاد نەکردووە</p>
