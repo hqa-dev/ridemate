@@ -32,7 +32,7 @@ export default function LandingPage() {
 
       <div style={{ padding: '2rem 1.25rem 1.5rem' }}>
         <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#1c1917', marginBottom: '1rem', lineHeight: 1.8 }}>
-          ئەمە بازاڕ نییە، ئەمە هاوڕێیەتییە. قاوەیەک بۆ شۆفێر، و قسەیەکی خۆش بۆ ڕێگا.
+          <span style={{ color: '#df6530' }}>ڕێ</span> بازاڕ نییە، ئەمە هاوڕێیەتییە. قاوەیەک بۆ شۆفێر، و قسەیەکی خۆش بۆ ڕێگا.
         </h1>
         <p style={{ color: '#78716c', fontSize: '1rem', lineHeight: 1.8 }}>
           ئێستا ئەتوانی لە سەهۆڵەکە نانی ئێوارە بخۆی و بۆ شەویش بگەڕێیتەوە هەولێر
