@@ -215,11 +215,11 @@ export default function RideDetailPage() {
             <h2 style={{ fontWeight: 700, fontSize: '1.1rem', marginBottom: '0.75rem' }}>دەمەوێ!</h2>
             <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
               <div style={{ flex: 1 }}>
-                <label style={{ fontSize: '0.75rem', color: '#78716c', display: 'block', marginBottom: '0.25rem', textAlign: 'right', paddingRight: '0.5rem' }}>سواربوون</label>
+                <label style={{ fontSize: '0.75rem', color: '#78716c', display: 'block', marginBottom: '0.25rem', textAlign: 'right', paddingRight: '0.25rem' }}>سواربوون</label>
                 <input value={pickup} onChange={e => setPickup(e.target.value)} style={{ ...inp, fontSize: '0.85rem', padding: '0.6rem 0.75rem' }} placeholder="لە کوێ سوار دەبی؟" />
               </div>
               <div style={{ flex: 1 }}>
-                <label style={{ fontSize: '0.75rem', color: '#78716c', display: 'block', marginBottom: '0.25rem', textAlign: 'right', paddingRight: '0.5rem' }}>دابەزین</label>
+                <label style={{ fontSize: '0.75rem', color: '#78716c', display: 'block', marginBottom: '0.25rem', textAlign: 'right', paddingRight: '0.25rem' }}>دابەزین</label>
                 <input value={dropoff} onChange={e => setDropoff(e.target.value)} style={{ ...inp, fontSize: '0.85rem', padding: '0.6rem 0.75rem' }} placeholder="لە کوێ دادەبەزی؟" />
               </div>
             </div>
