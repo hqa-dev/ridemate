@@ -137,8 +137,8 @@ export default function ProfilePage() {
                 type="tel"
                 style={{ flex: 1, background: '#f5f5f4', border: '1px solid #e7e5e4', borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.9rem', outline: 'none' }}
               />
-              <button onClick={handleSavePhone} style={{ background: '#16a34a', color: 'white', border: 'none', borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>save</button>
-              <button onClick={() => setEditingPhone(false)} style={{ background: 'none', border: 'none', color: '#a8a29e', fontSize: '0.85rem', cursor: 'pointer' }}>cancel</button>
+              <button onClick={handleSavePhone} style={{ background: '#16a34a', color: 'white', border: 'none', borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>بەڵێ</button>
+              <button onClick={() => setEditingPhone(false)} style={{ background: 'none', border: 'none', color: '#a8a29e', fontSize: '0.85rem', cursor: 'pointer' }}>پاشگەز</button>
             </div>
             <p style={{ fontSize: '0.7rem', color: '#a8a29e', lineHeight: 1.6 }}>ئەم ژمارەیە دوای قبوڵکردنی داواکاری سەرنشین پیشان دەدرێت</p>
           </div>
