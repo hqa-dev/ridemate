@@ -19,9 +19,9 @@ const PostIcon = ({ active }: { active: boolean }) => (
 
 const RidesIcon = ({ active }: { active: boolean }) => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={active ? '#df6530' : '#a8a29e'} strokeWidth={active ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round">
-    <path d="M5 17h14M5 17a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1l2-3h8l2 3h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2" />
-    <circle cx="7.5" cy="17" r="2" />
-    <circle cx="16.5" cy="17" r="2" />
+    <path d="M7 17h10M5 13l1.5-5h11L19 13M3 13h18v4H3z" />
+    <circle cx="7" cy="17" r="1.5" />
+    <circle cx="17" cy="17" r="1.5" />
   </svg>
 )
 
