@@ -104,7 +104,7 @@ export default function HomePage() {
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   {ride.available_seats > 0
-                    ? <span style={{ background: '#f5f5f4', color: '#57534e', fontSize: '0.78rem', padding: '0.25rem 0.65rem', borderRadius: '999px' }}>{ride.available_seats} شوێن</span>
+                    ? <span style={{ background: '#f5f5f4', color: '#57534e', fontSize: '0.78rem', padding: '0.25rem 0.65rem', borderRadius: '999px' }}>{ride.available_seats} جێگا ماوە</span>
                     : <span style={{ background: '#fef2f2', color: '#dc2626', fontSize: '0.78rem', padding: '0.25rem 0.65rem', borderRadius: '999px', fontWeight: 600 }}>پڕە</span>
                   }
                   {ride.price_type === 'coffee'
