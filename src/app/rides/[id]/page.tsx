@@ -188,7 +188,7 @@ export default function RideDetailPage() {
       {!isOwnRide && (
         !requested
           ? <button style={btn} onClick={() => setShowModal(true)}>دەمەوێ!</button>
-          : requestStatus === 'accepted' ? (
+          : requestStatus === 'approved' ? (
             <div style={{ ...card, textAlign: 'center', border: '1.5px solid #16a34a', background: '#f0fdf4' }}>
               <span style={{ fontSize: '2rem', display: 'block', marginBottom: '0.5rem' }}>✅</span>
               <p style={{ fontWeight: 600, color: '#16a34a', marginBottom: '0.75rem' }}>قبوڵ کرا!</p>
