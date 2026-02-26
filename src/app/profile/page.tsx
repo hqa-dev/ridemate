@@ -47,7 +47,6 @@ export default function ProfilePage() {
 
   const handleDeleteAccount = async () => {
     if (!user) return
-    // Sign out and delete profile (actual user deletion needs admin/edge function)
     await supabase.from('profiles').delete().eq('id', user.id)
     await supabase.auth.signOut()
     router.push('/')
@@ -70,9 +69,9 @@ export default function ProfilePage() {
   const verificationStatus = profile?.verification_status || 'none'
 
   const statusMap: Record<string, { text: string; bg: string; color: string }> = {
-    verified: { text: 'پشتڕاست کراوە ✓', bg: '#f0fdf4', color: '#16a34a' },
-    pending: { text: 'چاوەڕوانی پشتڕاستکردنەوە', bg: '#fffbeb', color: '#d97706' },
-    none: { text: 'پشتڕاست نەکراوە', bg: '#fef2f2', color: '#dc2626' },
+    verified: { text: 'ناسراوە ✓', bg: '#f0fdf4', color: '#16a34a' },
+    pending: { text: 'چاوەڕوانی ناسینەوە', bg: '#fffbeb', color: '#d97706' },
+    none: { text: 'نەناسراوە', bg: '#fef2f2', color: '#dc2626' },
   }
   const status = statusMap[verificationStatus] || statusMap.none
 
@@ -100,7 +99,7 @@ export default function ProfilePage() {
 
       {/* Verification status */}
       <div style={{ ...card, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <span style={{ fontSize: '0.9rem', color: '#44403c' }}>پشتڕاستکردنەوە</span>
+        <span style={{ fontSize: '0.9rem', color: '#44403c' }}>ناسینەوە</span>
         <span style={{ background: status.bg, color: status.color, fontSize: '0.75rem', padding: '0.2rem 0.6rem', borderRadius: '999px', fontWeight: 600 }}>{status.text}</span>
       </div>
 
@@ -114,7 +113,7 @@ export default function ProfilePage() {
               placeholder={displayName}
               style={{ flex: 1, background: '#f5f5f4', border: '1px solid #e7e5e4', borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.9rem', outline: 'none', direction: 'rtl' }}
             />
-            <button onClick={handleSaveName} style={{ background: '#16a34a', color: 'white', border: 'none', borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>پاشکەوت</button>
+            <button onClick={handleSaveName} style={{ background: '#16a34a', color: 'white', border: 'none', borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>بەڵێ</button>
             <button onClick={() => setEditingName(false)} style={{ background: 'none', border: 'none', color: '#a8a29e', fontSize: '0.85rem', cursor: 'pointer' }}>پاشگەز</button>
           </div>
         ) : (
@@ -124,24 +123,24 @@ export default function ProfilePage() {
         )}
       </div>
 
-      {/* Sign out */}
-      <div style={card}>
-        <button onClick={handleSignOut} style={{ background: 'none', border: 'none', color: '#dc2626', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', padding: 0 }}>{ku.signOut}</button>
-      </div>
-
       {/* Delete account */}
       <div style={card}>
         {showDeleteConfirm ? (
           <div>
-            <p style={{ fontSize: '0.85rem', color: '#dc2626', marginBottom: '0.75rem', lineHeight: 1.7 }}>دڵنیایت دەتەوێ ئەکاونتەکەت بسڕیتەوە؟ ئەم کارە ناگەڕێتەوە.</p>
+            <p style={{ fontSize: '0.85rem', color: '#dc2626', marginBottom: '0.75rem', lineHeight: 1.7 }}>دڵنیایت دەتەوێ ئەکاونتەکەت بسڕیتەوە؟ ئەم کارە پێجەوانە ناکرێتەوە.</p>
             <div style={{ display: 'flex', gap: '0.5rem' }}>
-              <button onClick={handleDeleteAccount} style={{ flex: 1, background: '#dc2626', color: 'white', border: 'none', borderRadius: '0.5rem', padding: '0.5rem', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>بەڵێ، بسڕەوە</button>
+              <button onClick={handleDeleteAccount} style={{ flex: 1, background: '#dc2626', color: 'white', border: 'none', borderRadius: '0.5rem', padding: '0.5rem', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>بەڵێ دڵنیام</button>
               <button onClick={() => setShowDeleteConfirm(false)} style={{ flex: 1, background: '#f5f5f4', color: '#44403c', border: 'none', borderRadius: '0.5rem', padding: '0.5rem', fontSize: '0.85rem', cursor: 'pointer' }}>پاشگەز</button>
             </div>
           </div>
         ) : (
           <button onClick={() => setShowDeleteConfirm(true)} style={{ background: 'none', border: 'none', color: '#a8a29e', fontSize: '0.85rem', cursor: 'pointer', padding: 0 }}>سڕینەوەی ئەکاونت</button>
         )}
+      </div>
+
+      {/* Sign out — last */}
+      <div style={card}>
+        <button onClick={handleSignOut} style={{ background: 'none', border: 'none', color: '#dc2626', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', padding: 0 }}>{ku.signOut}</button>
       </div>
 
       <BottomNav />
