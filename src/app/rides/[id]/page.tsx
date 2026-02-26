@@ -165,7 +165,7 @@ export default function RideDetailPage() {
 
       <div style={card}>
         <span style={sectionLabel}>{ku.seatsAvailable}</span>
-        <span style={{ background: '#f5f5f4', color: '#57534e', padding: '0.35rem 0.85rem', borderRadius: '999px', fontSize: '0.9rem' }}>{ride.available_seats} جێگا</span>
+        <span style={{ background: '#f5f5f4', color: '#57534e', padding: '0.35rem 0.85rem', borderRadius: '999px', fontSize: '0.9rem' }}>{ride.available_seats} شوێن</span>
       </div>
 
       {ride.smoking !== null && (
