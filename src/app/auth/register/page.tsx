@@ -54,10 +54,18 @@ export default function RegisterPage() {
     if (error) console.error('Google sign-in error:', error.message)
   }
 
-  const handleContinueFromDetails = () => {
+  const handleContinueFromDetails = async () => {
     setError('')
     if (!isSignedIn) {
       setError('تکایە سەرەتا بە گووگڵ چوونەژوورەوە بکە')
+      return
+    }
+    if (role === 'passenger') {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        await supabase.from('profiles').update({ role: 'passenger', verification_status: 'verified' }).eq('id', user.id)
+      }
+      window.location.href = '/home'
       return
     }
     setStep('verify')
