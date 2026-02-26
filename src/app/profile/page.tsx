@@ -97,9 +97,9 @@ export default function ProfilePage() {
 
       <div style={{ ...card, display: 'flex', alignItems: 'center', gap: '1rem' }}>
         {avatarUrl ? (
-          <img src={avatarUrl} alt="" style={{ width: 48, height: 48, borderRadius: '50%', objectFit: 'cover' }} referrerPolicy="no-referrer" />
+          <img src={avatarUrl} alt="" style={{ width: 56, height: 56, borderRadius: 12, objectFit: 'cover' }} referrerPolicy="no-referrer" />
         ) : (
-          <div style={{ width: 48, height: 48, borderRadius: '50%', background: '#fae8d8', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', fontWeight: 700, color: '#df6530' }}>
+          <div style={{ width: 56, height: 56, borderRadius: 12, background: '#fae8d8', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', fontWeight: 700, color: '#df6530' }}>
             {displayName.charAt(0)}
           </div>
         )}
@@ -153,7 +153,7 @@ export default function ProfilePage() {
             </div>
           </div>
         ) : (
-          <span style={{ color: '#a8a29e', fontSize: '0.85rem' }}>سڕینەوەی ئەکاونت</span>
+          <span style={{ color: '#44403c', fontSize: '0.9rem' }}>سڕینەوەی ئەکاونت</span>
         )}
       </div>
 
