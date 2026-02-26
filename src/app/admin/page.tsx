@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 
-const ADMIN_EMAILSS = ['hawiefr@gmail.com', 'hawkarakrd@gmail.com']
+const ADMIN_EMAILS = ['hawiefr@gmail.com', 'hawkarakrd@gmail.com']
 
 export default function AdminPage() {
   const [authorized, setAuthorized] = useState(false)
@@ -14,7 +14,7 @@ export default function AdminPage() {
   useEffect(() => {
     const init = async () => {
       const { data: { user } } = await supabase.auth.getUser()
-      if (!user || !ADMIN_EMAILSS.includes(user.email || "")) { setLoading(false); return }
+      if (!user || !ADMIN_EMAILS.includes(user.email || "")) { setLoading(false); return }
       setAuthorized(true)
 
       const { data } = await supabase
