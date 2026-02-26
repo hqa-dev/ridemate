@@ -26,7 +26,23 @@ export default function PostRidePage() {
   const [posted, setPosted] = useState(false)
   const [error, setError] = useState('')
   const [saving, setSaving] = useState(false)
+  const [blocked, setBlocked] = useState(false)
+  const [blockReason, setBlockReason] = useState('')
+  const [checkingAuth, setCheckingAuth] = useState(true)
   const supabase = createClient()
+
+  useState(() => {
+    const check = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) { setBlocked(true); setBlockReason('please sign in'); setCheckingAuth(false); return }
+      const { data: profile } = await supabase.from('profiles').select('role, verification_status').eq('id', user.id).single()
+      if (!profile) { setBlocked(true); setBlockReason('profile not found'); setCheckingAuth(false); return }
+      if (profile.role === 'passenger') { setBlocked(true); setBlockReason('passenger'); setCheckingAuth(false); return }
+      if (profile.verification_status !== 'verified') { setBlocked(true); setBlockReason('unverified'); setCheckingAuth(false); return }
+      setCheckingAuth(false)
+    }
+    check()
+  })
 
   const input = { width: '100%', background: '#f5f5f4', border: '1px solid #e7e5e4', borderRadius: '0.75rem', padding: '0.75rem 1rem', fontSize: '0.95rem', outline: 'none', direction: 'rtl' } as React.CSSProperties
   const select = { ...input, padding: '0.75rem 1rem 0.75rem 2.5rem' } as React.CSSProperties
@@ -83,6 +99,32 @@ export default function PostRidePage() {
     setFromCity(''); setToCity(''); setDate(''); setTime(''); setSeats('1')
     setPriceType('coffee'); setPriceIqd(''); setCarMake(''); setCarModel(''); setCarColor('')
     setNotes(''); setSmoking(false); setPosted(false); setError('')
+  }
+
+  if (checkingAuth) {
+    return (
+      <div style={{ direction: 'rtl', minHeight: '100vh', background: '#fafaf9', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem' }}>
+        <BottomNav />
+      </div>
+    )
+  }
+
+  if (blocked) {
+    const msgs: Record<string, { title: string; sub: string }> = {
+      'passenger': { title: 'تەنها شۆفێرەکان دەتوانن ڕێ پۆست بکەن', sub: '' },
+      'unverified': { title: 'ناسینەوەت تەواو نییە', sub: 'لە چاوەڕوانی ناسیندایە' },
+    }
+    const msg = msgs[blockReason] || { title: blockReason, sub: '' }
+    return (
+      <div style={{ direction: 'rtl', minHeight: '100vh', background: '#fafaf9', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ textAlign: 'center', background: 'white', border: '1px solid #e7e5e4', borderRadius: '1rem', padding: '2rem 1.5rem' }}>
+          <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🔒</div>
+          <p style={{ color: '#44403c', fontSize: '1rem', fontWeight: 600, marginBottom: '0.5rem' }}>{msg.title}</p>
+          {msg.sub && <p style={{ color: '#a8a29e', fontSize: '0.85rem' }}>{msg.sub}</p>}
+        </div>
+        <BottomNav />
+      </div>
+    )
   }
 
   if (posted) {
