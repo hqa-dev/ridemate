@@ -45,7 +45,7 @@ export function BottomNav() {
       position: 'fixed', bottom: 0, left: '50%', transform: 'translateX(-50%)',
       width: '100%', maxWidth: '480px', background: 'white',
       borderTop: '1px solid #e7e5e4', display: 'flex',
-      justifyContent: 'space-around', padding: '0.5rem 0.5rem 0.9rem',
+      justifyContent: 'space-around', padding: '0.5rem 0.5rem 0.675rem',
       zIndex: 100
     }}>
       {navItems.map((item) => {
@@ -53,7 +53,7 @@ export function BottomNav() {
         return (
           <Link key={item.href} href={item.href} style={{
             display: 'flex', flexDirection: 'column', alignItems: 'center',
-            gap: '0.06rem', textDecoration: 'none',
+            gap: '0.05rem', textDecoration: 'none',
             color: active ? '#df6530' : '#a8a29e'
           }}>
             <item.Icon active={active} />
