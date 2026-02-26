@@ -12,6 +12,9 @@ const CITIES: Record<string, string> = {
 
 export default function MyRidesPage() {
   const [tab, setTab] = useState<'upcoming' | 'requests' | 'joined'>('upcoming')
+  useEffect(() => {
+    if (userRole === 'passenger') setTab('joined')
+  }, [userRole])
   const [myRides, setMyRides] = useState<any[]>([])
   const [requests, setRequests] = useState<any[]>([])
   const [myRequests, setMyRequests] = useState<any[]>([])
@@ -81,18 +84,26 @@ export default function MyRidesPage() {
   return (
     <div style={{ direction: 'rtl', minHeight: '100vh', background: '#fafaf9', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem' }}>
       <h1 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '1.25rem' }}>{ku.myRidesTitle}</h1>
-      <div style={{ display: 'flex', background: '#f5f5f4', borderRadius: '0.75rem', padding: '0.25rem', marginBottom: '1.25rem' }}>
-        {(['upcoming', 'requests', 'joined'] as const).map(t => (
-          <button key={t} onClick={() => setTab(t)} style={{ flex: 1, padding: '0.6rem', borderRadius: '0.6rem', border: 'none', cursor: 'pointer', fontWeight: tab === t ? 600 : 400, background: tab === t ? 'white' : 'transparent', color: tab === t ? '#1c1917' : '#78716c', fontSize: '0.85rem' }}>
-            {t === 'upcoming' ? ku.upcoming : t === 'requests' ? ku.requests : 'داواکاریەکانم'}
-            {t === 'requests' && requests.filter(r => r.status === 'pending').length > 0 && (
-              <span style={{ background: '#df6530', color: 'white', fontSize: '0.7rem', padding: '0.1rem 0.4rem', borderRadius: '999px', marginRight: '0.4rem' }}>
-                {requests.filter(r => r.status === 'pending').length}
-              </span>
-            )}
-          </button>
-        ))}
-      </div>
+      {(() => {
+        const tabs: ('upcoming' | 'requests' | 'joined')[] =
+          userRole === 'passenger' ? ['joined'] :
+          userRole === 'driver' ? ['upcoming', 'requests'] :
+          ['upcoming', 'requests', 'joined']
+        return tabs.length > 1 ? (
+          <div style={{ display: 'flex', background: '#f5f5f4', borderRadius: '0.75rem', padding: '0.25rem', marginBottom: '1.25rem' }}>
+            {tabs.map(t => (
+              <button key={t} onClick={() => setTab(t)} style={{ flex: 1, padding: '0.6rem', borderRadius: '0.6rem', border: 'none', cursor: 'pointer', fontWeight: tab === t ? 600 : 400, background: tab === t ? 'white' : 'transparent', color: tab === t ? '#1c1917' : '#78716c', fontSize: '0.85rem' }}>
+                {t === 'upcoming' ? ku.upcoming : t === 'requests' ? ku.requests : 'داواکاریەکانم'}
+                {t === 'requests' && requests.filter(r => r.status === 'pending').length > 0 && (
+                  <span style={{ background: '#df6530', color: 'white', fontSize: '0.7rem', padding: '0.1rem 0.4rem', borderRadius: '999px', marginRight: '0.4rem' }}>
+                    {requests.filter(r => r.status === 'pending').length}
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+        ) : null
+      })()}
 
       {loading ? <div /> : tab === 'upcoming' ? (
         myRides.length === 0 ? (
