@@ -89,26 +89,32 @@ export default function HomePage() {
         return (
           <Link key={ride.id} href={`/rides/${ride.id}`} style={{ textDecoration: 'none' }}>
             <div style={card}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
-                <span style={pill}>{CITIES[ride.from_city]}</span>
-                <span style={{ color: '#d6d3d1' }}>←</span>
-                <span style={pill}>{CITIES[ride.to_city]}</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
-                <span style={{ fontSize: '0.9rem', fontWeight: 600, color: '#44403c' }}>{driver.full_name || 'شۆفێر'}</span>
-                {driver.verified && <span style={{ background: '#f0fdf4', color: '#16a34a', fontSize: '0.7rem', padding: '0.15rem 0.5rem', borderRadius: '999px', fontWeight: 600 }}>ناسراوە ✓</span>}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.6rem' }}>
+                <div style={{ display: 'flex', gap: '0.35rem', alignItems: 'center' }}>
+                  <span style={{ ...pill, fontSize: '0.8rem', padding: '0.25rem 0.6rem' }}>{CITIES[ride.from_city]}</span>
+                  <span style={{ color: '#a8a29e', fontSize: '0.8rem' }}>←</span>
+                  <span style={{ ...pill, fontSize: '0.8rem', padding: '0.25rem 0.6rem' }}>{CITIES[ride.to_city]}</span>
+                </div>
+                <span dir="ltr" style={{ fontSize: '0.82rem', color: '#78716c' }}>{new Date(ride.departure_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', color: '#78716c' }}>
-                  <span dir="ltr" style={{ fontSize: '0.85rem' }}>{new Date(ride.departure_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                  <span style={{ fontSize: '0.9rem', fontWeight: 600, color: '#44403c' }}>{ride.available_seats} {ku.seatsLeft}</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#44403c' }}>{driver.full_name || 'شۆفێر'}</span>
+                  {driver.verified && <span style={{ background: '#f0fdf4', color: '#16a34a', fontSize: '0.7rem', padding: '0.15rem 0.5rem', borderRadius: '999px', fontWeight: 600 }}>✓</span>}
                 </div>
-                {ride.price_type === 'coffee'
-                  ? <span style={{ background: '#f5f5f4', color: '#57534e', fontSize: '0.78rem', padding: '0.25rem 0.65rem', borderRadius: '999px' }}>{ku.coffeeAndConvo}</span>
-                  : <span style={{ background: '#f5f5f4', color: '#57534e', fontSize: '0.78rem', padding: '0.25rem 0.65rem', borderRadius: '999px' }}>{ride.price_iqd?.toLocaleString()} دینار</span>
-                }
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  {ride.available_seats > 0
+                    ? <span style={{ background: '#f5f5f4', color: '#57534e', fontSize: '0.78rem', padding: '0.25rem 0.65rem', borderRadius: '999px' }}>{ride.available_seats} شوێن</span>
+                    : <span style={{ background: '#fef2f2', color: '#dc2626', fontSize: '0.78rem', padding: '0.25rem 0.65rem', borderRadius: '999px', fontWeight: 600 }}>پڕە</span>
+                  }
+                  {ride.price_type === 'coffee'
+                    ? <span style={{ background: '#f5f5f4', color: '#57534e', fontSize: '0.78rem', padding: '0.25rem 0.65rem', borderRadius: '999px' }}>{ku.coffeeAndConvo}</span>
+                    : <span style={{ background: '#f5f5f4', color: '#57534e', fontSize: '0.78rem', padding: '0.25rem 0.65rem', borderRadius: '999px' }}>{ride.price_iqd?.toLocaleString()} دینار</span>
+                  }
+                </div>
               </div>
-              {carDisplay && <p style={{ fontSize: '0.75rem', color: '#a8a29e', marginTop: '0.25rem', textAlign: 'right' }}>{carDisplay}</p>}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '0.5rem' }}>
+                {carDisplay ? <p style={{ fontSize: '0.75rem', color: '#a8a29e', margin: 0 }}>{carDisplay}</p> : <div />}
               <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.4rem', flexWrap: 'wrap' }}>
                 {ride.smoking !== null && (
                   <span style={{ background: ride.smoking ? '#fef2f2' : '#f0fdf4', color: ride.smoking ? '#dc2626' : '#16a34a', fontSize: '0.7rem', padding: '0.15rem 0.5rem', borderRadius: '999px', fontWeight: 600 }}>
