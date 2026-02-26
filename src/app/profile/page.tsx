@@ -38,10 +38,26 @@ export default function ProfilePage() {
     router.push('/')
   }
 
+  const canChangeName = () => {
+    if (!profile?.last_name_change) return true
+    const lastChange = new Date(profile.last_name_change)
+    const now = new Date()
+    const diffDays = (now.getTime() - lastChange.getTime()) / (1000 * 60 * 60 * 24)
+    return diffDays >= 30
+  }
+
+  const daysUntilNameChange = () => {
+    if (!profile?.last_name_change) return 0
+    const lastChange = new Date(profile.last_name_change)
+    const now = new Date()
+    const diffDays = (now.getTime() - lastChange.getTime()) / (1000 * 60 * 60 * 24)
+    return Math.max(0, Math.ceil(30 - diffDays))
+  }
+
   const handleSaveName = async () => {
     if (!newName.trim() || !user) return
-    await supabase.from('profiles').update({ full_name: newName.trim() }).eq('id', user.id)
-    setProfile({ ...profile, full_name: newName.trim() })
+    await supabase.from('profiles').update({ full_name: newName.trim(), last_name_change: new Date().toISOString() }).eq('id', user.id)
+    setProfile({ ...profile, full_name: newName.trim(), last_name_change: new Date().toISOString() })
     setEditingName(false)
   }
 
@@ -79,7 +95,6 @@ export default function ProfilePage() {
     <div style={{ direction: 'rtl', minHeight: '100vh', background: '#fafaf9', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem' }}>
       <h1 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '1.5rem' }}>{ku.profileTitle}</h1>
 
-      {/* User info */}
       <div style={{ ...card, display: 'flex', alignItems: 'center', gap: '1rem' }}>
         {avatarUrl ? (
           <img src={avatarUrl} alt="" style={{ width: 48, height: 48, borderRadius: '50%', objectFit: 'cover' }} referrerPolicy="no-referrer" />
@@ -97,33 +112,38 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* Verification status */}
       <div style={{ ...card, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <span style={{ fontSize: '0.9rem', color: '#44403c' }}>ناسینەوە</span>
         <span style={{ background: status.bg, color: status.color, fontSize: '0.75rem', padding: '0.2rem 0.6rem', borderRadius: '999px', fontWeight: 600 }}>{status.text}</span>
       </div>
 
-      {/* Edit name */}
       <div style={card}>
         {editingName ? (
-          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-            <input
-              value={newName}
-              onChange={e => setNewName(e.target.value)}
-              placeholder={displayName}
-              style={{ flex: 1, background: '#f5f5f4', border: '1px solid #e7e5e4', borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.9rem', outline: 'none', direction: 'rtl' }}
-            />
-            <button onClick={handleSaveName} style={{ background: '#16a34a', color: 'white', border: 'none', borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>بەڵێ</button>
-            <button onClick={() => setEditingName(false)} style={{ background: 'none', border: 'none', color: '#a8a29e', fontSize: '0.85rem', cursor: 'pointer' }}>پاشگەز</button>
+          <div>
+            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginBottom: '0.5rem' }}>
+              <input
+                value={newName}
+                onChange={e => setNewName(e.target.value)}
+                placeholder={displayName}
+                style={{ flex: 1, background: '#f5f5f4', border: '1px solid #e7e5e4', borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.9rem', outline: 'none', direction: 'rtl' }}
+              />
+              <button onClick={handleSaveName} style={{ background: '#16a34a', color: 'white', border: 'none', borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>بەڵێ</button>
+              <button onClick={() => setEditingName(false)} style={{ background: 'none', border: 'none', color: '#a8a29e', fontSize: '0.85rem', cursor: 'pointer' }}>پاشگەز</button>
+            </div>
+            <p style={{ fontSize: '0.7rem', color: '#a8a29e', lineHeight: 1.6 }}>ناوەکەت تەنها مانگی یەکجار دەتوانی بیگۆڕیت</p>
           </div>
-        ) : (
+        ) : canChangeName() ? (
           <button onClick={() => { setNewName(displayName); setEditingName(true) }} style={{ background: 'none', border: 'none', color: '#44403c', fontSize: '0.9rem', cursor: 'pointer', padding: 0 }}>
             ناوەکەت بگۆڕە
           </button>
+        ) : (
+          <div>
+            <span style={{ color: '#a8a29e', fontSize: '0.9rem' }}>ناوەکەت بگۆڕە</span>
+            <p style={{ fontSize: '0.7rem', color: '#a8a29e', marginTop: '0.25rem' }}>{daysUntilNameChange()} ڕۆژی دیکە دەتوانی ناوەکەت بگۆڕیت</p>
+          </div>
         )}
       </div>
 
-      {/* Delete account */}
       <div style={card}>
         {showDeleteConfirm ? (
           <div>
@@ -138,7 +158,6 @@ export default function ProfilePage() {
         )}
       </div>
 
-      {/* Sign out — last */}
       <div style={card}>
         <button onClick={handleSignOut} style={{ background: 'none', border: 'none', color: '#dc2626', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', padding: 0 }}>{ku.signOut}</button>
       </div>
