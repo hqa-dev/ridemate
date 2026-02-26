@@ -11,9 +11,11 @@ const CITIES: Record<string, string> = {
 }
 
 export default function MyRidesPage() {
-  const [tab, setTab] = useState<'upcoming' | 'requests'>('upcoming')
+  const [tab, setTab] = useState<'upcoming' | 'requests' | 'joined'>('upcoming')
   const [myRides, setMyRides] = useState<any[]>([])
   const [requests, setRequests] = useState<any[]>([])
+  const [myRequests, setMyRequests] = useState<any[]>([])
+  const [userRole, setUserRole] = useState('')
   const [loading, setLoading] = useState(true)
   const supabase = createClient()
 
@@ -47,6 +49,19 @@ export default function MyRidesPage() {
       setRequests(reqs || [])
     }
 
+    // Load rides I requested to join (as passenger)
+    const { data: myReqs } = await supabase
+      .from('ride_requests')
+      .select('*, ride:rides!ride_id(*, driver:profiles!driver_id(full_name, phone, avatar_url))')
+      .eq('passenger_id', user.id)
+      .order('created_at', { ascending: false })
+
+    setMyRequests(myReqs || [])
+
+    // Get user role
+    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
+    if (profile) setUserRole(profile.role)
+
     setLoading(false)
   }
 
@@ -67,9 +82,9 @@ export default function MyRidesPage() {
     <div style={{ direction: 'rtl', minHeight: '100vh', background: '#fafaf9', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem' }}>
       <h1 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '1.25rem' }}>{ku.myRidesTitle}</h1>
       <div style={{ display: 'flex', background: '#f5f5f4', borderRadius: '0.75rem', padding: '0.25rem', marginBottom: '1.25rem' }}>
-        {(['upcoming', 'requests'] as const).map(t => (
-          <button key={t} onClick={() => setTab(t)} style={{ flex: 1, padding: '0.6rem', borderRadius: '0.6rem', border: 'none', cursor: 'pointer', fontWeight: tab === t ? 600 : 400, background: tab === t ? 'white' : 'transparent', color: tab === t ? '#1c1917' : '#78716c', fontSize: '0.9rem' }}>
-            {t === 'upcoming' ? ku.upcoming : ku.requests}
+        {(['upcoming', 'requests', 'joined'] as const).map(t => (
+          <button key={t} onClick={() => setTab(t)} style={{ flex: 1, padding: '0.6rem', borderRadius: '0.6rem', border: 'none', cursor: 'pointer', fontWeight: tab === t ? 600 : 400, background: tab === t ? 'white' : 'transparent', color: tab === t ? '#1c1917' : '#78716c', fontSize: '0.85rem' }}>
+            {t === 'upcoming' ? ku.upcoming : t === 'requests' ? ku.requests : 'داواکاریەکانم'}
             {t === 'requests' && requests.filter(r => r.status === 'pending').length > 0 && (
               <span style={{ background: '#df6530', color: 'white', fontSize: '0.7rem', padding: '0.1rem 0.4rem', borderRadius: '999px', marginRight: '0.4rem' }}>
                 {requests.filter(r => r.status === 'pending').length}
@@ -134,6 +149,37 @@ export default function MyRidesPage() {
                     <p style={{ fontSize: '0.8rem', color: '#57534e', marginTop: '0.5rem' }} dir="ltr">{passenger.phone}</p>
                   )}
                 </div>
+              )}
+            </div>
+          )
+        })
+      )}
+      {tab === 'joined' && (
+        !loading && myRequests.length === 0 ? (
+          <p style={{ textAlign: 'center', color: '#a8a29e', padding: '3rem 0' }}>هێشتا داواکارییەکت نەکردووە</p>
+        ) : myRequests.map(req => {
+          const ride = req.ride || {}
+          const driver = ride.driver || {}
+          const statusColors: Record<string, { bg: string; color: string; text: string }> = {
+            pending: { bg: '#fffbeb', color: '#d97706', text: 'لە چاوەڕواندایە' },
+            approved: { bg: '#f0fdf4', color: '#16a34a', text: 'قبوڵ کرا' },
+            declined: { bg: '#fef2f2', color: '#dc2626', text: 'ڕەتکرایەوە' },
+          }
+          const s = statusColors[req.status] || statusColors.pending
+          return (
+            <div key={req.id} style={card}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                <span style={{ fontWeight: 600 }}>{CITIES[ride.from_city]} ← {CITIES[ride.to_city]}</span>
+                <span style={{ background: s.bg, color: s.color, fontSize: '0.7rem', padding: '0.15rem 0.5rem', borderRadius: '999px', fontWeight: 600 }}>{s.text}</span>
+              </div>
+              <div style={{ fontSize: '0.8rem', color: '#78716c', marginBottom: '0.5rem' }} dir="ltr">
+                {new Date(ride.departure_time).toLocaleString([], { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+              </div>
+              <div style={{ fontSize: '0.85rem', color: '#57534e' }}>شۆفێر: {driver.full_name || 'نەزانراو'}</div>
+              {req.status === 'approved' && driver.phone && (
+                <a href={'https://wa.me/' + driver.phone.replace(/^0/, '964')} target="_blank" style={{ display: 'block', background: '#25D366', color: 'white', border: 'none', borderRadius: '0.75rem', padding: '0.65rem', fontSize: '0.9rem', fontWeight: 600, textDecoration: 'none', textAlign: 'center', marginTop: '0.75rem' }}>
+                  واتسئاپ بۆ شۆفێر
+                </a>
               )}
             </div>
           )
