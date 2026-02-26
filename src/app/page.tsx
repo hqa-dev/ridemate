@@ -1,8 +1,28 @@
+'use client'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ku } from '@/lib/translations'
 import { Logo } from '@/components/layout/Logo'
+import { createClient } from '@/lib/supabase/client'
 
 export default function LandingPage() {
+  const [checking, setChecking] = useState(true)
+  const supabase = createClient()
+
+  useEffect(() => {
+    const check = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        window.location.href = '/home'
+      } else {
+        setChecking(false)
+      }
+    }
+    check()
+  }, [])
+
+  if (checking) return <div style={{ minHeight: '100vh', background: '#fafaf9' }} />
+
   return (
     <main style={{ direction: 'rtl', minHeight: '100vh', background: '#fafaf9', maxWidth: '480px', margin: '0 auto' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.25rem' }}>
