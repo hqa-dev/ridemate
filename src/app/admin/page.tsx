@@ -14,8 +14,7 @@ export default function AdminPage() {
   useEffect(() => {
     const init = async () => {
       const { data: { user } } = await supabase.auth.getUser()
-      if (!user || !ADMIN_EMAILS.includes(user.email || "")) { console.log("DENIED:", user?.email); setLoading(false); return }
-      console.log("APPROVED:", user.email)
+      if (!user || !ADMIN_EMAILS.includes(user.email || "")) { setLoading(false); return }
       setAuthorized(true)
 
       const { data } = await supabase
