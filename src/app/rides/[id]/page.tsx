@@ -164,10 +164,8 @@ export default function RideDetailPage() {
       </div>
 
       <div style={card}>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.4rem', marginBottom: '0.75rem' }}>
-          <span style={{ fontSize: '0.85rem', fontWeight: 400, color: '#44403c' }}>{ride.available_seats.toLocaleString('ar-u-nu-arab')}</span>
-          <span style={sectionLabel}>{ku.seatsAvailable}</span>
-        </div>
+        <span style={sectionLabel}>{ku.seatsAvailable}</span>
+        <span style={{ background: '#f5f5f4', color: '#57534e', padding: '0.35rem 0.85rem', borderRadius: '999px', fontSize: '0.9rem' }}>{ride.available_seats} جێگا</span>
       </div>
 
       {ride.smoking !== null && (
