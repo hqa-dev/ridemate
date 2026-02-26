@@ -45,7 +45,7 @@ export function BottomNav() {
       position: 'fixed', bottom: 0, left: '50%', transform: 'translateX(-50%)',
       width: '100%', maxWidth: '480px', background: 'white',
       borderTop: '1px solid #e7e5e4', display: 'flex',
-      justifyContent: 'space-around', padding: '0.5rem 0.5rem 0.675rem',
+      justifyContent: 'space-around', padding: '0.5rem 0.5rem 0.5rem',
       zIndex: 100
     }}>
       {navItems.map((item) => {
