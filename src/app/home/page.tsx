@@ -99,9 +99,9 @@ export default function HomePage() {
                 {driver.verified && <span style={{ background: '#f0fdf4', color: '#16a34a', fontSize: '0.7rem', padding: '0.15rem 0.5rem', borderRadius: '999px', fontWeight: 600 }}>ناسراوە ✓</span>}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex', gap: '0.75rem', color: '#78716c', fontSize: '0.85rem' }}>
-                  <span dir="ltr">{new Date(ride.departure_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                  <span>{ride.available_seats} {ku.seatsLeft}</span>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', color: '#78716c' }}>
+                  <span dir="ltr" style={{ fontSize: '0.85rem' }}>{new Date(ride.departure_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                  <span style={{ fontSize: '0.9rem', fontWeight: 600, color: '#44403c' }}>{ride.available_seats} {ku.seatsLeft}</span>
                 </div>
                 {ride.price_type === 'coffee'
                   ? <span style={{ background: '#f5f5f4', color: '#57534e', fontSize: '0.78rem', padding: '0.25rem 0.65rem', borderRadius: '999px' }}>{ku.coffeeAndConvo}</span>
