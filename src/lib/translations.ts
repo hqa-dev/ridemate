@@ -102,7 +102,7 @@ verified: 'ناسراوە ✓',
   declined: 'ڕەت کرایەوە',
   passengerNote: 'تێبینی سەرنشین',
 
-  profileTitle: 'پڕۆفایل',
+  profileTitle: 'خۆت',
   activateDriver: 'ببە بە شوفێر',
   activateDriverDesc: 'زانیاری ئۆتۆمبێل و مۆڵەتی شۆفێری دانێ',
 

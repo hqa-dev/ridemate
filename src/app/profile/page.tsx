@@ -1,6 +1,5 @@
 'use client'
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { BottomNav } from '@/components/layout/BottomNav'
 import { ku } from '@/lib/translations'
@@ -10,40 +9,25 @@ export default function ProfilePage() {
   const [user, setUser] = useState<any>(null)
   const [profile, setProfile] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  const [editingName, setEditingName] = useState(false)
+  const [newName, setNewName] = useState('')
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const router = useRouter()
   const supabase = createClient()
 
   useEffect(() => {
     async function loadProfile() {
       const { data: { user } } = await supabase.auth.getUser()
-      if (!user) {
-        router.push('/auth/register')
-        return
-      }
+      if (!user) { router.push('/auth/register'); return }
       setUser(user)
 
-      // Try to get profile from profiles table
       const { data: profileData } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', user.id)
         .single()
 
-      if (profileData) {
-        setProfile(profileData)
-      }
-
-      // If role was saved during registration, update it
-      const savedRole = localStorage.getItem('ridemate_role')
-      if (savedRole && profileData && !profileData.role) {
-        await supabase
-          .from('profiles')
-          .update({ role: savedRole })
-          .eq('id', user.id)
-        setProfile({ ...profileData, role: savedRole })
-        localStorage.removeItem('ridemate_role')
-      }
-
+      if (profileData) setProfile(profileData)
       setLoading(false)
     }
     loadProfile()
@@ -54,13 +38,26 @@ export default function ProfilePage() {
     router.push('/')
   }
 
+  const handleSaveName = async () => {
+    if (!newName.trim() || !user) return
+    await supabase.from('profiles').update({ full_name: newName.trim() }).eq('id', user.id)
+    setProfile({ ...profile, full_name: newName.trim() })
+    setEditingName(false)
+  }
+
+  const handleDeleteAccount = async () => {
+    if (!user) return
+    // Sign out and delete profile (actual user deletion needs admin/edge function)
+    await supabase.from('profiles').delete().eq('id', user.id)
+    await supabase.auth.signOut()
+    router.push('/')
+  }
+
   const card = { background: 'white', border: '1px solid #e7e5e4', borderRadius: '1rem', padding: '1.25rem', marginBottom: '0.75rem' } as React.CSSProperties
-  const btn = { background: '#df6530', color: 'white', border: 'none', borderRadius: '0.75rem', padding: '0.75rem', fontSize: '0.95rem', fontWeight: 600, cursor: 'pointer', width: '100%', marginBottom: '0.5rem', textAlign: 'center' as const, display: 'flex', justifyContent: 'center', alignItems: 'center' } as React.CSSProperties
 
   if (loading) {
     return (
       <div style={{ direction: 'rtl', minHeight: '100vh', background: '#fafaf9', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem' }}>
-        <h1 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '1.5rem' }}>{ku.profileTitle}</h1>
         <BottomNav />
       </div>
     )
@@ -68,16 +65,22 @@ export default function ProfilePage() {
 
   const displayName = profile?.full_name || user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email?.split('@')[0] || ''
   const displayEmail = user?.email || ''
-  const displayPhone = profile?.phone || ''
-  const isVerified = profile?.verified || false
-  const role = profile?.role || ''
-  const isDriver = role === 'driver' || role === 'both'
   const avatarUrl = profile?.avatar_url || user?.user_metadata?.avatar_url || ''
+  const role = profile?.role || ''
+  const verificationStatus = profile?.verification_status || 'none'
+
+  const statusMap: Record<string, { text: string; bg: string; color: string }> = {
+    verified: { text: 'پشتڕاست کراوە ✓', bg: '#f0fdf4', color: '#16a34a' },
+    pending: { text: 'چاوەڕوانی پشتڕاستکردنەوە', bg: '#fffbeb', color: '#d97706' },
+    none: { text: 'پشتڕاست نەکراوە', bg: '#fef2f2', color: '#dc2626' },
+  }
+  const status = statusMap[verificationStatus] || statusMap.none
 
   return (
     <div style={{ direction: 'rtl', minHeight: '100vh', background: '#fafaf9', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem' }}>
       <h1 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '1.5rem' }}>{ku.profileTitle}</h1>
 
+      {/* User info */}
       <div style={{ ...card, display: 'flex', alignItems: 'center', gap: '1rem' }}>
         {avatarUrl ? (
           <img src={avatarUrl} alt="" style={{ width: 48, height: 48, borderRadius: '50%', objectFit: 'cover' }} referrerPolicy="no-referrer" />
@@ -88,25 +91,57 @@ export default function ProfilePage() {
         )}
         <div>
           <div style={{ fontWeight: 700, fontSize: '1.1rem', color: '#1c1917' }}>{displayName}</div>
-          {displayPhone && <div style={{ fontSize: '0.85rem', color: '#78716c' }} dir="ltr">{displayPhone}</div>}
           {displayEmail && <div style={{ fontSize: '0.8rem', color: '#a8a29e' }} dir="ltr">{displayEmail}</div>}
           <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.3rem' }}>
-            {isVerified && <span style={{ background: '#f0fdf4', color: '#16a34a', fontSize: '0.7rem', padding: '0.15rem 0.5rem', borderRadius: '999px', fontWeight: 600 }}>{ku.verified}</span>}
             {role && <span style={{ background: '#f5f5f4', color: '#57534e', fontSize: '0.7rem', padding: '0.15rem 0.5rem', borderRadius: '999px', fontWeight: 600 }}>{role === 'passenger' ? ku.passenger : role === 'driver' ? ku.driver : ku.both}</span>}
           </div>
         </div>
       </div>
 
-      {!isDriver && (
-        <div style={{ ...card, background: '#fae8d8', border: '1px solid #f5cdb0' }}>
-          <div style={{ fontWeight: 600, color: '#92400e', marginBottom: '0.4rem' }}>{ku.activateDriver}</div>
-          <div style={{ fontSize: '0.85rem', color: '#a16207', marginBottom: '1rem' }}>{ku.activateDriverDesc}</div>
-          <a href='/auth/become-driver' style={{ ...btn, textDecoration: 'none' }}>{ku.continue}</a>
-        </div>
-      )}
+      {/* Verification status */}
+      <div style={{ ...card, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <span style={{ fontSize: '0.9rem', color: '#44403c' }}>پشتڕاستکردنەوە</span>
+        <span style={{ background: status.bg, color: status.color, fontSize: '0.75rem', padding: '0.2rem 0.6rem', borderRadius: '999px', fontWeight: 600 }}>{status.text}</span>
+      </div>
 
+      {/* Edit name */}
       <div style={card}>
-        <button onClick={handleSignOut} style={{ background: 'none', border: 'none', color: '#dc2626', fontWeight: 600, fontSize: '0.95rem', cursor: 'pointer', padding: 0 }}>{ku.signOut}</button>
+        {editingName ? (
+          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+            <input
+              value={newName}
+              onChange={e => setNewName(e.target.value)}
+              placeholder={displayName}
+              style={{ flex: 1, background: '#f5f5f4', border: '1px solid #e7e5e4', borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.9rem', outline: 'none', direction: 'rtl' }}
+            />
+            <button onClick={handleSaveName} style={{ background: '#16a34a', color: 'white', border: 'none', borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>پاشکەوت</button>
+            <button onClick={() => setEditingName(false)} style={{ background: 'none', border: 'none', color: '#a8a29e', fontSize: '0.85rem', cursor: 'pointer' }}>پاشگەز</button>
+          </div>
+        ) : (
+          <button onClick={() => { setNewName(displayName); setEditingName(true) }} style={{ background: 'none', border: 'none', color: '#44403c', fontSize: '0.9rem', cursor: 'pointer', padding: 0 }}>
+            ناوەکەت بگۆڕە
+          </button>
+        )}
+      </div>
+
+      {/* Sign out */}
+      <div style={card}>
+        <button onClick={handleSignOut} style={{ background: 'none', border: 'none', color: '#dc2626', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer', padding: 0 }}>{ku.signOut}</button>
+      </div>
+
+      {/* Delete account */}
+      <div style={card}>
+        {showDeleteConfirm ? (
+          <div>
+            <p style={{ fontSize: '0.85rem', color: '#dc2626', marginBottom: '0.75rem', lineHeight: 1.7 }}>دڵنیایت دەتەوێ ئەکاونتەکەت بسڕیتەوە؟ ئەم کارە ناگەڕێتەوە.</p>
+            <div style={{ display: 'flex', gap: '0.5rem' }}>
+              <button onClick={handleDeleteAccount} style={{ flex: 1, background: '#dc2626', color: 'white', border: 'none', borderRadius: '0.5rem', padding: '0.5rem', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>بەڵێ، بسڕەوە</button>
+              <button onClick={() => setShowDeleteConfirm(false)} style={{ flex: 1, background: '#f5f5f4', color: '#44403c', border: 'none', borderRadius: '0.5rem', padding: '0.5rem', fontSize: '0.85rem', cursor: 'pointer' }}>پاشگەز</button>
+            </div>
+          </div>
+        ) : (
+          <button onClick={() => setShowDeleteConfirm(true)} style={{ background: 'none', border: 'none', color: '#a8a29e', fontSize: '0.85rem', cursor: 'pointer', padding: 0 }}>سڕینەوەی ئەکاونت</button>
+        )}
       </div>
 
       <BottomNav />
