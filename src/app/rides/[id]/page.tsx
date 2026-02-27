@@ -444,7 +444,7 @@ export default function RideDetailPage() {
               </div>
             ) : (
               <div style={{ textAlign: 'center', background: '#fafaf9', borderRadius: 14, padding: '14px 16px' }}>
-                <p style={{ fontSize: 13, color: '#a8a29e' }}>ئەمە گەشتەکەی خۆتە</p>
+                <p style={{ fontSize: 13, color: '#a8a29e' }}>ئەمە ڕێی خۆتە!</p>
               </div>
             )
           )}
