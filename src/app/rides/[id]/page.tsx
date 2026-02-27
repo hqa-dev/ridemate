@@ -135,14 +135,12 @@ export default function RideDetailPage() {
   }
 
   const driver = ride.driver || {}
-  const carParts = [ride.car_make, ride.car_model].filter(Boolean).join(' ')
-  const carDisplay = carParts ? `${carParts}${ride.car_color ? ' - ' + ride.car_color : ''}` : ''
   const waLink = driver.phone ? formatWhatsApp(driver.phone) : ''
 
   return (
     <div style={pageWrap}>
 
-      {/* ===== HERO — Midnight Navy (route + driver unified) ===== */}
+      {/* ===== HERO — Midnight Navy ===== */}
       <div style={{
         background: 'linear-gradient(160deg, #0f1923 0%, #1a2a3a 100%)',
         padding: '1rem 1.25rem 1.25rem',
@@ -164,129 +162,89 @@ export default function RideDetailPage() {
         </div>
 
         {/* Date & time */}
-        <div style={{ display: 'flex', gap: '1rem', fontSize: '0.75rem', color: 'rgba(255,255,255,0.55)', marginBottom: '1rem' }}>
+        <div style={{ display: 'flex', gap: '1rem', fontSize: '0.75rem', color: 'rgba(255,255,255,0.55)' }}>
           <span dir="ltr">📅 {new Date(ride.departure_time).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span>
           <span dir="ltr">🕐 {new Date(ride.departure_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
         </div>
+      </div>
 
-        {/* Divider */}
-        <div style={{ height: '1px', background: 'rgba(255,255,255,0.08)', marginBottom: '1rem' }} />
+      {/* ===== DRIVER CARD (hardcoded placeholder) ===== */}
+      <div style={{
+        margin: '0.75rem 1.25rem',
+        background: '#fff',
+        borderRadius: '1rem',
+        padding: '1rem 1.15rem',
+        boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+        display: 'flex',
+        gap: '1rem',
+        alignItems: 'center',
+      }}>
+        {/* Placeholder avatar */}
+        <div style={{
+          width: '3rem',
+          height: '3rem',
+          borderRadius: '50%',
+          background: 'linear-gradient(135deg, #f0e6dc 0%, #e8d5c4 100%)',
+          border: '2.5px solid #df6530',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '1.2rem',
+          flexShrink: 0,
+        }}>
+          👤
+        </div>
 
-        {/* Driver row */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-          <div style={{
-            width: '2.75rem',
-            height: '2.75rem',
-            borderRadius: '50%',
-            background: driver.avatar_url ? `url(${driver.avatar_url}) center/cover` : 'linear-gradient(135deg, #f0e6dc 0%, #e8d5c4 100%)',
-            border: '2px solid rgba(255,255,255,0.2)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '1.1rem',
-            flexShrink: 0,
-          }}>
-            {!driver.avatar_url && '👤'}
+        {/* Placeholder info */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#1c1917' }}>ئاراس محمد</span>
+            <span style={{ background: '#e8f5e9', color: '#2e7d32', fontSize: '0.6rem', padding: '0.1rem 0.4rem', borderRadius: '4px', fontWeight: 600, flexShrink: 0 }}>پشتڕاست</span>
           </div>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <span style={{ fontSize: '0.95rem', fontWeight: 600, color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{driver.full_name || 'شۆفێر'}</span>
-              {driver.verified && (
-                <span style={{ background: 'rgba(34,197,94,0.15)', color: '#4ade80', fontSize: '0.6rem', padding: '0.1rem 0.4rem', borderRadius: '4px', fontWeight: 600, flexShrink: 0 }}>پشتڕاست</span>
-              )}
-            </div>
-            {carDisplay && (
-              <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)' }}>{carDisplay}</span>
-            )}
-          </div>
+          <span style={{ fontSize: '0.75rem', color: '#a8a29e' }}>Toyota Corolla 2019 · سپی</span>
         </div>
       </div>
 
       {/* ===== BODY CONTENT ===== */}
-      <div style={{ padding: '1rem 1.25rem 0' }}>
+      <div style={{ padding: '0 1.25rem' }}>
 
         {/* Pills row */}
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
-          {ride.price_type === 'coffee' ? (
-            <span style={{ background: '#fef3eb', color: '#df6530', padding: '0.35rem 1rem', borderRadius: '999px', fontSize: '0.8rem', fontWeight: 700 }}>☕ {ku.coffeeAndConvo}</span>
-          ) : (
-            <span style={{ background: '#fef3eb', color: '#df6530', padding: '0.35rem 1rem', borderRadius: '999px', fontSize: '0.8rem', fontWeight: 700 }}>{ride.price_iqd?.toLocaleString()} دینار</span>
-          )}
-
-          {ride.available_seats > 0 ? (
-            <span style={{ background: '#eef6ff', color: '#2563eb', padding: '0.35rem 1rem', borderRadius: '999px', fontSize: '0.8rem', fontWeight: 600 }}>💺 {ride.available_seats} شوێن</span>
-          ) : (
-            <span style={{ background: '#fef2f2', color: '#dc2626', padding: '0.35rem 1rem', borderRadius: '999px', fontSize: '0.8rem', fontWeight: 600 }}>پڕە</span>
-          )}
-
-          {ride.smoking !== null && (
-            <span style={{ background: '#f3f3f3', color: '#777', padding: '0.35rem 1rem', borderRadius: '999px', fontSize: '0.8rem' }}>
-              {ride.smoking ? '🚬 جگەرەکێشە' : '🚭 بێ جگەرە'}
-            </span>
-          )}
+          <span style={{ background: '#fef3eb', color: '#df6530', padding: '0.35rem 1rem', borderRadius: '999px', fontSize: '0.8rem', fontWeight: 700 }}>☕ قاوەیەک</span>
+          <span style={{ background: '#eef6ff', color: '#2563eb', padding: '0.35rem 1rem', borderRadius: '999px', fontSize: '0.8rem', fontWeight: 600 }}>💺 ٣ شوێن</span>
+          <span style={{ background: '#f3f3f3', color: '#777', padding: '0.35rem 1rem', borderRadius: '999px', fontSize: '0.8rem' }}>🚭 بێ جگەرە</span>
         </div>
 
         {/* Notes */}
-        {ride.notes && (
-          <div style={{
-            padding: '0.75rem 0.85rem',
-            background: '#faf9f7',
-            borderRadius: '0.75rem',
-            borderRight: '3px solid #df6530',
-            marginBottom: '1rem',
-          }}>
-            <div style={{ fontSize: '0.65rem', color: '#bbb', marginBottom: '0.25rem', fontWeight: 600 }}>تێبینی</div>
-            <div style={{ fontSize: '0.8rem', color: '#666', lineHeight: 1.8 }}>{ride.notes}</div>
-          </div>
-        )}
+        <div style={{
+          padding: '0.75rem 0.85rem',
+          background: '#faf9f7',
+          borderRadius: '0.75rem',
+          borderRight: '3px solid #df6530',
+          marginBottom: '1rem',
+        }}>
+          <div style={{ fontSize: '0.65rem', color: '#bbb', marginBottom: '0.25rem', fontWeight: 600 }}>تێبینی</div>
+          <div style={{ fontSize: '0.8rem', color: '#666', lineHeight: 1.8 }}>لە پشت گاراژی نوێ سوارتان دەکەم. کەمێک بەرزایە دەبم تکایە ئامادە بن.</div>
+        </div>
 
-        {/* ===== CTA AREA ===== */}
-        {!isOwnRide && (
-          !requested ? (
-            <button
-              onClick={() => setShowModal(true)}
-              style={{
-                width: '100%',
-                background: '#df6530',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '0.85rem',
-                padding: '0.9rem',
-                fontSize: '1rem',
-                fontWeight: 700,
-                cursor: 'pointer',
-                boxShadow: '0 6px 20px rgba(223,101,48,0.25)',
-                marginTop: '0.25rem',
-              }}
-            >
-              بەڵێ! داواکاری بنێرە
-            </button>
-          ) : requestStatus === 'approved' ? (
-            <div style={{
-              textAlign: 'center',
-              border: '1.5px solid #16a34a',
-              background: '#f0fdf4',
-              borderRadius: '1rem',
-              padding: '1.25rem',
-            }}>
-              <span style={{ fontSize: '2rem', display: 'block', marginBottom: '0.5rem' }}>✅</span>
-              <p style={{ fontWeight: 600, color: '#16a34a', marginBottom: '0.75rem' }}>قبوڵ کرا!</p>
-              {waLink ? (
-                <a href={waLink} target="_blank" rel="noopener noreferrer" style={{ display: 'block', background: '#25D366', color: 'white', border: 'none', borderRadius: '0.75rem', padding: '0.75rem', fontSize: '0.95rem', fontWeight: 600, textDecoration: 'none', textAlign: 'center' }}>
-                  پەیامێک بنێرە 📱
-                </a>
-              ) : (
-                <p style={{ color: '#a8a29e', fontSize: '0.85rem' }}>شۆفێر ژمارەی مۆبایلی زیاد نەکردووە</p>
-              )}
-            </div>
-          ) : (
-            <div style={{ textAlign: 'center', background: 'white', border: '1px solid #e7e5e4', borderRadius: '1rem', padding: '1.25rem' }}>
-              <span style={{ fontSize: '2rem', display: 'block', marginBottom: '0.5rem' }}>⏳</span>
-              <p style={{ fontWeight: 600, color: '#44403c' }}>{ku.requestSent}</p>
-              <p style={{ fontSize: '0.8rem', color: '#a8a29e', marginTop: '0.25rem' }}>{ku.contactRevealNote}</p>
-            </div>
-          )
-        )}
+        {/* CTA */}
+        <button
+          onClick={() => setShowModal(true)}
+          style={{
+            width: '100%',
+            background: '#df6530',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '0.85rem',
+            padding: '0.9rem',
+            fontSize: '1rem',
+            fontWeight: 700,
+            cursor: 'pointer',
+            boxShadow: '0 6px 20px rgba(223,101,48,0.25)',
+          }}
+        >
+          بەڵێ! داواکاری بنێرە
+        </button>
       </div>
 
       {/* ===== REQUEST MODAL ===== */}
