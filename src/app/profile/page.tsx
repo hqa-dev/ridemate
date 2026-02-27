@@ -198,12 +198,10 @@ export default function ProfilePage() {
             <>
               <div style={rowRight}>
                 <span style={rowIcon}>✏️</span>
-                <div>
-                  <span style={{ ...rowText, color: canChangeName() ? '#1a1a1a' : '#a8a29e' }}>ناوەکەت بگۆڕە</span>
-                  {!canChangeName() && <p style={{ fontSize: 10, color: '#a8a29e', marginTop: 2 }}>{daysUntilNameChange()} ڕۆژی دیکە</p>}
-                </div>
+                <span style={{ ...rowText, color: canChangeName() ? '#1a1a1a' : '#a8a29e' }}>ناوەکەت بگۆڕە</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                {!canChangeName() && <span style={{ fontSize: 11, color: '#a8a29e' }}>({daysUntilNameChange()} ڕۆژی دیکە)</span>}
                 <span style={rowArrow}>‹</span>
               </div>
             </>
