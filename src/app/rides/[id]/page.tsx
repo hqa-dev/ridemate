@@ -384,7 +384,7 @@ export default function RideDetailPage() {
             {ride.price_type === 'coffee' ? (
               <span style={{ background: '#f5f5f4', color: '#44403c', padding: '6px 16px', borderRadius: 20, fontSize: 13, fontWeight: 600 }}>☕ قاوەیەک</span>
             ) : (
-              <span style={{ background: '#f5f5f4', color: '#44403c', padding: '6px 16px', borderRadius: 20, fontSize: 13, fontWeight: 600 }}>{Number(ride.price_iqd).toLocaleString('en').replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d])} دینار</span>
+              <span style={{ background: '#f5f5f4', color: '#44403c', padding: '6px 16px', borderRadius: 20, fontSize: 13, fontWeight: 600 }}>{Number(ride.price_iqd).toLocaleString('en').replace(/[0-9]/g, (d: string) => '٠١٢٣٤٥٦٧٨٩'[Number(d)])} دینار</span>
             )}
 
             {ride.available_seats > 0 ? (
