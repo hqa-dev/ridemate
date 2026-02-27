@@ -19,6 +19,11 @@ const ROUTE_INFO: Record<string, { duration: string; distance: string }> = {
   'suli-duhok': { duration: '٥ کاتژمێر', distance: '٣٤٠ کم' },
   'duhok-suli': { duration: '٥ کاتژمێر', distance: '٣٤٠ کم' },
 }
+const COLOR_KU: Record<string, string> = {
+  black: 'ڕەش', white: 'سپی', red: 'سوور', blue: 'شین', green: 'سەوز',
+  yellow: 'زەرد', silver: 'زیوی', grey: 'خۆڵەمێشی', gray: 'خۆڵەمێشی',
+  brown: 'قاوەیی', orange: 'پرتەقاڵی', gold: 'ئاڵتوونی',
+}
 
 function formatWhatsApp(phone: string) {
   return 'https://wa.me/' + phone.replace(/^0/, '964')
@@ -275,7 +280,7 @@ export default function RideDetailPage() {
 
         <div style={{
           background: 'linear-gradient(160deg, #0f1923 0%, #1a2a3a 100%)',
-          padding: '16px 20px 28px',
+          padding: '14px 20px 22px',
           position: 'relative',
         }}>
           <div style={{ marginBottom: 14 }}>
@@ -291,15 +296,12 @@ export default function RideDetailPage() {
             <span style={{ color: '#fff', fontSize: 20, fontWeight: 800 }}>{CITIES[ride.to_city]}</span>
           </div>
 
-          <div style={{ display: 'flex', gap: 16, fontSize: 12, color: 'rgba(255,255,255,0.55)' }}>
+     <div style={{ display: 'flex', gap: 12, fontSize: 11, color: 'rgba(255,255,255,0.55)', flexWrap: 'wrap' }}>
             <span dir="ltr">📅 {new Date(ride.departure_time).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span>
             <span dir="ltr">🕐 {new Date(ride.departure_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-          </div> {routeInfo && (
-  <div style={{ display: 'flex', gap: 16, fontSize: 12, color: 'rgba(255,255,255,0.55)', marginTop: 6 }}>
-    <span>🕐 {routeInfo.duration}</span>
-    <span>📍 {routeInfo.distance}</span>
-  </div>
-)}
+            {routeInfo && <span>⏱ {routeInfo.duration}</span>}
+            {routeInfo && <span>📍 {routeInfo.distance}</span>}
+          </div>
 
           {isCompleted && (
             <div style={{
@@ -319,7 +321,7 @@ export default function RideDetailPage() {
         </div>
 
         <div style={{
-          margin: '-10px 16px 0',
+          margin: '-12px 16px 0',
           background: '#fff',
           borderRadius: 16,
           padding: 16,
@@ -347,7 +349,7 @@ export default function RideDetailPage() {
           <div style={{ flex: 1 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
               <span style={{ fontSize: 15, fontWeight: 700, color: '#1a1a1a' }}>{driver.full_name || 'شۆفێر'}</span>
-              {driver.verified && <span style={{ color: '#2e7d32', fontSize: 13 }}>✓</span>}
+              {driver.verified && <span style={{ background: '#e8f5e9', color: '#2e7d32', fontSize: 10, padding: '1px 6px', borderRadius: 6, fontWeight: 600 }}>✓ پشتڕاستکراوە</span>}
             </div>
             {driverAvgRating !== null && (
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -359,7 +361,7 @@ export default function RideDetailPage() {
           </div>
         </div>
 
-        <div style={{ padding: '16px 20px' }}>
+        <div style={{ padding: '12px 20px' }}>
 
           {carParts && (
             <div style={{
@@ -374,7 +376,7 @@ export default function RideDetailPage() {
               <span style={{ fontSize: 20 }}>🚗</span>
               <div>
                 <div style={{ fontSize: 13, fontWeight: 600, color: '#333' }}>{carParts}</div>
-                {carColor && <div style={{ fontSize: 11, color: '#999' }}>{carColor}</div>}
+                {carColor && <div style={{ fontSize: 11, color: '#999' }}>{COLOR_KU[carColor.toLowerCase()] || carColor}</div>}
               </div>
             </div>
           )}
