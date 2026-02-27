@@ -146,12 +146,10 @@ export default function RideDetailPage() {
         padding: '1rem 1.25rem 1.25rem',
         borderRadius: '0 0 1.5rem 1.5rem',
       }}>
-        {/* Back */}
         <div style={{ marginBottom: '1rem' }}>
           <Link href="/home" style={{ color: 'rgba(255,255,255,0.6)', textDecoration: 'none', fontSize: '0.85rem' }}>← {ku.back}</Link>
         </div>
 
-        {/* Route */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.85rem' }}>
           <span style={{ color: '#fff', fontSize: '1.25rem', fontWeight: 800 }}>{CITIES[ride.from_city]}</span>
           <div style={{ flex: 1, position: 'relative', height: '2px' }}>
@@ -161,54 +159,41 @@ export default function RideDetailPage() {
           <span style={{ color: '#fff', fontSize: '1.25rem', fontWeight: 800 }}>{CITIES[ride.to_city]}</span>
         </div>
 
-        {/* Date & time */}
         <div style={{ display: 'flex', gap: '1rem', fontSize: '0.75rem', color: 'rgba(255,255,255,0.55)' }}>
           <span dir="ltr">📅 {new Date(ride.departure_time).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span>
           <span dir="ltr">🕐 {new Date(ride.departure_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
         </div>
       </div>
 
-      {/* ===== DRIVER CARD (hardcoded placeholder) ===== */}
-      <div style={{
-        margin: '0.75rem 1.25rem',
-        background: '#fff',
-        borderRadius: '1rem',
-        padding: '1rem 1.15rem',
-        boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
-        display: 'flex',
-        gap: '1rem',
-        alignItems: 'center',
-      }}>
-        {/* Placeholder avatar */}
-        <div style={{
-          width: '3rem',
-          height: '3rem',
-          borderRadius: '50%',
-          background: 'linear-gradient(135deg, #f0e6dc 0%, #e8d5c4 100%)',
-          border: '2.5px solid #df6530',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '1.2rem',
-          flexShrink: 0,
-        }}>
-          👤
-        </div>
+      {/* ===== CONTENT — flat, no cards ===== */}
+      <div style={{ padding: '1rem 1.25rem 0' }}>
 
-        {/* Placeholder info */}
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-            <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#1c1917' }}>ئاراس محمد</span>
-            <span style={{ background: '#e8f5e9', color: '#2e7d32', fontSize: '0.6rem', padding: '0.1rem 0.4rem', borderRadius: '4px', fontWeight: 600, flexShrink: 0 }}>پشتڕاست</span>
+        {/* Driver info — flat, no card wrapper */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', marginBottom: '0.75rem' }}>
+          <div style={{
+            width: '2.75rem',
+            height: '2.75rem',
+            borderRadius: '50%',
+            background: 'linear-gradient(135deg, #f0e6dc 0%, #e8d5c4 100%)',
+            border: '2.5px solid #df6530',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '1.1rem',
+            flexShrink: 0,
+          }}>
+            👤
           </div>
-          <span style={{ fontSize: '0.75rem', color: '#a8a29e' }}>Toyota Corolla 2019 · سپی</span>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#1c1917' }}>ئاراس محمد</span>
+              <span style={{ background: '#e8f5e9', color: '#2e7d32', fontSize: '0.6rem', padding: '0.1rem 0.4rem', borderRadius: '4px', fontWeight: 600, flexShrink: 0 }}>پشتڕاست</span>
+            </div>
+            <span style={{ fontSize: '0.75rem', color: '#a8a29e' }}>Toyota Corolla 2019 · سپی</span>
+          </div>
         </div>
-      </div>
 
-      {/* ===== BODY CONTENT ===== */}
-      <div style={{ padding: '0 1.25rem' }}>
-
-        {/* Pills row */}
+        {/* Pills */}
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
           <span style={{ background: '#fef3eb', color: '#df6530', padding: '0.35rem 1rem', borderRadius: '999px', fontSize: '0.8rem', fontWeight: 700 }}>☕ قاوەیەک</span>
           <span style={{ background: '#eef6ff', color: '#2563eb', padding: '0.35rem 1rem', borderRadius: '999px', fontSize: '0.8rem', fontWeight: 600 }}>💺 ٣ شوێن</span>
