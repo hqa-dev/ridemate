@@ -11,6 +11,14 @@ const CITIES: Record<string, string> = {
   suli: ku.suli,
   duhok: ku.duhok,
 }
+const ROUTE_INFO: Record<string, { duration: string; distance: string }> = {
+  'erbil-suli': { duration: '٢ کاتژمێر', distance: '١٦٠ کم' },
+  'suli-erbil': { duration: '٢ کاتژمێر', distance: '١٦٠ کم' },
+  'erbil-duhok': { duration: '٣ کاتژمێر', distance: '١٨٠ کم' },
+  'duhok-erbil': { duration: '٣ کاتژمێر', distance: '١٨٠ کم' },
+  'suli-duhok': { duration: '٥ کاتژمێر', distance: '٣٤٠ کم' },
+  'duhok-suli': { duration: '٥ کاتژمێر', distance: '٣٤٠ کم' },
+}
 
 function formatWhatsApp(phone: string) {
   return 'https://wa.me/' + phone.replace(/^0/, '964')
@@ -251,6 +259,8 @@ export default function RideDetailPage() {
   const waLink = driver.phone ? formatWhatsApp(driver.phone) : ''
   const isPastDeparture = new Date(ride.departure_time) < new Date()
   const isCompleted = ride.status === 'completed'
+  const routeKey = `${ride.from_city}-${ride.to_city}`
+  const routeInfo = ROUTE_INFO[routeKey]
 
   return (
     <div style={pageWrap}>
@@ -284,7 +294,12 @@ export default function RideDetailPage() {
           <div style={{ display: 'flex', gap: 16, fontSize: 12, color: 'rgba(255,255,255,0.55)' }}>
             <span dir="ltr">📅 {new Date(ride.departure_time).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span>
             <span dir="ltr">🕐 {new Date(ride.departure_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-          </div>
+          </div> {routeInfo && (
+  <div style={{ display: 'flex', gap: 16, fontSize: 12, color: 'rgba(255,255,255,0.55)', marginTop: 6 }}>
+    <span>🕐 {routeInfo.duration}</span>
+    <span>📍 {routeInfo.distance}</span>
+  </div>
+)}
 
           {isCompleted && (
             <div style={{
