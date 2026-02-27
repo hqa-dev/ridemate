@@ -16,6 +16,44 @@ function formatWhatsApp(phone: string) {
   return 'https://wa.me/' + phone.replace(/^0/, '964')
 }
 
+function StarSelector({ value, onChange }: { value: number; onChange: (v: number) => void }) {
+  return (
+    <div style={{ display: 'flex', gap: 6, justifyContent: 'center', direction: 'ltr' }}>
+      {[1, 2, 3, 4, 5].map(star => (
+        <span
+          key={star}
+          onClick={() => onChange(star)}
+          style={{
+            fontSize: 32,
+            cursor: 'pointer',
+            color: star <= value ? '#f5a623' : '#e0dcd6',
+            transition: 'transform 0.15s',
+            transform: star <= value ? 'scale(1.1)' : 'scale(1)',
+          }}
+        >
+          ★
+        </span>
+      ))}
+    </div>
+  )
+}
+
+function StarDisplay({ rating, size = 12 }: { rating: number; size?: number }) {
+  const stars = []
+  const full = Math.floor(rating)
+  const hasHalf = rating % 1 >= 0.3
+  for (let i = 0; i < 5; i++) {
+    if (i < full) stars.push('★')
+    else if (i === full && hasHalf) stars.push('★')
+    else stars.push('☆')
+  }
+  return (
+    <span style={{ color: '#f5a623', fontSize: size, letterSpacing: 1, direction: 'ltr', display: 'inline-block' }}>
+      {stars.join('')}
+    </span>
+  )
+}
+
 export default function RideDetailPage() {
   const params = useParams()
   const rideId = params.id as string
@@ -31,6 +69,18 @@ export default function RideDetailPage() {
   const [currentUserId, setCurrentUserId] = useState<string | null>(null)
   const [isOwnRide, setIsOwnRide] = useState(false)
   const [requestStatus, setRequestStatus] = useState<string | null>(null)
+
+  // Rating state
+  const [selectedRating, setSelectedRating] = useState(0)
+  const [hasRated, setHasRated] = useState(false)
+  const [submittingRating, setSubmittingRating] = useState(false)
+
+  // Driver stats
+  const [driverAvgRating, setDriverAvgRating] = useState<number | null>(null)
+  const [driverTripCount, setDriverTripCount] = useState(0)
+
+  // Completing ride
+  const [completing, setCompleting] = useState(false)
 
   useEffect(() => {
     loadRide()
@@ -56,6 +106,7 @@ export default function RideDetailPage() {
     setRide(data)
     if (user && data.driver_id === user.id) setIsOwnRide(true)
 
+    // Load request status
     if (user) {
       const { data: existing } = await supabase
         .from('ride_requests')
@@ -66,6 +117,34 @@ export default function RideDetailPage() {
       if (existing) {
         setRequested(true)
         setRequestStatus(existing.status)
+      }
+    }
+
+    // Check if user already rated this ride
+    if (user) {
+      const { data: existingRating } = await supabase
+        .from('ratings')
+        .select('id, score')
+        .eq('ride_id', rideId)
+        .eq('rater_id', user.id)
+        .maybeSingle()
+      if (existingRating) {
+        setHasRated(true)
+        setSelectedRating(existingRating.score)
+      }
+    }
+
+    // Load driver stats (only visible ratings — RLS handles the 72hr window)
+    if (data.driver_id) {
+      const { data: ratings } = await supabase
+        .from('ratings')
+        .select('score')
+        .eq('rated_id', data.driver_id)
+
+      if (ratings && ratings.length > 0) {
+        const avg = ratings.reduce((sum: number, r: any) => sum + r.score, 0) / ratings.length
+        setDriverAvgRating(Math.round(avg * 10) / 10)
+        setDriverTripCount(ratings.length)
       }
     }
 
@@ -93,6 +172,47 @@ export default function RideDetailPage() {
     setRequested(true)
     setShowModal(false)
     setSending(false)
+  }
+
+  async function handleCompleteRide() {
+    setCompleting(true)
+    const { error } = await supabase
+      .from('rides')
+      .update({ status: 'completed', completed_at: new Date().toISOString() })
+      .eq('id', rideId)
+
+    if (error) {
+      console.error('Complete error:', error.message)
+      setCompleting(false)
+      return
+    }
+
+    setRide((prev: any) => ({ ...prev, status: 'completed', completed_at: new Date().toISOString() }))
+    setCompleting(false)
+  }
+
+  async function handleSubmitRating() {
+    if (!currentUserId || !ride || selectedRating === 0) return
+    setSubmittingRating(true)
+
+    const visibleAfter = new Date(Date.now() + 72 * 60 * 60 * 1000).toISOString()
+
+    const { error } = await supabase.from('ratings').insert({
+      ride_id: rideId,
+      rater_id: currentUserId,
+      rated_id: ride.driver_id,
+      score: selectedRating,
+      visible_after: visibleAfter,
+    })
+
+    if (error) {
+      console.error('Rating error:', error.message)
+      setSubmittingRating(false)
+      return
+    }
+
+    setHasRated(true)
+    setSubmittingRating(false)
   }
 
   const pageWrap: React.CSSProperties = {
@@ -135,11 +255,13 @@ export default function RideDetailPage() {
   const carParts = [ride.car_make, ride.car_model].filter(Boolean).join(' ')
   const carColor = ride.car_color || ''
   const waLink = driver.phone ? formatWhatsApp(driver.phone) : ''
+  const isPastDeparture = new Date(ride.departure_time) < new Date()
+  const isCompleted = ride.status === 'completed'
 
   return (
     <div style={pageWrap}>
 
-      {/* ===== THE CARD — exact mockup values ===== */}
+      {/* ===== THE CARD ===== */}
       <div style={{
         background: '#fff',
         borderRadius: 22,
@@ -171,9 +293,26 @@ export default function RideDetailPage() {
             <span dir="ltr">📅 {new Date(ride.departure_time).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span>
             <span dir="ltr">🕐 {new Date(ride.departure_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
           </div>
+
+          {/* Completed badge */}
+          {isCompleted && (
+            <div style={{
+              position: 'absolute',
+              top: 16,
+              left: 16,
+              background: 'rgba(22,163,74,0.15)',
+              color: '#4ade80',
+              fontSize: 11,
+              fontWeight: 600,
+              padding: '3px 10px',
+              borderRadius: 8,
+            }}>
+              تەواو بوو ✓
+            </div>
+          )}
         </div>
 
-        {/* ===== DRIVER CARD — floating ===== */}
+        {/* ===== DRIVER CARD ===== */}
         <div style={{
           margin: '-10px 16px 0',
           background: '#fff',
@@ -205,6 +344,14 @@ export default function RideDetailPage() {
               <span style={{ fontSize: 15, fontWeight: 700, color: '#1a1a1a' }}>{driver.full_name || 'شۆفێر'}</span>
               {driver.verified && <span style={{ color: '#2e7d32', fontSize: 13 }}>✓</span>}
             </div>
+            {/* Driver stats — only show if they have ratings */}
+            {driverAvgRating !== null && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <StarDisplay rating={driverAvgRating} size={12} />
+                <span style={{ fontSize: 12, color: '#888' }}>{driverAvgRating}</span>
+                <span style={{ fontSize: 10, color: '#bbb' }}>• {driverTripCount} گەشت</span>
+              </div>
+            )}
           </div>
         </div>
 
@@ -266,9 +413,89 @@ export default function RideDetailPage() {
           )}
         </div>
 
-        {/* CTA */}
+        {/* ===== CTA AREA ===== */}
         <div style={{ padding: '0 20px 22px' }}>
+
+          {/* DRIVER VIEW */}
+          {isOwnRide && (
+            isPastDeparture && !isCompleted ? (
+              <button
+                onClick={handleCompleteRide}
+                disabled={completing}
+                style={{
+                  width: '100%',
+                  background: '#16a34a',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: 14,
+                  padding: 15,
+                  fontSize: 16,
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  opacity: completing ? 0.5 : 1,
+                }}
+              >
+                {completing ? '...' : 'گەشتەکە تەواو بوو ✓'}
+              </button>
+            ) : isCompleted ? (
+              <div style={{ textAlign: 'center', background: '#f0fdf4', borderRadius: 14, padding: '18px 16px', border: '1.5px solid #bbf7d0' }}>
+                <span style={{ fontSize: 28, display: 'block', marginBottom: 8 }}>✅</span>
+                <p style={{ fontWeight: 600, color: '#16a34a', fontSize: 14 }}>گەشتەکە تەواو بوو</p>
+                <p style={{ fontSize: 11, color: '#86efac', marginTop: 4 }}>ڕێکەوت: {new Date(ride.completed_at).toLocaleDateString('en-GB')}</p>
+              </div>
+            ) : (
+              <div style={{ textAlign: 'center', background: '#fafaf9', borderRadius: 14, padding: '14px 16px' }}>
+                <p style={{ fontSize: 13, color: '#a8a29e' }}>ئەمە گەشتەکەی خۆتە</p>
+              </div>
+            )
+          )}
+
+          {/* PASSENGER VIEW */}
           {!isOwnRide && (
+            // Ride is completed + passenger was approved → show rating
+            isCompleted && requestStatus === 'approved' ? (
+              !hasRated ? (
+                <div style={{
+                  textAlign: 'center',
+                  background: '#fffbf5',
+                  borderRadius: 14,
+                  padding: '20px 16px',
+                  border: '1.5px solid #fde8d0',
+                }}>
+                  <p style={{ fontWeight: 700, fontSize: 15, color: '#1a1a1a', marginBottom: 4 }}>چۆن بوو گەشتەکە؟</p>
+                  <p style={{ fontSize: 12, color: '#a8a29e', marginBottom: 14 }}>هەڵسەنگاندنەکەت دوای ٧٢ کاتژمێر دەردەکەوێ</p>
+                  <StarSelector value={selectedRating} onChange={setSelectedRating} />
+                  {selectedRating > 0 && (
+                    <button
+                      onClick={handleSubmitRating}
+                      disabled={submittingRating}
+                      style={{
+                        marginTop: 14,
+                        width: '100%',
+                        background: '#df6530',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: 12,
+                        padding: 13,
+                        fontSize: 15,
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        opacity: submittingRating ? 0.5 : 1,
+                      }}
+                    >
+                      {submittingRating ? '...' : 'ناردن'}
+                    </button>
+                  )}
+                </div>
+              ) : (
+                <div style={{ textAlign: 'center', background: '#f0fdf4', borderRadius: 14, padding: '18px 16px', border: '1.5px solid #bbf7d0' }}>
+                  <span style={{ fontSize: 28, display: 'block', marginBottom: 6 }}>⭐</span>
+                  <p style={{ fontWeight: 600, color: '#16a34a', fontSize: 14 }}>سوپاس بۆ هەڵسەنگاندنەکەت!</p>
+                  <p style={{ fontSize: 12, color: '#a8a29e', marginTop: 4 }}>دوای ٧٢ کاتژمێر دەردەکەوێ</p>
+                </div>
+              )
+            ) :
+            // Not yet requested
             !requested ? (
               <button
                 onClick={() => setShowModal(true)}
