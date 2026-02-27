@@ -163,12 +163,8 @@ export default function RideDetailPage() {
         </div>
 
         <div style={{ display: 'flex', gap: '1rem', fontSize: '0.75rem', color: 'rgba(255,255,255,0.55)' }}>
-          <span dir="ltr">
-            📅 {new Date(ride.departure_time).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
-          </span>
-          <span dir="ltr">
-            🕐 {new Date(ride.departure_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-          </span>
+          <span dir="ltr">📅 {new Date(ride.departure_time).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span>
+          <span dir="ltr">🕐 {new Date(ride.departure_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
         </div>
       </div>
 
@@ -229,23 +225,15 @@ export default function RideDetailPage() {
 
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
           {ride.price_type === 'coffee' ? (
-            <span style={{ background: '#fef3eb', color: '#df6530', padding: '0.35rem 1rem', borderRadius: '999px', fontSize: '0.8rem', fontWeight: 700 }}>
-              ☕ {ku.coffeeAndConvo}
-            </span>
+            <span style={{ background: '#fef3eb', color: '#df6530', padding: '0.35rem 1rem', borderRadius: '999px', fontSize: '0.8rem', fontWeight: 700 }}>☕ {ku.coffeeAndConvo}</span>
           ) : (
-            <span style={{ background: '#fef3eb', color: '#df6530', padding: '0.35rem 1rem', borderRadius: '999px', fontSize: '0.8rem', fontWeight: 700 }}>
-              {ride.price_iqd?.toLocaleString()} دینار
-            </span>
+            <span style={{ background: '#fef3eb', color: '#df6530', padding: '0.35rem 1rem', borderRadius: '999px', fontSize: '0.8rem', fontWeight: 700 }}>{ride.price_iqd?.toLocaleString()} دینار</span>
           )}
 
           {ride.available_seats > 0 ? (
-            <span style={{ background: '#eef6ff', color: '#2563eb', padding: '0.35rem 1rem', borderRadius: '999px', fontSize: '0.8rem', fontWeight: 600 }}>
-              💺 {ride.available_seats} شوێن
-            </span>
+            <span style={{ background: '#eef6ff', color: '#2563eb', padding: '0.35rem 1rem', borderRadius: '999px', fontSize: '0.8rem', fontWeight: 600 }}>💺 {ride.available_seats} شوێن</span>
           ) : (
-            <span style={{ background: '#fef2f2', color: '#dc2626', padding: '0.35rem 1rem', borderRadius: '999px', fontSize: '0.8rem', fontWeight: 600 }}>
-              پڕە
-            </span>
+            <span style={{ background: '#fef2f2', color: '#dc2626', padding: '0.35rem 1rem', borderRadius: '999px', fontSize: '0.8rem', fontWeight: 600 }}>پڕە</span>
           )}
 
           {ride.smoking !== null && (
@@ -299,22 +287,7 @@ export default function RideDetailPage() {
               <span style={{ fontSize: '2rem', display: 'block', marginBottom: '0.5rem' }}>✅</span>
               <p style={{ fontWeight: 600, color: '#16a34a', marginBottom: '0.75rem' }}>قبوڵ کرا!</p>
               {waLink ? (
-                
-                  href={waLink}
-                  target="_blank"
-                  style={{
-                    display: 'block',
-                    background: '#25D366',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '0.75rem',
-                    padding: '0.75rem',
-                    fontSize: '0.95rem',
-                    fontWeight: 600,
-                    textDecoration: 'none',
-                    textAlign: 'center',
-                  }}
-                >
+                <a href={waLink} target="_blank" rel="noopener noreferrer" style={{ display: 'block', background: '#25D366', color: 'white', border: 'none', borderRadius: '0.75rem', padding: '0.75rem', fontSize: '0.95rem', fontWeight: 600, textDecoration: 'none', textAlign: 'center' }}>
                   پەیامێک بنێرە 📱
                 </a>
               ) : (
@@ -355,19 +328,7 @@ export default function RideDetailPage() {
               دوای ئەوەی داواکارییەکت پەسەند کرا، ژمارەی مۆبایلەکەت لەگەڵ شۆفێر شێر دەکرێ
             </p>
             <button
-              style={{
-                width: '100%',
-                background: '#16a34a',
-                color: 'white',
-                border: 'none',
-                borderRadius: '0.75rem',
-                padding: '0.85rem',
-                fontSize: '1rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-                marginBottom: '0.5rem',
-                opacity: sending ? 0.5 : 1,
-              }}
+              style={{ width: '100%', background: '#16a34a', color: 'white', border: 'none', borderRadius: '0.75rem', padding: '0.85rem', fontSize: '1rem', fontWeight: 600, cursor: 'pointer', marginBottom: '0.5rem', opacity: sending ? 0.5 : 1 }}
               disabled={sending}
               onClick={handleSendRequest}
             >
