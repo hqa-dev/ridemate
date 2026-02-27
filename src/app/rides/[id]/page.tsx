@@ -142,22 +142,18 @@ export default function RideDetailPage() {
   return (
     <div style={pageWrap}>
 
-      {/* ===== BACK BUTTON ===== */}
-      <div style={{
-        background: 'linear-gradient(160deg, #0f1923 0%, #0f1923 100%)',
-        padding: '1rem 1.25rem 0.5rem',
-      }}>
-        <Link href="/home" style={{ color: 'rgba(255,255,255,0.6)', textDecoration: 'none', fontSize: '0.85rem' }}>← {ku.back}</Link>
-      </div>
-
-      {/* ===== HERO — Midnight Navy ===== */}
+      {/* ===== HERO — Midnight Navy (route + driver unified) ===== */}
       <div style={{
         background: 'linear-gradient(160deg, #0f1923 0%, #1a2a3a 100%)',
-        padding: '0.5rem 1.25rem 1.5rem',
-        marginBottom: '-0.75rem',
+        padding: '1rem 1.25rem 1.25rem',
         borderRadius: '0 0 1.5rem 1.5rem',
-        position: 'relative',
       }}>
+        {/* Back */}
+        <div style={{ marginBottom: '1rem' }}>
+          <Link href="/home" style={{ color: 'rgba(255,255,255,0.6)', textDecoration: 'none', fontSize: '0.85rem' }}>← {ku.back}</Link>
+        </div>
+
+        {/* Route */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.85rem' }}>
           <span style={{ color: '#fff', fontSize: '1.25rem', fontWeight: 800 }}>{CITIES[ride.from_city]}</span>
           <div style={{ flex: 1, position: 'relative', height: '2px' }}>
@@ -167,69 +163,49 @@ export default function RideDetailPage() {
           <span style={{ color: '#fff', fontSize: '1.25rem', fontWeight: 800 }}>{CITIES[ride.to_city]}</span>
         </div>
 
-        <div style={{ display: 'flex', gap: '1rem', fontSize: '0.75rem', color: 'rgba(255,255,255,0.55)' }}>
+        {/* Date & time */}
+        <div style={{ display: 'flex', gap: '1rem', fontSize: '0.75rem', color: 'rgba(255,255,255,0.55)', marginBottom: '1rem' }}>
           <span dir="ltr">📅 {new Date(ride.departure_time).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span>
           <span dir="ltr">🕐 {new Date(ride.departure_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
         </div>
-      </div>
 
-      {/* ===== FLOATING DRIVER CARD ===== */}
-      <div style={{
-        margin: '0 1.25rem',
-        background: '#fff',
-        borderRadius: '1rem',
-        padding: '1rem 1.15rem',
-        boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
-        display: 'flex',
-        gap: '1rem',
-        alignItems: 'center',
-        position: 'relative',
-        zIndex: 1,
-      }}>
-        <div style={{ flexShrink: 0 }}>
+        {/* Divider */}
+        <div style={{ height: '1px', background: 'rgba(255,255,255,0.08)', marginBottom: '1rem' }} />
+
+        {/* Driver row */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
           <div style={{
-            width: '3rem',
-            height: '3rem',
+            width: '2.75rem',
+            height: '2.75rem',
             borderRadius: '50%',
             background: driver.avatar_url ? `url(${driver.avatar_url}) center/cover` : 'linear-gradient(135deg, #f0e6dc 0%, #e8d5c4 100%)',
-            border: '2.5px solid #df6530',
+            border: '2px solid rgba(255,255,255,0.2)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '1.2rem',
+            fontSize: '1.1rem',
+            flexShrink: 0,
           }}>
             {!driver.avatar_url && '👤'}
           </div>
-        </div>
-
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-            <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#1c1917', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{driver.full_name || 'شۆفێر'}</span>
-            {driver.verified && (
-              <span style={{ background: '#e8f5e9', color: '#2e7d32', fontSize: '0.6rem', padding: '0.1rem 0.4rem', borderRadius: '4px', fontWeight: 600, flexShrink: 0 }}>پشتڕاست</span>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <span style={{ fontSize: '0.95rem', fontWeight: 600, color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{driver.full_name || 'شۆفێر'}</span>
+              {driver.verified && (
+                <span style={{ background: 'rgba(34,197,94,0.15)', color: '#4ade80', fontSize: '0.6rem', padding: '0.1rem 0.4rem', borderRadius: '4px', fontWeight: 600, flexShrink: 0 }}>پشتڕاست</span>
+              )}
+            </div>
+            {carDisplay && (
+              <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)' }}>{carDisplay}</span>
             )}
           </div>
         </div>
       </div>
 
       {/* ===== BODY CONTENT ===== */}
-      <div style={{ padding: '0.75rem 1.25rem 0' }}>
+      <div style={{ padding: '1rem 1.25rem 0' }}>
 
-        {carDisplay && (
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.65rem',
-            marginBottom: '0.75rem',
-            padding: '0.65rem 0.85rem',
-            background: '#f9f8f6',
-            borderRadius: '0.75rem',
-          }}>
-            <span style={{ fontSize: '1.2rem' }}>🚗</span>
-            <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#333' }}>{carDisplay}</span>
-          </div>
-        )}
-
+        {/* Pills row */}
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
           {ride.price_type === 'coffee' ? (
             <span style={{ background: '#fef3eb', color: '#df6530', padding: '0.35rem 1rem', borderRadius: '999px', fontSize: '0.8rem', fontWeight: 700 }}>☕ {ku.coffeeAndConvo}</span>
@@ -250,6 +226,7 @@ export default function RideDetailPage() {
           )}
         </div>
 
+        {/* Notes */}
         {ride.notes && (
           <div style={{
             padding: '0.75rem 0.85rem',
@@ -263,6 +240,7 @@ export default function RideDetailPage() {
           </div>
         )}
 
+        {/* ===== CTA AREA ===== */}
         {!isOwnRide && (
           !requested ? (
             <button
@@ -311,6 +289,7 @@ export default function RideDetailPage() {
         )}
       </div>
 
+      {/* ===== REQUEST MODAL ===== */}
       {showModal && (
         <div
           style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 200, padding: '1.25rem' }}
