@@ -275,7 +275,7 @@ export default function RideDetailPage() {
         borderRadius: 22,
         overflow: 'hidden',
         boxShadow: '0 2px 8px rgba(0,0,0,0.04), 0 12px 36px rgba(0,0,0,0.06)',
-        margin: '24px 12px',
+        margin: '40px 12px',
       }}>
 
         <div style={{
@@ -374,7 +374,7 @@ export default function RideDetailPage() {
               borderRadius: 12,
             }}>
               <div>
-                <div style={{ fontSize: 13, fontWeight: 600, color: '#333' }}>{carParts} 🚗</div>
+                <div style={{ fontSize: 13, fontWeight: 600, color: '#333' }} dir='ltr'>{carParts} 🚗</div>
                 {carColor && <div style={{ fontSize: 11, color: '#999', marginTop: 2 }}>{COLOR_KU[carColor.toLowerCase()] || carColor}</div>}
               </div>
             </div>
