@@ -373,11 +373,11 @@ export default function RideDetailPage() {
               background: '#f9f8f6',
               borderRadius: 12,
             }}>
+              <span style={{ fontSize: 20, marginLeft: 'auto' }}>🚗</span>
               <div>
                 <div style={{ fontSize: 13, fontWeight: 600, color: '#333' }}>{carParts}</div>
                 {carColor && <div style={{ fontSize: 11, color: '#999', marginTop: 2 }}>{COLOR_KU[carColor.toLowerCase()] || carColor}</div>}
               </div>
-              <span style={{ fontSize: 20 }}>🚗</span>
             </div>
           )}
 
