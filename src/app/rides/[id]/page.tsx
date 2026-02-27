@@ -373,11 +373,11 @@ export default function RideDetailPage() {
               background: '#f9f8f6',
               borderRadius: 12,
             }}>
-              <span style={{ fontSize: 20, marginLeft: 'auto' }}>🚗</span>
-              <div>
+              <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 13, fontWeight: 600, color: '#333' }}>{carParts}</div>
                 {carColor && <div style={{ fontSize: 11, color: '#999', marginTop: 2 }}>{COLOR_KU[carColor.toLowerCase()] || carColor}</div>}
               </div>
+              <span style={{ fontSize: 20 }}>🚗</span>
             </div>
           )}
 
@@ -385,7 +385,7 @@ export default function RideDetailPage() {
             {ride.price_type === 'coffee' ? (
               <span style={{ background: '#f5f5f4', color: '#44403c', padding: '6px 16px', borderRadius: 20, fontSize: 13, fontWeight: 600 }}>☕ قاوەیەک</span>
             ) : (
-              <span style={{ background: '#f5f5f4', color: '#44403c', padding: '6px 16px', borderRadius: 20, fontSize: 13, fontWeight: 600 }}>{ride.price_iqd?.toLocaleString()} دینار</span>
+              <span style={{ background: '#f5f5f4', color: '#44403c', padding: '6px 16px', borderRadius: 20, fontSize: 13, fontWeight: 600 }}>{ride.price_iqd?.toLocaleString('ar-u-nu-arab')} دینار</span>
             )}
 
             {ride.available_seats > 0 ? (
