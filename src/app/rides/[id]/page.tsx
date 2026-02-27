@@ -373,25 +373,25 @@ export default function RideDetailPage() {
               background: '#f9f8f6',
               borderRadius: 12,
             }}>
-              <span style={{ fontSize: 20 }}>🚗</span>
               <div>
                 <div style={{ fontSize: 13, fontWeight: 600, color: '#333' }}>{carParts}</div>
-                {carColor && <div style={{ fontSize: 11, color: '#999' }}>{COLOR_KU[carColor.toLowerCase()] || carColor}</div>}
+                {carColor && <div style={{ fontSize: 11, color: '#999', marginTop: 2 }}>{COLOR_KU[carColor.toLowerCase()] || carColor}</div>}
               </div>
+              <span style={{ fontSize: 20 }}>🚗</span>
             </div>
           )}
 
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 14 }}>
             {ride.price_type === 'coffee' ? (
-              <span style={{ background: '#fef3eb', color: '#df6530', padding: '6px 16px', borderRadius: 20, fontSize: 13, fontWeight: 700 }}>☕ قاوەیەک</span>
+              <span style={{ background: '#f5f5f4', color: '#44403c', padding: '6px 16px', borderRadius: 20, fontSize: 13, fontWeight: 600 }}>☕ قاوەیەک</span>
             ) : (
-              <span style={{ background: '#fef3eb', color: '#df6530', padding: '6px 16px', borderRadius: 20, fontSize: 13, fontWeight: 700 }}>{ride.price_iqd?.toLocaleString()} دینار</span>
+              <span style={{ background: '#f5f5f4', color: '#44403c', padding: '6px 16px', borderRadius: 20, fontSize: 13, fontWeight: 600 }}>{ride.price_iqd?.toLocaleString()} دینار</span>
             )}
 
             {ride.available_seats > 0 ? (
-              <span style={{ background: '#eef6ff', color: '#2563eb', padding: '6px 16px', borderRadius: 20, fontSize: 13, fontWeight: 600 }}>{ride.available_seats} شوێن</span>
+              <span style={{ background: '#f5f5f4', color: '#44403c', padding: '6px 16px', borderRadius: 20, fontSize: 13, fontWeight: 600 }}>{ride.available_seats} شوێن</span>
             ) : (
-              <span style={{ background: '#fef2f2', color: '#dc2626', padding: '6px 16px', borderRadius: 20, fontSize: 13, fontWeight: 600 }}>پڕە</span>
+              <span style={{ background: '#f5f5f4', color: '#78716c', padding: '6px 16px', borderRadius: 20, fontSize: 13, fontWeight: 600 }}>پڕە</span>
             )}
 
             {ride.smoking !== null && (
