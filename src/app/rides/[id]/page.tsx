@@ -297,8 +297,8 @@ export default function RideDetailPage() {
           </div>
 
      <div style={{ display: 'flex', gap: 12, fontSize: 11, color: 'rgba(255,255,255,0.55)', flexWrap: 'wrap' }}>
-            <span dir="ltr">📅 {new Date(ride.departure_time).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span>
-            <span dir="ltr">🕐 {new Date(ride.departure_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+            <span dir="ltr">📅 {new Date(ride.departure_time).toLocaleDateString('ar-u-nu-arab', { day: 'numeric', month: 'short' })}</span>
+            <span dir="ltr">🕐 {new Date(ride.departure_time).toLocaleTimeString('ar-u-nu-arab', { hour: '2-digit', minute: '2-digit', hour12: false })}</span>
             {routeInfo && <span>⏱ {routeInfo.duration}</span>}
             {routeInfo && <span>📍 {routeInfo.distance}</span>}
           </div>
