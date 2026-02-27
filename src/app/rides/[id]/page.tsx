@@ -439,7 +439,7 @@ export default function RideDetailPage() {
               </button>
             ) : isCompleted ? (
               <div style={{ textAlign: 'center', background: '#f0fdf4', borderRadius: 14, padding: '18px 16px', border: '1.5px solid #bbf7d0' }}>
-                <span style={{ fontSize: 28, display: 'block', marginBottom: 8 }}>✅</span>
+                <span style={{ fontSize: 28, display: 'block', marginBottom: 8 }}></span>
                 <p style={{ fontWeight: 600, color: '#16a34a', fontSize: 14 }}>گەشتەکە تەواو بوو</p>
                 <p style={{ fontSize: 11, color: '#86efac', marginTop: 4 }}>ڕێکەوت: {new Date(ride.completed_at).toLocaleDateString('en-GB')}</p>
               </div>
