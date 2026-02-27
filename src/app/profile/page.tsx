@@ -22,13 +22,11 @@ export default function ProfilePage() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) { router.push('/auth/register'); return }
       setUser(user)
-
       const { data: profileData } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', user.id)
         .single()
-
       if (profileData) setProfile(profileData)
       setLoading(false)
     }
@@ -77,11 +75,9 @@ export default function ProfilePage() {
     router.push('/')
   }
 
-  const card = { background: 'white', border: '1px solid #e7e5e4', borderRadius: '1rem', padding: '1.25rem', marginBottom: '0.75rem' } as React.CSSProperties
-
   if (loading) {
     return (
-      <div style={{ direction: 'rtl', minHeight: '100vh', background: '#fafaf9', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem', overflow: 'hidden' }}>
+      <div style={{ direction: 'rtl', minHeight: '100vh', background: '#fafaf9', maxWidth: 480, margin: '0 auto', padding: '24px 20px 96px' }}>
         <BottomNav />
       </div>
     )
@@ -93,105 +89,175 @@ export default function ProfilePage() {
   const role = profile?.role || ''
   const verificationStatus = profile?.verification_status || 'none'
 
-  const statusMap: Record<string, { text: string; bg: string; color: string }> = {
-    verified: { text: 'ناسراوە ✓', bg: '#f0fdf4', color: '#16a34a' },
-    pending: { text: 'لە چاوەڕوانی ناسیندایە', bg: '#fffbeb', color: '#d97706' },
-    none: { text: 'ڕەتکراوە — پەیوەندی بە ئادمین بکە', bg: '#fef2f2', color: '#dc2626' },
+  const roleText = role === 'passenger' ? ku.passenger : role === 'driver' ? ku.driver : 'شۆفێر و سەرنشین'
+  const verifiedMap: Record<string, { text: string; bg: string; color: string }> = {
+    verified: { text: '✓ پشتڕاستکراوە', bg: '#e8f5e9', color: '#2e7d32' },
+    pending: { text: 'لە چاوەڕوانیدا', bg: '#fffbeb', color: '#d97706' },
+    none: { text: 'ناسینەوە نەکراوە', bg: '#fef2f2', color: '#dc2626' },
   }
-  const status = statusMap[verificationStatus]
+  const vBadge = verifiedMap[verificationStatus]
+
+  const sectionLabel: React.CSSProperties = { fontSize: 11, color: '#a8a29e', marginBottom: 8, marginTop: 20, paddingRight: 4, fontWeight: 500 }
+  const card: React.CSSProperties = { background: '#fff', borderRadius: 14, overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }
+  const row: React.CSSProperties = { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', borderBottom: '1px solid #f5f5f4' }
+  const rowLast: React.CSSProperties = { ...row, borderBottom: 'none' }
+  const rowRight: React.CSSProperties = { display: 'flex', alignItems: 'center', gap: 10 }
+  const rowText: React.CSSProperties = { fontSize: 13, fontWeight: 500, color: '#1a1a1a' }
+  const rowVal: React.CSSProperties = { fontSize: 12, color: '#a8a29e', direction: 'ltr' as const }
+  const rowArrow: React.CSSProperties = { color: '#ddd', fontSize: 13, transform: 'scaleX(-1)' }
+  const rowIcon: React.CSSProperties = { fontSize: 16 }
 
   return (
-    <div style={{ direction: 'rtl', minHeight: '100vh', background: '#fafaf9', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem', overflowX: 'hidden' }}>
-      <h1 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '1.5rem' }}>{ku.profileTitle}</h1>
+    <div style={{ direction: 'rtl', minHeight: '100vh', background: '#fafaf9', maxWidth: 480, margin: '0 auto', padding: '16px 20px 96px', overflowX: 'hidden' }}>
 
-      <div style={{ ...card, display: 'flex', alignItems: 'center', gap: '1rem', direction: 'ltr' }}>
-        {avatarUrl ? (
-          <img src={avatarUrl} alt="" style={{ width: 64, height: 64, borderRadius: 12, objectFit: 'cover', flexShrink: 0 }} referrerPolicy="no-referrer" />
-        ) : (
-          <div style={{ width: 64, height: 64, borderRadius: 12, background: '#fae8d8', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem', fontWeight: 700, color: '#df6530', flexShrink: 0 }}>
-            {displayName.charAt(0)}
-          </div>
-        )}
-        <div style={{ textAlign: 'right', flex: 1 }}>
-          <div style={{ fontWeight: 700, fontSize: '1.1rem', color: '#1c1917' }}>{displayName}</div>
-          {displayEmail && <div style={{ fontSize: '0.8rem', color: '#a8a29e' }}>{displayEmail}</div>}
-          {role && <div style={{ marginTop: '0.3rem' }}><span style={{ background: '#f5f5f4', color: '#57534e', fontSize: '0.7rem', padding: '0.15rem 0.5rem', borderRadius: '999px', fontWeight: 600 }}>{role === 'passenger' ? ku.passenger : role === 'driver' ? ku.driver : ku.both + ' (شۆفێر و سەرنشین)'}</span></div>}
+      {/* Title */}
+      <div style={{ textAlign: 'center', padding: '0 0 4px' }}>
+        <span style={{ fontSize: 17, fontWeight: 700, color: '#1a1a1a' }}>{ku.profileTitle}</span>
+      </div>
+
+      {/* Avatar + Name + Badges */}
+      <div style={{ textAlign: 'center', padding: '24px 0 20px' }}>
+        <div style={{ width: 80, height: 80, borderRadius: '50%', border: '3px solid #df6530', margin: '0 auto 10px', overflow: 'hidden', background: '#fff' }}>
+          {avatarUrl ? (
+            <img src={avatarUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} referrerPolicy="no-referrer" />
+          ) : (
+            <div style={{ width: '100%', height: '100%', background: '#fae8d8', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28, fontWeight: 700, color: '#df6530' }}>
+              {displayName.charAt(0)}
+            </div>
+          )}
+        </div>
+        <div style={{ fontSize: 19, fontWeight: 700, color: '#1a1a1a', marginBottom: 2 }}>{displayName}</div>
+        <div style={{ fontSize: 12, color: '#a8a29e', direction: 'ltr' as const, marginBottom: 8 }}>{displayEmail}</div>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 6 }}>
+          {vBadge && <span style={{ fontSize: 10, padding: '3px 10px', borderRadius: 20, background: vBadge.bg, color: vBadge.color, fontWeight: 600 }}>{vBadge.text}</span>}
+          {role && <span style={{ fontSize: 10, padding: '3px 10px', borderRadius: 20, background: '#f5f5f4', color: '#44403c', fontWeight: 500 }}>{roleText}</span>}
         </div>
       </div>
 
-      {status && role !== 'passenger' && <div style={{ ...card, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <span style={{ fontSize: '0.9rem', color: '#44403c' }}>ناسینەوە</span>
-        <span style={{ background: status.bg, color: status.color, fontSize: '0.75rem', padding: '0.2rem 0.6rem', borderRadius: '999px', fontWeight: 600 }}>{status.text}</span>
-      </div>}
+      {/* Info Section */}
+      <div style={sectionLabel}>زانیاری</div>
+      <div style={card}>
 
-      <div style={{ ...card, cursor: !editingPhone ? 'pointer' : 'default' }} onClick={() => { if (!editingPhone) { setNewPhone(profile?.phone || ''); setEditingPhone(true) } }}>
-        {editingPhone ? (
-          <div>
-            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginBottom: '0.5rem' }}>
-              <input
-                value={newPhone}
-                onChange={e => setNewPhone(e.target.value)}
-                placeholder="07501234567"
-                onClick={e => e.stopPropagation()}
-                dir="ltr"
-                type="tel"
-                style={{ flex: 1, background: '#f5f5f4', border: '1px solid #e7e5e4', borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.9rem', outline: 'none' }}
-              />
-              <button onClick={handleSavePhone} style={{ background: '#16a34a', color: 'white', border: 'none', borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>بەڵێ</button>
-              <button onClick={() => setEditingPhone(false)} style={{ background: 'none', border: 'none', color: '#a8a29e', fontSize: '0.85rem', cursor: 'pointer' }}>پاشگەز</button>
+        {/* Phone */}
+        <div
+          style={row}
+          onClick={() => { if (!editingPhone) { setNewPhone(profile?.phone || ''); setEditingPhone(true) } }}
+        >
+          {editingPhone ? (
+            <div style={{ width: '100%' }} onClick={e => e.stopPropagation()}>
+              <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 6 }}>
+                <input
+                  value={newPhone}
+                  onChange={e => setNewPhone(e.target.value)}
+                  placeholder="07501234567"
+                  dir="ltr"
+                  type="tel"
+                  autoFocus
+                  style={{ flex: 1, background: '#f5f5f4', border: '1px solid #e7e5e4', borderRadius: 8, padding: '8px 12px', fontSize: 13, outline: 'none' }}
+                />
+                <button onClick={handleSavePhone} style={{ background: '#16a34a', color: 'white', border: 'none', borderRadius: 8, padding: '8px 12px', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>بەڵێ</button>
+                <button onClick={() => setEditingPhone(false)} style={{ background: 'none', border: 'none', color: '#a8a29e', fontSize: 12, cursor: 'pointer' }}>پاشگەز</button>
+              </div>
+              <p style={{ fontSize: 10, color: '#a8a29e', lineHeight: 1.6 }}>ئەم ژمارەیە دوای قبوڵکردنی داواکاری سەرنشین پیشان دەدرێت</p>
             </div>
-            <p style={{ fontSize: '0.7rem', color: '#a8a29e', lineHeight: 1.6 }}>ئەم ژمارەیە دوای قبوڵکردنی داواکاری سەرنشین پیشان دەدرێت</p>
-          </div>
-        ) : (
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ color: '#44403c', fontSize: '0.9rem' }}>{profile?.phone ? 'ژمارەی مۆبایل' : 'ژمارەی مۆبایل زیاد بکە'}</span>
-            {profile?.phone && <span style={{ color: '#a8a29e', fontSize: '0.85rem' }} dir="ltr">{profile.phone}</span>}
+          ) : (
+            <>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                {profile?.phone && <span style={rowVal}>{profile.phone}</span>}
+                <span style={rowArrow}>‹</span>
+              </div>
+              <div style={rowRight}>
+                <span style={rowText}>{profile?.phone ? 'ژمارەی مۆبایل' : 'ژمارەی مۆبایل زیاد بکە'}</span>
+                <span style={rowIcon}>📱</span>
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Name Change */}
+        <div
+          style={row}
+          onClick={() => { if (canChangeName() && !editingName) { setNewName(displayName); setEditingName(true) } }}
+        >
+          {editingName ? (
+            <div style={{ width: '100%' }} onClick={e => e.stopPropagation()}>
+              <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 6 }}>
+                <input
+                  value={newName}
+                  onChange={e => setNewName(e.target.value)}
+                  placeholder={displayName}
+                  autoFocus
+                  style={{ flex: 1, background: '#f5f5f4', border: '1px solid #e7e5e4', borderRadius: 8, padding: '8px 12px', fontSize: 13, outline: 'none', direction: 'rtl' }}
+                />
+                <button onClick={handleSaveName} style={{ background: '#16a34a', color: 'white', border: 'none', borderRadius: 8, padding: '8px 12px', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>بەڵێ</button>
+                <button onClick={() => setEditingName(false)} style={{ background: 'none', border: 'none', color: '#a8a29e', fontSize: 12, cursor: 'pointer' }}>پاشگەز</button>
+              </div>
+              <p style={{ fontSize: 10, color: '#a8a29e', lineHeight: 1.6 }}>ناوەکەت تەنها مانگی یەکجار دەتوانی بیگۆڕیت</p>
+            </div>
+          ) : (
+            <>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span style={rowArrow}>‹</span>
+              </div>
+              <div style={rowRight}>
+                <div>
+                  <span style={{ ...rowText, color: canChangeName() ? '#1a1a1a' : '#a8a29e' }}>ناوەکەت بگۆڕە</span>
+                  {!canChangeName() && <p style={{ fontSize: 10, color: '#a8a29e', marginTop: 2 }}>{daysUntilNameChange()} ڕۆژی دیکە</p>}
+                </div>
+                <span style={rowIcon}>✏️</span>
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Verification */}
+        {role !== 'passenger' && (
+          <div style={rowLast}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <span style={rowArrow}>‹</span>
+            </div>
+            <div style={rowRight}>
+              <span style={rowText}>ناسینەوە</span>
+              <span style={rowIcon}>🪪</span>
+            </div>
           </div>
         )}
       </div>
 
-      <div style={{ ...card, cursor: canChangeName() && !editingName ? 'pointer' : 'default' }} onClick={() => { if (canChangeName() && !editingName) { setNewName(displayName); setEditingName(true) } }}>
-        {editingName ? (
-          <div>
-            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginBottom: '0.5rem' }}>
-              <input
-                value={newName}
-                onChange={e => setNewName(e.target.value)}
-                placeholder={displayName}
-                onClick={e => e.stopPropagation()}
-                style={{ flex: 1, background: '#f5f5f4', border: '1px solid #e7e5e4', borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.9rem', outline: 'none', direction: 'rtl' }}
-              />
-              <button onClick={handleSaveName} style={{ background: '#16a34a', color: 'white', border: 'none', borderRadius: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>بەڵێ</button>
-              <button onClick={() => setEditingName(false)} style={{ background: 'none', border: 'none', color: '#a8a29e', fontSize: '0.85rem', cursor: 'pointer' }}>پاشگەز</button>
+      {/* Account Section */}
+      <div style={sectionLabel}>ئەکاونت</div>
+      <div style={card}>
+        <div
+          style={rowLast}
+          onClick={() => { if (!showDeleteConfirm) setShowDeleteConfirm(true) }}
+        >
+          {showDeleteConfirm ? (
+            <div style={{ width: '100%' }} onClick={e => e.stopPropagation()}>
+              <p style={{ fontSize: 13, color: '#dc2626', marginBottom: 12, lineHeight: 1.7, textAlign: 'right' }}>دڵنیایت دەتەوێ ئەکاونتەکەت بسڕیتەوە؟</p>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button onClick={handleDeleteAccount} style={{ flex: 1, background: '#dc2626', color: 'white', border: 'none', borderRadius: 8, padding: 10, fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>بەڵێ دڵنیام</button>
+                <button onClick={(e) => { e.stopPropagation(); setShowDeleteConfirm(false) }} style={{ flex: 1, background: '#f5f5f4', color: '#44403c', border: 'none', borderRadius: 8, padding: 10, fontSize: 13, cursor: 'pointer' }}>پاشگەز</button>
+              </div>
             </div>
-            <p style={{ fontSize: '0.7rem', color: '#a8a29e', lineHeight: 1.6 }}>ناوەکەت تەنها مانگی یەکجار دەتوانی بیگۆڕیت</p>
-          </div>
-        ) : canChangeName() ? (
-          <span style={{ color: '#44403c', fontSize: '0.9rem' }}>ناوەکەت بگۆڕە</span>
-        ) : (
-          <div>
-            <span style={{ color: '#a8a29e', fontSize: '0.9rem' }}>ناوەکەت بگۆڕە</span>
-            <p style={{ fontSize: '0.7rem', color: '#a8a29e', marginTop: '0.25rem' }}>{daysUntilNameChange()} ڕۆژی دیکە دەتوانی ناوەکەت بگۆڕیت</p>
-          </div>
-        )}
+          ) : (
+            <>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span style={rowArrow}>‹</span>
+              </div>
+              <div style={rowRight}>
+                <span style={rowText}>سڕینەوەی ئەکاونت</span>
+                <span style={rowIcon}>🗑️</span>
+              </div>
+            </>
+          )}
+        </div>
       </div>
 
-      <div style={{ ...card, cursor: !showDeleteConfirm ? 'pointer' : 'default' }} onClick={() => { if (!showDeleteConfirm) setShowDeleteConfirm(true) }}>
-        {showDeleteConfirm ? (
-          <div>
-            <p style={{ fontSize: '0.85rem', color: '#dc2626', marginBottom: '0.75rem', lineHeight: 1.7 }}>دڵنیایت دەتەوێ ئەکاونتەکەت بسڕیتەوە؟ ئەم کارە پێجەوانە ناکرێتەوە.</p>
-            <div style={{ display: 'flex', gap: '0.5rem' }}>
-              <button onClick={handleDeleteAccount} style={{ flex: 1, background: '#dc2626', color: 'white', border: 'none', borderRadius: '0.5rem', padding: '0.5rem', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>بەڵێ دڵنیام</button>
-              <button onClick={(e) => { e.stopPropagation(); setShowDeleteConfirm(false) }} style={{ flex: 1, background: '#f5f5f4', color: '#44403c', border: 'none', borderRadius: '0.5rem', padding: '0.5rem', fontSize: '0.85rem', cursor: 'pointer' }}>پاشگەز</button>
-            </div>
-          </div>
-        ) : (
-          <span style={{ color: '#44403c', fontSize: '0.9rem' }}>سڕینەوەی ئەکاونت</span>
-        )}
-      </div>
-
-      <div style={{ ...card, cursor: 'pointer' }} onClick={handleSignOut}>
-        <span style={{ color: '#dc2626', fontWeight: 600, fontSize: '0.9rem' }}>{ku.signOut}</span>
+      {/* Logout */}
+      <div style={{ ...card, marginTop: 12, cursor: 'pointer' }} onClick={handleSignOut}>
+        <div style={{ padding: '14px 16px', textAlign: 'center' }}>
+          <span style={{ color: '#dc2626', fontSize: 14, fontWeight: 600 }}>{ku.signOut}</span>
+        </div>
       </div>
 
       <BottomNav />
