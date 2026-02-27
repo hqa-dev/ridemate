@@ -1,4 +1,3 @@
-cd ~/ridemate && cat > src/app/my-rides/page.tsx << 'ENDOFFILE'
 'use client'
 import { useState, useEffect } from 'react'
 import { BottomNav } from '@/components/layout/BottomNav'
@@ -237,5 +236,3 @@ export default function MyRidesPage() {
     </div>
   )
 }
-ENDOFFILE
-git add -A && git commit -m "feat: my-rides shows completed rides with badges + links to rating" && git push
