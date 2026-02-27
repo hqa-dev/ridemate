@@ -142,13 +142,18 @@ export default function RideDetailPage() {
   return (
     <div style={pageWrap}>
 
-      <div style={{ padding: '1rem 1.25rem 0', position: 'relative', zIndex: 10 }}>
-        <Link href="/home" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '0.85rem' }}>← {ku.back}</Link>
+      {/* ===== BACK BUTTON ===== */}
+      <div style={{
+        background: 'linear-gradient(160deg, #0f1923 0%, #0f1923 100%)',
+        padding: '1rem 1.25rem 0.5rem',
+      }}>
+        <Link href="/home" style={{ color: 'rgba(255,255,255,0.6)', textDecoration: 'none', fontSize: '0.85rem' }}>← {ku.back}</Link>
       </div>
 
+      {/* ===== HERO — Midnight Navy ===== */}
       <div style={{
         background: 'linear-gradient(160deg, #0f1923 0%, #1a2a3a 100%)',
-        padding: '0.75rem 1.25rem 1.25rem',
+        padding: '0.5rem 1.25rem 1.5rem',
         marginBottom: '-0.75rem',
         borderRadius: '0 0 1.5rem 1.5rem',
         position: 'relative',
@@ -168,44 +173,46 @@ export default function RideDetailPage() {
         </div>
       </div>
 
+      {/* ===== FLOATING DRIVER CARD ===== */}
       <div style={{
-        margin: '0 1rem',
+        margin: '0 1.25rem',
         background: '#fff',
         borderRadius: '1rem',
-        padding: '1rem',
+        padding: '1rem 1.15rem',
         boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
         display: 'flex',
-        gap: '0.85rem',
+        gap: '1rem',
         alignItems: 'center',
         position: 'relative',
         zIndex: 1,
       }}>
-        <div style={{ position: 'relative', flexShrink: 0 }}>
+        <div style={{ flexShrink: 0 }}>
           <div style={{
-            width: '3.5rem',
-            height: '3.5rem',
+            width: '3rem',
+            height: '3rem',
             borderRadius: '50%',
             background: driver.avatar_url ? `url(${driver.avatar_url}) center/cover` : 'linear-gradient(135deg, #f0e6dc 0%, #e8d5c4 100%)',
             border: '2.5px solid #df6530',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '1.4rem',
+            fontSize: '1.2rem',
           }}>
             {!driver.avatar_url && '👤'}
           </div>
         </div>
 
-        <div style={{ flex: 1 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.25rem' }}>
-            <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#1c1917' }}>{driver.full_name || 'شۆفێر'}</span>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#1c1917', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{driver.full_name || 'شۆفێر'}</span>
             {driver.verified && (
-              <span style={{ background: '#e8f5e9', color: '#2e7d32', fontSize: '0.6rem', padding: '0.1rem 0.4rem', borderRadius: '4px', fontWeight: 600 }}>پشتڕاست</span>
+              <span style={{ background: '#e8f5e9', color: '#2e7d32', fontSize: '0.6rem', padding: '0.1rem 0.4rem', borderRadius: '4px', fontWeight: 600, flexShrink: 0 }}>پشتڕاست</span>
             )}
           </div>
         </div>
       </div>
 
+      {/* ===== BODY CONTENT ===== */}
       <div style={{ padding: '0.75rem 1.25rem 0' }}>
 
         {carDisplay && (
