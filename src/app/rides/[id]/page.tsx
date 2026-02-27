@@ -12,6 +12,10 @@ const CITIES: Record<string, string> = {
   duhok: ku.duhok,
 }
 
+function formatWhatsApp(phone: string) {
+  return 'https://wa.me/' + phone.replace(/^0/, '964')
+}
+
 export default function RideDetailPage() {
   const params = useParams()
   const rideId = params.id as string
@@ -133,16 +137,15 @@ export default function RideDetailPage() {
   const driver = ride.driver || {}
   const carParts = [ride.car_make, ride.car_model].filter(Boolean).join(' ')
   const carDisplay = carParts ? `${carParts}${ride.car_color ? ' - ' + ride.car_color : ''}` : ''
+  const waLink = driver.phone ? formatWhatsApp(driver.phone) : ''
 
   return (
     <div style={pageWrap}>
 
-      {/* Back button - floating over hero */}
       <div style={{ padding: '1rem 1.25rem 0', position: 'relative', zIndex: 10 }}>
         <Link href="/home" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '0.85rem' }}>← {ku.back}</Link>
       </div>
 
-      {/* ===== HERO — Midnight Navy ===== */}
       <div style={{
         background: 'linear-gradient(160deg, #0f1923 0%, #1a2a3a 100%)',
         padding: '0.75rem 1.25rem 1.25rem',
@@ -150,7 +153,6 @@ export default function RideDetailPage() {
         borderRadius: '0 0 1.5rem 1.5rem',
         position: 'relative',
       }}>
-        {/* Route */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.85rem' }}>
           <span style={{ color: '#fff', fontSize: '1.25rem', fontWeight: 800 }}>{CITIES[ride.from_city]}</span>
           <div style={{ flex: 1, position: 'relative', height: '2px' }}>
@@ -160,7 +162,6 @@ export default function RideDetailPage() {
           <span style={{ color: '#fff', fontSize: '1.25rem', fontWeight: 800 }}>{CITIES[ride.to_city]}</span>
         </div>
 
-        {/* Meta line */}
         <div style={{ display: 'flex', gap: '1rem', fontSize: '0.75rem', color: 'rgba(255,255,255,0.55)' }}>
           <span dir="ltr">
             📅 {new Date(ride.departure_time).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
@@ -171,7 +172,6 @@ export default function RideDetailPage() {
         </div>
       </div>
 
-      {/* ===== FLOATING DRIVER CARD ===== */}
       <div style={{
         margin: '0 1rem',
         background: '#fff',
@@ -184,7 +184,6 @@ export default function RideDetailPage() {
         position: 'relative',
         zIndex: 1,
       }}>
-        {/* Avatar */}
         <div style={{ position: 'relative', flexShrink: 0 }}>
           <div style={{
             width: '3.5rem',
@@ -201,7 +200,6 @@ export default function RideDetailPage() {
           </div>
         </div>
 
-        {/* Driver info */}
         <div style={{ flex: 1 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.25rem' }}>
             <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#1c1917' }}>{driver.full_name || 'شۆفێر'}</span>
@@ -212,10 +210,8 @@ export default function RideDetailPage() {
         </div>
       </div>
 
-      {/* ===== BODY CONTENT ===== */}
       <div style={{ padding: '0.75rem 1.25rem 0' }}>
 
-        {/* Car info */}
         {carDisplay && (
           <div style={{
             display: 'flex',
@@ -231,7 +227,6 @@ export default function RideDetailPage() {
           </div>
         )}
 
-        {/* Pills row */}
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
           {ride.price_type === 'coffee' ? (
             <span style={{ background: '#fef3eb', color: '#df6530', padding: '0.35rem 1rem', borderRadius: '999px', fontSize: '0.8rem', fontWeight: 700 }}>
@@ -260,7 +255,6 @@ export default function RideDetailPage() {
           )}
         </div>
 
-        {/* Notes */}
         {ride.notes && (
           <div style={{
             padding: '0.75rem 0.85rem',
@@ -274,7 +268,6 @@ export default function RideDetailPage() {
           </div>
         )}
 
-        {/* ===== CTA AREA ===== */}
         {!isOwnRide && (
           !requested ? (
             <button
@@ -305,9 +298,9 @@ export default function RideDetailPage() {
             }}>
               <span style={{ fontSize: '2rem', display: 'block', marginBottom: '0.5rem' }}>✅</span>
               <p style={{ fontWeight: 600, color: '#16a34a', marginBottom: '0.75rem' }}>قبوڵ کرا!</p>
-              {driver.phone ? (
+              {waLink ? (
                 
-                  href={'https://wa.me/' + driver.phone.replace(/^0/, '964')}
+                  href={waLink}
                   target="_blank"
                   style={{
                     display: 'block',
@@ -322,10 +315,7 @@ export default function RideDetailPage() {
                     textAlign: 'center',
                   }}
                 >
-                  پەیامێک بنێرە
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="white" style={{ display: 'inline', verticalAlign: 'middle', marginRight: '0.4rem' }}>
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                  </svg>
+                  پەیامێک بنێرە 📱
                 </a>
               ) : (
                 <p style={{ color: '#a8a29e', fontSize: '0.85rem' }}>شۆفێر ژمارەی مۆبایلی زیاد نەکردووە</p>
@@ -341,7 +331,6 @@ export default function RideDetailPage() {
         )}
       </div>
 
-      {/* ===== REQUEST MODAL ===== */}
       {showModal && (
         <div
           style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 200, padding: '1.25rem' }}
