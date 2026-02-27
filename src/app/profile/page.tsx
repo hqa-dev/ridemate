@@ -140,7 +140,7 @@ export default function ProfilePage() {
 
         {/* Phone */}
         <div
-          style={row}
+          style={{ ...row, cursor: 'pointer' }}
           onClick={() => { if (!editingPhone) { setNewPhone(profile?.phone || ''); setEditingPhone(true) } }}
         >
           {editingPhone ? (
@@ -162,13 +162,13 @@ export default function ProfilePage() {
             </div>
           ) : (
             <>
+              <div style={rowRight}>
+                <span style={rowIcon}>📱</span>
+                <span style={rowText}>{profile?.phone ? 'ژمارەی مۆبایل' : 'ژمارەی مۆبایل زیاد بکە'}</span>
+              </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 {profile?.phone && <span style={rowVal}>{profile.phone}</span>}
                 <span style={rowArrow}>‹</span>
-              </div>
-              <div style={rowRight}>
-                <span style={rowText}>{profile?.phone ? 'ژمارەی مۆبایل' : 'ژمارەی مۆبایل زیاد بکە'}</span>
-                <span style={rowIcon}>📱</span>
               </div>
             </>
           )}
@@ -176,7 +176,7 @@ export default function ProfilePage() {
 
         {/* Name Change */}
         <div
-          style={row}
+          style={{ ...row, cursor: 'pointer' }}
           onClick={() => { if (canChangeName() && !editingName) { setNewName(displayName); setEditingName(true) } }}
         >
           {editingName ? (
@@ -196,15 +196,15 @@ export default function ProfilePage() {
             </div>
           ) : (
             <>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <span style={rowArrow}>‹</span>
-              </div>
               <div style={rowRight}>
+                <span style={rowIcon}>✏️</span>
                 <div>
                   <span style={{ ...rowText, color: canChangeName() ? '#1a1a1a' : '#a8a29e' }}>ناوەکەت بگۆڕە</span>
                   {!canChangeName() && <p style={{ fontSize: 10, color: '#a8a29e', marginTop: 2 }}>{daysUntilNameChange()} ڕۆژی دیکە</p>}
                 </div>
-                <span style={rowIcon}>✏️</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span style={rowArrow}>‹</span>
               </div>
             </>
           )}
@@ -212,13 +212,13 @@ export default function ProfilePage() {
 
         {/* Verification */}
         {role !== 'passenger' && (
-          <div style={rowLast}>
+          <div style={{ ...rowLast, cursor: 'pointer' }}>
+            <div style={rowRight}>
+              <span style={rowIcon}>🪪</span>
+              <span style={rowText}>ناسینەوە</span>
+            </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <span style={rowArrow}>‹</span>
-            </div>
-            <div style={rowRight}>
-              <span style={rowText}>ناسینەوە</span>
-              <span style={rowIcon}>🪪</span>
             </div>
           </div>
         )}
@@ -228,7 +228,7 @@ export default function ProfilePage() {
       <div style={sectionLabel}>ئەکاونت</div>
       <div style={card}>
         <div
-          style={rowLast}
+          style={{ ...rowLast, cursor: 'pointer' }}
           onClick={() => { if (!showDeleteConfirm) setShowDeleteConfirm(true) }}
         >
           {showDeleteConfirm ? (
@@ -241,12 +241,12 @@ export default function ProfilePage() {
             </div>
           ) : (
             <>
+              <div style={rowRight}>
+                <span style={rowIcon}>🗑️</span>
+                <span style={rowText}>سڕینەوەی ئەکاونت</span>
+              </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <span style={rowArrow}>‹</span>
-              </div>
-              <div style={rowRight}>
-                <span style={rowText}>سڕینەوەی ئەکاونت</span>
-                <span style={rowIcon}>🗑️</span>
               </div>
             </>
           )}
