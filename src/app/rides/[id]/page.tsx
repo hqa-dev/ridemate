@@ -519,7 +519,7 @@ export default function RideDetailPage() {
                 borderRadius: 14,
                 padding: '18px 16px',
               }}>
-                <span style={{ fontSize: 28, display: 'block', marginBottom: 8 }}>✅</span>
+                <span style={{ fontSize: 28, display: 'block', marginBottom: 8 }}></span>
                 <p style={{ fontWeight: 600, color: '#16a34a', marginBottom: 12, fontSize: 14 }}>قبوڵ کرا!</p>
                 {waLink ? (
                   <a href={waLink} target="_blank" rel="noopener noreferrer" style={{ display: 'block', background: '#25D366', color: 'white', border: 'none', borderRadius: 12, padding: 12, fontSize: 14, fontWeight: 600, textDecoration: 'none', textAlign: 'center' }}>
