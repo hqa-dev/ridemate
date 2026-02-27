@@ -463,7 +463,7 @@ export default function RideDetailPage() {
                   border: '1.5px solid #fde8d0',
                 }}>
                   <p style={{ fontWeight: 700, fontSize: 15, color: '#1a1a1a', marginBottom: 4 }}>چۆن بوو گەشتەکە؟</p>
-                  <p style={{ fontSize: 12, color: '#a8a29e', marginBottom: 14 }}>هەڵسەنگاندنەکەت دوای ٧٢ کاتژمێر دەردەکەوێ</p>
+                  <p style={{ fontSize: 12, color: '#a8a29e', marginBottom: 14 }}>هەڵسەنگاندنەکەت هەڵسەنگاندنەکەت هەڵسەنگاندنەکەت دوای ٧٢ کاتژمێر دەردەکەوێ</p>
                   <StarSelector value={selectedRating} onChange={setSelectedRating} />
                   {selectedRating > 0 && (
                     <button
@@ -491,7 +491,7 @@ export default function RideDetailPage() {
                 <div style={{ textAlign: 'center', background: '#f0fdf4', borderRadius: 14, padding: '18px 16px', border: '1.5px solid #bbf7d0' }}>
                   <span style={{ fontSize: 28, display: 'block', marginBottom: 6 }}>⭐</span>
                   <p style={{ fontWeight: 600, color: '#16a34a', fontSize: 14 }}>سوپاس بۆ هەڵسەنگاندنەکەت!</p>
-                  <p style={{ fontSize: 12, color: '#a8a29e', marginTop: 4 }}>دوای ٧٢ کاتژمێر دەردەکەوێ</p>
+                  <p style={{ fontSize: 12, color: '#a8a29e', marginTop: 4 }}>هەڵسەنگاندنەکەت هەڵسەنگاندنەکەت هەڵسەنگاندنەکەت دوای ٧٢ کاتژمێر دەردەکەوێ</p>
                 </div>
               )
             ) :
