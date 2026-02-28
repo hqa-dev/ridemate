@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { ku } from '@/lib/translations'
 import { createClient } from '@/lib/supabase/client'
 
+const CITY_KEYS = ['', 'erbil', 'suli', 'duhok'] as const
 const CITIES: Record<string, string> = {
   erbil: ku.erbil,
   suli: ku.suli,
@@ -29,6 +30,12 @@ export default function PostRidePage() {
   const [notes, setNotes] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+
+  function cycleCity(current: string, setter: (v: string) => void) {
+    const idx = CITY_KEYS.indexOf(current as typeof CITY_KEYS[number])
+    const next = CITY_KEYS[(idx + 1) % CITY_KEYS.length]
+    setter(next)
+  }
 
   async function handleSubmit() {
     if (!fromCity || !toCity || !date || !time || !seats) {
@@ -94,6 +101,20 @@ export default function PostRidePage() {
     display: 'block',
   }
 
+  const cityBoxStyle = (hasValue: boolean): React.CSSProperties => ({
+    background: '#2a2a2a',
+    borderRadius: 6,
+    padding: '6px 8px',
+    flex: 1,
+    fontSize: 10,
+    color: hasValue ? '#e5e5e5' : '#777',
+    cursor: 'pointer',
+    fontFamily: "'Noto Sans Arabic', sans-serif",
+    direction: 'rtl',
+    userSelect: 'none',
+    textAlign: 'right',
+  })
+
   return (
     <div style={{ direction: 'rtl', minHeight: '100vh', background: '#121212', maxWidth: 480, margin: '0 auto', padding: '24px 20px 96px', fontFamily: "'Noto Sans Arabic', sans-serif", position: 'relative' }}>
 
@@ -107,28 +128,14 @@ export default function PostRidePage() {
         {/* Route row */}
         <div style={{ padding: '8px 12px', display: 'flex', gap: 6, alignItems: 'center', direction: 'rtl' }}>
           <div style={{ width: 5, height: 5, borderRadius: '50%', border: '2px solid #df6530', flexShrink: 0 }} />
-          <select
-            value={fromCity}
-            onChange={(e) => setFromCity(e.target.value)}
-            style={{ background: '#2a2a2a', borderRadius: 6, padding: '6px 8px', flex: 1, fontSize: 10, color: fromCity ? '#e5e5e5' : '#777', border: 'none', outline: 'none', fontFamily: "'Noto Sans Arabic', sans-serif", direction: 'rtl', appearance: 'none' as const, WebkitAppearance: 'none', colorScheme: 'dark' }}
-          >
-            <option value="">لە کوێ؟</option>
-            {Object.entries(CITIES).map(([k, v]) => (
-              <option key={k} value={k}>{v}</option>
-            ))}
-          </select>
+          <div onClick={() => cycleCity(fromCity, setFromCity)} style={cityBoxStyle(!!fromCity)}>
+            {fromCity ? CITIES[fromCity] : 'لە کوێ؟'}
+          </div>
           <span style={{ fontSize: 9, color: '#333' }}>←</span>
           <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#e5e5e5', flexShrink: 0 }} />
-          <select
-            value={toCity}
-            onChange={(e) => setToCity(e.target.value)}
-            style={{ background: '#2a2a2a', borderRadius: 6, padding: '6px 8px', flex: 1, fontSize: 10, color: toCity ? '#e5e5e5' : '#777', border: 'none', outline: 'none', fontFamily: "'Noto Sans Arabic', sans-serif", direction: 'rtl', appearance: 'none' as const, WebkitAppearance: 'none', colorScheme: 'dark' }}
-          >
-            <option value="">بۆ کوێ؟</option>
-            {Object.entries(CITIES).map(([k, v]) => (
-              <option key={k} value={k}>{v}</option>
-            ))}
-          </select>
+          <div onClick={() => cycleCity(toCity, setToCity)} style={cityBoxStyle(!!toCity)}>
+            {toCity ? CITIES[toCity] : 'بۆ کوێ؟'}
+          </div>
           <div style={{ width: 1, height: 16, background: '#2a2a2a' }} />
           <div style={{ flex: 0 }}>
             <input type="date" value={date} onChange={(e) => setDate(e.target.value)}
