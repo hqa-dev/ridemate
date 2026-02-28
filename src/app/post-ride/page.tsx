@@ -108,7 +108,7 @@ export default function PostRidePage() {
 
   const labelStyle: React.CSSProperties = {
     fontSize: 10,
-    color: '#777',
+    color: '#e5e5e5',
     marginBottom: 4,
     display: 'block',
   }
@@ -231,7 +231,7 @@ export default function PostRidePage() {
       <div style={{ background: '#1e1e1e', borderRadius: 14, marginBottom: 19, boxShadow: '0 2px 8px rgba(0,0,0,0.3)', overflow: 'hidden' }}>
         <div style={{ padding: '10px 14px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-            <span style={{ fontSize: 12, color: '#aaa' }}>جگەرەکێش</span>
+            <span style={{ fontSize: 12, color: '#e5e5e5' }}>جگەرەکێش</span>
             <div
               onClick={() => setSmoking(!smoking)}
               style={{
