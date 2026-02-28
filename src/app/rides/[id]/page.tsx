@@ -545,6 +545,18 @@ export default function RideDetailPage() {
                   <p style={{ color: '#666', fontSize: 12 }}>شۆفێر ژمارەی مۆبایلی زیاد نەکردووە</p>
                 )}
               </div>
+            ) : requestStatus === 'declined' ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0' }}>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M15 9l-6 6M9 9l6 6" />
+                </svg>
+                <div style={{ width: 1, height: 32, background: '#333', flexShrink: 0, margin: '0 5px' }} />
+                <div>
+                  <p style={{ fontWeight: 500, color: '#f87171', fontSize: 13, margin: '0 0 3px' }}>داواکاریەکت ڕەت کرایەوە</p>
+                  <p style={{ fontSize: 11, color: T.textFaint, margin: 0, lineHeight: 1.6 }}>شۆفێر داواکاریەکەتی قبوڵ نەکرد</p>
+                </div>
+              </div>
             ) : (
               <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0' }}>
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>

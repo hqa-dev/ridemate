@@ -90,12 +90,15 @@ export default function HomePage() {
   }
 
   return (
-    <div style={{ direction: 'rtl', minHeight: '100vh', background: '#121212', maxWidth: 480, margin: '0 auto', padding: '24px 20px 96px' }}>
+    <div style={{ direction: 'rtl', height: '100vh', background: '#121212', maxWidth: 480, margin: '0 auto', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
 
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-        <h1 style={{ fontSize: 28, fontWeight: 800, color: '#df6530', letterSpacing: -1 }}>ڕێ</h1>
-      </div>
+      {/* Fixed header + search */}
+      <div style={{ padding: '24px 20px 0', flexShrink: 0 }}>
+
+        {/* Header */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: '#df6530', letterSpacing: -1 }}>ڕێ</h1>
+        </div>
 
       {/* Search bar — collapsed */}
       {!searchOpen && (
@@ -214,7 +217,10 @@ export default function HomePage() {
           </div>
         </div>
       )}
+      </div>
 
+      {/* Scrollable rides */}
+      <div style={{ flex: 1, overflowY: 'auto', padding: '0 20px 96px' }}>
       {/* Rides */}
       {loading ? (
         <div />
@@ -276,6 +282,7 @@ export default function HomePage() {
           </Link>
         )
       })}
+      </div>
 
       <BottomNav />
     </div>
