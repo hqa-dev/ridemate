@@ -11,11 +11,47 @@ const CITIES: Record<string, string> = {
   duhok: ku.duhok,
 }
 
+const ROUTE_DISTANCE: Record<string, string> = {
+  'erbil-suli': '١٦٠ کم',
+  'suli-erbil': '١٦٠ کم',
+  'erbil-duhok': '١٨٠ کم',
+  'duhok-erbil': '١٨٠ کم',
+  'suli-duhok': '٣٤٠ کم',
+  'duhok-suli': '٣٤٠ کم',
+}
+
+function toKurdishNum(n: number | string): string {
+  return String(n).replace(/[0-9]/g, (d) => '٠١٢٣٤٥٦٧٨٩'[Number(d)])
+}
+
+function formatTime(dt: string): string {
+  const d = new Date(dt)
+  const h = d.getHours()
+  const m = d.getMinutes().toString().padStart(2, '0')
+  return `${h}:${m}`
+}
+
+function estimateArrival(dt: string, fromCity: string, toCity: string): string {
+  const d = new Date(dt)
+  const hours: Record<string, number> = {
+    'erbil-suli': 2, 'suli-erbil': 2,
+    'erbil-duhok': 3, 'duhok-erbil': 3,
+    'suli-duhok': 5, 'duhok-suli': 5,
+  }
+  const key = `${fromCity}-${toCity}`
+  const add = hours[key] || 2
+  d.setHours(d.getHours() + add)
+  const h = d.getHours()
+  const m = d.getMinutes().toString().padStart(2, '0')
+  return `${h}:${m}`
+}
+
 export default function HomePage() {
   const [from, setFrom] = useState('')
   const [to, setTo] = useState('')
   const [rides, setRides] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [searchOpen, setSearchOpen] = useState(false)
   const supabase = createClient()
 
   useEffect(() => {
@@ -45,85 +81,197 @@ export default function HomePage() {
     setLoading(false)
   }
 
-  const pill = { background: '#2a2a2a', color: '#aaa', fontSize: '0.8rem', padding: '0.2rem 0.65rem', borderRadius: '999px', display: 'inline-block' }
-  const card = { background: '#1e1e1e', borderRadius: '1rem', padding: '1.25rem', marginBottom: '0.75rem', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' } as React.CSSProperties
-  const select = { width: '100%', background: '#2a2a2a', border: '1px solid #333', borderRadius: '0.75rem', padding: '0.75rem 1rem 0.75rem 2.5rem', fontSize: '0.95rem', outline: 'none', direction: 'rtl', color: '#e5e5e5' } as React.CSSProperties
+  function selectCity(field: 'from' | 'to', city: string) {
+    if (field === 'from') {
+      setFrom(prev => prev === city ? '' : city)
+    } else {
+      setTo(prev => prev === city ? '' : city)
+    }
+  }
 
   return (
-    <div style={{ direction: 'rtl', minHeight: '100vh', background: '#121212', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem' }}>
-      <style>{`select.ride-select { -webkit-appearance: none !important; -moz-appearance: none !important; appearance: none !important; } select.ride-select option { background: #2a2a2a; color: #e5e5e5; }`}</style>
+    <div style={{ direction: 'rtl', minHeight: '100vh', background: '#121212', maxWidth: 480, margin: '0 auto', padding: '24px 20px 96px' }}>
 
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
-        <h1 style={{ fontSize: '1.4rem', fontWeight: 700, color: '#e5e5e5' }}>بگە<span style={{ color: '#df6530' }}>ڕێ</span></h1>
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+        <h1 style={{ fontSize: 22, fontWeight: 700, color: '#e5e5e5' }}>بگە<span style={{ color: '#df6530' }}>ڕێ</span></h1>
       </div>
 
-      <div style={{ background: '#1e1e1e', borderRadius: '1rem', padding: '0.75rem 1.25rem', marginBottom: '1.25rem', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
-        <div>
-          <select className="ride-select" value={from} onChange={e => setFrom(e.target.value)} style={select}>
-            <option value="">لە کوێ؟</option>
-            {Object.entries(CITIES).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
-          </select>
+      {/* Search bar — collapsed */}
+      {!searchOpen && (
+        <div
+          onClick={() => setSearchOpen(true)}
+          style={{
+            background: '#1e1e1e',
+            borderRadius: 50,
+            padding: '14px 20px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 10,
+            cursor: 'pointer',
+            marginBottom: 20,
+          }}
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#df6530" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+          </svg>
+          <span style={{ fontSize: 13.5, color: '#777' }}>
+            {from && to ? (
+              <>{CITIES[from]} ← {CITIES[to]}</>
+            ) : (
+              <>بگە<span style={{ color: '#df6530', fontWeight: 700 }}>ڕێ</span></>
+            )}
+          </span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', padding: '0.15rem 0', cursor: 'pointer' }} onClick={() => { const t = from; setFrom(to); setTo(t) }}>
-          <div style={{ flex: 1, height: '1px', background: '#333' }} />
-          <span style={{ padding: '0 0.5rem', color: '#555', fontSize: '0.75rem' }}>⇅</span>
-          <div style={{ flex: 1, height: '1px', background: '#333' }} />
-        </div>
-        <div>
-          <select className="ride-select" value={to} onChange={e => setTo(e.target.value)} style={select}>
-            <option value="">بۆ کوێ؟</option>
-            {Object.entries(CITIES).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
-          </select>
-        </div>
-      </div>
+      )}
 
+      {/* Search bar — expanded */}
+      {searchOpen && (
+        <div style={{
+          background: '#1e1e1e',
+          borderRadius: 20,
+          boxShadow: '0 4px 24px rgba(0,0,0,0.3)',
+          padding: 20,
+          marginBottom: 20,
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+            <div
+              onClick={() => setSearchOpen(false)}
+              style={{ cursor: 'pointer', width: 28, height: 28, borderRadius: '50%', background: '#2a2a2a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#777" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 6L6 18"/><path d="M6 6l12 12"/>
+              </svg>
+            </div>
+            <span style={{ fontSize: 14, fontWeight: 600, color: '#e5e5e5' }}>بگە<span style={{ color: '#df6530' }}>ڕێ</span></span>
+          </div>
+
+          {/* From field */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0' }}>
+            <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#df6530', flexShrink: 0 }} />
+            <span style={{ fontSize: 14, color: from ? '#e5e5e5' : '#555', fontFamily: "'Noto Sans Arabic', sans-serif" }}>
+              {from ? CITIES[from] : 'لە کوێ؟'}
+            </span>
+          </div>
+
+          <div style={{ height: 1, background: '#2a2a2a', margin: '0 22px' }} />
+
+          {/* To field */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0' }}>
+            <div style={{ width: 10, height: 10, borderRadius: '50%', border: '2px solid #e5e5e5', background: 'transparent', flexShrink: 0 }} />
+            <span style={{ fontSize: 14, color: to ? '#e5e5e5' : '#555', fontFamily: "'Noto Sans Arabic', sans-serif" }}>
+              {to ? CITIES[to] : 'بۆ کوێ؟'}
+            </span>
+          </div>
+
+          {/* City chips — From */}
+          <div style={{ fontSize: 10, color: '#555', marginTop: 10, marginBottom: 6 }}>لە کوێ؟</div>
+          <div style={{ display: 'flex', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
+            {Object.entries(CITIES).map(([k, v]) => (
+              <button
+                key={`from-${k}`}
+                onClick={() => selectCity('from', k)}
+                style={{
+                  padding: '8px 16px',
+                  borderRadius: 50,
+                  background: from === k ? '#df6530' : '#2a2a2a',
+                  color: from === k ? 'white' : '#aaa',
+                  fontSize: 12.5,
+                  cursor: 'pointer',
+                  border: 'none',
+                  fontFamily: "'Noto Sans Arabic', sans-serif",
+                  transition: 'all 0.15s',
+                }}
+              >
+                {v}
+              </button>
+            ))}
+          </div>
+
+          {/* City chips — To */}
+          <div style={{ fontSize: 10, color: '#555', marginBottom: 6 }}>بۆ کوێ؟</div>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            {Object.entries(CITIES).map(([k, v]) => (
+              <button
+                key={`to-${k}`}
+                onClick={() => selectCity('to', k)}
+                style={{
+                  padding: '8px 16px',
+                  borderRadius: 50,
+                  background: to === k ? '#df6530' : '#2a2a2a',
+                  color: to === k ? 'white' : '#aaa',
+                  fontSize: 12.5,
+                  cursor: 'pointer',
+                  border: 'none',
+                  fontFamily: "'Noto Sans Arabic', sans-serif",
+                  transition: 'all 0.15s',
+                }}
+              >
+                {v}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Rides */}
       {loading ? (
         <div />
       ) : rides.length === 0 ? (
-        <p style={{ textAlign: 'center', color: '#666', padding: '3rem 0' }}>{ku.noRidesFound}</p>
+        <p style={{ textAlign: 'center', color: '#555', padding: '3rem 0' }}>{ku.noRidesFound}</p>
       ) : rides.map(ride => {
         const driver = ride.driver || {}
-        const carParts = [ride.car_make, ride.car_model].filter(Boolean).join(' ')
-        const carDisplay = carParts ? `${carParts}${ride.car_color ? ' - ' + ride.car_color : ''}` : ''
+        const depTime = formatTime(ride.departure_time)
+        const arrTime = estimateArrival(ride.departure_time, ride.from_city, ride.to_city)
+        const routeKey = `${ride.from_city}-${ride.to_city}`
+        const distance = ROUTE_DISTANCE[routeKey] || ''
+        const priceDisplay = ride.price_type === 'coffee'
+          ? ku.coffeeAndConvo
+          : `${toKurdishNum(ride.price_iqd?.toLocaleString() || '0')} دینار`
+        const seatsDisplay = `${toKurdishNum(ride.available_seats)} شوێن بەردەستە`
+        const isFull = ride.available_seats <= 0
 
         return (
           <Link key={ride.id} href={`/rides/${ride.id}`} style={{ textDecoration: 'none' }}>
-            <div style={card}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.6rem' }}>
-                <div style={{ display: 'flex', gap: '0.35rem', alignItems: 'center' }}>
-                  <span style={{ ...pill, fontSize: '0.8rem', padding: '0.25rem 0.6rem' }}>{CITIES[ride.from_city]}</span>
-                  <span style={{ color: '#666', fontSize: '0.8rem' }}>←</span>
-                  <span style={{ ...pill, fontSize: '0.8rem', padding: '0.25rem 0.6rem' }}>{CITIES[ride.to_city]}</span>
+            <div style={{
+              background: '#1e1e1e',
+              borderRadius: 16,
+              marginBottom: 10,
+              boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+              overflow: 'hidden',
+              opacity: isFull ? 0.6 : 1,
+            }}>
+              {/* Timeline header */}
+              <div style={{ padding: '16px 18px 12px' }} dir="ltr">
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <div style={{ textAlign: 'center', minWidth: 44 }}>
+                    <div style={{ fontSize: 15, fontWeight: 700, color: '#e5e5e5' }}>{depTime}</div>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', flex: 1, margin: '0 8px' }}>
+                    <div style={{ width: 7, height: 7, borderRadius: '50%', border: '2px solid #df6530', flexShrink: 0 }} />
+                    <div style={{ flex: 1, height: 1, background: 'linear-gradient(to right, #df6530, #333, #e5e5e5)' }} />
+                    <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#e5e5e5', flexShrink: 0 }} />
+                  </div>
+                  <div style={{ textAlign: 'center', minWidth: 44 }}>
+                    <div style={{ fontSize: 15, fontWeight: 700, color: '#e5e5e5' }}>{arrTime}</div>
+                  </div>
                 </div>
-                <span dir="ltr" style={{ fontSize: '0.82rem', color: '#777' }}>{new Date(ride.departure_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#e5e5e5' }}>{driver.full_name || 'شۆفێر'}</span>
-                  {driver.verified && <span style={{ background: '#1a2e1a', color: '#4ade80', fontSize: '0.7rem', padding: '0.15rem 0.5rem', borderRadius: '999px', fontWeight: 600 }}>✓</span>}
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  {ride.available_seats > 0
-                    ? <span style={{ background: '#2a2a2a', color: '#aaa', fontSize: '0.78rem', padding: '0.25rem 0.65rem', borderRadius: '999px' }}>{ride.available_seats} شوێن</span>
-                    : <span style={{ background: '#2e1a1a', color: '#f87171', fontSize: '0.78rem', padding: '0.25rem 0.65rem', borderRadius: '999px', fontWeight: 600 }}>پڕە</span>
-                  }
-                  {ride.price_type === 'coffee'
-                    ? <span style={{ background: '#2a2a2a', color: '#aaa', fontSize: '0.78rem', padding: '0.25rem 0.65rem', borderRadius: '999px' }}>{ku.coffeeAndConvo}</span>
-                    : <span style={{ background: '#2a2a2a', color: '#aaa', fontSize: '0.78rem', padding: '0.25rem 0.65rem', borderRadius: '999px' }}>{ride.price_iqd?.toLocaleString()} دینار</span>
-                  }
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
+                  <span style={{ fontSize: 11, color: '#777', minWidth: 44, textAlign: 'center' }}>{CITIES[ride.from_city]}</span>
+                  <span style={{ fontSize: 9, color: '#555' }}>{distance}</span>
+                  <span style={{ fontSize: 11, color: '#777', minWidth: 44, textAlign: 'center' }}>{CITIES[ride.to_city]}</span>
                 </div>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '0.5rem' }}>
-                {carDisplay ? <p style={{ fontSize: '0.75rem', color: '#666', margin: 0 }}>{carDisplay}</p> : <div />}
+
+              {/* Footer — driver · seats · price */}
+              <div style={{ borderTop: '1px solid #2a2a2a', padding: '10px 18px', display: 'flex', alignItems: 'center', direction: 'rtl' }}>
+                <span style={{ flex: 1, textAlign: 'right', fontSize: 12, color: '#aaa' }}>{driver.full_name || 'شۆفێر'}</span>
+                <span style={{ flex: 1, textAlign: 'center', fontSize: 10, color: '#666' }}>
+                  {isFull ? 'پڕە' : seatsDisplay}
+                </span>
+                <span style={{ flex: 1, textAlign: 'left', fontSize: 13, fontWeight: 500, color: '#e5e5e5' }}>{priceDisplay}</span>
               </div>
-              <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.4rem', flexWrap: 'wrap' }}>
-                {ride.smoking !== null && (
-                  <span style={{ background: ride.smoking ? '#2e1a1a' : '#1a2e1a', color: ride.smoking ? '#f87171' : '#4ade80', fontSize: '0.7rem', padding: '0.15rem 0.5rem', borderRadius: '999px', fontWeight: 600 }}>
-                    {ride.smoking ? '🚬 جگەرەکێشە' : '🚭 جگەرەکێش نییە'}
-                  </span>
-                )}
-              </div>
-              {ride.notes && <p style={{ fontSize: '0.78rem', color: '#777', marginTop: '0.4rem', lineHeight: 1.6 }}>{ride.notes}</p>}
             </div>
           </Link>
         )
