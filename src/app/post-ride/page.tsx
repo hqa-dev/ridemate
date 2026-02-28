@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { BottomNav } from '@/components/layout/BottomNav'
 import { useRouter } from 'next/navigation'
 import { ku } from '@/lib/translations'
@@ -12,148 +12,8 @@ const CITIES: Record<string, string> = {
   duhok: ku.duhok,
 }
 
-const KURDISH_MONTHS = ['کانوونی دووەم', 'شوبات', 'ئادار', 'نیسان', 'ئایار', 'حوزەیران', 'تەمووز', 'ئاب', 'ئەیلوول', 'تشرینی یەکەم', 'تشرینی دووەم', 'کانوونی یەکەم']
-const KURDISH_DAYS = ['ش', 'ی', 'دش', 'چ', 'پ', 'هـ', 'ج']
-
 function toKurdishNum(n: number): string {
   return n.toString().replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[parseInt(d)])
-}
-
-function CalendarPopup({ onSelect, onClose }: { onSelect: (date: string) => void; onClose: () => void }) {
-  const today = new Date()
-  const [year, setYear] = useState(today.getFullYear())
-  const [month, setMonth] = useState(today.getMonth())
-
-  const firstDay = new Date(year, month, 1).getDay()
-  const offset = firstDay === 0 ? 6 : firstDay - 1
-  const daysInMonth = new Date(year, month + 1, 0).getDate()
-  const todayDate = today.getDate()
-  const todayMonth = today.getMonth()
-  const todayYear = today.getFullYear()
-
-  function prevMonth() {
-    if (month === 0) { setMonth(11); setYear(y => y - 1) }
-    else setMonth(m => m - 1)
-  }
-  function nextMonth() {
-    if (month === 11) { setMonth(0); setYear(y => y + 1) }
-    else setMonth(m => m + 1)
-  }
-
-  function pick(day: number) {
-    const m = String(month + 1).padStart(2, '0')
-    const d = String(day).padStart(2, '0')
-    onSelect(`${year}-${m}-${d}`)
-  }
-
-  const isPast = (day: number) => {
-    const d = new Date(year, month, day)
-    const t = new Date(todayYear, todayMonth, todayDate)
-    return d < t
-  }
-
-  return (
-    <div onClick={onClose} style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.6)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div onClick={e => e.stopPropagation()} style={{ background: '#1e1e1e', borderRadius: 14, padding: 14, width: 280, boxShadow: '0 4px 20px rgba(0,0,0,0.5)' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10, direction: 'rtl' }}>
-          <span onClick={nextMonth} style={{ fontSize: 14, color: '#777', cursor: 'pointer', padding: '0 8px' }}>‹</span>
-          <span style={{ fontSize: 11, color: '#e5e5e5' }}>{KURDISH_MONTHS[month]} {toKurdishNum(year)}</span>
-          <span onClick={prevMonth} style={{ fontSize: 14, color: '#777', cursor: 'pointer', padding: '0 8px' }}>›</span>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: 2, textAlign: 'center', marginBottom: 6, direction: 'rtl' }}>
-          {KURDISH_DAYS.map(d => <span key={d} style={{ fontSize: 8, color: '#555' }}>{d}</span>)}
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: 2, textAlign: 'center', direction: 'rtl' }}>
-          {Array(offset).fill(null).map((_, i) => <span key={'e' + i} />)}
-          {Array(daysInMonth).fill(null).map((_, i) => {
-            const day = i + 1
-            const isToday = day === todayDate && month === todayMonth && year === todayYear
-            const past = isPast(day)
-            return (
-              <span
-                key={day}
-                onClick={() => !past && pick(day)}
-                style={{
-                  fontSize: 9,
-                  color: past ? '#333' : isToday ? 'white' : '#aaa',
-                  padding: '6px 0',
-                  cursor: past ? 'default' : 'pointer',
-                  background: isToday ? '#df6530' : 'transparent',
-                  borderRadius: '50%',
-                  width: 24, height: 24,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  margin: '0 auto',
-                }}
-              >
-                {toKurdishNum(day)}
-              </span>
-            )
-          })}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function TimePopup({ onSelect, onClose }: { onSelect: (time: string) => void; onClose: () => void }) {
-  const hours = Array.from({ length: 17 }, (_, i) => i + 6) // 6:00 to 22:00
-  return (
-    <div onClick={onClose} style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.6)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div onClick={e => e.stopPropagation()} style={{ background: '#1e1e1e', borderRadius: 14, padding: 14, width: 260, boxShadow: '0 4px 20px rgba(0,0,0,0.5)' }}>
-        <div style={{ fontSize: 11, color: '#777', textAlign: 'center', marginBottom: 10, direction: 'rtl' }}>کات هەڵبژێرە</div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 6 }}>
-          {hours.map(h => {
-            const t = `${String(h).padStart(2, '0')}:00`
-            return (
-              <div
-                key={h}
-                onClick={() => onSelect(t)}
-                style={{
-                  background: '#2a2a2a',
-                  borderRadius: 6,
-                  padding: '8px 0',
-                  textAlign: 'center',
-                  fontSize: 10,
-                  color: '#aaa',
-                  cursor: 'pointer',
-                }}
-              >
-                {t}
-              </div>
-            )
-          })}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function SeatsPopup({ onSelect, onClose, current }: { onSelect: (s: string) => void; onClose: () => void; current: string }) {
-  return (
-    <div onClick={onClose} style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.6)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div onClick={e => e.stopPropagation()} style={{ background: '#1e1e1e', borderRadius: 14, padding: 14, width: 200, boxShadow: '0 4px 20px rgba(0,0,0,0.5)' }}>
-        <div style={{ fontSize: 11, color: '#777', textAlign: 'center', marginBottom: 10, direction: 'rtl' }}>جێ هەڵبژێرە</div>
-        <div style={{ display: 'flex', gap: 6, justifyContent: 'center' }}>
-          {[1, 2, 3, 4].map(n => (
-            <div
-              key={n}
-              onClick={() => onSelect(String(n))}
-              style={{
-                background: current === String(n) ? '#df6530' : '#2a2a2a',
-                color: current === String(n) ? 'white' : '#aaa',
-                borderRadius: 6,
-                padding: '8px 14px',
-                fontSize: 12,
-                cursor: 'pointer',
-              }}
-            >
-              {n}
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  )
 }
 
 export default function PostRidePage() {
@@ -175,9 +35,8 @@ export default function PostRidePage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  const [showCalendar, setShowCalendar] = useState(false)
-  const [showTime, setShowTime] = useState(false)
-  const [showSeats, setShowSeats] = useState(false)
+  const dateRef = useRef<HTMLInputElement>(null)
+  const timeRef = useRef<HTMLInputElement>(null)
 
   function cycleCity(current: string, setter: (v: string) => void) {
     const idx = CITY_KEYS.indexOf(current as typeof CITY_KEYS[number])
@@ -185,10 +44,20 @@ export default function PostRidePage() {
     setter(next)
   }
 
+  function cycleSeats() {
+    const n = parseInt(seats)
+    setSeats(String(n >= 4 ? 1 : n + 1))
+  }
+
   function formatDate(d: string) {
     if (!d) return 'بەروار'
-    const [y, m, day] = d.split('-')
+    const [, m, day] = d.split('-')
     return `${toKurdishNum(parseInt(day))}/${toKurdishNum(parseInt(m))}`
+  }
+
+  function formatTime(t: string) {
+    if (!t) return 'کات'
+    return t
   }
 
   async function handleSubmit() {
@@ -264,15 +133,22 @@ export default function PostRidePage() {
     whiteSpace: 'nowrap',
     cursor: 'pointer',
     userSelect: 'none',
+    position: 'relative',
   })
+
+  const hiddenInputStyle: React.CSSProperties = {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    opacity: 0,
+    cursor: 'pointer',
+    fontSize: 16,
+  }
 
   return (
     <div style={{ direction: 'rtl', minHeight: '100vh', background: '#121212', maxWidth: 480, margin: '0 auto', padding: '24px 20px 96px', fontFamily: "'Noto Sans Arabic', sans-serif", position: 'relative' }}>
-
-      {/* Popups */}
-      {showCalendar && <CalendarPopup onSelect={(d) => { setDate(d); setShowCalendar(false) }} onClose={() => setShowCalendar(false)} />}
-      {showTime && <TimePopup onSelect={(t) => { setTime(t); setShowTime(false) }} onClose={() => setShowTime(false)} />}
-      {showSeats && <SeatsPopup current={seats} onSelect={(s) => { setSeats(s); setShowSeats(false) }} onClose={() => setShowSeats(false)} />}
 
       {/* Header */}
       <div style={{ marginBottom: 40 }}>
@@ -293,11 +169,32 @@ export default function PostRidePage() {
             {toCity ? CITIES[toCity] : 'بۆ کوێ؟'}
           </div>
           <div style={{ width: 1, height: 16, background: '#2a2a2a' }} />
-          <div onClick={() => setShowCalendar(true)} style={metaStyle(!!date)}>{formatDate(date)}</div>
+          {/* Date - hidden native picker */}
+          <div onClick={() => dateRef.current?.showPicker()} style={metaStyle(!!date)}>
+            {formatDate(date)}
+            <input
+              ref={dateRef}
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              style={hiddenInputStyle}
+            />
+          </div>
           <div style={{ width: 1, height: 16, background: '#2a2a2a' }} />
-          <div onClick={() => setShowTime(true)} style={metaStyle(!!time)}>{time || 'کات'}</div>
+          {/* Time - hidden native picker */}
+          <div onClick={() => timeRef.current?.showPicker()} style={metaStyle(!!time)}>
+            {formatTime(time)}
+            <input
+              ref={timeRef}
+              type="time"
+              value={time}
+              onChange={(e) => setTime(e.target.value)}
+              style={hiddenInputStyle}
+            />
+          </div>
           <div style={{ width: 1, height: 16, background: '#2a2a2a' }} />
-          <div onClick={() => setShowSeats(true)} style={metaStyle(true)}>{seats} جێ</div>
+          {/* Seats - tap to cycle */}
+          <div onClick={cycleSeats} style={metaStyle(true)}>{seats} جێ</div>
         </div>
         {/* Price row */}
         <div style={{ borderTop: '1px solid #2a2a2a', padding: '8px 12px', display: 'flex', gap: 6, alignItems: 'center', direction: 'rtl' }}>
