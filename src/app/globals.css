@@ -1,3 +1,16 @@
+input, textarea, select {
+  color: #e5e5e5 !important;
+  -webkit-text-fill-color: #e5e5e5 !important;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #777 !important;
+  -webkit-text-fill-color: #777 !important;
+}
+input::placeholder, textarea::placeholder {
+  color: #777 !important;
+  -webkit-text-fill-color: #777 !important;
+}
 * {
   box-sizing: border-box;
   margin: 0;
