@@ -68,7 +68,7 @@ export default function PostRidePage() {
     borderRadius: 8,
     padding: '8px 10px',
     fontSize: 12,
-    color: '#777',
+color: '#e5e5e5',
     border: 'none',
     outline: 'none',
     width: '100%',
@@ -135,7 +135,7 @@ export default function PostRidePage() {
             <select
               value={fromCity}
               onChange={(e) => setFromCity(e.target.value)}
-              style={{ ...selectStyle, color: fromCity ? '#e5e5e5' : '#777' }}
+              style={{ ...selectStyle, color: fromCity ? '#e5e5e5' : '#aaa' }}
             >
               <option value="">لە کوێ؟</option>
               {Object.entries(CITIES).map(([k, v]) => (
