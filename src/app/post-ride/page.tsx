@@ -91,7 +91,7 @@ export default function PostRidePage() {
     color: '#e5e5e5',
     fontFamily: "'Noto Sans Arabic', sans-serif",
     width: '100%',
-    textAlign: 'center',
+    textAlign: 'center', colorScheme: 'dark',
   }
 
   const labelStyle: React.CSSProperties = {
@@ -139,12 +139,12 @@ export default function PostRidePage() {
           <div style={{ width: 1, height: 16, background: '#2a2a2a' }} />
           <div style={{ flex: 0 }}>
             <input type="date" value={date} onChange={(e) => setDate(e.target.value)}
-              style={{ ...smallInputStyle, width: 50, color: date ? '#e5e5e5' : '#555' }} />
+              style={{ ...smallInputStyle, width: 50, color: date ? '#e5e5e5' : '#aaa' }} />
           </div>
           <div style={{ width: 1, height: 16, background: '#2a2a2a' }} />
           <div style={{ flex: 0 }}>
             <input type="time" value={time} onChange={(e) => setTime(e.target.value)}
-              style={{ ...smallInputStyle, width: 36, color: time ? '#e5e5e5' : '#555' }} />
+              style={{ ...smallInputStyle, width: 36, color: time ? '#e5e5e5' : '#aaa' }} />
           </div>
           <div style={{ width: 1, height: 16, background: '#2a2a2a' }} />
           <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -224,7 +224,7 @@ export default function PostRidePage() {
       </div>
 
       {/* Error */}
-      {error && <p style={{ color: '#f87171', fontSize: 12, textAlign: 'center', marginBottom: 12 }}>{error}</p>}
+      {error && <p style={{ color: '#f87171', fontSize: 12, textAlign: 'center', colorScheme: 'dark', marginBottom: 12 }}>{error}</p>}
 
       {/* Submit — fixed above nav */}
       <div style={{ position: 'fixed', bottom: 80, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 440, padding: '0 20px', zIndex: 10 }}>
@@ -232,7 +232,7 @@ export default function PostRidePage() {
           onClick={handleSubmit}
           style={{
             background: loading ? '#555' : '#df6530', borderRadius: 14,
-            padding: 14, textAlign: 'center', cursor: loading ? 'default' : 'pointer',
+            padding: 14, textAlign: 'center', colorScheme: 'dark', cursor: loading ? 'default' : 'pointer',
           }}
         >
           <span style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>{loading ? '...' : 'برۆ'}</span>
