@@ -1,235 +1,313 @@
 'use client'
 import { useState } from 'react'
 import { BottomNav } from '@/components/layout/BottomNav'
+import { useRouter } from 'next/navigation'
 import { ku } from '@/lib/translations'
 import { createClient } from '@/lib/supabase/client'
 
-const CITIES = [
-  { value: 'erbil', label: ku.erbil },
-  { value: 'suli', label: ku.suli },
-  { value: 'duhok', label: ku.duhok },
-]
+const CITIES: Record<string, string> = {
+  erbil: ku.erbil,
+  suli: ku.suli,
+  duhok: ku.duhok,
+}
 
 export default function PostRidePage() {
+  const router = useRouter()
+  const supabase = createClient()
+
   const [fromCity, setFromCity] = useState('')
   const [toCity, setToCity] = useState('')
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
   const [seats, setSeats] = useState('1')
-  const [priceType, setPriceType] = useState<'coffee' | 'iqd'>('coffee')
-  const [priceIqd, setPriceIqd] = useState('')
+  const [priceType, setPriceType] = useState<'coffee' | 'money'>('coffee')
+  const [price, setPrice] = useState('')
   const [carMake, setCarMake] = useState('')
   const [carModel, setCarModel] = useState('')
   const [carColor, setCarColor] = useState('')
-  const [notes, setNotes] = useState('')
   const [smoking, setSmoking] = useState(false)
-  const [posted, setPosted] = useState(false)
+  const [notes, setNotes] = useState('')
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [saving, setSaving] = useState(false)
-  const [blocked, setBlocked] = useState(false)
-  const [blockReason, setBlockReason] = useState('')
-  const [checkingAuth, setCheckingAuth] = useState(true)
-  const supabase = createClient()
 
-  useState(() => {
-    const check = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) { setBlocked(true); setBlockReason('please sign in'); setCheckingAuth(false); return }
-      const { data: profile } = await supabase.from('profiles').select('role, verification_status').eq('id', user.id).single()
-      if (!profile) { setBlocked(true); setBlockReason('profile not found'); setCheckingAuth(false); return }
-      if (profile.role === 'passenger') { setBlocked(true); setBlockReason('passenger'); setCheckingAuth(false); return }
-      if (profile.verification_status !== 'verified') { setBlocked(true); setBlockReason('unverified'); setCheckingAuth(false); return }
-      setCheckingAuth(false)
-    }
-    check()
-  })
-
-  const input = { width: '100%', background: '#2a2a2a', border: '1px solid #333', borderRadius: '0.75rem', padding: '0.75rem 1rem', fontSize: '0.95rem', outline: 'none', direction: 'rtl', color: '#e5e5e5' } as React.CSSProperties
-  const select = { ...input, padding: '0.75rem 1rem 0.75rem 2.5rem' } as React.CSSProperties
-  const label = { fontSize: '0.8rem', color: '#777', display: 'block', marginBottom: '0.25rem', paddingRight: '1rem' } as React.CSSProperties
-  const section = { marginBottom: '1rem' } as React.CSSProperties
-
-  const handleSubmit = async () => {
-    setError('')
-    if (!fromCity || !toCity || !date || !time) {
-      setError('تکایە هەموو خانەکان پڕبکەوە')
+  async function handleSubmit() {
+    if (!fromCity || !toCity || !date || !time || !seats) {
+      setError('تکایە هەموو خانەکان پڕبکەرەوە')
       return
     }
     if (fromCity === toCity) {
-      setError('شاری چوون و هاتن ناتوانن هاوشێوە بن')
+      setError('شوێنی چوون و هاتن ناتوانن هاوشێوە بن')
       return
     }
 
-    setSaving(true)
+    setLoading(true)
+    setError('')
+
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) {
-      setError('تکایە چوونەژوورەوە بکە')
-      setSaving(false)
+      router.push('/auth/login')
       return
     }
 
-    const departure = `${date}T${time}:00`
-    const { error: dbError } = await supabase.from('rides').insert({
+    const departureTime = new Date(`${date}T${time}:00`).toISOString()
+
+    const { error: insertError } = await supabase.from('rides').insert({
       driver_id: user.id,
       from_city: fromCity,
       to_city: toCity,
-      departure_time: departure,
+      departure_time: departureTime,
       available_seats: parseInt(seats),
       price_type: priceType,
-      price_iqd: priceType === 'iqd' ? parseInt(priceIqd) || 0 : null,
+      price_iqd: priceType === 'money' ? parseInt(price) || 0 : null,
       car_make: carMake || null,
       car_model: carModel || null,
       car_color: carColor || null,
+      smoking_allowed: smoking,
       notes: notes || null,
-      smoking,
       status: 'active',
     })
 
-    if (dbError) {
-      setError('هەڵەیەک ڕوویدا: ' + dbError.message)
-      setSaving(false)
-      return
+    if (insertError) {
+      setError(insertError.message)
+      setLoading(false)
+    } else {
+      router.push('/home')
     }
-
-    setSaving(false)
-    setPosted(true)
   }
 
-  const handleReset = () => {
-    setFromCity(''); setToCity(''); setDate(''); setTime(''); setSeats('1')
-    setPriceType('coffee'); setPriceIqd(''); setCarMake(''); setCarModel(''); setCarColor('')
-    setNotes(''); setSmoking(false); setPosted(false); setError('')
+  const inputStyle: React.CSSProperties = {
+    background: '#2a2a2a',
+    borderRadius: 8,
+    padding: '7px 10px',
+    fontSize: 11,
+    color: '#e5e5e5',
+    border: 'none',
+    outline: 'none',
+    width: '100%',
+    fontFamily: "'Noto Sans Arabic', sans-serif",
+    direction: 'rtl',
   }
 
-  if (checkingAuth) {
-    return (
-      <div style={{ direction: 'rtl', minHeight: '100vh', background: '#121212', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem' }}>
-        <BottomNav />
-      </div>
-    )
+  const labelStyle: React.CSSProperties = {
+    fontSize: 10,
+    color: '#555',
+    marginBottom: 4,
+    display: 'block',
   }
 
-  if (blocked) {
-    const msgs: Record<string, { title: string; sub: string }> = {
-      'passenger': { title: 'تەنها شۆفێرەکان دەتوانن ڕێ پۆست بکەن', sub: '' },
-      'unverified': { title: 'ناسینەوەت تەواو نییە', sub: 'لە چاوەڕوانی ناسیندایە' },
-    }
-    const msg = msgs[blockReason] || { title: blockReason, sub: '' }
-    return (
-      <div style={{ direction: 'rtl', minHeight: '100vh', background: '#121212', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ textAlign: 'center', background: '#1e1e1e', borderRadius: '1rem', padding: '2rem 1.5rem', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
-          <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🔒</div>
-          <p style={{ color: '#e5e5e5', fontSize: '1rem', fontWeight: 600, marginBottom: '0.5rem' }}>{msg.title}</p>
-          {msg.sub && <p style={{ color: '#777', fontSize: '0.85rem' }}>{msg.sub}</p>}
-        </div>
-        <BottomNav />
-      </div>
-    )
-  }
-
-  if (posted) {
-    return (
-      <div style={{ direction: 'rtl', minHeight: '100vh', background: '#121212', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>✅</div>
-          <h2 style={{ fontSize: '1.3rem', fontWeight: 700, marginBottom: '0.5rem', color: '#e5e5e5' }}>{ku.ridePosted}</h2>
-          <button onClick={handleReset} style={{ marginTop: '1.5rem', background: '#df6530', color: 'white', border: 'none', borderRadius: '0.75rem', padding: '0.75rem 2rem', fontSize: '0.95rem', fontWeight: 600, cursor: 'pointer' }}>{ku.postAnother}</button>
-        </div>
-        <BottomNav />
-      </div>
-    )
+  const sectionTitleStyle: React.CSSProperties = {
+    fontSize: 12,
+    color: '#777',
+    marginBottom: 6,
+    direction: 'rtl' as const,
+    paddingRight: 14,
   }
 
   return (
-    <div style={{ direction: 'rtl', minHeight: '100vh', background: '#121212', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem' }}>
-      <style>{`select.ride-select { -webkit-appearance: none !important; -moz-appearance: none !important; appearance: none !important; } select.ride-select option { background: #2a2a2a; color: #e5e5e5; } input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(1); }`}</style>
-      <h1 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '1.25rem', color: '#e5e5e5' }}><><span style={{ color: '#df6530' }}>ڕێ</span>{' پۆستکە'}</></h1>
+    <div style={{ direction: 'rtl', minHeight: '100vh', background: '#121212', maxWidth: 480, margin: '0 auto', padding: '24px 20px 96px', fontFamily: "'Noto Sans Arabic', sans-serif" }}>
 
-      {error && (
-        <div style={{ background: '#2e1a1a', border: '1px solid #4a2020', borderRadius: '0.75rem', padding: '0.75rem 1rem', marginBottom: '1rem', color: '#f87171', fontSize: '0.85rem' }}>{error}</div>
-      )}
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+        <h1 style={{ fontSize: 20, fontWeight: 700, color: '#e5e5e5' }}><span style={{ color: '#df6530' }}>ڕێ</span> پۆستکە</h1>
+      </div>
 
-      <div style={{ background: '#1e1e1e', borderRadius: '1rem', padding: '1.25rem', marginBottom: '1rem', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
-        <div style={section}>
-          <label style={label}>{ku.from}</label>
-          <select className="ride-select" value={fromCity} onChange={e => setFromCity(e.target.value)} style={select}>
-            <option value="">لە کوێ؟</option>
-            {CITIES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
-          </select>
-        </div>
-        <div style={section}>
-          <label style={label}>{ku.to}</label>
-          <select className="ride-select" value={toCity} onChange={e => setToCity(e.target.value)} style={select}>
-            <option value="">بۆ کوێ؟</option>
-            {CITIES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
-          </select>
-        </div>
-        <div style={{ display: 'flex', gap: '0.75rem' }}>
-          <div style={{ ...section, flex: 1 }}>
-            <label style={label}>{ku.date || 'بەروار'}</label>
-            <input type="date" value={date} onChange={e => setDate(e.target.value)} style={{ ...input, color: date ? '#e5e5e5' : '#555' }} />
+      {/* Route Card (B3) */}
+      <div style={{ background: '#1e1e1e', borderRadius: 14, marginBottom: 16, boxShadow: '0 2px 8px rgba(0,0,0,0.3)', overflow: 'hidden' }}>
+        <div style={{ padding: '12px 14px', direction: 'rtl' }}>
+          {/* From */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div style={{ width: 6, height: 6, borderRadius: '50%', border: '2px solid #df6530', flexShrink: 0 }} />
+            <select
+              value={fromCity}
+              onChange={(e) => setFromCity(e.target.value)}
+              style={{ ...inputStyle, color: fromCity ? '#e5e5e5' : '#555' }}
+            >
+              <option value="" style={{ color: '#555' }}>لە کوێ؟</option>
+              {Object.entries(CITIES).map(([k, v]) => (
+                <option key={k} value={k}>{v}</option>
+              ))}
+            </select>
           </div>
-          <div style={{ ...section, flex: 1 }}>
-            <label style={label}>{ku.time || 'کاتژمێر'}</label>
-            <input type="time" value={time} onChange={e => setTime(e.target.value)} style={{ ...input, color: time ? '#e5e5e5' : '#555' }} />
+          <div style={{ width: 1, height: 8, background: '#333', margin: '2px 2px 2px auto' }} />
+          {/* To */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#e5e5e5', flexShrink: 0 }} />
+            <select
+              value={toCity}
+              onChange={(e) => setToCity(e.target.value)}
+              style={{ ...inputStyle, color: toCity ? '#e5e5e5' : '#555' }}
+            >
+              <option value="" style={{ color: '#555' }}>بۆ کوێ؟</option>
+              {Object.entries(CITIES).map(([k, v]) => (
+                <option key={k} value={k}>{v}</option>
+              ))}
+            </select>
           </div>
         </div>
-        <div style={section}>
-          <label style={label}>{ku.seatsAvailable}</label>
-          <select className="ride-select" value={seats} onChange={e => setSeats(e.target.value)} style={select}>
-            {[1,2,3,4,5,6].map(n => <option key={n} value={String(n)}>{n}</option>)}
-          </select>
+        {/* Date · Time · Seats footer */}
+        <div style={{ borderTop: '1px solid #2a2a2a', padding: '8px 14px', display: 'flex', alignItems: 'center', direction: 'rtl' }}>
+          <div style={{ flex: 1, textAlign: 'right' as const }}>
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              style={{ ...inputStyle, padding: '4px 8px', fontSize: 10, textAlign: 'center' as const, color: date ? '#e5e5e5' : '#555' }}
+              placeholder="بەروار"
+            />
+          </div>
+          <span style={{ width: 1, height: 12, background: '#2a2a2a', margin: '0 8px', flexShrink: 0 }} />
+          <div style={{ flex: 1, textAlign: 'center' as const }}>
+            <input
+              type="time"
+              value={time}
+              onChange={(e) => setTime(e.target.value)}
+              style={{ ...inputStyle, padding: '4px 8px', fontSize: 10, textAlign: 'center' as const, color: time ? '#e5e5e5' : '#555' }}
+              placeholder="کات"
+            />
+          </div>
+          <span style={{ width: 1, height: 12, background: '#2a2a2a', margin: '0 8px', flexShrink: 0 }} />
+          <div style={{ flex: 1, textAlign: 'left' as const }}>
+            <input
+              type="number"
+              min="1"
+              max="7"
+              value={seats}
+              onChange={(e) => setSeats(e.target.value)}
+              style={{ ...inputStyle, padding: '4px 8px', fontSize: 10, textAlign: 'center' as const }}
+              placeholder="جێ"
+            />
+          </div>
         </div>
       </div>
 
-      <div style={{ background: '#1e1e1e', borderRadius: '1rem', padding: '1.25rem', marginBottom: '1rem', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
-        <label style={{ ...label, marginBottom: '0.75rem', fontSize: '0.85rem', color: '#e5e5e5', fontWeight: 600 }}>{ku.price}</label>
-        <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem' }}>
-          <button onClick={() => setPriceType('coffee')} style={{ flex: 1, padding: '0.6rem', borderRadius: '0.75rem', border: priceType === 'coffee' ? '2px solid #df6530' : '1px solid #333', background: priceType === 'coffee' ? '#2e2118' : '#1e1e1e', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 600, color: priceType === 'coffee' ? '#df6530' : '#777' }}>
-            {ku.coffeeAndConvo}
-          </button>
-          <button onClick={() => setPriceType('iqd')} style={{ flex: 1, padding: '0.6rem', borderRadius: '0.75rem', border: priceType === 'iqd' ? '2px solid #df6530' : '1px solid #333', background: priceType === 'iqd' ? '#2e2118' : '#1e1e1e', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 600, color: priceType === 'iqd' ? '#df6530' : '#777' }}>
-            پارە
-          </button>
+      {/* Price Card */}
+      <div style={sectionTitleStyle}>نرخ</div>
+      <div style={{ background: '#1e1e1e', borderRadius: 14, marginBottom: 16, boxShadow: '0 2px 8px rgba(0,0,0,0.3)', overflow: 'hidden' }}>
+        <div style={{ padding: '12px 14px', display: 'flex', gap: 8, direction: 'rtl', alignItems: 'center' }}>
+          <div
+            onClick={() => setPriceType('coffee')}
+            style={{
+              flex: 1,
+              background: '#2a2a2a',
+              border: `2px solid ${priceType === 'coffee' ? '#df6530' : 'transparent'}`,
+              borderRadius: 10,
+              padding: 10,
+              textAlign: 'center',
+              cursor: 'pointer',
+            }}
+          >
+            <span style={{ fontSize: 11, color: priceType === 'coffee' ? '#df6530' : '#777' }}>قاوەیەک</span>
+          </div>
+          <div
+            onClick={() => setPriceType('money')}
+            style={{
+              flex: 1,
+              background: '#2a2a2a',
+              border: `2px solid ${priceType === 'money' ? '#df6530' : 'transparent'}`,
+              borderRadius: 10,
+              padding: 10,
+              textAlign: 'center',
+              cursor: 'pointer',
+            }}
+          >
+            <span style={{ fontSize: 12, color: priceType === 'money' ? '#df6530' : '#777' }}>پارە</span>
+          </div>
         </div>
-        
-        {priceType === 'iqd' && (
-          <input type="number" max={5000} onInput={(e: any) => { if (Number(e.target.value) > 5000) e.target.value = '5000'; setPriceIqd(e.target.value > '5000' ? '5000' : e.target.value) }} placeholder="بۆ نموونە: 5000" value={priceIqd} onChange={() => {}} style={input} />
+        {priceType === 'money' && (
+          <div style={{ padding: '0 14px 12px' }}>
+            <input
+              type="number"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="بڕی پارە بە دینار"
+              style={inputStyle}
+            />
+          </div>
         )}
       </div>
 
-      <div style={{ background: '#1e1e1e', borderRadius: '1rem', padding: '1.25rem', marginBottom: '1.5rem', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
-        <label style={{ ...label, marginBottom: '0.75rem', fontSize: '0.85rem', color: '#e5e5e5', fontWeight: 600 }}>{ku.carDetails}</label>
-        <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1rem' }}>
-          <div style={{ flex: 1 }}>
-            <label style={label}>{ku.carMake}</label>
-            <input type="text" placeholder="Toyota" value={carMake} onChange={e => setCarMake(e.target.value)} style={input} />
+      {/* Car Info Card */}
+      <div style={sectionTitleStyle}>زانیاری ئۆتۆمبێل</div>
+      <div style={{ background: '#1e1e1e', borderRadius: 14, marginBottom: 16, boxShadow: '0 2px 8px rgba(0,0,0,0.3)', overflow: 'hidden' }}>
+        <div style={{ padding: '12px 14px', direction: 'rtl' }}>
+          <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+            <div style={{ flex: 1 }}>
+              <span style={labelStyle}>جۆری ئۆتۆمبێل</span>
+              <input value={carMake} onChange={(e) => setCarMake(e.target.value)} placeholder="Toyota" style={inputStyle} />
+            </div>
+            <div style={{ flex: 1 }}>
+              <span style={labelStyle}>مۆدێلی ئۆتۆمبێل</span>
+              <input value={carModel} onChange={(e) => setCarModel(e.target.value)} placeholder="Camry" style={inputStyle} />
+            </div>
           </div>
-          <div style={{ flex: 1 }}>
-            <label style={label}>{ku.carModel}</label>
-            <input type="text" placeholder="Camry" value={carModel} onChange={e => setCarModel(e.target.value)} style={input} />
-          </div>
-        </div>
-        <div>
-          <label style={label}>{ku.carColor}</label>
-          <input type="text" placeholder="White" value={carColor} onChange={e => setCarColor(e.target.value)} style={input} />
+          <span style={labelStyle}>ڕەنگی ئۆتۆمبێل</span>
+          <input value={carColor} onChange={(e) => setCarColor(e.target.value)} placeholder="White" style={inputStyle} />
         </div>
       </div>
 
-      <div style={{ background: '#1e1e1e', borderRadius: '1rem', padding: '1.25rem', marginBottom: '1rem', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-          <label style={{ fontSize: '0.85rem', color: '#e5e5e5', fontWeight: 600 }}>جگەرەکێش</label>
-          <div onClick={() => setSmoking(!smoking)} style={{ width: '48px', height: '28px', borderRadius: '999px', background: smoking ? '#df6530' : '#333', cursor: 'pointer', position: 'relative', transition: 'background 0.2s' }}>
-            <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'white', position: 'absolute', top: '3px', transition: 'right 0.2s, left 0.2s', ...(smoking ? { left: '3px' } : { right: '3px' }) }} />
+      {/* Smoking & Notes Card */}
+      <div style={{ background: '#1e1e1e', borderRadius: 14, marginBottom: 16, boxShadow: '0 2px 8px rgba(0,0,0,0.3)', overflow: 'hidden' }}>
+        <div style={{ padding: '12px 14px', direction: 'rtl' }}>
+          {/* Smoking toggle */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+            <span style={{ fontSize: 12, color: '#aaa' }}>جگەرەکێش</span>
+            <div
+              onClick={() => setSmoking(!smoking)}
+              style={{
+                width: 40,
+                height: 22,
+                background: smoking ? '#df6530' : '#2a2a2a',
+                borderRadius: 11,
+                position: 'relative',
+                cursor: 'pointer',
+                transition: 'background 0.2s',
+              }}
+            >
+              <div style={{
+                width: 18,
+                height: 18,
+                background: smoking ? 'white' : '#888',
+                borderRadius: '50%',
+                position: 'absolute',
+                top: 2,
+                transition: 'all 0.2s',
+                ...(smoking ? { left: 20 } : { left: 2 }),
+              }} />
+            </div>
           </div>
+          {/* Notes */}
+          <span style={labelStyle}>تێبینی</span>
+          <textarea
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder="هەر شتێک دەربارەی ڕێیەکەت یان خۆت..."
+            rows={3}
+            style={{ ...inputStyle, resize: 'none', minHeight: 60 }}
+          />
         </div>
-        <label style={{ fontSize: '0.85rem', color: '#e5e5e5', fontWeight: 600, display: 'block', marginBottom: '0.5rem' }}>تێبینی</label>
-        <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="هەر شتێک دەربارەی ڕێیەکەت یان خۆت..." rows={3} style={{ width: '100%', background: '#2a2a2a', border: '1px solid #333', borderRadius: '0.75rem', padding: '0.75rem 1rem', fontSize: '0.95rem', outline: 'none', direction: 'rtl', resize: 'none', fontFamily: 'inherit', color: '#e5e5e5' }} />
       </div>
 
-      <button onClick={handleSubmit} disabled={saving} style={{ width: '100%', background: '#df6530', color: 'white', border: 'none', borderRadius: '0.75rem', padding: '0.85rem', fontSize: '1rem', fontWeight: 600, cursor: 'pointer', opacity: saving ? 0.5 : 1 }}>
-        {saving ? '...چاوەڕوان بە' : 'بڕۆ'}
-      </button>
+      {/* Error */}
+      {error && (
+        <p style={{ color: '#f87171', fontSize: 12, textAlign: 'center', marginBottom: 12 }}>{error}</p>
+      )}
+
+      {/* Submit */}
+      <div
+        onClick={handleSubmit}
+        style={{
+          background: loading ? '#555' : '#df6530',
+          borderRadius: 14,
+          padding: 16,
+          textAlign: 'center',
+          cursor: loading ? 'default' : 'pointer',
+          marginBottom: 20,
+        }}
+      >
+        <span style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>
+          {loading ? '...' : 'برۆ'}
+        </span>
+      </div>
 
       <BottomNav />
     </div>
