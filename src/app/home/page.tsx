@@ -116,7 +116,7 @@ export default function HomePage() {
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#df6530" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
           </svg>
-          <span style={{ fontSize: 13.5, color: '#777' }}>
+          <span style={{ fontSize: 13.5, color: '#ccc' }}>
             {from && to ? (
               <>{CITIES[from]} ← {CITIES[to]}</>
             ) : (
@@ -166,7 +166,7 @@ export default function HomePage() {
           </div>
 
           {/* City chips — From */}
-          <div style={{ fontSize: 10, color: '#555', marginTop: 10, marginBottom: 6 }}>لە کوێ؟</div>
+          <div style={{ fontSize: 10, color: '#aaa', marginTop: 10, marginBottom: 6 }}>لە کوێ؟</div>
           <div style={{ display: 'flex', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
             {Object.entries(CITIES).map(([k, v]) => (
               <button
@@ -190,7 +190,7 @@ export default function HomePage() {
           </div>
 
           {/* City chips — To */}
-          <div style={{ fontSize: 10, color: '#555', marginBottom: 6 }}>بۆ کوێ؟</div>
+          <div style={{ fontSize: 10, color: '#aaa', marginBottom: 6 }}>بۆ کوێ؟</div>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             {Object.entries(CITIES).map(([k, v]) => (
               <button
@@ -219,7 +219,7 @@ export default function HomePage() {
       {loading ? (
         <div />
       ) : rides.length === 0 ? (
-        <p style={{ textAlign: 'center', color: '#555', padding: '3rem 0' }}>{ku.noRidesFound}</p>
+        <p style={{ textAlign: 'center', color: '#aaa', padding: '3rem 0' }}>{ku.noRidesFound}</p>
       ) : rides.map(ride => {
         const driver = ride.driver || {}
         const depTime = formatTime(ride.departure_time)
@@ -258,19 +258,19 @@ const priceDisplay = ride.price_type === 'coffee'
                   </div>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
-                  <span style={{ fontSize: 11, color: '#777', minWidth: 44, textAlign: 'center' }}>{CITIES[ride.from_city]}</span>
-                  <span style={{ fontSize: 9, color: '#555' }}>{distance}</span>
-                  <span style={{ fontSize: 11, color: '#777', minWidth: 44, textAlign: 'center' }}>{CITIES[ride.to_city]}</span>
+                  <span style={{ fontSize: 11, color: '#ccc', minWidth: 44, textAlign: 'center' }}>{CITIES[ride.from_city]}</span>
+                  <span style={{ fontSize: 9, color: '#aaa' }}>{distance}</span>
+                  <span style={{ fontSize: 11, color: '#ccc', minWidth: 44, textAlign: 'center' }}>{CITIES[ride.to_city]}</span>
                 </div>
               </div>
 
               {/* Footer — driver · seats · price */}
               <div style={{ borderTop: '1px solid #2a2a2a', padding: '10px 18px', display: 'flex', alignItems: 'center', direction: 'rtl' }}>
                 <span style={{ flex: 1, textAlign: 'right', fontSize: 12, color: '#aaa' }}>{driver.full_name || 'شۆفێر'}</span>
-                <span style={{ flex: 1, textAlign: 'center', fontSize: 10, color: '#777' }}>
+                <span style={{ flex: 1, textAlign: 'center', fontSize: 10, color: '#ccc' }}>
                   {isFull ? 'پڕە' : seatsDisplay}
                 </span>
-                <span style={{ flex: 1, textAlign: 'left', fontSize: 13, fontWeight: 500, color: '#e5e5e5' }}>{priceDisplay}</span>
+                <span style={{ flex: 1, textAlign: 'left', fontSize: 12, fontWeight: 400, color: '#aaa' }}>{priceDisplay}</span>
               </div>
             </div>
           </Link>
