@@ -112,38 +112,36 @@ export default function PostRidePage() {
         <h1 style={{ fontSize: 20, fontWeight: 700, color: '#e5e5e5' }}><span style={{ color: '#df6530' }}>ڕێ</span> پۆستکە</h1>
       </div>
 
-      {/* ===== Route Card (B3) ===== */}
+{/* ===== Route Card (B3) ===== */}
       <div style={{ background: '#1e1e1e', borderRadius: 14, marginBottom: 16, boxShadow: '0 2px 8px rgba(0,0,0,0.3)', overflow: 'hidden' }}>
         <div style={{ padding: '10px 14px' }}>
           {/* From */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
             <div style={{ width: 6, height: 6, borderRadius: '50%', border: '2px solid #df6530', flexShrink: 0 }} />
-            <select
-              value={fromCity}
-              onChange={(e) => setFromCity(e.target.value)}
-              style={{ ...selectStyle, color: fromCity ? '#e5e5e5' : '#aaa' }}
-            >
-              <option value="">لە کوێ؟</option>
-              {Object.entries(CITIES).map(([k, v]) => (
-                <option key={k} value={k}>{v}</option>
-              ))}
-            </select>
+            <span style={{ fontSize: 11, color: fromCity ? '#e5e5e5' : '#777' }}>{fromCity ? CITIES[fromCity] : 'لە کوێ؟'}</span>
+          </div>
+          <div style={{ display: 'flex', gap: 6, marginBottom: 8, paddingRight: 14 }}>
+            {Object.entries(CITIES).map(([k, v]) => (
+              <div key={'from-'+k} onClick={() => setFromCity(prev => prev === k ? '' : k)}
+                style={{ padding: '5px 12px', borderRadius: 50, background: fromCity === k ? '#df6530' : '#2a2a2a', color: fromCity === k ? 'white' : '#aaa', fontSize: 11, cursor: 'pointer', transition: 'all 0.15s', fontFamily: "'Noto Sans Arabic', sans-serif" }}>
+                {v}
+              </div>
+            ))}
           </div>
           {/* Connecting line */}
-          <div style={{ width: 1, height: 6, background: '#333', marginRight: 4, marginTop: 2, marginBottom: 2 }} />
+          <div style={{ width: 1, height: 4, background: '#333', marginRight: 4, marginBottom: 6 }} />
           {/* To */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
             <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#e5e5e5', flexShrink: 0 }} />
-            <select
-              value={toCity}
-              onChange={(e) => setToCity(e.target.value)}
-              style={{ ...selectStyle, color: toCity ? '#e5e5e5' : '#777' }}
-            >
-              <option value="">بۆ کوێ؟</option>
-              {Object.entries(CITIES).map(([k, v]) => (
-                <option key={k} value={k}>{v}</option>
-              ))}
-            </select>
+            <span style={{ fontSize: 11, color: toCity ? '#e5e5e5' : '#777' }}>{toCity ? CITIES[toCity] : 'بۆ کوێ؟'}</span>
+          </div>
+          <div style={{ display: 'flex', gap: 6, paddingRight: 14 }}>
+            {Object.entries(CITIES).map(([k, v]) => (
+              <div key={'to-'+k} onClick={() => setToCity(prev => prev === k ? '' : k)}
+                style={{ padding: '5px 12px', borderRadius: 50, background: toCity === k ? '#df6530' : '#2a2a2a', color: toCity === k ? 'white' : '#aaa', fontSize: 11, cursor: 'pointer', transition: 'all 0.15s', fontFamily: "'Noto Sans Arabic', sans-serif" }}>
+                {v}
+              </div>
+            ))}
           </div>
         </div>
         {/* Date · Time · Seats */}
