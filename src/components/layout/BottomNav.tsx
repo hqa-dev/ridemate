@@ -44,10 +44,10 @@ export function BottomNav() {
     <nav style={{
       position: 'fixed', bottom: 14, left: '50%', transform: 'translateX(-50%)',
       width: 'calc(100% - 24px)', maxWidth: 456,
-      display: 'flex', flexDirection: 'row-reverse', justifyContent: 'center', gap: 18,
+      display: 'flex', justifyContent: 'center', gap: 18,
       zIndex: 100,
     }}>
-      {navItems.map((item) => {
+      {[...navItems].reverse().map((item) => {
         const active = pathname === item.href || (item.href === '/home' && pathname === '/')
         return (
           <Link key={item.href} href={item.href} style={{
