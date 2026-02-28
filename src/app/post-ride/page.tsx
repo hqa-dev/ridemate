@@ -137,7 +137,7 @@ export default function PostRidePage() {
   })
 
   const hiddenInputStyle: React.CSSProperties = {
-    position: 'absolute',
+    position: 'absolute', zIndex: 1,
     top: 0,
     left: 0,
     width: '100%',
@@ -251,7 +251,7 @@ export default function PostRidePage() {
             >
               <div style={{
                 width: 16, height: 16, background: smoking ? 'white' : '#888',
-                borderRadius: '50%', position: 'absolute', top: 2, transition: 'all 0.2s',
+                borderRadius: '50%', position: 'absolute', zIndex: 1, top: 2, transition: 'all 0.2s',
                 ...(smoking ? { left: 20 } : { left: 2 }),
               }} />
             </div>
