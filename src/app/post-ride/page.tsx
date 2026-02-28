@@ -248,7 +248,7 @@ export default function PostRidePage() {
             value={notes} onChange={(e) => setNotes(e.target.value)}
             placeholder="هەر شتێک دەربارەی ڕێیەکەت یان خۆت..."
             rows={2}
-            style={{ ...inputStyle, resize: 'none', minHeight: 44 }}
+            className="note-input"
           />
         </div>
       </div>
