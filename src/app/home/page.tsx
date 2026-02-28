@@ -226,9 +226,9 @@ export default function HomePage() {
         const arrTime = estimateArrival(ride.departure_time, ride.from_city, ride.to_city)
         const routeKey = `${ride.from_city}-${ride.to_city}`
         const distance = ROUTE_DISTANCE[routeKey] || ''
-        const priceDisplay = ride.price_type === 'coffee'
-          ? ku.coffeeAndConvo
-          : `${toKurdishNum(ride.price_iqd?.toLocaleString() || '0')} دینار`
+const priceDisplay = ride.price_type === 'coffee'
+  ? 'قاوەیەک'
+  : `${toKurdishNum(ride.price_iqd?.toLocaleString() || '0')} دینار`
         const seatsDisplay = `${toKurdishNum(ride.available_seats)} شوێن بەردەستە`
         const isFull = ride.available_seats <= 0
 
