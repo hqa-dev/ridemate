@@ -77,6 +77,7 @@ color: '#e5e5e5',
     WebkitAppearance: 'none',
     MozAppearance: 'none',
     appearance: 'none' as const,
+    colorScheme: 'dark',
   }
 
   const inputStyle: React.CSSProperties = {
