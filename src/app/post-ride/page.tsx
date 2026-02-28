@@ -204,7 +204,7 @@ export default function PostRidePage() {
         </div>
         {priceType === 'money' && (
           <div style={{ padding: '0 12px 8px' }}>
-            <input value={price} onChange={(e) => { const v = Number(e.target.value); if (!e.target.value || (v >= 0 && v <= 5000)) setPrice(e.target.value) }} inputMode="numeric" pattern="[0-9]*" placeholder="" style={{ background: '#2a2a2a', border: 'none', borderRadius: 8, padding: '6px 8px', width: '100%', fontSize: 12, color: 'white' }} />
+            <input value={price} onChange={(e) => { const v = Number(e.target.value); if (!e.target.value || (v >= 0 && v <= 5000)) setPrice(e.target.value) }} inputMode="numeric" pattern="[0-9]*" placeholder="" style={{ background: '#2a2a2a', border: 'none', borderRadius: 8, padding: '6px 8px', width: '100%', fontSize: 12, color: '#e5e5e5', WebkitTextFillColor: '#e5e5e5' }} />
           </div>
         )}
       </div>
@@ -268,7 +268,7 @@ export default function PostRidePage() {
             padding: 14, textAlign: 'center', cursor: loading ? 'default' : 'pointer',
           }}
         >
-          <span style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>{loading ? '...' : 'برۆ'}</span>
+          <span style={{ fontSize: 15, fontWeight: 600, color: '#e5e5e5', WebkitTextFillColor: '#e5e5e5' }}>{loading ? '...' : 'برۆ'}</span>
         </div>
       </div>
 
