@@ -118,7 +118,7 @@ export default function PostRidePage() {
     borderRadius: 6,
     padding: '6px 8px',
     flex: 1,
-    fontSize: 10,
+    fontSize: 12,
     color: hasValue ? '#e5e5e5' : '#777',
     cursor: 'pointer',
     fontFamily: "'Noto Sans Arabic', sans-serif",
@@ -128,7 +128,7 @@ export default function PostRidePage() {
   })
 
   const metaStyle = (hasValue: boolean): React.CSSProperties => ({
-    fontSize: 9,
+    fontSize: 12,
     color: hasValue ? '#e5e5e5' : '#555',
     whiteSpace: 'nowrap',
     cursor: 'pointer',
@@ -190,13 +190,13 @@ export default function PostRidePage() {
         <div style={{ borderTop: '1px solid #2a2a2a', padding: '8px 12px', display: 'flex', gap: 6, alignItems: 'center', direction: 'rtl' }}>
           <div
             onClick={() => setPriceType('coffee')}
-            style={{ background: '#2a2a2a', borderRadius: 6, padding: '6px 8px', flex: 1, fontSize: 10, color: priceType === 'coffee' ? '#df6530' : '#777', cursor: 'pointer', textAlign: 'center' }}
+            style={{ background: '#2a2a2a', borderRadius: 6, padding: '6px 8px', flex: 1, fontSize: 12, color: priceType === 'coffee' ? '#df6530' : '#777', cursor: 'pointer', textAlign: 'center' }}
           >
             قاوەیەک
           </div>
           <div
             onClick={() => setPriceType('money')}
-            style={{ background: '#2a2a2a', borderRadius: 6, padding: '6px 8px', flex: 1, fontSize: 10, color: priceType === 'money' ? '#df6530' : '#777', cursor: 'pointer', textAlign: 'center' }}
+            style={{ background: '#2a2a2a', borderRadius: 6, padding: '6px 8px', flex: 1, fontSize: 12, color: priceType === 'money' ? '#df6530' : '#777', cursor: 'pointer', textAlign: 'center' }}
           >
             پارە
           </div>
@@ -204,7 +204,7 @@ export default function PostRidePage() {
         {priceType === 'money' && (
           <div style={{ padding: '0 12px 8px' }}>
             <input type="number" value={price} onChange={(e) => setPrice(e.target.value)}
-              placeholder="بڕی پارە بە دینار" style={{ ...inputStyle, fontSize: 10, padding: '6px 8px' }} />
+              placeholder="بڕی پارە بە دینار" style={{ ...inputStyle, fontSize: 12, padding: '6px 8px' }} />
           </div>
         )}
       </div>
