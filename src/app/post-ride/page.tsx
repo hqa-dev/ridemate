@@ -63,22 +63,7 @@ export default function PostRidePage() {
     else { router.push('/home') }
   }
 
-  const selectStyle: React.CSSProperties = {
-    background: '#2a2a2a',
-    borderRadius: 8,
-    padding: '8px 10px',
-    fontSize: 12,
-color: '#e5e5e5',
-    border: 'none',
-    outline: 'none',
-    width: '100%',
-    fontFamily: "'Noto Sans Arabic', sans-serif",
-    direction: 'rtl',
-    WebkitAppearance: 'none',
-    MozAppearance: 'none',
-    appearance: 'none' as const,
-    colorScheme: 'dark',
-  }
+  
 
   const inputStyle: React.CSSProperties = {
     background: '#2a2a2a',
