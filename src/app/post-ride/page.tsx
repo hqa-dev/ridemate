@@ -169,28 +169,18 @@ export default function PostRidePage() {
             {toCity ? CITIES[toCity] : 'بۆ کوێ؟'}
           </div>
           <div style={{ width: 1, height: 16, background: '#2a2a2a' }} />
-          {/* Date - hidden native picker */}
-          <div onClick={() => dateRef.current?.showPicker()} style={metaStyle(!!date)}>
+          {/* Date */}
+          <div onClick={() => dateRef.current?.showPicker()} style={{ ...metaStyle(!!date), overflow: 'hidden', width: 40, flexShrink: 0 }}>
             {formatDate(date)}
-            <input
-              ref={dateRef}
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              style={hiddenInputStyle}
-            />
+            <input ref={dateRef} type="date" value={date} onChange={(e) => setDate(e.target.value)}
+              style={{ position: 'absolute', top: 0, right: 0, width: 40, height: '100%', opacity: 0, fontSize: 16 }} />
           </div>
           <div style={{ width: 1, height: 16, background: '#2a2a2a' }} />
-          {/* Time - hidden native picker */}
-          <div onClick={() => timeRef.current?.showPicker()} style={metaStyle(!!time)}>
+          {/* Time */}
+          <div onClick={() => timeRef.current?.showPicker()} style={{ ...metaStyle(!!time), overflow: 'hidden', width: 30, flexShrink: 0 }}>
             {formatTime(time)}
-            <input
-              ref={timeRef}
-              type="time"
-              value={time}
-              onChange={(e) => setTime(e.target.value)}
-              style={hiddenInputStyle}
-            />
+            <input ref={timeRef} type="time" value={time} onChange={(e) => setTime(e.target.value)}
+              style={{ position: 'absolute', top: 0, right: 0, width: 30, height: '100%', opacity: 0, fontSize: 16 }} />
           </div>
           <div style={{ width: 1, height: 16, background: '#2a2a2a' }} />
           {/* Seats - tap to cycle */}
