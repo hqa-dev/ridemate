@@ -32,10 +32,10 @@ const ProfileIcon = ({ active }: { active: boolean }) => (
 )
 
 const navItems = [
-  { href: '/profile', Icon: ProfileIcon },
-  { href: '/my-rides', Icon: RidesIcon },
-  { href: '/post-ride', Icon: PostIcon },
   { href: '/home', Icon: HomeIcon },
+  { href: '/post-ride', Icon: PostIcon },
+  { href: '/my-rides', Icon: RidesIcon },
+  { href: '/profile', Icon: ProfileIcon },
 ]
 
 export function BottomNav() {
@@ -44,7 +44,7 @@ export function BottomNav() {
     <nav style={{
       position: 'fixed', bottom: 14, left: '50%', transform: 'translateX(-50%)',
       width: 'calc(100% - 24px)', maxWidth: 456,
-      display: 'flex', justifyContent: 'center', gap: 18,
+      display: 'flex', direction: 'rtl', justifyContent: 'center', gap: 18,
       zIndex: 100,
     }}>
       {navItems.map((item) => {
@@ -66,4 +66,3 @@ export function BottomNav() {
     </nav>
   )
 }
-// nav v2
