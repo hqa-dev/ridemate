@@ -39,18 +39,11 @@ export default function PostRidePage() {
       setError('شوێنی چوون و هاتن ناتوانن هاوشێوە بن')
       return
     }
-
     setLoading(true)
     setError('')
-
     const { data: { user } } = await supabase.auth.getUser()
-    if (!user) {
-      router.push('/auth/login')
-      return
-    }
-
+    if (!user) { router.push('/auth/login'); return }
     const departureTime = new Date(`${date}T${time}:00`).toISOString()
-
     const { error: insertError } = await supabase.from('rides').insert({
       driver_id: user.id,
       from_city: fromCity,
@@ -66,20 +59,31 @@ export default function PostRidePage() {
       notes: notes || null,
       status: 'active',
     })
+    if (insertError) { setError(insertError.message); setLoading(false) }
+    else { router.push('/home') }
+  }
 
-    if (insertError) {
-      setError(insertError.message)
-      setLoading(false)
-    } else {
-      router.push('/home')
-    }
+  const selectStyle: React.CSSProperties = {
+    background: '#2a2a2a',
+    borderRadius: 8,
+    padding: '8px 10px',
+    fontSize: 12,
+    color: '#777',
+    border: 'none',
+    outline: 'none',
+    width: '100%',
+    fontFamily: "'Noto Sans Arabic', sans-serif",
+    direction: 'rtl',
+    WebkitAppearance: 'none',
+    MozAppearance: 'none',
+    appearance: 'none' as const,
   }
 
   const inputStyle: React.CSSProperties = {
     background: '#2a2a2a',
     borderRadius: 8,
-    padding: '7px 10px',
-    fontSize: 11,
+    padding: '8px 10px',
+    fontSize: 12,
     color: '#e5e5e5',
     border: 'none',
     outline: 'none',
@@ -88,9 +92,20 @@ export default function PostRidePage() {
     direction: 'rtl',
   }
 
+  const smallInputStyle: React.CSSProperties = {
+    background: 'transparent',
+    border: 'none',
+    outline: 'none',
+    fontSize: 10,
+    color: '#e5e5e5',
+    fontFamily: "'Noto Sans Arabic', sans-serif",
+    width: '100%',
+    textAlign: 'center',
+  }
+
   const labelStyle: React.CSSProperties = {
     fontSize: 10,
-    color: '#555',
+    color: '#777',
     marginBottom: 4,
     display: 'block',
   }
@@ -107,129 +122,101 @@ export default function PostRidePage() {
     <div style={{ direction: 'rtl', minHeight: '100vh', background: '#121212', maxWidth: 480, margin: '0 auto', padding: '24px 20px 96px', fontFamily: "'Noto Sans Arabic', sans-serif" }}>
 
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+      <div style={{ marginBottom: 20 }}>
         <h1 style={{ fontSize: 20, fontWeight: 700, color: '#e5e5e5' }}><span style={{ color: '#df6530' }}>ڕێ</span> پۆستکە</h1>
       </div>
 
-      {/* Route Card (B3) */}
+      {/* ===== Route Card (B3) ===== */}
       <div style={{ background: '#1e1e1e', borderRadius: 14, marginBottom: 16, boxShadow: '0 2px 8px rgba(0,0,0,0.3)', overflow: 'hidden' }}>
-        <div style={{ padding: '12px 14px', direction: 'rtl' }}>
+        <div style={{ padding: '10px 14px' }}>
           {/* From */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <div style={{ width: 6, height: 6, borderRadius: '50%', border: '2px solid #df6530', flexShrink: 0 }} />
             <select
               value={fromCity}
               onChange={(e) => setFromCity(e.target.value)}
-              style={{ ...inputStyle, color: fromCity ? '#e5e5e5' : '#555' }}
+              style={{ ...selectStyle, color: fromCity ? '#e5e5e5' : '#777' }}
             >
-              <option value="" style={{ color: '#555' }}>لە کوێ؟</option>
+              <option value="">لە کوێ؟</option>
               {Object.entries(CITIES).map(([k, v]) => (
                 <option key={k} value={k}>{v}</option>
               ))}
             </select>
           </div>
-          <div style={{ width: 1, height: 8, background: '#333', margin: '2px 2px 2px auto' }} />
+          {/* Connecting line */}
+          <div style={{ width: 1, height: 6, background: '#333', marginRight: 4, marginTop: 2, marginBottom: 2 }} />
           {/* To */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#e5e5e5', flexShrink: 0 }} />
             <select
               value={toCity}
               onChange={(e) => setToCity(e.target.value)}
-              style={{ ...inputStyle, color: toCity ? '#e5e5e5' : '#555' }}
+              style={{ ...selectStyle, color: toCity ? '#e5e5e5' : '#777' }}
             >
-              <option value="" style={{ color: '#555' }}>بۆ کوێ؟</option>
+              <option value="">بۆ کوێ؟</option>
               {Object.entries(CITIES).map(([k, v]) => (
                 <option key={k} value={k}>{v}</option>
               ))}
             </select>
           </div>
         </div>
-        {/* Date · Time · Seats footer */}
-        <div style={{ borderTop: '1px solid #2a2a2a', padding: '8px 14px', display: 'flex', alignItems: 'center', direction: 'rtl' }}>
-          <div style={{ flex: 1, textAlign: 'right' as const }}>
-            <input
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              style={{ ...inputStyle, padding: '4px 8px', fontSize: 10, textAlign: 'center' as const, color: date ? '#e5e5e5' : '#555' }}
-              placeholder="بەروار"
-            />
+        {/* Date · Time · Seats */}
+        <div style={{ borderTop: '1px solid #2a2a2a', padding: '6px 14px', display: 'flex', alignItems: 'center' }}>
+          <div style={{ flex: 1, textAlign: 'center' }}>
+            <input type="date" value={date} onChange={(e) => setDate(e.target.value)}
+              style={{ ...smallInputStyle, color: date ? '#e5e5e5' : '#777' }} />
           </div>
-          <span style={{ width: 1, height: 12, background: '#2a2a2a', margin: '0 8px', flexShrink: 0 }} />
-          <div style={{ flex: 1, textAlign: 'center' as const }}>
-            <input
-              type="time"
-              value={time}
-              onChange={(e) => setTime(e.target.value)}
-              style={{ ...inputStyle, padding: '4px 8px', fontSize: 10, textAlign: 'center' as const, color: time ? '#e5e5e5' : '#555' }}
-              placeholder="کات"
-            />
+          <div style={{ width: 1, height: 12, background: '#2a2a2a', flexShrink: 0 }} />
+          <div style={{ flex: 1, textAlign: 'center' }}>
+            <input type="time" value={time} onChange={(e) => setTime(e.target.value)}
+              style={{ ...smallInputStyle, color: time ? '#e5e5e5' : '#777' }} />
           </div>
-          <span style={{ width: 1, height: 12, background: '#2a2a2a', margin: '0 8px', flexShrink: 0 }} />
-          <div style={{ flex: 1, textAlign: 'left' as const }}>
-            <input
-              type="number"
-              min="1"
-              max="7"
-              value={seats}
-              onChange={(e) => setSeats(e.target.value)}
-              style={{ ...inputStyle, padding: '4px 8px', fontSize: 10, textAlign: 'center' as const }}
-              placeholder="جێ"
-            />
+          <div style={{ width: 1, height: 12, background: '#2a2a2a', flexShrink: 0 }} />
+          <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
+            <input type="number" min="1" max="7" value={seats} onChange={(e) => setSeats(e.target.value)}
+              style={{ ...smallInputStyle, width: 20 }} />
+            <span style={{ fontSize: 10, color: '#777' }}>جێ</span>
           </div>
         </div>
       </div>
 
-      {/* Price Card */}
+      {/* ===== Price Card ===== */}
       <div style={sectionTitleStyle}>نرخ</div>
       <div style={{ background: '#1e1e1e', borderRadius: 14, marginBottom: 16, boxShadow: '0 2px 8px rgba(0,0,0,0.3)', overflow: 'hidden' }}>
-        <div style={{ padding: '12px 14px', display: 'flex', gap: 8, direction: 'rtl', alignItems: 'center' }}>
+        <div style={{ padding: '10px 14px', display: 'flex', gap: 8, direction: 'rtl' }}>
           <div
             onClick={() => setPriceType('coffee')}
             style={{
-              flex: 1,
-              background: '#2a2a2a',
+              flex: 1, background: '#2a2a2a',
               border: `2px solid ${priceType === 'coffee' ? '#df6530' : 'transparent'}`,
-              borderRadius: 10,
-              padding: 10,
-              textAlign: 'center',
-              cursor: 'pointer',
+              borderRadius: 10, padding: '8px 0', textAlign: 'center', cursor: 'pointer',
             }}
           >
-            <span style={{ fontSize: 11, color: priceType === 'coffee' ? '#df6530' : '#777' }}>قاوەیەک</span>
+            <span style={{ fontSize: 12, color: priceType === 'coffee' ? '#df6530' : '#777' }}>قاوەیەک</span>
           </div>
           <div
             onClick={() => setPriceType('money')}
             style={{
-              flex: 1,
-              background: '#2a2a2a',
+              flex: 1, background: '#2a2a2a',
               border: `2px solid ${priceType === 'money' ? '#df6530' : 'transparent'}`,
-              borderRadius: 10,
-              padding: 10,
-              textAlign: 'center',
-              cursor: 'pointer',
+              borderRadius: 10, padding: '8px 0', textAlign: 'center', cursor: 'pointer',
             }}
           >
             <span style={{ fontSize: 12, color: priceType === 'money' ? '#df6530' : '#777' }}>پارە</span>
           </div>
         </div>
         {priceType === 'money' && (
-          <div style={{ padding: '0 14px 12px' }}>
-            <input
-              type="number"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              placeholder="بڕی پارە بە دینار"
-              style={inputStyle}
-            />
+          <div style={{ padding: '0 14px 10px' }}>
+            <input type="number" value={price} onChange={(e) => setPrice(e.target.value)}
+              placeholder="بڕی پارە بە دینار" style={inputStyle} />
           </div>
         )}
       </div>
 
-      {/* Car Info Card */}
+      {/* ===== Car Info Card ===== */}
       <div style={sectionTitleStyle}>زانیاری ئۆتۆمبێل</div>
       <div style={{ background: '#1e1e1e', borderRadius: 14, marginBottom: 16, boxShadow: '0 2px 8px rgba(0,0,0,0.3)', overflow: 'hidden' }}>
-        <div style={{ padding: '12px 14px', direction: 'rtl' }}>
+        <div style={{ padding: '10px 14px' }}>
           <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
             <div style={{ flex: 1 }}>
               <span style={labelStyle}>جۆری ئۆتۆمبێل</span>
@@ -245,68 +232,47 @@ export default function PostRidePage() {
         </div>
       </div>
 
-      {/* Smoking & Notes Card */}
+      {/* ===== Smoking & Notes Card ===== */}
       <div style={{ background: '#1e1e1e', borderRadius: 14, marginBottom: 16, boxShadow: '0 2px 8px rgba(0,0,0,0.3)', overflow: 'hidden' }}>
-        <div style={{ padding: '12px 14px', direction: 'rtl' }}>
-          {/* Smoking toggle */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+        <div style={{ padding: '10px 14px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
             <span style={{ fontSize: 12, color: '#aaa' }}>جگەرەکێش</span>
             <div
               onClick={() => setSmoking(!smoking)}
               style={{
-                width: 40,
-                height: 22,
-                background: smoking ? '#df6530' : '#2a2a2a',
-                borderRadius: 11,
-                position: 'relative',
-                cursor: 'pointer',
-                transition: 'background 0.2s',
+                width: 38, height: 20, background: smoking ? '#df6530' : '#2a2a2a',
+                borderRadius: 10, position: 'relative', cursor: 'pointer', transition: 'background 0.2s',
               }}
             >
               <div style={{
-                width: 18,
-                height: 18,
-                background: smoking ? 'white' : '#888',
-                borderRadius: '50%',
-                position: 'absolute',
-                top: 2,
-                transition: 'all 0.2s',
+                width: 16, height: 16, background: smoking ? 'white' : '#888',
+                borderRadius: '50%', position: 'absolute', top: 2, transition: 'all 0.2s',
                 ...(smoking ? { left: 20 } : { left: 2 }),
               }} />
             </div>
           </div>
-          {/* Notes */}
           <span style={labelStyle}>تێبینی</span>
           <textarea
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
+            value={notes} onChange={(e) => setNotes(e.target.value)}
             placeholder="هەر شتێک دەربارەی ڕێیەکەت یان خۆت..."
-            rows={3}
-            style={{ ...inputStyle, resize: 'none', minHeight: 60 }}
+            rows={2}
+            style={{ ...inputStyle, resize: 'none', minHeight: 44 }}
           />
         </div>
       </div>
 
       {/* Error */}
-      {error && (
-        <p style={{ color: '#f87171', fontSize: 12, textAlign: 'center', marginBottom: 12 }}>{error}</p>
-      )}
+      {error && <p style={{ color: '#f87171', fontSize: 12, textAlign: 'center', marginBottom: 12 }}>{error}</p>}
 
       {/* Submit */}
       <div
         onClick={handleSubmit}
         style={{
-          background: loading ? '#555' : '#df6530',
-          borderRadius: 14,
-          padding: 16,
-          textAlign: 'center',
-          cursor: loading ? 'default' : 'pointer',
-          marginBottom: 20,
+          background: loading ? '#555' : '#df6530', borderRadius: 14,
+          padding: 14, textAlign: 'center', cursor: loading ? 'default' : 'pointer', marginBottom: 20,
         }}
       >
-        <span style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>
-          {loading ? '...' : 'برۆ'}
-        </span>
+        <span style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>{loading ? '...' : 'برۆ'}</span>
       </div>
 
       <BottomNav />
