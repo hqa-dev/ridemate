@@ -180,6 +180,7 @@ export default function RideDetailPage() {
         .from('ratings')
         .select('score')
         .eq('rated_id', data.driver_id)
+        .lte('visible_after', new Date().toISOString())
       if (ratings && ratings.length > 0) {
         const avg = ratings.reduce((sum: number, r: any) => sum + r.score, 0) / ratings.length
         setDriverAvgRating(Math.round(avg * 10) / 10)
@@ -191,7 +192,8 @@ export default function RideDetailPage() {
   }
 
   async function handleSendRequest() {
-    if (!currentUserId) return
+    if (!currentUserId || !ride) return
+    if (ride.available_seats <= 0) return
     setSending(true)
     const { error } = await supabase.from('ride_requests').insert({
       ride_id: rideId,
@@ -502,6 +504,11 @@ export default function RideDetailPage() {
               )
             ) :
             !requested ? (
+              ride.available_seats <= 0 ? (
+                <div style={{ textAlign: 'center', padding: '8px 0' }}>
+                  <p style={{ fontWeight: 600, color: T.textDim, fontSize: 13, margin: 0 }}>جێ بەردەست نییە</p>
+                </div>
+              ) : (
               <button
                 onClick={() => setShowModal(true)}
                 style={{
@@ -513,6 +520,7 @@ export default function RideDetailPage() {
               >
                 بەڵێ! داواکاری بنێرە
               </button>
+              )
             ) : requestStatus === 'approved' ? (
               <div style={{ textAlign: 'center' }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block', margin: '0 auto 6px' }}>

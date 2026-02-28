@@ -105,15 +105,48 @@ export default function MyRidesPage() {
 
   async function handleCancelRide(rideId: string) {
     await supabase.from('rides').update({ status: 'cancelled' }).eq('id', rideId)
+    await supabase.from('ride_requests').update({ status: 'cancelled' }).eq('ride_id', rideId).in('status', ['pending', 'approved'])
     setMyRides(prev => prev.map(r => r.id === rideId ? { ...r, status: 'cancelled' } : r))
-  }
-
-  async function updateRequestStatus(requestId: string, status: string) {
-    await supabase.from('ride_requests').update({ status }).eq('id', requestId)
     setRequests(prev => {
       const updated = { ...prev }
-      for (const rideId in updated) {
-        updated[rideId] = updated[rideId].map(r => r.id === requestId ? { ...r, status } : r)
+      if (updated[rideId]) {
+        updated[rideId] = updated[rideId].map(r =>
+          r.status === 'pending' || r.status === 'approved' ? { ...r, status: 'cancelled' } : r
+        )
+      }
+      return updated
+    })
+  }
+
+  async function updateRequestStatus(requestId: string, status: string, rideId?: string) {
+    await supabase.from('ride_requests').update({ status }).eq('id', requestId)
+
+    if (status === 'approved' && rideId) {
+      const ride = myRides.find(r => r.id === rideId)
+      if (ride && ride.available_seats > 0) {
+        const newSeats = ride.available_seats - 1
+        await supabase.from('rides').update({ available_seats: newSeats }).eq('id', rideId)
+        setMyRides(prev => prev.map(r => r.id === rideId ? { ...r, available_seats: newSeats } : r))
+      }
+    }
+
+    if (status === 'declined' && rideId) {
+      const rideReqs = requests[rideId] || []
+      const req = rideReqs.find(r => r.id === requestId)
+      if (req?.status === 'approved') {
+        const ride = myRides.find(r => r.id === rideId)
+        if (ride) {
+          const newSeats = ride.available_seats + 1
+          await supabase.from('rides').update({ available_seats: newSeats }).eq('id', rideId)
+          setMyRides(prev => prev.map(r => r.id === rideId ? { ...r, available_seats: newSeats } : r))
+        }
+      }
+    }
+
+    setRequests(prev => {
+      const updated = { ...prev }
+      for (const rid in updated) {
+        updated[rid] = updated[rid].map(r => r.id === requestId ? { ...r, status } : r)
       }
       return updated
     })
@@ -177,7 +210,7 @@ export default function MyRidesPage() {
                     <span style={{ fontSize: 11, padding: '3px 10px', borderRadius: 20, background: isCompleted ? '#1a2e1a' : isCancelled ? '#2e1a1a' : '#2e2a1a', color: isCompleted ? '#4ade80' : isCancelled ? '#f87171' : '#fbbf24', fontWeight: 600 }}>
                       {isCompleted ? 'تەواو بوو ✓' : isCancelled ? 'هەڵوەشاوە' : 'چالاک'}
                     </span>
-                    <span style={{ fontSize: 11, color: '#666' }}>{ride.available_seats} شوێن</span>
+                    <span style={{ fontSize: 11, color: '#666' }}>{ride.available_seats} جێ</span>
                   </div>
                   <div style={{ textAlign: 'left', fontSize: 11, color: '#555' }}>
                     {ride.price_type === 'coffee' ? ku.coffeeAndConvo : `${ride.price_iqd?.toLocaleString()} دینار`}
@@ -194,8 +227,8 @@ export default function MyRidesPage() {
                         <span style={{ fontSize: 12, color: '#e5e5e5', fontWeight: 500 }}>{req.passenger?.full_name || 'سەرنشین'}</span>
                         {req.status === 'pending' ? (
                           <div style={{ display: 'flex', gap: 6 }}>
-                            <button onClick={() => updateRequestStatus(req.id, 'approved')} style={{ background: '#16a34a', color: 'white', border: 'none', borderRadius: 8, padding: '5px 12px', fontSize: 11, fontWeight: 600, cursor: 'pointer' }}>قبوڵ</button>
-                            <button onClick={() => updateRequestStatus(req.id, 'declined')} style={{ background: '#2a2a2a', color: '#f87171', border: 'none', borderRadius: 8, padding: '5px 12px', fontSize: 11, cursor: 'pointer' }}>ڕەت</button>
+                            <button onClick={() => updateRequestStatus(req.id, 'approved', ride.id)} style={{ background: '#16a34a', color: 'white', border: 'none', borderRadius: 8, padding: '5px 12px', fontSize: 11, fontWeight: 600, cursor: 'pointer' }}>قبوڵ</button>
+                            <button onClick={() => updateRequestStatus(req.id, 'declined', ride.id)} style={{ background: '#2a2a2a', color: '#f87171', border: 'none', borderRadius: 8, padding: '5px 12px', fontSize: 11, cursor: 'pointer' }}>ڕەت</button>
                           </div>
                         ) : (
                           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>

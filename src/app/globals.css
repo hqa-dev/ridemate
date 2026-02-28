@@ -34,6 +34,14 @@
   color: #e5e5e5 !important;
   -webkit-text-fill-color: #e5e5e5 !important;
 }
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Noto Sans Arabic', sans-serif !important;
+}
+
 input, textarea, select {
   color: #e5e5e5 !important;
   -webkit-text-fill-color: #e5e5e5 !important;
@@ -43,26 +51,7 @@ input::placeholder, textarea::placeholder {
   color: #777 !important;
   -webkit-text-fill-color: #777 !important;
 }
-input::placeholder, textarea::placeholder {
-  color: #777 !important;
-  -webkit-text-fill-color: #777 !important;
-}
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: 'Noto Sans Arabic', sans-serif !important;
-}
 
-input, select, textarea {
-  color: #1c1917 !important;
-  -webkit-text-fill-color: #1c1917 !important;
-}
-
-input::placeholder, textarea::placeholder {
-  color: #a8a29e !important;
-  -webkit-text-fill-color: #a8a29e !important;
-}
 /* Hide native select arrow */
 select.ride-select {
   -webkit-appearance: none !important;
@@ -73,17 +62,7 @@ select.ride-select::-ms-expand {
   display: none;
 }
 
-/* Hide native date/time input text when empty */
-input[type="date"]::-webkit-datetime-edit,
-input[type="time"]::-webkit-datetime-edit {
-  color: transparent;
-}
-input[type="date"].has-value::-webkit-datetime-edit,
-input[type="time"].has-value::-webkit-datetime-edit {
-  color: #1c1917;
-}
-
-/* Warm date/time inputs */
+/* Date/time inputs */
 input[type="date"],
 input[type="time"] {
   font-family: 'Noto Sans Arabic', sans-serif;
