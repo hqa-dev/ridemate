@@ -129,7 +129,7 @@ export default function PostRidePage() {
 
   const metaStyle = (hasValue: boolean): React.CSSProperties => ({
     fontSize: 12,
-    color: hasValue ? '#e5e5e5' : '#555',
+    color: hasValue ? '#e5e5e5' : '#e5e5e5',
     whiteSpace: 'nowrap',
     cursor: 'pointer',
     userSelect: 'none',
@@ -190,13 +190,13 @@ export default function PostRidePage() {
         <div style={{ borderTop: '1px solid #2a2a2a', padding: '8px 12px', display: 'flex', gap: 6, alignItems: 'center', direction: 'rtl' }}>
           <div
             onClick={() => setPriceType('coffee')}
-            style={{ background: '#2a2a2a', borderRadius: 6, padding: '6px 8px', flex: 1, fontSize: 12, color: priceType === 'coffee' ? '#df6530' : '#777', cursor: 'pointer', textAlign: 'center' }}
+            style={{ background: '#2a2a2a', borderRadius: 6, padding: '6px 8px', flex: 1, fontSize: 12, color: priceType === 'coffee' ? '#df6530' : '#e5e5e5', cursor: 'pointer', textAlign: 'center' }}
           >
             قاوەیەک
           </div>
           <div
             onClick={() => setPriceType('money')}
-            style={{ background: '#2a2a2a', borderRadius: 6, padding: '6px 8px', flex: 1, fontSize: 12, color: priceType === 'money' ? '#df6530' : '#777', cursor: 'pointer', textAlign: 'center' }}
+            style={{ background: '#2a2a2a', borderRadius: 6, padding: '6px 8px', flex: 1, fontSize: 12, color: priceType === 'money' ? '#df6530' : '#e5e5e5', cursor: 'pointer', textAlign: 'center' }}
           >
             پارە
           </div>
