@@ -63,8 +63,6 @@ export default function PostRidePage() {
     else { router.push('/home') }
   }
 
-  
-
   const inputStyle: React.CSSProperties = {
     background: '#2a2a2a',
     borderRadius: 8,
@@ -96,110 +94,83 @@ export default function PostRidePage() {
     display: 'block',
   }
 
-  const sectionTitleStyle: React.CSSProperties = {
-    fontSize: 12,
-    color: '#777',
-    marginBottom: 6,
-    direction: 'rtl' as const,
-    paddingRight: 14,
-  }
-
   return (
-    <div style={{ direction: 'rtl', minHeight: '100vh', background: '#121212', maxWidth: 480, margin: '0 auto', padding: '24px 20px 96px', fontFamily: "'Noto Sans Arabic', sans-serif" }}>
+    <div style={{ direction: 'rtl', minHeight: '100vh', background: '#121212', maxWidth: 480, margin: '0 auto', padding: '24px 20px 96px', fontFamily: "'Noto Sans Arabic', sans-serif", position: 'relative' }}>
 
       {/* Header */}
-      <div style={{ marginBottom: 20 }}>
+      <div style={{ marginBottom: 40 }}>
         <h1 style={{ fontSize: 20, fontWeight: 700, color: '#e5e5e5' }}><span style={{ color: '#df6530' }}>ڕێ</span> پۆستکە</h1>
       </div>
 
-{/* ===== Route Card (B3) ===== */}
-      <div style={{ background: '#1e1e1e', borderRadius: 14, marginBottom: 16, boxShadow: '0 2px 8px rgba(0,0,0,0.3)', overflow: 'hidden' }}>
-        <div style={{ padding: '10px 14px' }}>
-          {/* From */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-            <div style={{ width: 6, height: 6, borderRadius: '50%', border: '2px solid #df6530', flexShrink: 0 }} />
-            <span style={{ fontSize: 11, color: fromCity ? '#e5e5e5' : '#777' }}>{fromCity ? CITIES[fromCity] : 'لە کوێ؟'}</span>
-          </div>
-          <div style={{ display: 'flex', gap: 6, marginBottom: 8, paddingRight: 14 }}>
+      {/* ===== Route + Price Card (merged) ===== */}
+      <div style={{ background: '#1e1e1e', borderRadius: 14, marginBottom: 19, boxShadow: '0 2px 8px rgba(0,0,0,0.3)', overflow: 'hidden' }}>
+        {/* Route row */}
+        <div style={{ padding: '8px 12px', display: 'flex', gap: 6, alignItems: 'center', direction: 'rtl' }}>
+          <div style={{ width: 5, height: 5, borderRadius: '50%', border: '2px solid #df6530', flexShrink: 0 }} />
+          <select
+            value={fromCity}
+            onChange={(e) => setFromCity(e.target.value)}
+            style={{ background: '#2a2a2a', borderRadius: 6, padding: '6px 8px', flex: 1, fontSize: 10, color: fromCity ? '#e5e5e5' : '#777', border: 'none', outline: 'none', fontFamily: "'Noto Sans Arabic', sans-serif", direction: 'rtl', appearance: 'none' as const, WebkitAppearance: 'none', colorScheme: 'dark' }}
+          >
+            <option value="">لە کوێ؟</option>
             {Object.entries(CITIES).map(([k, v]) => (
-              <div key={'from-'+k} onClick={() => setFromCity(prev => prev === k ? '' : k)}
-                style={{ padding: '5px 12px', borderRadius: 50, background: fromCity === k ? '#df6530' : '#2a2a2a', color: fromCity === k ? 'white' : '#aaa', fontSize: 11, cursor: 'pointer', transition: 'all 0.15s', fontFamily: "'Noto Sans Arabic', sans-serif" }}>
-                {v}
-              </div>
+              <option key={k} value={k}>{v}</option>
             ))}
-          </div>
-          {/* Connecting line */}
-          <div style={{ width: 1, height: 4, background: '#333', marginRight: 4, marginBottom: 6 }} />
-          {/* To */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-            <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#e5e5e5', flexShrink: 0 }} />
-            <span style={{ fontSize: 11, color: toCity ? '#e5e5e5' : '#777' }}>{toCity ? CITIES[toCity] : 'بۆ کوێ؟'}</span>
-          </div>
-          <div style={{ display: 'flex', gap: 6, paddingRight: 14 }}>
+          </select>
+          <span style={{ fontSize: 9, color: '#333' }}>←</span>
+          <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#e5e5e5', flexShrink: 0 }} />
+          <select
+            value={toCity}
+            onChange={(e) => setToCity(e.target.value)}
+            style={{ background: '#2a2a2a', borderRadius: 6, padding: '6px 8px', flex: 1, fontSize: 10, color: toCity ? '#e5e5e5' : '#777', border: 'none', outline: 'none', fontFamily: "'Noto Sans Arabic', sans-serif", direction: 'rtl', appearance: 'none' as const, WebkitAppearance: 'none', colorScheme: 'dark' }}
+          >
+            <option value="">بۆ کوێ؟</option>
             {Object.entries(CITIES).map(([k, v]) => (
-              <div key={'to-'+k} onClick={() => setToCity(prev => prev === k ? '' : k)}
-                style={{ padding: '5px 12px', borderRadius: 50, background: toCity === k ? '#df6530' : '#2a2a2a', color: toCity === k ? 'white' : '#aaa', fontSize: 11, cursor: 'pointer', transition: 'all 0.15s', fontFamily: "'Noto Sans Arabic', sans-serif" }}>
-                {v}
-              </div>
+              <option key={k} value={k}>{v}</option>
             ))}
-          </div>
-        </div>
-        {/* Date · Time · Seats */}
-        <div style={{ borderTop: '1px solid #2a2a2a', padding: '6px 14px', display: 'flex', alignItems: 'center' }}>
-          <div style={{ flex: 1, textAlign: 'center' }}>
+          </select>
+          <div style={{ width: 1, height: 16, background: '#2a2a2a' }} />
+          <div style={{ flex: 0 }}>
             <input type="date" value={date} onChange={(e) => setDate(e.target.value)}
-              style={{ ...smallInputStyle, color: date ? '#e5e5e5' : '#777' }} />
+              style={{ ...smallInputStyle, width: 50, color: date ? '#e5e5e5' : '#555' }} />
           </div>
-          <div style={{ width: 1, height: 12, background: '#2a2a2a', flexShrink: 0 }} />
-          <div style={{ flex: 1, textAlign: 'center' }}>
+          <div style={{ width: 1, height: 16, background: '#2a2a2a' }} />
+          <div style={{ flex: 0 }}>
             <input type="time" value={time} onChange={(e) => setTime(e.target.value)}
-              style={{ ...smallInputStyle, color: time ? '#e5e5e5' : '#777' }} />
+              style={{ ...smallInputStyle, width: 36, color: time ? '#e5e5e5' : '#555' }} />
           </div>
-          <div style={{ width: 1, height: 12, background: '#2a2a2a', flexShrink: 0 }} />
-          <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
+          <div style={{ width: 1, height: 16, background: '#2a2a2a' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <input type="number" min="1" max="7" value={seats} onChange={(e) => setSeats(e.target.value)}
-              style={{ ...smallInputStyle, width: 20 }} />
-            <span style={{ fontSize: 10, color: '#777' }}>جێ</span>
+              style={{ ...smallInputStyle, width: 16 }} />
+            <span style={{ fontSize: 9, color: '#555' }}>جێ</span>
           </div>
         </div>
-      </div>
-
-      {/* ===== Price Card ===== */}
-      <div style={sectionTitleStyle}>نرخ</div>
-      <div style={{ background: '#1e1e1e', borderRadius: 14, marginBottom: 16, boxShadow: '0 2px 8px rgba(0,0,0,0.3)', overflow: 'hidden' }}>
-        <div style={{ padding: '10px 14px', display: 'flex', gap: 8, direction: 'rtl' }}>
+        {/* Price row */}
+        <div style={{ borderTop: '1px solid #2a2a2a', padding: '8px 12px', display: 'flex', gap: 6, alignItems: 'center', direction: 'rtl' }}>
           <div
             onClick={() => setPriceType('coffee')}
-            style={{
-              flex: 1, background: '#2a2a2a',
-              border: `2px solid ${priceType === 'coffee' ? '#df6530' : 'transparent'}`,
-              borderRadius: 10, padding: '8px 0', textAlign: 'center', cursor: 'pointer',
-            }}
+            style={{ background: '#2a2a2a', borderRadius: 6, padding: '6px 8px', flex: 1, fontSize: 10, color: priceType === 'coffee' ? '#df6530' : '#777', cursor: 'pointer', textAlign: 'center' }}
           >
-            <span style={{ fontSize: 12, color: priceType === 'coffee' ? '#df6530' : '#777' }}>قاوەیەک</span>
+            قاوەیەک
           </div>
           <div
             onClick={() => setPriceType('money')}
-            style={{
-              flex: 1, background: '#2a2a2a',
-              border: `2px solid ${priceType === 'money' ? '#df6530' : 'transparent'}`,
-              borderRadius: 10, padding: '8px 0', textAlign: 'center', cursor: 'pointer',
-            }}
+            style={{ background: '#2a2a2a', borderRadius: 6, padding: '6px 8px', flex: 1, fontSize: 10, color: priceType === 'money' ? '#df6530' : '#777', cursor: 'pointer', textAlign: 'center' }}
           >
-            <span style={{ fontSize: 12, color: priceType === 'money' ? '#df6530' : '#777' }}>پارە</span>
+            پارە
           </div>
         </div>
         {priceType === 'money' && (
-          <div style={{ padding: '0 14px 10px' }}>
+          <div style={{ padding: '0 12px 8px' }}>
             <input type="number" value={price} onChange={(e) => setPrice(e.target.value)}
-              placeholder="بڕی پارە بە دینار" style={inputStyle} />
+              placeholder="بڕی پارە بە دینار" style={{ ...inputStyle, fontSize: 10, padding: '6px 8px' }} />
           </div>
         )}
       </div>
 
       {/* ===== Car Info Card ===== */}
-      <div style={sectionTitleStyle}>زانیاری ئۆتۆمبێل</div>
-      <div style={{ background: '#1e1e1e', borderRadius: 14, marginBottom: 16, boxShadow: '0 2px 8px rgba(0,0,0,0.3)', overflow: 'hidden' }}>
+      <div style={{ background: '#1e1e1e', borderRadius: 14, marginBottom: 19, boxShadow: '0 2px 8px rgba(0,0,0,0.3)', overflow: 'hidden' }}>
         <div style={{ padding: '10px 14px' }}>
           <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
             <div style={{ flex: 1 }}>
@@ -217,7 +188,7 @@ export default function PostRidePage() {
       </div>
 
       {/* ===== Smoking & Notes Card ===== */}
-      <div style={{ background: '#1e1e1e', borderRadius: 14, marginBottom: 16, boxShadow: '0 2px 8px rgba(0,0,0,0.3)', overflow: 'hidden' }}>
+      <div style={{ background: '#1e1e1e', borderRadius: 14, marginBottom: 19, boxShadow: '0 2px 8px rgba(0,0,0,0.3)', overflow: 'hidden' }}>
         <div style={{ padding: '10px 14px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
             <span style={{ fontSize: 12, color: '#aaa' }}>جگەرەکێش</span>
@@ -248,15 +219,17 @@ export default function PostRidePage() {
       {/* Error */}
       {error && <p style={{ color: '#f87171', fontSize: 12, textAlign: 'center', marginBottom: 12 }}>{error}</p>}
 
-      {/* Submit */}
-      <div
-        onClick={handleSubmit}
-        style={{
-          background: loading ? '#555' : '#df6530', borderRadius: 14,
-          padding: 14, textAlign: 'center', cursor: loading ? 'default' : 'pointer', marginBottom: 20,
-        }}
-      >
-        <span style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>{loading ? '...' : 'برۆ'}</span>
+      {/* Submit — fixed above nav */}
+      <div style={{ position: 'fixed', bottom: 80, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 440, padding: '0 20px', zIndex: 10 }}>
+        <div
+          onClick={handleSubmit}
+          style={{
+            background: loading ? '#555' : '#df6530', borderRadius: 14,
+            padding: 14, textAlign: 'center', cursor: loading ? 'default' : 'pointer',
+          }}
+        >
+          <span style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>{loading ? '...' : 'برۆ'}</span>
+        </div>
       </div>
 
       <BottomNav />
