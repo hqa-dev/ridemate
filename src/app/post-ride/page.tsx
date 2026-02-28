@@ -204,7 +204,7 @@ export default function PostRidePage() {
         {priceType === 'money' && (
           <div style={{ padding: '0 12px 8px' }}>
             <input type="number" value={price} onChange={(e) => setPrice(e.target.value)}
-              placeholder="بڕی پارە بە دینار" style={{ ...inputStyle, fontSize: 12, padding: '6px 8px' }} />
+              placeholder="بڕی پارە بە دینار" style={{ ...inputStyle, colorScheme: 'dark', fontSize: 12, padding: '6px 8px' }} />
           </div>
         )}
       </div>
