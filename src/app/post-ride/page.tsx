@@ -119,7 +119,7 @@ export default function PostRidePage() {
     padding: '6px 8px',
     flex: 1,
     fontSize: 12,
-    color: hasValue ? '#e5e5e5' : '#777',
+    color: '#e5e5e5',
     cursor: 'pointer',
     fontFamily: "'Noto Sans Arabic', sans-serif",
     direction: 'rtl',
