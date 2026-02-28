@@ -204,8 +204,7 @@ export default function PostRidePage() {
         </div>
         {priceType === 'money' && (
           <div style={{ padding: '0 12px 8px' }}>
-            <input type="number" value={price} onChange={(e) => { const v = parseInt(e.target.value) || 0; if (v <= 5000) setPrice(e.target.value) }}
-              placeholder="بڕی پارە بە دینار" style={{ ...inputStyle, fontSize: 12, padding: '6px 8px', WebkitTextFillColor: '#e5e5e5' }} />
+            <input value={price} onChange={(e) => { const v = Number(e.target.value); if (!e.target.value || (v >= 0 && v <= 5000)) setPrice(e.target.value) }} inputMode="numeric" pattern="[0-9]*" placeholder="5000" style={{ background: '#2a2a2a', border: 'none', borderRadius: 8, padding: '6px 8px', width: '100%', fontSize: 12, color: 'white' }} />
           </div>
         )}
       </div>
