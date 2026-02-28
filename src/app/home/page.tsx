@@ -267,7 +267,7 @@ const priceDisplay = ride.price_type === 'coffee'
               {/* Footer — driver · seats · price */}
               <div style={{ borderTop: '1px solid #2a2a2a', padding: '10px 18px', display: 'flex', alignItems: 'center', direction: 'rtl' }}>
                 <span style={{ flex: 1, textAlign: 'right', fontSize: 12, color: '#aaa' }}>{driver.full_name || 'شۆفێر'}</span>
-                <span style={{ flex: 1, textAlign: 'center', fontSize: 10, color: '#ccc' }}>
+                <span style={{ flex: 1, textAlign: 'center', fontSize: 10, color: '#777' }}>
                   {isFull ? 'پڕە' : seatsDisplay}
                 </span>
                 <span style={{ flex: 1, textAlign: 'left', fontSize: 12, fontWeight: 400, color: '#aaa' }}>{priceDisplay}</span>
