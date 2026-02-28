@@ -303,21 +303,21 @@ export default function RideDetailPage() {
         <div style={{ padding: '16px 18px 12px' }} dir="ltr">
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <div style={{ textAlign: 'center', minWidth: 44 }}>
-              <div style={{ fontSize: 15, fontWeight: 700, color: T.text }}>{depTime}</div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: T.text }}>{toKurdishNum(arrTime)}</div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', flex: 1, margin: '0 8px' }}>
-              <div style={{ width: 7, height: 7, borderRadius: '50%', border: `2px solid ${T.orange}`, flexShrink: 0 }} />
-              <div style={{ flex: 1, height: 1, background: `linear-gradient(to right, ${T.orange}, #333, ${T.text})` }} />
               <div style={{ width: 7, height: 7, borderRadius: '50%', background: T.text, flexShrink: 0 }} />
+              <div style={{ flex: 1, height: 1, background: `linear-gradient(to right, ${T.text}, #333, ${T.orange})` }} />
+              <div style={{ width: 7, height: 7, borderRadius: '50%', border: `2px solid ${T.orange}`, flexShrink: 0 }} />
             </div>
             <div style={{ textAlign: 'center', minWidth: 44 }}>
-              <div style={{ fontSize: 15, fontWeight: 700, color: T.text }}>{arrTime}</div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: T.text }}>{toKurdishNum(depTime)}</div>
             </div>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
-            <span style={{ fontSize: 11, color: '#ccc', minWidth: 44, textAlign: 'center' }}>{CITIES[ride.from_city]}</span>
-            <span style={{ fontSize: 9, color: T.textMid }}>{distance}</span>
             <span style={{ fontSize: 11, color: '#ccc', minWidth: 44, textAlign: 'center' }}>{CITIES[ride.to_city]}</span>
+            <span style={{ fontSize: 9, color: T.textMid }}>{distance}</span>
+            <span style={{ fontSize: 11, color: '#ccc', minWidth: 44, textAlign: 'center' }}>{CITIES[ride.from_city]}</span>
           </div>
         </div>
 
@@ -405,7 +405,7 @@ export default function RideDetailPage() {
               </span>
               {ride.available_seats > 0 ? (
                 <span style={{ background: T.border, color: T.textMid, padding: '5px 14px', borderRadius: 20, fontSize: 12 }}>
-                  {ride.available_seats} شوێن
+                  {ride.available_seats} جێ
                 </span>
               ) : (
                 <span style={{ background: T.border, color: T.textDim, padding: '5px 14px', borderRadius: 20, fontSize: 12 }}>پڕە</span>

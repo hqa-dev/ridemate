@@ -28,7 +28,7 @@ function formatTime(dt: string): string {
   const d = new Date(dt)
   const h = d.getHours()
   const m = d.getMinutes().toString().padStart(2, '0')
-  return `${h}:${m}`
+  return toKurdishNum(`${h}:${m}`)
 }
 
 function estimateArrival(dt: string, fromCity: string, toCity: string): string {
@@ -43,7 +43,7 @@ function estimateArrival(dt: string, fromCity: string, toCity: string): string {
   d.setHours(d.getHours() + add)
   const h = d.getHours()
   const m = d.getMinutes().toString().padStart(2, '0')
-  return `${h}:${m}`
+  return toKurdishNum(`${h}:${m}`)
 }
 
 export default function HomePage() {
@@ -94,7 +94,7 @@ export default function HomePage() {
 
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: '#e5e5e5' }}>بگە<span style={{ color: '#df6530' }}>ڕێ</span></h1>
+        <h1 style={{ fontSize: 28, fontWeight: 800, color: '#df6530', letterSpacing: -1 }}>ڕێ</h1>
       </div>
 
       {/* Search bar — collapsed */}
@@ -226,10 +226,10 @@ export default function HomePage() {
         const arrTime = estimateArrival(ride.departure_time, ride.from_city, ride.to_city)
         const routeKey = `${ride.from_city}-${ride.to_city}`
         const distance = ROUTE_DISTANCE[routeKey] || ''
-const priceDisplay = ride.price_type === 'coffee'
-  ? 'قاوەیەک'
-  : `${toKurdishNum(ride.price_iqd?.toLocaleString() || '0')} دینار`
-        const seatsDisplay = `${toKurdishNum(ride.available_seats)} شوێن بەردەستە`
+        const priceDisplay = ride.price_type === 'coffee'
+          ? 'قاوەیەک'
+          : `${toKurdishNum(ride.price_iqd?.toLocaleString() || '0')} دینار`
+        const seatsDisplay = `${toKurdishNum(ride.available_seats)} جێ بەردەستە`
         const isFull = ride.available_seats <= 0
 
         return (
@@ -246,21 +246,21 @@ const priceDisplay = ride.price_type === 'coffee'
               <div style={{ padding: '16px 18px 12px' }} dir="ltr">
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <div style={{ textAlign: 'center', minWidth: 44 }}>
-                    <div style={{ fontSize: 15, fontWeight: 700, color: '#e5e5e5' }}>{depTime}</div>
+                    <div style={{ fontSize: 15, fontWeight: 700, color: '#e5e5e5' }}>{arrTime}</div>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', flex: 1, margin: '0 8px' }}>
-                    <div style={{ width: 7, height: 7, borderRadius: '50%', border: '2px solid #df6530', flexShrink: 0 }} />
-                    <div style={{ flex: 1, height: 1, background: 'linear-gradient(to right, #df6530, #333, #e5e5e5)' }} />
                     <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#e5e5e5', flexShrink: 0 }} />
+                    <div style={{ flex: 1, height: 1, background: 'linear-gradient(to right, #e5e5e5, #333, #df6530)' }} />
+                    <div style={{ width: 7, height: 7, borderRadius: '50%', border: '2px solid #df6530', flexShrink: 0 }} />
                   </div>
                   <div style={{ textAlign: 'center', minWidth: 44 }}>
-                    <div style={{ fontSize: 15, fontWeight: 700, color: '#e5e5e5' }}>{arrTime}</div>
+                    <div style={{ fontSize: 15, fontWeight: 700, color: '#e5e5e5' }}>{depTime}</div>
                   </div>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
-                  <span style={{ fontSize: 11, color: '#ccc', minWidth: 44, textAlign: 'center' }}>{CITIES[ride.from_city]}</span>
-                  <span style={{ fontSize: 9, color: '#aaa' }}>{distance}</span>
                   <span style={{ fontSize: 11, color: '#ccc', minWidth: 44, textAlign: 'center' }}>{CITIES[ride.to_city]}</span>
+                  <span style={{ fontSize: 9, color: '#aaa' }}>{distance}</span>
+                  <span style={{ fontSize: 11, color: '#ccc', minWidth: 44, textAlign: 'center' }}>{CITIES[ride.from_city]}</span>
                 </div>
               </div>
 
