@@ -202,12 +202,9 @@ export default function PostRidePage() {
             پارە
           </div>
         </div>
-        {priceType === 'money' && (
-          <div style={{ padding: '0 12px 8px' }}>
-            <input value={price} onChange={(e) => { const v = Number(e.target.value); if (!e.target.value || (v >= 0 && v <= 5000)) setPrice(e.target.value) }} inputMode="numeric" pattern="[0-9]*" placeholder="" style={{ background: '#2a2a2a', border: 'none', borderRadius: 8, padding: '6px 8px', width: '100%', fontSize: 12, color: '#e5e5e5', WebkitTextFillColor: '#e5e5e5' }} />
-          </div>
-        )}
-      </div>
+          <div style={{ padding: '0 12px 8px', display: priceType === 'money' ? 'block' : 'none' }}>
+            <input className="money-input" value={price} onChange={(e) => { const v = Number(e.target.value); if (!e.target.value || (v >= 0 && v <= 5000)) setPrice(e.target.value) }} inputMode="numeric" pattern="[0-9]*" />
+          </div>      </div>
 
       {/* ===== Car Info Card ===== */}
       <div style={{ background: '#1e1e1e', borderRadius: 14, marginBottom: 19, boxShadow: '0 2px 8px rgba(0,0,0,0.3)', overflow: 'hidden' }}>

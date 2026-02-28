@@ -1,3 +1,13 @@
+.money-input {
+  background: #2a2a2a;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 8px;
+  width: 100%;
+  font-size: 12px;
+  color: #e5e5e5 !important;
+  -webkit-text-fill-color: #e5e5e5 !important;
+}
 input, textarea, select {
   color: #e5e5e5 !important;
   -webkit-text-fill-color: #e5e5e5 !important;
