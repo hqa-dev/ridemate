@@ -212,15 +212,15 @@ export default function PostRidePage() {
           <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
             <div style={{ flex: 1 }}>
               <span style={labelStyle}>جۆری ئۆتۆمبێل</span>
-              <input value={carMake} onChange={(e) => setCarMake(e.target.value)} placeholder="Toyota" style={inputStyle} />
+              <input value={carMake} onChange={(e) => setCarMake(e.target.value)} placeholder="Toyota" className="car-input" />
             </div>
             <div style={{ flex: 1 }}>
               <span style={labelStyle}>مۆدێلی ئۆتۆمبێل</span>
-              <input value={carModel} onChange={(e) => setCarModel(e.target.value)} placeholder="Camry" style={inputStyle} />
+              <input value={carModel} onChange={(e) => setCarModel(e.target.value)} placeholder="Camry" className="car-input" />
             </div>
           </div>
           <span style={labelStyle}>ڕەنگی ئۆتۆمبێل</span>
-          <input value={carColor} onChange={(e) => setCarColor(e.target.value)} placeholder="White" style={inputStyle} />
+          <input value={carColor} onChange={(e) => setCarColor(e.target.value)} placeholder="White" className="car-input" />
         </div>
       </div>
 

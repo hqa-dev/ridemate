@@ -1,3 +1,15 @@
+.car-input {
+  background: #2a2a2a;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  width: 100%;
+  font-size: 12px;
+  color: #e5e5e5 !important;
+  -webkit-text-fill-color: #e5e5e5 !important;
+  font-family: 'Noto Sans Arabic', sans-serif;
+  direction: rtl;
+}
 .money-input {
   background: #2a2a2a;
   border: none;
