@@ -95,7 +95,7 @@ export default function PostRidePage() {
   }
 
   const labelStyle: React.CSSProperties = {
-    fontSize: 10,
+    fontSize: 16,
     color: '#777',
     marginBottom: 4,
     display: 'block',
