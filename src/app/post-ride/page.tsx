@@ -104,6 +104,7 @@ export default function PostRidePage() {
     width: '100%',
     fontFamily: "'Noto Sans Arabic', sans-serif",
     direction: 'rtl',
+    WebkitTextFillColor: '#e5e5e5',
   }
 
   const labelStyle: React.CSSProperties = {
