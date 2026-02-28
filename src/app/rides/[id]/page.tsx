@@ -39,7 +39,7 @@ function StarSelector({ value, onChange }: { value: number; onChange: (v: number
           style={{
             fontSize: 32,
             cursor: 'pointer',
-            color: star <= value ? '#f5a623' : '#e0dcd6',
+            color: star <= value ? '#f5a623' : '#333',
             transition: 'transform 0.15s',
             transform: star <= value ? 'scale(1.1)' : 'scale(1)',
           }}
@@ -225,7 +225,7 @@ export default function RideDetailPage() {
   const pageWrap: React.CSSProperties = {
     direction: 'rtl',
     minHeight: '100vh',
-    background: '#fafaf9',
+    background: '#121212',
     maxWidth: 480,
     margin: '0 auto',
     paddingBottom: '6rem',
@@ -234,14 +234,15 @@ export default function RideDetailPage() {
 
   const inp: React.CSSProperties = {
     width: '100%',
-    background: '#f5f5f4',
-    border: '1px solid #e7e5e4',
+    background: '#2a2a2a',
+    border: '1px solid #333',
     borderRadius: 12,
     padding: '10px 12px',
     fontSize: 13,
     outline: 'none',
     direction: 'rtl',
     resize: 'none',
+    color: '#e5e5e5',
   }
 
   if (loading) {
@@ -251,7 +252,7 @@ export default function RideDetailPage() {
   if (!ride) {
     return (
       <div style={{ ...pageWrap, padding: '3rem 1.25rem', textAlign: 'center' }}>
-        <p style={{ color: '#a8a29e' }}>ئەم ڕێیەکە نەدۆزرایەوە</p>
+        <p style={{ color: '#666' }}>ئەم ڕێیەکە نەدۆزرایەوە</p>
         <Link href="/home" style={{ color: '#df6530', marginTop: '1rem', display: 'inline-block' }}>{ku.back}</Link>
         <BottomNav />
       </div>
@@ -271,10 +272,10 @@ export default function RideDetailPage() {
     <div style={pageWrap}>
 
       <div style={{
-        background: '#fff',
+        background: '#1e1e1e',
         borderRadius: 22,
         overflow: 'hidden',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.04), 0 12px 36px rgba(0,0,0,0.06)',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.3), 0 12px 36px rgba(0,0,0,0.2)',
         margin: '40px 12px',
       }}>
 
@@ -296,7 +297,7 @@ export default function RideDetailPage() {
             <span style={{ color: '#fff', fontSize: 20, fontWeight: 800 }}>{CITIES[ride.to_city]}</span>
           </div>
 
-     <div style={{ display: 'flex', gap: 12, fontSize: 11, color: 'rgba(255,255,255,0.55)', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: 12, fontSize: 11, color: 'rgba(255,255,255,0.55)', flexWrap: 'wrap' }}>
             <span dir="ltr">📅 {new Date(ride.departure_time).toLocaleDateString('ar-u-nu-arab', { day: '2-digit', month: '2-digit', year: 'numeric' })}</span>
             <span dir="ltr">🕐 {new Date(ride.departure_time).toLocaleTimeString('ar-u-nu-arab', { hour: '2-digit', minute: '2-digit', hour12: false })}</span>
             {routeInfo && <span>⏱ {routeInfo.duration}</span>}
@@ -322,10 +323,10 @@ export default function RideDetailPage() {
 
         <div style={{
           margin: '-12px 16px 0',
-          background: '#fff',
+          background: '#282828',
           borderRadius: 16,
           padding: 16,
-          boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+          boxShadow: '0 2px 12px rgba(0,0,0,0.2)',
           display: 'flex',
           gap: 14,
           alignItems: 'center',
@@ -336,7 +337,7 @@ export default function RideDetailPage() {
             width: 56,
             height: 56,
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #f0e6dc 0%, #e8d5c4 100%)',
+            background: 'linear-gradient(135deg, #2e2118 0%, #3a2a1e 100%)',
             border: '2.5px solid #df6530',
             display: 'flex',
             alignItems: 'center',
@@ -348,14 +349,14 @@ export default function RideDetailPage() {
           </div>
           <div style={{ flex: 1 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-              <span style={{ fontSize: 15, fontWeight: 700, color: '#1a1a1a' }}>{driver.full_name || 'شۆفێر'}</span>
-              {driver.verified && <span style={{ background: '#e8f5e9', color: '#2e7d32', fontSize: 10, padding: '1px 6px', borderRadius: 6, fontWeight: 600 }}>✓ پشتڕاستکراوە</span>}
+              <span style={{ fontSize: 15, fontWeight: 700, color: '#e5e5e5' }}>{driver.full_name || 'شۆفێر'}</span>
+              {driver.verified && <span style={{ background: '#1a2e1a', color: '#4ade80', fontSize: 10, padding: '1px 6px', borderRadius: 6, fontWeight: 600 }}>✓ پشتڕاستکراوە</span>}
             </div>
             {driverAvgRating !== null && (
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <StarDisplay rating={driverAvgRating} size={12} />
                 <span style={{ fontSize: 12, color: '#888' }}>{driverAvgRating}</span>
-                <span style={{ fontSize: 10, color: '#bbb' }}>• {driverTripCount} گەشت</span>
+                <span style={{ fontSize: 10, color: '#555' }}>• {driverTripCount} گەشت</span>
               </div>
             )}
           </div>
@@ -370,31 +371,31 @@ export default function RideDetailPage() {
               gap: 10,
               marginBottom: 14,
               padding: '10px 14px',
-              background: '#f9f8f6',
+              background: '#252525',
               borderRadius: 12,
             }}>
               <div>
-                <div style={{ fontSize: 13, fontWeight: 600, color: '#333' }} dir='ltr'>{carParts} 🚗</div>
-                {carColor && <div style={{ fontSize: 11, color: '#999', marginTop: 2 }}>{COLOR_KU[carColor.toLowerCase()] || carColor}</div>}
+                <div style={{ fontSize: 13, fontWeight: 600, color: '#ccc' }} dir='ltr'>{carParts} 🚗</div>
+                {carColor && <div style={{ fontSize: 11, color: '#777', marginTop: 2 }}>{COLOR_KU[carColor.toLowerCase()] || carColor}</div>}
               </div>
             </div>
           )}
 
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 14 }}>
             {ride.price_type === 'coffee' ? (
-              <span style={{ background: '#f5f5f4', color: '#44403c', padding: '6px 16px', borderRadius: 20, fontSize: 13 }}>☕ قاوەیەک</span>
+              <span style={{ background: '#2a2a2a', color: '#aaa', padding: '6px 16px', borderRadius: 20, fontSize: 13 }}>☕ قاوەیەک</span>
             ) : (
-              <span style={{ background: '#f5f5f4', color: '#44403c', padding: '6px 16px', borderRadius: 20, fontSize: 13 }}>{Number(ride.price_iqd).toLocaleString('en').replace(/[0-9]/g, (d: string) => '٠١٢٣٤٥٦٧٨٩'[Number(d)])} دینار</span>
+              <span style={{ background: '#2a2a2a', color: '#aaa', padding: '6px 16px', borderRadius: 20, fontSize: 13 }}>{Number(ride.price_iqd).toLocaleString('en').replace(/[0-9]/g, (d: string) => '٠١٢٣٤٥٦٧٨٩'[Number(d)])} دینار</span>
             )}
 
             {ride.available_seats > 0 ? (
-              <span style={{ background: '#f5f5f4', color: '#44403c', padding: '6px 16px', borderRadius: 20, fontSize: 13 }}>{ride.available_seats} شوێن</span>
+              <span style={{ background: '#2a2a2a', color: '#aaa', padding: '6px 16px', borderRadius: 20, fontSize: 13 }}>{ride.available_seats} شوێن</span>
             ) : (
-              <span style={{ background: '#f5f5f4', color: '#78716c', padding: '6px 16px', borderRadius: 20, fontSize: 13 }}>پڕە</span>
+              <span style={{ background: '#2a2a2a', color: '#777', padding: '6px 16px', borderRadius: 20, fontSize: 13 }}>پڕە</span>
             )}
 
             {ride.smoking !== null && (
-              <span style={{ background: '#f3f3f3', color: '#777', padding: '6px 16px', borderRadius: 20, fontSize: 13 }}>
+              <span style={{ background: '#2a2a2a', color: '#777', padding: '6px 16px', borderRadius: 20, fontSize: 13 }}>
                 {ride.smoking ? '🚬' : '🚭'}
               </span>
             )}
@@ -403,13 +404,13 @@ export default function RideDetailPage() {
           {ride.notes && (
             <div style={{
               padding: '12px 14px',
-              background: '#faf9f7',
+              background: '#252525',
               borderRadius: 12,
               borderRight: '3px solid #df6530',
               marginBottom: 16,
             }}>
-              <div style={{ fontSize: 10, color: '#bbb', marginBottom: 4, fontWeight: 600 }}>تێبینی</div>
-              <div style={{ fontSize: 12, color: '#666', lineHeight: 1.8 }}>{ride.notes}</div>
+              <div style={{ fontSize: 10, color: '#555', marginBottom: 4, fontWeight: 600 }}>تێبینی</div>
+              <div style={{ fontSize: 12, color: '#999', lineHeight: 1.8 }}>{ride.notes}</div>
             </div>
           )}
         </div>
@@ -437,14 +438,14 @@ export default function RideDetailPage() {
                 {completing ? '...' : 'گەشتەکە تەواو بوو ✓'}
               </button>
             ) : isCompleted ? (
-              <div style={{ textAlign: 'center', background: '#f0fdf4', borderRadius: 14, padding: '18px 16px', border: '1.5px solid #bbf7d0' }}>
+              <div style={{ textAlign: 'center', background: '#1a2e1a', borderRadius: 14, padding: '18px 16px', border: '1.5px solid #1a3a1a' }}>
                 <span style={{ fontSize: 28, display: 'block', marginBottom: 8 }}></span>
-                <p style={{ fontWeight: 600, color: '#16a34a', fontSize: 14 }}>گەشتەکە تەواو بوو</p>
-                <p style={{ fontSize: 11, color: '#86efac', marginTop: 4 }}>ڕێکەوت: {new Date(ride.completed_at).toLocaleDateString('en-GB')}</p>
+                <p style={{ fontWeight: 600, color: '#4ade80', fontSize: 14 }}>گەشتەکە تەواو بوو</p>
+                <p style={{ fontSize: 11, color: '#2d6a3e', marginTop: 4 }}>ڕێکەوت: {new Date(ride.completed_at).toLocaleDateString('en-GB')}</p>
               </div>
             ) : (
-              <div style={{ textAlign: 'center', background: '#fafaf9', borderRadius: 14, padding: '14px 16px' }}>
-                <p style={{ fontSize: 13, color: '#a8a29e' }}>ئەمە ڕێی خۆتە!</p>
+              <div style={{ textAlign: 'center', background: '#1e1e1e', borderRadius: 14, padding: '14px 16px' }}>
+                <p style={{ fontSize: 13, color: '#666' }}>ئەمە ڕێی خۆتە!</p>
               </div>
             )
           )}
@@ -454,13 +455,13 @@ export default function RideDetailPage() {
               !hasRated ? (
                 <div style={{
                   textAlign: 'center',
-                  background: '#fffbf5',
+                  background: '#2e2118',
                   borderRadius: 14,
                   padding: '20px 16px',
-                  border: '1.5px solid #fde8d0',
+                  border: '1.5px solid #3d2c1e',
                 }}>
-                  <p style={{ fontWeight: 700, fontSize: 15, color: '#1a1a1a', marginBottom: 4 }}>چۆن بوو گەشتەکە؟</p>
-                  <p style={{ fontSize: 12, color: '#a8a29e', marginBottom: 14 }}>هەڵسەنگاندنەکەت دوای ٧٢ کاتژمێر دەردەکەوێ</p>
+                  <p style={{ fontWeight: 700, fontSize: 15, color: '#e5e5e5', marginBottom: 4 }}>چۆن بوو گەشتەکە؟</p>
+                  <p style={{ fontSize: 12, color: '#777', marginBottom: 14 }}>هەڵسەنگاندنەکەت دوای ٧٢ کاتژمێر دەردەکەوێ</p>
                   <StarSelector value={selectedRating} onChange={setSelectedRating} />
                   {selectedRating > 0 && (
                     <button
@@ -485,10 +486,10 @@ export default function RideDetailPage() {
                   )}
                 </div>
               ) : (
-                <div style={{ textAlign: 'center', background: '#f0fdf4', borderRadius: 14, padding: '18px 16px', border: '1.5px solid #bbf7d0' }}>
+                <div style={{ textAlign: 'center', background: '#1a2e1a', borderRadius: 14, padding: '18px 16px', border: '1.5px solid #1a3a1a' }}>
                   <span style={{ fontSize: 28, display: 'block', marginBottom: 6 }}>⭐</span>
-                  <p style={{ fontWeight: 600, color: '#16a34a', fontSize: 14 }}>سوپاس بۆ هەڵسەنگاندنەکەت!</p>
-                  <p style={{ fontSize: 12, color: '#a8a29e', marginTop: 4 }}>هەڵسەنگاندنەکەت دوای ٧٢ کاتژمێر دەردەکەوێ</p>
+                  <p style={{ fontWeight: 600, color: '#4ade80', fontSize: 14 }}>سوپاس بۆ هەڵسەنگاندنەکەت!</p>
+                  <p style={{ fontSize: 12, color: '#666', marginTop: 4 }}>هەڵسەنگاندنەکەت دوای ٧٢ کاتژمێر دەردەکەوێ</p>
                 </div>
               )
             ) :
@@ -513,26 +514,26 @@ export default function RideDetailPage() {
             ) : requestStatus === 'approved' ? (
               <div style={{
                 textAlign: 'center',
-                border: '1.5px solid #16a34a',
-                background: '#f0fdf4',
+                border: '1.5px solid #1a3a1a',
+                background: '#1a2e1a',
                 borderRadius: 14,
                 padding: '18px 16px',
               }}>
                 <span style={{ fontSize: 28, display: 'block', marginBottom: 8 }}></span>
-                <p style={{ fontWeight: 600, color: '#16a34a', marginBottom: 12, fontSize: 14 }}>قبوڵ کرا!</p>
+                <p style={{ fontWeight: 600, color: '#4ade80', marginBottom: 12, fontSize: 14 }}>قبوڵ کرا!</p>
                 {waLink ? (
                   <a href={waLink} target="_blank" rel="noopener noreferrer" style={{ display: 'block', background: '#25D366', color: 'white', border: 'none', borderRadius: 12, padding: 12, fontSize: 14, fontWeight: 600, textDecoration: 'none', textAlign: 'center' }}>
                     پەیامێک بنێرە <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="white" style={{display:"inline",verticalAlign:"middle",marginRight:"0.3rem"}}><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                   </a>
                 ) : (
-                  <p style={{ color: '#a8a29e', fontSize: 13 }}>شۆفێر ژمارەی مۆبایلی زیاد نەکردووە</p>
+                  <p style={{ color: '#666', fontSize: 13 }}>شۆفێر ژمارەی مۆبایلی زیاد نەکردووە</p>
                 )}
               </div>
             ) : (
-              <div style={{ textAlign: 'center', background: '#fafaf9', borderRadius: 14, padding: '18px 16px' }}>
+              <div style={{ textAlign: 'center', background: '#1e1e1e', borderRadius: 14, padding: '18px 16px' }}>
                 <span style={{ fontSize: 28, display: 'block', marginBottom: 8 }}>⏳</span>
-                <p style={{ fontWeight: 600, color: '#44403c', fontSize: 14 }}>{ku.requestSent}</p>
-                <p style={{ fontSize: 12, color: '#a8a29e', marginTop: 4 }}>{ku.contactRevealNote}</p>
+                <p style={{ fontWeight: 600, color: '#e5e5e5', fontSize: 14 }}>{ku.requestSent}</p>
+                <p style={{ fontSize: 12, color: '#666', marginTop: 4 }}>{ku.contactRevealNote}</p>
               </div>
             )
           )}
@@ -542,25 +543,25 @@ export default function RideDetailPage() {
 
       {showModal && (
         <div
-          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 200, padding: 20 }}
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 200, padding: 20 }}
           onClick={() => setShowModal(false)}
         >
           <div
-            style={{ background: 'white', width: '100%', maxWidth: 420, borderRadius: 24, padding: '24px 20px', direction: 'rtl' }}
+            style={{ background: '#1e1e1e', width: '100%', maxWidth: 420, borderRadius: 24, padding: '24px 20px', direction: 'rtl' }}
             onClick={e => e.stopPropagation()}
           >
-            <h2 style={{ fontWeight: 700, fontSize: 17, marginBottom: 12 }}>دەمەوێ!</h2>
+            <h2 style={{ fontWeight: 700, fontSize: 17, marginBottom: 12, color: '#e5e5e5' }}>دەمەوێ!</h2>
             <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
               <div style={{ flex: 1 }}>
-                <label style={{ fontSize: 12, color: '#78716c', display: 'block', marginBottom: 4, textAlign: 'right', paddingRight: 4 }}>سواربوون</label>
+                <label style={{ fontSize: 12, color: '#777', display: 'block', marginBottom: 4, textAlign: 'right', paddingRight: 4 }}>سواربوون</label>
                 <input value={pickup} onChange={e => setPickup(e.target.value)} style={inp} placeholder="لە کوێ سوار دەبی؟" />
               </div>
               <div style={{ flex: 1 }}>
-                <label style={{ fontSize: 12, color: '#78716c', display: 'block', marginBottom: 4, textAlign: 'right', paddingRight: 4 }}>دابەزین</label>
+                <label style={{ fontSize: 12, color: '#777', display: 'block', marginBottom: 4, textAlign: 'right', paddingRight: 4 }}>دابەزین</label>
                 <input value={dropoff} onChange={e => setDropoff(e.target.value)} style={inp} placeholder="لە کوێ دادەبەزی؟" />
               </div>
             </div>
-            <p style={{ fontSize: 12, color: '#a8a29e', textAlign: 'center', marginBottom: 12, lineHeight: 1.6 }}>
+            <p style={{ fontSize: 12, color: '#666', textAlign: 'center', marginBottom: 12, lineHeight: 1.6 }}>
               دوای ئەوەی داواکارییەکت پەسەند کرا، ژمارەی مۆبایلەکەت لەگەڵ شۆفێر شێر دەکرێ
             </p>
             <button
@@ -571,7 +572,7 @@ export default function RideDetailPage() {
               {sending ? '...چاوەڕوان بە' : ku.sendRequest}
             </button>
             <button
-              style={{ width: '100%', background: 'transparent', color: '#78716c', border: 'none', borderRadius: 12, padding: 12, fontSize: 14, cursor: 'pointer' }}
+              style={{ width: '100%', background: 'transparent', color: '#777', border: 'none', borderRadius: 12, padding: 12, fontSize: 14, cursor: 'pointer' }}
               onClick={() => setShowModal(false)}
             >
               {ku.cancel}

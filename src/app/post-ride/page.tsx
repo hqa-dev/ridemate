@@ -44,9 +44,9 @@ export default function PostRidePage() {
     check()
   })
 
-  const input = { width: '100%', background: '#f5f5f4', border: '1px solid #e7e5e4', borderRadius: '0.75rem', padding: '0.75rem 1rem', fontSize: '0.95rem', outline: 'none', direction: 'rtl' } as React.CSSProperties
+  const input = { width: '100%', background: '#2a2a2a', border: '1px solid #333', borderRadius: '0.75rem', padding: '0.75rem 1rem', fontSize: '0.95rem', outline: 'none', direction: 'rtl', color: '#e5e5e5' } as React.CSSProperties
   const select = { ...input, padding: '0.75rem 1rem 0.75rem 2.5rem' } as React.CSSProperties
-  const label = { fontSize: '0.8rem', color: '#a8a29e', display: 'block', marginBottom: '0.25rem', paddingRight: '1rem' } as React.CSSProperties
+  const label = { fontSize: '0.8rem', color: '#777', display: 'block', marginBottom: '0.25rem', paddingRight: '1rem' } as React.CSSProperties
   const section = { marginBottom: '1rem' } as React.CSSProperties
 
   const handleSubmit = async () => {
@@ -103,7 +103,7 @@ export default function PostRidePage() {
 
   if (checkingAuth) {
     return (
-      <div style={{ direction: 'rtl', minHeight: '100vh', background: '#fafaf9', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem' }}>
+      <div style={{ direction: 'rtl', minHeight: '100vh', background: '#121212', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem' }}>
         <BottomNav />
       </div>
     )
@@ -116,11 +116,11 @@ export default function PostRidePage() {
     }
     const msg = msgs[blockReason] || { title: blockReason, sub: '' }
     return (
-      <div style={{ direction: 'rtl', minHeight: '100vh', background: '#fafaf9', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ textAlign: 'center', background: 'white', border: '1px solid #e7e5e4', borderRadius: '1rem', padding: '2rem 1.5rem' }}>
+      <div style={{ direction: 'rtl', minHeight: '100vh', background: '#121212', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ textAlign: 'center', background: '#1e1e1e', borderRadius: '1rem', padding: '2rem 1.5rem', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
           <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🔒</div>
-          <p style={{ color: '#44403c', fontSize: '1rem', fontWeight: 600, marginBottom: '0.5rem' }}>{msg.title}</p>
-          {msg.sub && <p style={{ color: '#a8a29e', fontSize: '0.85rem' }}>{msg.sub}</p>}
+          <p style={{ color: '#e5e5e5', fontSize: '1rem', fontWeight: 600, marginBottom: '0.5rem' }}>{msg.title}</p>
+          {msg.sub && <p style={{ color: '#777', fontSize: '0.85rem' }}>{msg.sub}</p>}
         </div>
         <BottomNav />
       </div>
@@ -129,10 +129,10 @@ export default function PostRidePage() {
 
   if (posted) {
     return (
-      <div style={{ direction: 'rtl', minHeight: '100vh', background: '#fafaf9', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ direction: 'rtl', minHeight: '100vh', background: '#121212', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ textAlign: 'center' }}>
           <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>✅</div>
-          <h2 style={{ fontSize: '1.3rem', fontWeight: 700, marginBottom: '0.5rem' }}>{ku.ridePosted}</h2>
+          <h2 style={{ fontSize: '1.3rem', fontWeight: 700, marginBottom: '0.5rem', color: '#e5e5e5' }}>{ku.ridePosted}</h2>
           <button onClick={handleReset} style={{ marginTop: '1.5rem', background: '#df6530', color: 'white', border: 'none', borderRadius: '0.75rem', padding: '0.75rem 2rem', fontSize: '0.95rem', fontWeight: 600, cursor: 'pointer' }}>{ku.postAnother}</button>
         </div>
         <BottomNav />
@@ -141,14 +141,15 @@ export default function PostRidePage() {
   }
 
   return (
-    <div style={{ direction: 'rtl', minHeight: '100vh', background: '#fafaf9', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem' }}>
-      <h1 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '1.25rem' }}><><span style={{ color: '#df6530' }}>ڕێ</span>{' پۆستکە'}</></h1>
+    <div style={{ direction: 'rtl', minHeight: '100vh', background: '#121212', maxWidth: '480px', margin: '0 auto', padding: '1.5rem 1.25rem 6rem' }}>
+      <style>{`select.ride-select { -webkit-appearance: none !important; -moz-appearance: none !important; appearance: none !important; } select.ride-select option { background: #2a2a2a; color: #e5e5e5; } input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(1); }`}</style>
+      <h1 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '1.25rem', color: '#e5e5e5' }}><><span style={{ color: '#df6530' }}>ڕێ</span>{' پۆستکە'}</></h1>
 
       {error && (
-        <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '0.75rem', padding: '0.75rem 1rem', marginBottom: '1rem', color: '#dc2626', fontSize: '0.85rem' }}>{error}</div>
+        <div style={{ background: '#2e1a1a', border: '1px solid #4a2020', borderRadius: '0.75rem', padding: '0.75rem 1rem', marginBottom: '1rem', color: '#f87171', fontSize: '0.85rem' }}>{error}</div>
       )}
 
-      <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '1rem', padding: '1.25rem', marginBottom: '1rem' }}>
+      <div style={{ background: '#1e1e1e', borderRadius: '1rem', padding: '1.25rem', marginBottom: '1rem', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
         <div style={section}>
           <label style={label}>{ku.from}</label>
           <select className="ride-select" value={fromCity} onChange={e => setFromCity(e.target.value)} style={select}>
@@ -166,11 +167,11 @@ export default function PostRidePage() {
         <div style={{ display: 'flex', gap: '0.75rem' }}>
           <div style={{ ...section, flex: 1 }}>
             <label style={label}>{ku.date || 'بەروار'}</label>
-            <input type="date" value={date} onChange={e => setDate(e.target.value)} style={{ ...input, color: date ? '#44403c' : '#d6d3d1' }} />
+            <input type="date" value={date} onChange={e => setDate(e.target.value)} style={{ ...input, color: date ? '#e5e5e5' : '#555' }} />
           </div>
           <div style={{ ...section, flex: 1 }}>
             <label style={label}>{ku.time || 'کاتژمێر'}</label>
-            <input type="time" value={time} onChange={e => setTime(e.target.value)} style={{ ...input, color: time ? '#44403c' : '#d6d3d1' }} />
+            <input type="time" value={time} onChange={e => setTime(e.target.value)} style={{ ...input, color: time ? '#e5e5e5' : '#555' }} />
           </div>
         </div>
         <div style={section}>
@@ -181,13 +182,13 @@ export default function PostRidePage() {
         </div>
       </div>
 
-      <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '1rem', padding: '1.25rem', marginBottom: '1rem' }}>
-        <label style={{ ...label, marginBottom: '0.75rem', fontSize: '0.85rem', color: '#44403c', fontWeight: 600 }}>{ku.price}</label>
+      <div style={{ background: '#1e1e1e', borderRadius: '1rem', padding: '1.25rem', marginBottom: '1rem', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
+        <label style={{ ...label, marginBottom: '0.75rem', fontSize: '0.85rem', color: '#e5e5e5', fontWeight: 600 }}>{ku.price}</label>
         <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem' }}>
-          <button onClick={() => setPriceType('coffee')} style={{ flex: 1, padding: '0.6rem', borderRadius: '0.75rem', border: priceType === 'coffee' ? '2px solid #df6530' : '1px solid #e7e5e4', background: priceType === 'coffee' ? '#fef7f4' : 'white', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 600, color: priceType === 'coffee' ? '#df6530' : '#78716c' }}>
+          <button onClick={() => setPriceType('coffee')} style={{ flex: 1, padding: '0.6rem', borderRadius: '0.75rem', border: priceType === 'coffee' ? '2px solid #df6530' : '1px solid #333', background: priceType === 'coffee' ? '#2e2118' : '#1e1e1e', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 600, color: priceType === 'coffee' ? '#df6530' : '#777' }}>
             {ku.coffeeAndConvo}
           </button>
-          <button onClick={() => setPriceType('iqd')} style={{ flex: 1, padding: '0.6rem', borderRadius: '0.75rem', border: priceType === 'iqd' ? '2px solid #df6530' : '1px solid #e7e5e4', background: priceType === 'iqd' ? '#fef7f4' : 'white', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 600, color: priceType === 'iqd' ? '#df6530' : '#78716c' }}>
+          <button onClick={() => setPriceType('iqd')} style={{ flex: 1, padding: '0.6rem', borderRadius: '0.75rem', border: priceType === 'iqd' ? '2px solid #df6530' : '1px solid #333', background: priceType === 'iqd' ? '#2e2118' : '#1e1e1e', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 600, color: priceType === 'iqd' ? '#df6530' : '#777' }}>
             پارە
           </button>
         </div>
@@ -197,8 +198,8 @@ export default function PostRidePage() {
         )}
       </div>
 
-      <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '1rem', padding: '1.25rem', marginBottom: '1.5rem' }}>
-        <label style={{ ...label, marginBottom: '0.75rem', fontSize: '0.85rem', color: '#44403c', fontWeight: 600 }}>{ku.carDetails}</label>
+      <div style={{ background: '#1e1e1e', borderRadius: '1rem', padding: '1.25rem', marginBottom: '1.5rem', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
+        <label style={{ ...label, marginBottom: '0.75rem', fontSize: '0.85rem', color: '#e5e5e5', fontWeight: 600 }}>{ku.carDetails}</label>
         <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1rem' }}>
           <div style={{ flex: 1 }}>
             <label style={label}>{ku.carMake}</label>
@@ -215,15 +216,15 @@ export default function PostRidePage() {
         </div>
       </div>
 
-      <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '1rem', padding: '1.25rem', marginBottom: '1rem' }}>
+      <div style={{ background: '#1e1e1e', borderRadius: '1rem', padding: '1.25rem', marginBottom: '1rem', boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-          <label style={{ fontSize: '0.85rem', color: '#44403c', fontWeight: 600 }}>جگەرەکێش</label>
-          <div onClick={() => setSmoking(!smoking)} style={{ width: '48px', height: '28px', borderRadius: '999px', background: smoking ? '#df6530' : '#e7e5e4', cursor: 'pointer', position: 'relative', transition: 'background 0.2s' }}>
+          <label style={{ fontSize: '0.85rem', color: '#e5e5e5', fontWeight: 600 }}>جگەرەکێش</label>
+          <div onClick={() => setSmoking(!smoking)} style={{ width: '48px', height: '28px', borderRadius: '999px', background: smoking ? '#df6530' : '#333', cursor: 'pointer', position: 'relative', transition: 'background 0.2s' }}>
             <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'white', position: 'absolute', top: '3px', transition: 'right 0.2s, left 0.2s', ...(smoking ? { left: '3px' } : { right: '3px' }) }} />
           </div>
         </div>
-        <label style={{ fontSize: '0.85rem', color: '#44403c', fontWeight: 600, display: 'block', marginBottom: '0.5rem' }}>تێبینی</label>
-        <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="هەر شتێک دەربارەی ڕێیەکەت یان خۆت..." rows={3} style={{ width: '100%', background: '#f5f5f4', border: '1px solid #e7e5e4', borderRadius: '0.75rem', padding: '0.75rem 1rem', fontSize: '0.95rem', outline: 'none', direction: 'rtl', resize: 'none', fontFamily: 'inherit' }} />
+        <label style={{ fontSize: '0.85rem', color: '#e5e5e5', fontWeight: 600, display: 'block', marginBottom: '0.5rem' }}>تێبینی</label>
+        <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="هەر شتێک دەربارەی ڕێیەکەت یان خۆت..." rows={3} style={{ width: '100%', background: '#2a2a2a', border: '1px solid #333', borderRadius: '0.75rem', padding: '0.75rem 1rem', fontSize: '0.95rem', outline: 'none', direction: 'rtl', resize: 'none', fontFamily: 'inherit', color: '#e5e5e5' }} />
       </div>
 
       <button onClick={handleSubmit} disabled={saving} style={{ width: '100%', background: '#df6530', color: 'white', border: 'none', borderRadius: '0.75rem', padding: '0.85rem', fontSize: '1rem', fontWeight: 600, cursor: 'pointer', opacity: saving ? 0.5 : 1 }}>
