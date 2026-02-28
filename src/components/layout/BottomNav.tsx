@@ -32,10 +32,10 @@ const ProfileIcon = ({ active }: { active: boolean }) => (
 )
 
 const navItems = [
-  { href: '/home', Icon: HomeIcon },
-  { href: '/post-ride', Icon: PostIcon },
-  { href: '/my-rides', Icon: RidesIcon },
   { href: '/profile', Icon: ProfileIcon },
+  { href: '/my-rides', Icon: RidesIcon },
+  { href: '/post-ride', Icon: PostIcon },
+  { href: '/home', Icon: HomeIcon },
 ]
 
 export function BottomNav() {
@@ -47,7 +47,7 @@ export function BottomNav() {
       display: 'flex', justifyContent: 'center', gap: 18,
       zIndex: 100,
     }}>
-      {[...navItems].reverse().map((item) => {
+      {navItems.map((item) => {
         const active = pathname === item.href || (item.href === '/home' && pathname === '/')
         return (
           <Link key={item.href} href={item.href} style={{
