@@ -66,3 +66,4 @@ export function BottomNav() {
     </nav>
   )
 }
+// nav v2
