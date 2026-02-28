@@ -1,6 +1,4 @@
 
-Landing page · TSX
-Copy
 
 import Link from 'next/link'
 import { ku } from '@/lib/translations'
