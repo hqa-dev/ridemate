@@ -80,7 +80,7 @@ export default function PostRidePage() {
       to_city: toCity,
       departure_time: departureTime,
       available_seats: parseInt(seats),
-      price_type: priceType === 'money' ? 'cash' : 'coffee',
+      price_type: priceType === 'money' ? 'money' : 'coffee',
       price_iqd: priceType === 'money' ? parseInt(price) || 0 : null,
       car_make: carMake || null,
       car_model: carModel || null,
