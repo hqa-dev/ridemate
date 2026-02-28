@@ -85,7 +85,6 @@ export default function PostRidePage() {
       car_make: carMake || null,
       car_model: carModel || null,
       car_color: carColor || null,
-      smoking_allowed: smoking,
       notes: notes || null,
       status: 'active',
     })
