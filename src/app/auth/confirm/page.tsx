@@ -24,7 +24,7 @@ export default function ConfirmPage() {
   }, [])
 
   return (
-    <div style={{ minHeight: '100vh', background: '#121212', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <div style={{ minHeight: '100vh', background: '#060606', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <p style={{ color: '#a8a29e', fontSize: '1rem' }}>...چاوەڕوان بە</p>
     </div>
   )

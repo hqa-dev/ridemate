@@ -90,7 +90,7 @@ export default function HomePage() {
   }
 
   return (
-    <div style={{ direction: 'rtl', height: '100vh', background: '#121212', maxWidth: 480, margin: '0 auto', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+    <div style={{ direction: 'rtl', height: '100vh', background: '#060606', maxWidth: 480, margin: '0 auto', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
 
       {/* Fixed header + search */}
       <div style={{ padding: '24px 20px 0', flexShrink: 0 }}>
@@ -105,7 +105,7 @@ export default function HomePage() {
         <div
           onClick={() => setSearchOpen(true)}
           style={{
-            background: '#1e1e1e',
+            background: '#262830',
             borderRadius: 50,
             padding: '14px 20px',
             boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
@@ -132,7 +132,7 @@ export default function HomePage() {
       {/* Search bar — expanded */}
       {searchOpen && (
         <div style={{
-          background: '#1e1e1e',
+          background: '#262830',
           borderRadius: 20,
           boxShadow: '0 4px 24px rgba(0,0,0,0.3)',
           padding: 20,
@@ -141,7 +141,7 @@ export default function HomePage() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
             <div
               onClick={() => setSearchOpen(false)}
-              style={{ cursor: 'pointer', width: 28, height: 28, borderRadius: '50%', background: '#2a2a2a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              style={{ cursor: 'pointer', width: 28, height: 28, borderRadius: '50%', background: '#3c4050', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#777" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M18 6L6 18"/><path d="M6 6l12 12"/>
@@ -158,7 +158,7 @@ export default function HomePage() {
             </span>
           </div>
 
-          <div style={{ height: 1, background: '#2a2a2a', margin: '0 22px' }} />
+          <div style={{ height: 1, background: '#3c4050', margin: '0 22px' }} />
 
           {/* To field */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0' }}>
@@ -178,7 +178,7 @@ export default function HomePage() {
                 style={{
                   padding: '8px 16px',
                   borderRadius: 50,
-                  background: from === k ? '#df6530' : '#2a2a2a',
+                  background: from === k ? '#df6530' : '#3c4050',
                   color: from === k ? 'white' : '#aaa',
                   fontSize: 12.5,
                   cursor: 'pointer',
@@ -202,7 +202,7 @@ export default function HomePage() {
                 style={{
                   padding: '8px 16px',
                   borderRadius: 50,
-                  background: to === k ? '#df6530' : '#2a2a2a',
+                  background: to === k ? '#df6530' : '#3c4050',
                   color: to === k ? 'white' : '#aaa',
                   fontSize: 12.5,
                   cursor: 'pointer',
@@ -241,7 +241,7 @@ export default function HomePage() {
         return (
           <Link key={ride.id} href={`/rides/${ride.id}`} style={{ textDecoration: 'none' }}>
             <div style={{
-              background: '#1e1e1e',
+              background: '#262830',
               borderRadius: 16,
               marginBottom: 10,
               boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
@@ -271,7 +271,7 @@ export default function HomePage() {
               </div>
 
               {/* Footer — driver · seats · price */}
-              <div style={{ borderTop: '1px solid #2a2a2a', padding: '10px 18px', display: 'flex', alignItems: 'center', direction: 'rtl' }}>
+              <div style={{ borderTop: '1px solid #3c4050', padding: '10px 18px', display: 'flex', alignItems: 'center', direction: 'rtl' }}>
                 <span style={{ flex: 1, textAlign: 'right', fontSize: 12, color: '#aaa' }}>{driver.full_name || 'شۆفێر'}</span>
                 <span style={{ flex: 1, textAlign: 'center', fontSize: 10, color: '#777' }}>
                   {isFull ? 'پڕە' : seatsDisplay}

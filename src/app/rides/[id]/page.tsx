@@ -60,7 +60,7 @@ function StarSelector({ value, onChange }: { value: number; onChange: (v: number
           style={{
             fontSize: 28,
             cursor: 'pointer',
-            color: star <= value ? '#df6530' : '#2a2a2a',
+            color: star <= value ? '#df6530' : '#3c4050',
             transition: 'transform 0.15s',
             transform: star <= value ? 'scale(1.1)' : 'scale(1)',
           }}
@@ -90,10 +90,10 @@ function StarDisplay({ rating, size = 12 }: { rating: number; size?: number }) {
 
 // ── Design tokens ──
 const T = {
-  bg: '#121212',
-  card: '#1e1e1e',
-  cardInner: '#252525',
-  border: '#2a2a2a',
+  bg: '#060606',
+  card: '#262830',
+  cardInner: '#303440',
+  border: '#3c4050',
   orange: '#df6530',
   text: '#e5e5e5',
   textMid: '#aaa',
@@ -520,8 +520,8 @@ export default function RideDetailPage() {
               <button
                 onClick={() => setShowModal(true)}
                 style={{
-                  width: '100%', background: '#1e1e1e', color: '#df6530',
-                  border: '1px solid #2a2a2a', borderRadius: 14, padding: 14,
+                  width: '100%', background: '#262830', color: '#df6530',
+                  border: '1px solid #3c4050', borderRadius: 14, padding: 14,
                   fontSize: 15, fontWeight: 700, cursor: 'pointer',
                 }}
               >

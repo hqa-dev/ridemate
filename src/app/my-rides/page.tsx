@@ -50,8 +50,8 @@ function toKurdishNum(n: number | string): string {
 }
 
 const T = {
-  bg: '#121212', card: '#1e1e1e', cardInner: '#252525',
-  border: '#2a2a2a', orange: '#df6530',
+  bg: '#060606', card: '#262830', cardInner: '#303440',
+  border: '#3c4050', orange: '#df6530',
   text: '#e5e5e5', textMid: '#aaa', textDim: '#777', textFaint: '#555',
   green: '#4ade80', greenBg: '#1a2e1a', radius: 14,
   shadow: '0 2px 8px rgba(0,0,0,0.3)',

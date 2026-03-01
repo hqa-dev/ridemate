@@ -89,19 +89,19 @@ export default function RegisterPage() {
     width: '100%', marginBottom: 8, fontFamily: "'Noto Sans Arabic', sans-serif",
   }
   const btnSec: React.CSSProperties = {
-    background: '#1e1e1e', color: '#aaa', border: '1px solid #2a2a2a',
+    background: '#262830', color: '#aaa', border: '1px solid #3c4050',
     borderRadius: 12, padding: '12px', cursor: 'pointer', width: '100%',
     fontSize: 13, fontFamily: "'Noto Sans Arabic', sans-serif",
   }
   const uploadStyle = (hasFile: boolean): React.CSSProperties => ({
-    border: `2px dashed ${hasFile ? '#4ade80' : '#2a2a2a'}`,
+    border: `2px dashed ${hasFile ? '#4ade80' : '#3c4050'}`,
     background: hasFile ? 'rgba(74,222,128,0.03)' : 'transparent',
     borderRadius: 16, padding: '24px', textAlign: 'center',
     cursor: 'pointer', marginBottom: 12,
   })
 
   return (
-    <div style={{ direction: 'rtl', minHeight: '100vh', background: '#121212', maxWidth: 480, margin: '0 auto', padding: '0 20px 48px', fontFamily: "'Noto Sans Arabic', sans-serif" }}>
+    <div style={{ direction: 'rtl', minHeight: '100vh', background: '#060606', maxWidth: 480, margin: '0 auto', padding: '0 20px 48px', fontFamily: "'Noto Sans Arabic', sans-serif" }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 0' }}>
         <span
           onClick={() => { if (step === 'role') setStep('signin'); if (step === 'verify') setStep('role'); }}
@@ -118,7 +118,7 @@ export default function RegisterPage() {
         {[1, 2, 3].map(n => (
           <div key={n} style={{
             height: 4, flex: 1, borderRadius: 99,
-            background: (step === 'signin' && n === 1) || (step === 'role' && n <= 2) || step === 'verify' ? '#df6530' : '#2a2a2a',
+            background: (step === 'signin' && n === 1) || (step === 'role' && n <= 2) || step === 'verify' ? '#df6530' : '#3c4050',
           }} />
         ))}
       </div>
@@ -142,7 +142,7 @@ export default function RegisterPage() {
             </div>
           ) : (
             <div onClick={handleGoogleSignIn} style={{
-              background: '#1e1e1e', border: '1px solid #2a2a2a', borderRadius: 14,
+              background: '#262830', border: '1px solid #3c4050', borderRadius: 14,
               padding: '14px 20px', cursor: 'pointer', marginBottom: 16,
               display: 'flex', alignItems: 'center', gap: 12,
             }}>
@@ -166,8 +166,8 @@ export default function RegisterPage() {
           ].map(opt => (
             <div key={opt.value} onClick={() => setRole(opt.value)} style={{
               display: 'flex', alignItems: 'center', gap: 14,
-              background: role === opt.value ? 'rgba(223,101,48,0.08)' : '#1e1e1e',
-              border: `1.5px solid ${role === opt.value ? '#df6530' : '#2a2a2a'}`,
+              background: role === opt.value ? 'rgba(223,101,48,0.08)' : '#262830',
+              border: `1.5px solid ${role === opt.value ? '#df6530' : '#3c4050'}`,
               borderRadius: 16, padding: '14px 16px', cursor: 'pointer', marginBottom: 10,
             }}>
               <span style={{ fontSize: 28 }}>{opt.icon}</span>

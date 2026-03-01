@@ -107,7 +107,7 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div style={{ direction: 'rtl', minHeight: '100vh', background: '#121212', maxWidth: 480, margin: '0 auto' }}>
+      <div style={{ direction: 'rtl', minHeight: '100vh', background: '#060606', maxWidth: 480, margin: '0 auto' }}>
         <BottomNav />
       </div>
     )
@@ -121,7 +121,7 @@ export default function ProfilePage() {
 
   return (
     <div style={{
-      direction: 'rtl', height: '100vh', background: '#121212',
+      direction: 'rtl', height: '100vh', background: '#060606',
       maxWidth: 480, margin: '0 auto', display: 'flex', flexDirection: 'column',
       fontFamily: "'Noto Sans Arabic', sans-serif", overflow: 'hidden',
     }}>
@@ -136,7 +136,7 @@ export default function ProfilePage() {
         <div style={{
           background: '#1a1a1a',
           borderRadius: 16,
-          border: '1px solid #2a2a2a',
+          border: '1px solid #3c4050',
           padding: '28px 20px',
           marginBottom: 20,
         }}>
@@ -145,7 +145,7 @@ export default function ProfilePage() {
             <div style={{ position: 'relative', flexShrink: 0 }}>
               <div style={{
                 width: 64, height: 72, borderRadius: 10,
-                border: '1.5px solid #2a2a2a', background: '#1e1e1e',
+                border: '1.5px solid #3c4050', background: '#262830',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 overflow: 'hidden',
               }}>
@@ -158,7 +158,7 @@ export default function ProfilePage() {
               <div style={{
                 position: 'absolute', bottom: -5, left: -5,
                 width: 20, height: 20, borderRadius: '50%',
-                background: '#2a2a2a', border: '2px solid #1a1a1a',
+                background: '#3c4050', border: '2px solid #1a1a1a',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 cursor: 'pointer',
               }}>
@@ -186,12 +186,12 @@ export default function ProfilePage() {
       <div style={{ flex: 1, overflowY: 'auto', padding: '0 20px' }}>
 
         <div style={{ fontSize: 10, color: '#555', marginBottom: 8, fontWeight: 500, letterSpacing: 0.5 }}>زانیاری</div>
-        <div style={{ background: '#1e1e1e', borderRadius: 16, overflow: 'hidden', marginBottom: 16 }}>
+        <div style={{ background: '#262830', borderRadius: 16, overflow: 'hidden', marginBottom: 16 }}>
 
           {/* Name row */}
           <div
             onClick={() => { if (canChangeName() && !editingName) { setNewName(displayName); setEditingName(true) } }}
-            style={{ padding: '14px 18px', borderBottom: '1px solid #2a2a2a', cursor: 'pointer' }}
+            style={{ padding: '14px 18px', borderBottom: '1px solid #3c4050', cursor: 'pointer' }}
           >
             {editingName ? (
               <div onClick={e => e.stopPropagation()}>
@@ -201,7 +201,7 @@ export default function ProfilePage() {
                     onChange={e => setNewName(e.target.value)}
                     placeholder={displayName}
                     autoFocus
-                    style={{ flex: 1, background: '#252525', border: '1px solid #333', borderRadius: 10, padding: '10px 12px', fontSize: 13, outline: 'none', direction: 'rtl', color: '#aaa' }}
+                    style={{ flex: 1, background: '#303440', border: '1px solid #333', borderRadius: 10, padding: '10px 12px', fontSize: 13, outline: 'none', direction: 'rtl', color: '#aaa' }}
                   />
                   <button onClick={handleSaveName} style={{ background: 'rgba(74,222,128,0.12)', color: '#4ade80', border: 'none', borderRadius: 10, padding: '10px 16px', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>بەڵێ</button>
                   <button onClick={() => setEditingName(false)} style={{ background: 'none', border: 'none', color: '#555', fontSize: 11, cursor: 'pointer' }}>پاشگەز</button>
@@ -242,7 +242,7 @@ export default function ProfilePage() {
                     dir="ltr"
                     type="tel"
                     autoFocus
-                    style={{ flex: 1, background: '#252525', border: '1px solid #333', borderRadius: 10, padding: '10px 12px', fontSize: 13, outline: 'none', color: '#aaa' }}
+                    style={{ flex: 1, background: '#303440', border: '1px solid #333', borderRadius: 10, padding: '10px 12px', fontSize: 13, outline: 'none', color: '#aaa' }}
                   />
                   <button onClick={handleSavePhone} style={{ background: 'rgba(74,222,128,0.12)', color: '#4ade80', border: 'none', borderRadius: 10, padding: '10px 16px', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>بەڵێ</button>
                   <button onClick={() => setEditingPhone(false)} style={{ background: 'none', border: 'none', color: '#555', fontSize: 11, cursor: 'pointer' }}>پاشگەز</button>
@@ -266,7 +266,7 @@ export default function ProfilePage() {
 
         {/* Account section */}
         <div style={{ fontSize: 10, color: '#555', marginBottom: 8, fontWeight: 500, letterSpacing: 0.5 }}>هەژمار</div>
-        <div style={{ background: '#1e1e1e', borderRadius: 16, overflow: 'hidden', marginBottom: 24 }}>
+        <div style={{ background: '#262830', borderRadius: 16, overflow: 'hidden', marginBottom: 24 }}>
           <div
             onClick={() => { if (!showDeleteConfirm) setShowDeleteConfirm(true) }}
             style={{ padding: '14px 18px', cursor: 'pointer' }}
@@ -276,7 +276,7 @@ export default function ProfilePage() {
                 <p style={{ fontSize: 13, color: '#f87171', marginBottom: 12, marginTop: 0, lineHeight: 1.7, textAlign: 'right' }}>دڵنیایت دەتەوێ هەژمارەکەت بسڕیتەوە؟</p>
                 <div style={{ display: 'flex', gap: 8 }}>
                   <button onClick={handleDeleteAccount} style={{ flex: 1, background: '#dc2626', color: 'white', border: 'none', borderRadius: 10, padding: 10, fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>بەڵێ دڵنیام</button>
-                  <button onClick={(e) => { e.stopPropagation(); setShowDeleteConfirm(false) }} style={{ flex: 1, background: '#2a2a2a', color: '#777', border: 'none', borderRadius: 10, padding: 10, fontSize: 13, cursor: 'pointer' }}>پاشگەز</button>
+                  <button onClick={(e) => { e.stopPropagation(); setShowDeleteConfirm(false) }} style={{ flex: 1, background: '#3c4050', color: '#777', border: 'none', borderRadius: 10, padding: 10, fontSize: 13, cursor: 'pointer' }}>پاشگەز</button>
                 </div>
               </div>
             ) : (
@@ -295,7 +295,7 @@ export default function ProfilePage() {
         <div
           onClick={handleSignOut}
           style={{
-            background: '#1e1e1e', border: '1px solid #2a2a2a', borderRadius: 14,
+            background: '#262830', border: '1px solid #3c4050', borderRadius: 14,
             padding: '14px 16px', textAlign: 'center', cursor: 'pointer', marginBottom: 24,
           }}
         >

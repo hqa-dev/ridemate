@@ -73,7 +73,7 @@ export function BottomNav() {
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               gap: active ? 8 : 0, height: 38, borderRadius: 14,
               padding: active ? '0 16px' : '0', width: active ? 'auto' : 52,
-              background: active ? '#1e1e1e' : 'transparent',
+              background: active ? '#262830' : 'transparent',
               border: `1px solid ${active ? 'rgba(223,101,48,0.25)' : 'transparent'}`,
               boxShadow: active ? '0 2px 12px rgba(223,101,48,0.08)' : 'none',
               textDecoration: 'none',
