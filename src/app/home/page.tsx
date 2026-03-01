@@ -20,6 +20,14 @@ const ROUTE_DISTANCE: Record<string, string> = {
   'duhok-suli': '٣٤٠ کم',
 }
 
+function formatKurdishDate(dt: string): string {
+  const d = new Date(dt)
+  const day = d.getDate()
+  const month = d.getMonth() + 1
+  const year = d.getFullYear()
+  return toKurdishNum(year) + '/' + toKurdishNum(month) + '/' + toKurdishNum(day)
+}
+
 function toKurdishNum(n: number | string): string {
   return String(n).replace(/[0-9]/g, (d) => '٠١٢٣٤٥٦٧٨٩'[Number(d)])
 }
@@ -215,7 +223,10 @@ export default function HomePage() {
               opacity: isFull ? 0.6 : 1,
             }}>
               {/* Timeline header */}
-              <div style={{ padding: '16px 18px 12px' }} dir="ltr">
+              <div style={{ padding: '8px 18px 0', display: 'flex', justifyContent: 'flex-end' }} dir="ltr">
+                <span style={{ fontSize: 12, color: '#aaa', minWidth: 38, textAlign: 'center' }}>{formatKurdishDate(ride.departure_time)}</span>
+              </div>
+              <div style={{ padding: '2px 18px 12px' }} dir="ltr">
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <div style={{ textAlign: 'center', minWidth: 44 }}>
                     <div style={{ fontSize: 15, fontWeight: 700, color: '#e5e5e5' }}>{arrTime}</div>
