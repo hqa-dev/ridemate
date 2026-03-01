@@ -85,6 +85,15 @@ export default function MyRidesPage() {
       .order('created_at', { ascending: false })
     setJoinedRides(reqData || [])
     setLoading(false)
+
+    // Mark all unseen approved/declined as seen
+    const unseen = (reqData || []).filter(r => (r.status === 'approved' || r.status === 'declined') && !r.seen_by_passenger)
+    if (unseen.length > 0) {
+      await supabase
+        .from('ride_requests')
+        .update({ seen_by_passenger: true })
+        .in('id', unseen.map(r => r.id))
+    }
   }
 
   const toggle = (id: string) => setExpanded(prev => ({ ...prev, [id]: !prev[id] }))
@@ -126,7 +135,7 @@ export default function MyRidesPage() {
         const st = statusConfig[req.status] || statusConfig.pending
 
         return (
-          <Link key={req.id} href={`/rides/${ride.id}`} onClick={() => { if (req.status === 'approved' || req.status === 'declined') markSeen(req.id) }} style={{ textDecoration: 'none', display: 'block' }}>
+          <Link key={req.id} href={`/rides/${ride.id}`} style={{ textDecoration: 'none', display: 'block' }}>
             <div style={{
               background: T.card, borderRadius: T.radius, marginBottom: 10,
               boxShadow: T.shadow, overflow: 'hidden',
