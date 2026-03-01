@@ -134,86 +134,52 @@ export default function HomePage() {
         <div style={{
           background: '#262830',
           borderRadius: 20,
-          boxShadow: '0 4px 24px rgba(0,0,0,0.3)',
+          boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
           padding: 20,
           marginBottom: 20,
+          border: '1px solid rgba(160,170,200,0.06)',
         }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
             <div
               onClick={() => setSearchOpen(false)}
-              style={{ cursor: 'pointer', width: 28, height: 28, borderRadius: '50%', background: '#3c4050', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              style={{ cursor: 'pointer', width: 30, height: 30, borderRadius: '50%', background: '#303440', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#777" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#686e88" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M18 6L6 18"/><path d="M6 6l12 12"/>
               </svg>
             </div>
-            <span style={{ fontSize: 14, fontWeight: 600, color: '#e5e5e5' }}>بگە<span style={{ color: '#df6530' }}>ڕێ</span></span>
+            <span style={{ fontSize: 15, fontWeight: 700, color: '#eaedf5' }}>بگە<span style={{ color: '#df6530' }}>ڕێ</span></span>
           </div>
 
-          {/* From field */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0' }}>
-            <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#df6530', flexShrink: 0 }} />
-            <span style={{ fontSize: 14, color: from ? '#e5e5e5' : '#555', fontFamily: "'Noto Sans Arabic', sans-serif" }}>
-              {from ? CITIES[from] : 'لە کوێ؟'}
-            </span>
-          </div>
-
-          <div style={{ height: 1, background: '#3c4050', margin: '0 22px' }} />
-
-          {/* To field */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0' }}>
-            <div style={{ width: 10, height: 10, borderRadius: '50%', border: '2px solid #e5e5e5', background: 'transparent', flexShrink: 0 }} />
-            <span style={{ fontSize: 14, color: to ? '#e5e5e5' : '#555', fontFamily: "'Noto Sans Arabic', sans-serif" }}>
-              {to ? CITIES[to] : 'بۆ کوێ؟'}
-            </span>
-          </div>
-
-          {/* City chips — From */}
-          <div style={{ fontSize: 10, color: '#aaa', marginTop: 10, marginBottom: 6 }}>لە کوێ؟</div>
-          <div style={{ display: 'flex', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
-            {Object.entries(CITIES).map(([k, v]) => (
-              <button
-                key={`from-${k}`}
-                onClick={() => selectCity('from', k)}
+          {/* Vertical route */}
+          <div style={{ display: 'flex', gap: 12, padding: '4px 0' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, paddingTop: 12 }}>
+              <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#df6530' }} />
+              <div style={{ width: 1, height: 32, background: '#3c4050' }} />
+              <div style={{ width: 10, height: 10, borderRadius: '50%', border: '2px solid #eaedf5', background: 'transparent' }} />
+            </div>
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <div
+                onClick={() => { const keys = ['', 'erbil', 'suli', 'duhok']; const idx = keys.indexOf(from); setFrom(keys[(idx + 1) % keys.length]); }}
                 style={{
-                  padding: '8px 16px',
-                  borderRadius: 50,
-                  background: from === k ? '#df6530' : '#3c4050',
-                  color: from === k ? 'white' : '#aaa',
-                  fontSize: 12.5,
-                  cursor: 'pointer',
-                  border: 'none',
+                  background: '#303440', borderRadius: 12, padding: '12px 16px',
+                  fontSize: 14, color: from ? '#eaedf5' : '#686e88', cursor: 'pointer',
                   fontFamily: "'Noto Sans Arabic', sans-serif",
-                  transition: 'all 0.15s',
                 }}
               >
-                {v}
-              </button>
-            ))}
-          </div>
-
-          {/* City chips — To */}
-          <div style={{ fontSize: 10, color: '#aaa', marginBottom: 6 }}>بۆ کوێ؟</div>
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            {Object.entries(CITIES).map(([k, v]) => (
-              <button
-                key={`to-${k}`}
-                onClick={() => selectCity('to', k)}
+                {from ? CITIES[from] : 'لە کوێ؟'}
+              </div>
+              <div
+                onClick={() => { const keys = ['', 'erbil', 'suli', 'duhok']; const idx = keys.indexOf(to); setTo(keys[(idx + 1) % keys.length]); }}
                 style={{
-                  padding: '8px 16px',
-                  borderRadius: 50,
-                  background: to === k ? '#df6530' : '#3c4050',
-                  color: to === k ? 'white' : '#aaa',
-                  fontSize: 12.5,
-                  cursor: 'pointer',
-                  border: 'none',
+                  background: '#303440', borderRadius: 12, padding: '12px 16px',
+                  fontSize: 14, color: to ? '#eaedf5' : '#686e88', cursor: 'pointer',
                   fontFamily: "'Noto Sans Arabic', sans-serif",
-                  transition: 'all 0.15s',
                 }}
               >
-                {v}
-              </button>
-            ))}
+                {to ? CITIES[to] : 'بۆ کوێ؟'}
+              </div>
+            </div>
           </div>
         </div>
       )}
