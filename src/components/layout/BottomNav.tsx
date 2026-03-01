@@ -41,43 +41,61 @@ const navItems = [
 export function BottomNav() {
   const pathname = usePathname()
   return (
-    <nav style={{
-      position: 'fixed', bottom: 14, left: '50%', transform: 'translateX(-50%)',
-      width: 'calc(100% - 24px)', maxWidth: 456,
-      display: 'flex', direction: 'rtl', justifyContent: 'center', gap: 10,
-      zIndex: 100,
-    }}>
-      {navItems.map((item) => {
-        const active = pathname === item.href || (item.href === '/home' && pathname === '/')
-        return (
-          <Link key={item.href} href={item.href} style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            gap: active ? 8 : 0,
-            height: 38, borderRadius: 14,
-            padding: active ? '0 16px' : '0',
-            width: active ? 'auto' : 52,
-            background: active ? '#1e1e1e' : '#161616',
-            border: `1px solid ${active ? 'rgba(223,101,48,0.25)' : '#222'}`,
-            boxShadow: active ? '0 2px 12px rgba(223,101,48,0.08)' : '0 2px 8px rgba(0,0,0,0.3)',
-            textDecoration: 'none',
-            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-          }}>
-            <item.Icon active={active} />
-            {active && (
-              <span style={{
-                fontSize: 11,
-                fontWeight: 600,
-                color: '#df6530',
-                fontFamily: "'Noto Sans Arabic', sans-serif",
-              }}>
-                {item.label}
-              </span>
-            )}
-          </Link>
-        )
-      })}
-    </nav>
+    <>
+      <style>{`
+        @keyframes navWave {
+          0% { border-color: rgba(255,255,255,0.08); box-shadow: 0 0 18px rgba(255,120,20,0.06), inset 0 0 10px rgba(255,120,20,0.03); }
+          25% { border-color: rgba(255,120,20,0.35); box-shadow: 0 0 28px rgba(255,120,20,0.18), inset 0 0 14px rgba(255,120,20,0.06); }
+          50% { border-color: rgba(255,255,255,0.15); box-shadow: 0 0 22px rgba(255,255,255,0.08), inset 0 0 10px rgba(255,255,255,0.03); }
+          75% { border-color: rgba(255,120,20,0.3); box-shadow: 0 0 26px rgba(255,120,20,0.15), inset 0 0 12px rgba(255,120,20,0.05); }
+          100% { border-color: rgba(255,255,255,0.08); box-shadow: 0 0 18px rgba(255,120,20,0.06), inset 0 0 10px rgba(255,120,20,0.03); }
+        }
+        .nav-wave {
+          animation: navWave 6s ease-in-out infinite;
+        }
+      `}</style>
+      <nav className="nav-wave" style={{
+        position: 'fixed', bottom: 14, left: '50%', transform: 'translateX(-50%)',
+        width: 'auto',
+        display: 'flex', direction: 'rtl', justifyContent: 'center', gap: 6,
+        zIndex: 100,
+        border: '1px solid rgba(255,255,255,0.08)',
+        borderRadius: 16,
+        padding: '7px 17px',
+        background: 'rgba(22,22,22,0.85)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+      }}>
+        {navItems.map((item) => {
+          const active = pathname === item.href || (item.href === '/home' && pathname === '/')
+          return (
+            <Link key={item.href} href={item.href} style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              gap: active ? 8 : 0, height: 38, borderRadius: 14,
+              padding: active ? '0 16px' : '0', width: active ? 'auto' : 52,
+              background: active ? '#1e1e1e' : 'transparent',
+              border: `1px solid ${active ? 'rgba(223,101,48,0.25)' : 'transparent'}`,
+              boxShadow: active ? '0 2px 12px rgba(223,101,48,0.08)' : 'none',
+              textDecoration: 'none',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+            }}>
+              <item.Icon active={active} />
+              {active && (
+                <span style={{
+                  fontSize: 11,
+                  fontWeight: 600,
+                  color: '#df6530',
+                  fontFamily: "'Noto Sans Arabic', sans-serif",
+                }}>
+                  {item.label}
+                </span>
+              )}
+            </Link>
+          )
+        })}
+      </nav>
+    </>
   )
 }
