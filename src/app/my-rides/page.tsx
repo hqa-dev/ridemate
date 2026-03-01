@@ -109,7 +109,7 @@ export default function MyRidesPage() {
       {loading ? <div /> : joinedRides.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '4rem 0' }}>
           <p style={{ color: T.textFaint, fontSize: 14 }}>هێشتا داوای هیچ گەشتێکت نەکردووە</p>
-          <p style={{ color: T.textDim, fontSize: 11, marginTop: 4 }}>لە لاپەڕەی سەرەکی گەشتێک هەڵبژێرە و داواکاری بنێرە، گەر قبوڵ بکرێ لێرە دەیبینی</p>
+          <p style={{ color: T.textDim, fontSize: 11, marginTop: 4 }}>لە لاپەڕەی سەرەکی گەشتێک هەڵبژێرە و داواکاری بنێرە، گەر قبوڵ بکرێ، لێرە دەیبینی</p>
         </div>
       ) : joinedRides.map(req => {
         const ride = req.ride
