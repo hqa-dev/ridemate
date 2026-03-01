@@ -222,8 +222,8 @@ export default function HomePage() {
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', flex: 1, margin: '0 8px' }}>
                     <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#e5e5e5', flexShrink: 0 }} />
-                    <div style={{ flex: 1, height: 1, background: 'linear-gradient(to right, #e5e5e5, #333, #df6530)' }} />
-                    <div style={{ width: 7, height: 7, borderRadius: '50%', border: '2px solid #df6530', flexShrink: 0 }} />
+                    <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.25)' }} />
+                    <div style={{ width: 7, height: 7, borderRadius: '50%', border: '2px solid rgba(255,255,255,0.85)', flexShrink: 0 }} />
                   </div>
                   <div style={{ textAlign: 'center', minWidth: 44 }}>
                     <div style={{ fontSize: 15, fontWeight: 700, color: '#e5e5e5' }}>{depTime}</div>
