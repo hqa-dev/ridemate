@@ -222,7 +222,10 @@ export default function HomePage() {
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', flex: 1, margin: '0 8px' }}>
                     <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#e5e5e5', flexShrink: 0 }} />
-                    <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.25)' }} />
+                    <div style={{ flex: 1, height: 2, position: 'relative', margin: '0 2px' }}>
+                      <div style={{ position: 'absolute', inset: 0, borderRadius: 1, background: 'linear-gradient(to right, rgba(255,255,255,0.85), transparent 45%, transparent 55%, rgba(255,255,255,0.85))', opacity: 0.5 }} />
+                      <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: 1, transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.25)', opacity: 0.3 }} />
+                    </div>
                     <div style={{ width: 7, height: 7, borderRadius: '50%', border: '2px solid rgba(255,255,255,0.85)', flexShrink: 0 }} />
                   </div>
                   <div style={{ textAlign: 'center', minWidth: 44 }}>
