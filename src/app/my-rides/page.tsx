@@ -11,51 +11,56 @@ const CITIES: Record<string, string> = {
   duhok: ku.duhok,
 }
 
-const ROUTE_INFO: Record<string, { duration: string; distance: string }> = {
-  'erbil-suli': { duration: '٢ کاتژمێر', distance: '١٦٠ کم' },
-  'suli-erbil': { duration: '٢ کاتژمێر', distance: '١٦٠ کم' },
-  'erbil-duhok': { duration: '٣ کاتژمێر', distance: '١٨٠ کم' },
-  'duhok-erbil': { duration: '٣ کاتژمێر', distance: '١٨٠ کم' },
-  'suli-duhok': { duration: '٥ کاتژمێر', distance: '٣٤٠ کم' },
-  'duhok-suli': { duration: '٥ کاتژمێر', distance: '٣٤٠ کم' },
+const ROUTE_HOURS: Record<string, number> = {
+  'erbil-suli': 2, 'suli-erbil': 2,
+  'erbil-duhok': 3, 'duhok-erbil': 3,
+  'suli-duhok': 5, 'duhok-suli': 5,
+}
+
+const ROUTE_DISTANCE: Record<string, string> = {
+  'erbil-suli': '١٦٠ کم', 'suli-erbil': '١٦٠ کم',
+  'erbil-duhok': '١٨٠ کم', 'duhok-erbil': '١٨٠ کم',
+  'suli-duhok': '٣٤٠ کم', 'duhok-suli': '٣٤٠ کم',
+}
+
+const COLOR_KU: Record<string, string> = {
+  black: 'ڕەش', white: 'سپی', red: 'سوور', blue: 'شین', green: 'سەوز',
+  yellow: 'زەرد', silver: 'زیوی', grey: 'خۆڵەمێشی', gray: 'خۆڵەمێشی',
+  brown: 'قاوەیی', orange: 'پرتەقاڵی', gold: 'ئاڵتوونی',
 }
 
 function formatWhatsApp(phone: string) {
   return 'https://wa.me/' + phone.replace(/^0/, '964')
 }
 
-function formatDateTime(dt: string) {
+function formatTime(dt: string): string {
   const d = new Date(dt)
-  const date = d.toLocaleDateString('en-CA')
-  const time = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-  return { date, time, full: `${date} · ${time}` }
+  return `${d.getHours()}:${d.getMinutes().toString().padStart(2, '0')}`
 }
 
-const WheelIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 8 }}>
-    <circle cx="12" cy="12" r="10" />
-    <circle cx="12" cy="12" r="2" />
-    <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
-  </svg>
-)
+function estimateArrival(dt: string, fromCity: string, toCity: string): string {
+  const d = new Date(dt)
+  const add = ROUTE_HOURS[`${fromCity}-${toCity}`] || 2
+  d.setHours(d.getHours() + add)
+  return `${d.getHours()}:${d.getMinutes().toString().padStart(2, '0')}`
+}
 
-const HandIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 8 }}>
-    <path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v0" />
-    <path d="M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v6" />
-    <path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8" />
-    <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.9-5.7-2.4L3.6 16.2a2 2 0 0 1-.1-2.5 1.9 1.9 0 0 1 2.8-.2L8 15" />
-  </svg>
-)
+function toKurdishNum(n: number | string): string {
+  return String(n).replace(/[0-9]/g, (d) => '٠١٢٣٤٥٦٧٨٩'[Number(d)])
+}
+
+const T = {
+  bg: '#121212', card: '#1e1e1e', cardInner: '#252525',
+  border: '#2a2a2a', orange: '#df6530',
+  text: '#e5e5e5', textMid: '#aaa', textDim: '#777', textFaint: '#555',
+  green: '#4ade80', greenBg: '#1a2e1a', radius: 14,
+  shadow: '0 2px 8px rgba(0,0,0,0.3)',
+}
 
 export default function MyRidesPage() {
-  const [tab, setTab] = useState<'driving' | 'passenger'>('driving')
-  const [myRides, setMyRides] = useState<any[]>([])
   const [joinedRides, setJoinedRides] = useState<any[]>([])
-  const [requests, setRequests] = useState<Record<string, any[]>>({})
   const [loading, setLoading] = useState(true)
-  const [userId, setUserId] = useState<string | null>(null)
-  const [userRole, setUserRole] = useState<string>('')
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({})
 
   const supabase = createClient()
 
@@ -65,248 +70,201 @@ export default function MyRidesPage() {
     setLoading(true)
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) { setLoading(false); return }
-    setUserId(user.id)
-
-    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
-    const role = profile?.role || 'both'
-    setUserRole(role)
-    if (role === 'passenger') setTab('passenger')
-
-    const { data: driven } = await supabase
-      .from('rides')
-      .select('*')
-      .eq('driver_id', user.id)
-      .order('departure_time', { ascending: false })
-    setMyRides(driven || [])
-
-    if (driven && driven.length > 0) {
-      const rideIds = driven.map((r: any) => r.id)
-      const { data: reqs } = await supabase
-        .from('ride_requests')
-        .select('*, passenger:profiles!passenger_id(full_name, phone)')
-        .in('ride_id', rideIds)
-      const grouped: Record<string, any[]> = {}
-      ;(reqs || []).forEach((r: any) => {
-        if (!grouped[r.ride_id]) grouped[r.ride_id] = []
-        grouped[r.ride_id].push(r)
-      })
-      setRequests(grouped)
-    }
 
     const { data: reqData } = await supabase
       .from('ride_requests')
-      .select('*, ride:rides(*, driver:profiles!driver_id(full_name, phone))')
+      .select('*, ride:rides(*, driver:profiles!driver_id(full_name, phone, avatar_url))')
       .eq('passenger_id', user.id)
       .order('created_at', { ascending: false })
     setJoinedRides(reqData || [])
-
     setLoading(false)
   }
 
-  async function handleCancelRide(rideId: string) {
-    await supabase.from('rides').update({ status: 'cancelled' }).eq('id', rideId)
-    await supabase.from('ride_requests').update({ status: 'cancelled' }).eq('ride_id', rideId).in('status', ['pending', 'approved'])
-    setMyRides(prev => prev.map(r => r.id === rideId ? { ...r, status: 'cancelled' } : r))
-    setRequests(prev => {
-      const updated = { ...prev }
-      if (updated[rideId]) {
-        updated[rideId] = updated[rideId].map(r =>
-          r.status === 'pending' || r.status === 'approved' ? { ...r, status: 'cancelled' } : r
-        )
-      }
-      return updated
-    })
-  }
-
-  async function updateRequestStatus(requestId: string, status: string, rideId?: string) {
-    await supabase.from('ride_requests').update({ status }).eq('id', requestId)
-
-    if (status === 'approved' && rideId) {
-      const ride = myRides.find(r => r.id === rideId)
-      if (ride && ride.available_seats > 0) {
-        const newSeats = ride.available_seats - 1
-        await supabase.from('rides').update({ available_seats: newSeats }).eq('id', rideId)
-        setMyRides(prev => prev.map(r => r.id === rideId ? { ...r, available_seats: newSeats } : r))
-      }
-    }
-
-    if (status === 'declined' && rideId) {
-      const rideReqs = requests[rideId] || []
-      const req = rideReqs.find(r => r.id === requestId)
-      if (req?.status === 'approved') {
-        const ride = myRides.find(r => r.id === rideId)
-        if (ride) {
-          const newSeats = ride.available_seats + 1
-          await supabase.from('rides').update({ available_seats: newSeats }).eq('id', rideId)
-          setMyRides(prev => prev.map(r => r.id === rideId ? { ...r, available_seats: newSeats } : r))
-        }
-      }
-    }
-
-    setRequests(prev => {
-      const updated = { ...prev }
-      for (const rid in updated) {
-        updated[rid] = updated[rid].map(r => r.id === requestId ? { ...r, status } : r)
-      }
-      return updated
-    })
-  }
-
-  const showDriving = userRole !== 'passenger'
-  const showPassenger = userRole !== 'driver'
-
-  const tabStyle = (active: boolean): React.CSSProperties => ({
-    flex: 1,
-    padding: '10px 0',
-    textAlign: 'center',
-    fontSize: 13,
-    fontWeight: active ? 600 : 400,
-    color: active ? '#df6530' : '#666',
-    borderBottom: active ? '2px solid #df6530' : '2px solid transparent',
-    cursor: 'pointer',
-    background: 'none',
-    border: 'none',
-    borderBottomWidth: 2,
-    borderBottomStyle: 'solid',
-    borderBottomColor: active ? '#df6530' : 'transparent',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  })
+  const toggle = (id: string) => setExpanded(prev => ({ ...prev, [id]: !prev[id] }))
 
   return (
-    <div style={{ direction: 'rtl', minHeight: '100vh', background: '#121212', maxWidth: 480, margin: '0 auto', padding: '24px 20px 96px' }}>
-      <h1 style={{ fontSize: 22, fontWeight: 700, color: '#e5e5e5', marginBottom: 16 }}>{ku.myRides}</h1>
+    <div style={{
+      direction: 'rtl', minHeight: '100vh', background: T.bg,
+      maxWidth: 480, margin: '0 auto', padding: '24px 20px 96px',
+      fontFamily: "'Noto Sans Arabic', sans-serif",
+    }}>
+      <h1 style={{ fontSize: 22, fontWeight: 700, color: T.text, marginBottom: 20 }}>{ku.myRides}</h1>
 
-      {showDriving && showPassenger && (
-        <div style={{ display: 'flex', borderBottom: '1px solid #2a2a2a', marginBottom: 20 }}>
-          <button onClick={() => setTab('driving')} style={tabStyle(tab === 'driving')}>
-            <WheelIcon /> سەیارەی خۆم
-          </button>
-          <button onClick={() => setTab('passenger')} style={tabStyle(tab === 'passenger')}>
-            <HandIcon /> نەفەرات
-          </button>
+      {loading ? <div /> : joinedRides.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: '4rem 0' }}>
+          <p style={{ color: T.textFaint, fontSize: 14 }}>هێشتا داواکاریت نەناردووە</p>
+          <p style={{ color: T.textDim, fontSize: 11, marginTop: 4 }}>لە سەرەکی گەشتێک بدۆزەرەوە و داواکاری بنێرە</p>
         </div>
-      )}
+      ) : joinedRides.map(req => {
+        const ride = req.ride
+        if (!ride) return null
+        const driver = ride.driver || {}
+        const isCompleted = ride.status === 'completed'
+        const depTime = formatTime(ride.departure_time)
+        const arrTime = estimateArrival(ride.departure_time, ride.from_city, ride.to_city)
+        const routeKey = `${ride.from_city}-${ride.to_city}`
+        const distance = ROUTE_DISTANCE[routeKey] || ''
+        const isOpen = expanded[req.id]
+        const carColor = ride.car_color || ''
+        const priceDisplay = ride.price_type === 'coffee'
+          ? 'قاوەیەک'
+          : `${toKurdishNum(Number(ride.price_iqd).toLocaleString('en'))} دینار`
+        const waLink = driver.phone ? formatWhatsApp(driver.phone) : ''
 
-      {loading ? <div /> : tab === 'driving' && showDriving ? (
-        myRides.length === 0 ? (
-          <p style={{ textAlign: 'center', color: '#555', padding: '3rem 0' }}>هێشتا ڕێت پۆست نەکردووە</p>
-        ) : myRides.map(ride => {
-          const rideRequests = requests[ride.id] || []
-          const { date, time } = formatDateTime(ride.departure_time)
-          const isCancelled = ride.status === 'cancelled'
-          const isCompleted = ride.status === 'completed'
+        const statusConfig: Record<string, { text: string; color: string; bg: string }> = {
+          pending: { text: 'چاوەڕوانە', color: '#fbbf24', bg: '#2e2a1a' },
+          approved: { text: isCompleted ? 'تەواو بوو ✓' : 'قبوڵ کرا', color: T.green, bg: T.greenBg },
+          declined: { text: 'ڕەت کرایەوە', color: '#dc2626', bg: '#2e1a1a' },
+        }
+        const st = statusConfig[req.status] || statusConfig.pending
 
-          return (
-            <div key={ride.id} style={{ background: '#1e1e1e', borderRadius: 16, marginBottom: 10, boxShadow: '0 2px 8px rgba(0,0,0,0.3)', opacity: isCancelled ? 0.5 : 1 }}>
-              <Link href={`/rides/${ride.id}`} style={{ textDecoration: 'none', display: 'block', padding: 18 }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', rowGap: 10 }}>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: '#e5e5e5' }}>
-                    {CITIES[ride.from_city]} ← {CITIES[ride.to_city]}
+        return (
+          <Link key={req.id} href={`/rides/${ride.id}`} style={{ textDecoration: 'none', display: 'block' }}>
+            <div style={{
+              background: T.card, borderRadius: T.radius, marginBottom: 10,
+              boxShadow: T.shadow, overflow: 'hidden',
+              border: '1px solid rgba(255,255,255,0.06)',
+              opacity: req.status === 'declined' ? 0.6 : 1,
+            }}>
+
+              {/* Timeline */}
+              <div style={{ padding: '12px 16px 8px' }} dir="ltr">
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <div style={{ textAlign: 'center', minWidth: 38 }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: T.text }}>{toKurdishNum(arrTime)}</div>
                   </div>
-                  <div style={{ textAlign: 'left', fontSize: 12, color: '#666' }}>{date} · {time}</div>
-                  <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-                    <span style={{ fontSize: 11, padding: '3px 10px', borderRadius: 20, background: isCompleted ? '#1a2e1a' : isCancelled ? '#2e1a1a' : '#2e2a1a', color: isCompleted ? '#4ade80' : isCancelled ? '#f87171' : '#fbbf24', fontWeight: 600 }}>
-                      {isCompleted ? 'تەواو بوو ✓' : isCancelled ? 'هەڵوەشاوە' : 'چالاک'}
-                    </span>
-                    <span style={{ fontSize: 11, color: '#666' }}>{ride.available_seats} جێ</span>
+                  <div style={{ display: 'flex', alignItems: 'center', flex: 1, margin: '0 6px' }}>
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: T.text, flexShrink: 0 }} />
+                    <div style={{ flex: 1, height: 1, background: `linear-gradient(to right, ${T.text}, #333, ${T.orange})` }} />
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', border: `2px solid ${T.orange}`, flexShrink: 0 }} />
                   </div>
-                  <div style={{ textAlign: 'left', fontSize: 11, color: '#555' }}>
-                    {ride.price_type === 'coffee' ? ku.coffeeAndConvo : `${ride.price_iqd?.toLocaleString()} دینار`}
+                  <div style={{ textAlign: 'center', minWidth: 38 }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: T.text }}>{toKurdishNum(depTime)}</div>
                   </div>
                 </div>
-              </Link>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
+                  <span style={{ fontSize: 10, color: '#ccc', minWidth: 38, textAlign: 'center' }}>{CITIES[ride.to_city]}</span>
+                  <span style={{ fontSize: 8, color: T.textDim }}>{distance}</span>
+                  <span style={{ fontSize: 10, color: '#ccc', minWidth: 38, textAlign: 'center' }}>{CITIES[ride.from_city]}</span>
+                </div>
+              </div>
 
-              {rideRequests.length > 0 && (
-                <div style={{ borderTop: '1px solid #2a2a2a', padding: '10px 18px 14px' }}>
-                  <div style={{ fontSize: 10, color: '#555', marginBottom: 8, fontWeight: 600 }}>داواکان</div>
-                  {rideRequests.map(req => (
-                    <div key={req.id} style={{ background: '#252525', borderRadius: 10, padding: '10px 12px', marginBottom: 6 }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ fontSize: 12, color: '#e5e5e5', fontWeight: 500 }}>{req.passenger?.full_name || 'سەرنشین'}</span>
-                        {req.status === 'pending' ? (
-                          <div style={{ display: 'flex', gap: 6 }}>
-                            <button onClick={() => updateRequestStatus(req.id, 'approved', ride.id)} style={{ background: '#16a34a', color: 'white', border: 'none', borderRadius: 8, padding: '5px 12px', fontSize: 11, fontWeight: 600, cursor: 'pointer' }}>قبوڵ</button>
-                            <button onClick={() => updateRequestStatus(req.id, 'declined', ride.id)} style={{ background: '#2a2a2a', color: '#f87171', border: 'none', borderRadius: 8, padding: '5px 12px', fontSize: 11, cursor: 'pointer' }}>ڕەت</button>
-                          </div>
-                        ) : (
-                          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                            <span style={{ fontSize: 10, padding: '2px 8px', borderRadius: 20, background: req.status === 'approved' ? '#1a2e1a' : '#2e1a1a', color: req.status === 'approved' ? '#4ade80' : '#f87171', fontWeight: 600 }}>
-                              {req.status === 'approved' ? 'قبوڵ کرا' : 'ڕەتکرایەوە'}
-                            </span>
-                            {req.status === 'approved' && req.passenger?.phone && (
-                              <a href={formatWhatsApp(req.passenger.phone)} target="_blank" rel="noopener noreferrer" style={{ background: '#25D366', color: 'white', borderRadius: 8, padding: '4px 10px', fontSize: 10, fontWeight: 600, textDecoration: 'none' }}>WhatsApp</a>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                      {(req.pickup || req.dropoff) && (
-                        <div style={{ fontSize: 10, color: '#555', marginTop: 4 }}>
-                          {req.pickup && <span>سواربوون: {req.pickup}</span>}
-                          {req.pickup && req.dropoff && <span> · </span>}
-                          {req.dropoff && <span>دابەزین: {req.dropoff}</span>}
-                        </div>
-                      )}
+              {/* Driver + hamburger + status */}
+              <div style={{ borderTop: `1px solid ${T.border}`, padding: '5px 16px', display: 'flex', alignItems: 'center', gap: 6 }}>
+                <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <div style={{
+                    width: 24, height: 24, borderRadius: 6, border: '1px solid #333',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden',
+                  }}>
+                    {driver.avatar_url ? (
+                      <img src={driver.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} referrerPolicy="no-referrer" />
+                    ) : (
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="8" r="4" fill="#555" />
+                        <path d="M4 21c0-4 3.6-7 8-7s8 3 8 7" fill="#555" />
+                      </svg>
+                    )}
+                  </div>
+                  <span style={{ fontSize: 11, fontWeight: 500, color: T.textMid }}>{driver.full_name || 'شۆفێر'}</span>
+                </div>
+                <div
+                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggle(req.id) }}
+                  style={{
+                    width: 22, height: 22, borderRadius: 6,
+                    background: isOpen ? T.border : 'transparent',
+                    border: `1px solid ${isOpen ? '#444' : '#333'}`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    cursor: 'pointer', flexShrink: 0, transition: 'all 0.2s',
+                  }}
+                >
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={isOpen ? T.textMid : '#555'} strokeWidth="2" strokeLinecap="round">
+                    <line x1="4" y1="7" x2="20" y2="7" /><line x1="4" y1="12" x2="20" y2="12" /><line x1="4" y1="17" x2="20" y2="17" />
+                  </svg>
+                </div>
+                <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
+                  <span style={{
+                    fontSize: 9, padding: '3px 9px', borderRadius: 20,
+                    background: st.bg, color: st.color, fontWeight: 600,
+                  }}>{st.text}</span>
+                </div>
+              </div>
+
+              {/* Expandable details */}
+              {isOpen && (
+                <div style={{ padding: '10px 16px' }}>
+                  <div style={{
+                    padding: '8px 12px', background: T.cardInner, borderRadius: 10,
+                    fontSize: 11, color: T.textMid, lineHeight: 2, marginBottom: ride.notes ? 8 : 0,
+                  }}>
+                    {ride.car_make && <div>جۆر: <span style={{ color: '#ccc' }}>{ride.car_make}</span></div>}
+                    {ride.car_model && <div>مۆدێل: <span style={{ color: '#ccc' }}>{ride.car_model}</span></div>}
+                    {carColor && <div>ڕەنگ: <span style={{ color: '#ccc' }}>{COLOR_KU[carColor.toLowerCase()] || carColor}</span></div>}
+                    <div>نرخ: <span style={{ color: '#ccc' }}>{priceDisplay}</span></div>
+                    <div>جێگای بەردەست: <span style={{ color: '#ccc' }}>{ride.available_seats > 0 ? `${ride.available_seats} جێ` : 'پڕە'}</span></div>
+                  </div>
+                  {ride.notes && (
+                    <div style={{ padding: '8px 12px', background: T.cardInner, borderRadius: 10, borderRight: `3px solid ${T.orange}` }}>
+                      <div style={{ fontSize: 8, color: T.textFaint, marginBottom: 2, fontWeight: 600 }}>تێبینی</div>
+                      <div style={{ fontSize: 10, color: '#999', lineHeight: 1.8 }}>{ride.notes}</div>
                     </div>
-                  ))}
+                  )}
                 </div>
               )}
 
-              {!isCancelled && !isCompleted && (
-                <div style={{ borderTop: '1px solid #2a2a2a', padding: '8px 18px' }}>
-                  <button onClick={() => handleCancelRide(ride.id)} style={{ background: 'none', border: 'none', color: '#f87171', fontSize: 12, cursor: 'pointer', padding: '4px 0' }}>هەڵوەشاندنەوە</button>
+              {/* WhatsApp — approved & active */}
+              {req.status === 'approved' && !isCompleted && waLink && (
+                <div style={{ borderTop: `1px solid ${T.border}`, padding: '10px 16px' }}>
+                  <a href={waLink} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                    background: T.border, color: T.textMid, borderRadius: 10, padding: 9,
+                    fontSize: 11, fontWeight: 500, textDecoration: 'none', direction: 'rtl',
+                  }}>
+                    پەیامێک بنێرە بۆ شۆفێر
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="#25D366" style={{ flexShrink: 0 }}>
+                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                    </svg>
+                  </a>
+                </div>
+              )}
+
+              {/* Completed */}
+              {isCompleted && req.status === 'approved' && (
+                <div style={{ borderTop: `1px solid ${T.border}`, padding: '10px 16px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <div style={{
+                      width: 24, height: 24, borderRadius: 6,
+                      background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.15)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                    }}>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={T.green} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    </div>
+                    <div style={{ width: 1, height: 20, background: '#333', flexShrink: 0 }} />
+                    <p style={{ fontWeight: 500, color: T.textMid, fontSize: 11, margin: 0 }}>گەشتەکە تەواو بوو</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Pending hint */}
+              {req.status === 'pending' && (
+                <div style={{ borderTop: `1px solid ${T.border}`, padding: '10px 16px' }}>
+                  <p style={{ fontSize: 10, color: T.textFaint, margin: 0, lineHeight: 1.6 }}>
+                    کە داواکرییەکەت قبوڵ کرا، ژمارە مۆبایلی شۆفێر لێرە دەردەکەوێ
+                  </p>
+                </div>
+              )}
+
+              {/* Declined */}
+              {req.status === 'declined' && (
+                <div style={{ borderTop: `1px solid ${T.border}`, padding: '10px 16px' }}>
+                  <p style={{ fontSize: 10, color: T.textFaint, margin: 0 }}>شۆفێر داواکاریەکەتی قبوڵ نەکرد</p>
                 </div>
               )}
             </div>
-          )
-        })
-      ) : tab === 'passenger' && showPassenger ? (
-        joinedRides.length === 0 ? (
-          <p style={{ textAlign: 'center', color: '#555', padding: '3rem 0' }}>هێشتا داواکاریت نەناردووە</p>
-        ) : joinedRides.map(req => {
-          const ride = req.ride
-          if (!ride) return null
-          const driver = ride.driver || {}
-          const { date, time } = formatDateTime(ride.departure_time)
-          const routeKey = `${ride.from_city}-${ride.to_city}`
-          const routeInfo = ROUTE_INFO[routeKey]
-          const isCompleted = ride.status === 'completed'
-
-          const statusMap: Record<string, { text: string; bg: string; color: string }> = {
-            pending: { text: 'لە چاوەڕواندایە', bg: '#2e2a1a', color: '#fbbf24' },
-            approved: { text: isCompleted ? 'تەواو بوو ✓' : 'قبوڵ کرا', bg: '#1a2e1a', color: '#4ade80' },
-            declined: { text: 'ڕەتکرایەوە', bg: '#2e1a1a', color: '#f87171' },
-          }
-          const st = statusMap[req.status] || statusMap.pending
-
-          return (
-            <Link key={req.id} href={`/rides/${ride.id}`} style={{ textDecoration: 'none' }}>
-              <div style={{ background: '#1e1e1e', borderRadius: 16, marginBottom: 10, boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
-                <div style={{ padding: '14px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: 11, padding: '3px 10px', borderRadius: 20, background: st.bg, color: st.color, fontWeight: 600 }}>{st.text}</span>
-                  <span style={{ fontSize: 15, fontWeight: 700, color: '#e5e5e5' }}>{CITIES[ride.from_city]} ← {CITIES[ride.to_city]}</span>
-                </div>
-                <div style={{ borderTop: '1px solid #2a2a2a', padding: '12px 18px' }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', rowGap: 4, fontSize: 12.5, color: '#777', lineHeight: 1.7 }}>
-                    <div>– شۆفێر: {driver.full_name || '—'}</div>
-                    <div>– {routeInfo ? `دووری: ${routeInfo.duration} · ${routeInfo.distance}` : ''}</div>
-                    <div>– بەروار: {date}</div>
-                    <div>– کات: {time}</div>
-                  </div>
-                </div>
-                {req.status === 'approved' && !isCompleted && driver.phone && (
-                  <div style={{ borderTop: '1px solid #2a2a2a', padding: '10px 18px' }}>
-                    <a href={formatWhatsApp(driver.phone)} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{ display: 'block', background: '#25D366', color: 'white', borderRadius: 10, padding: '8px 0', fontSize: 13, fontWeight: 600, textDecoration: 'none', textAlign: 'center' }}>
-                      پەیامێک بنێرە بۆ شۆفێر
-                    </a>
-                  </div>
-                )}
-              </div>
-            </Link>
-          )
-        })
-      ) : null}
+          </Link>
+        )
+      })}
 
       <BottomNav />
     </div>
