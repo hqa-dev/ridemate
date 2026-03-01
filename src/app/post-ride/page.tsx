@@ -241,7 +241,7 @@ export default function PostRidePage() {
         </div>
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 20px' }}>
           <h1 style={{ fontSize: 20, fontWeight: 800, color: T.text, marginBottom: 10, lineHeight: 1.6 }}>
-            بوون بە <span style={{ color: T.orange }}>شۆفێر</span>
+            بۆ بوون بە <span style={{ color: T.orange }}>شۆفێر</span>، پێویستە خۆت ڤێریفای بکەی
           </h1>
           <p style={{ color: T.textDim, marginBottom: 28, fontSize: 12, lineHeight: 1.8 }}>
             مۆڵەتی شۆفێری و سێلفی بنێرە بۆ ئەوەی ببی بە شۆفێڕ
