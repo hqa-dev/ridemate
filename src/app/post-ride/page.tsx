@@ -321,16 +321,16 @@ export default function PostRidePage() {
         <div onClick={() => setActiveTab('post')} style={{
           flex: 1, padding: '9px 0', textAlign: 'center', borderRadius: 10,
           fontSize: 12, fontWeight: activeTab === 'post' ? 600 : 400, cursor: 'pointer',
-          background: activeTab === 'post' ? 'rgba(223,101,48,0.1)' : 'transparent',
+          background: activeTab === 'post' ? 'rgba(255,255,255,0.06)' : 'transparent',
           color: activeTab === 'post' ? 'rgba(255,255,255,0.85)' : T.textDim,
-          border: `1px solid ${activeTab === 'post' ? 'rgba(223,101,48,0.25)' : T.border}`,
+          border: `1px solid ${activeTab === 'post' ? 'rgba(255,255,255,0.08)' : T.border}`,
         }}>گەشتێکی نوێ</div>
         <div onClick={() => setActiveTab('manage')} style={{
           flex: 1, padding: '9px 0', textAlign: 'center', borderRadius: 10,
           fontSize: 12, fontWeight: activeTab === 'manage' ? 600 : 400, cursor: 'pointer',
-          background: activeTab === 'manage' ? 'rgba(223,101,48,0.1)' : 'transparent',
+          background: activeTab === 'manage' ? 'rgba(255,255,255,0.06)' : 'transparent',
           color: activeTab === 'manage' ? 'rgba(255,255,255,0.85)' : T.textDim,
-          border: `1px solid ${activeTab === 'manage' ? 'rgba(223,101,48,0.25)' : T.border}`,
+          border: `1px solid ${activeTab === 'manage' ? 'rgba(255,255,255,0.08)' : T.border}`,
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
         }}>
           ڕێکانم
@@ -400,14 +400,14 @@ export default function PostRidePage() {
             <div style={{ display: 'flex', gap: 8 }}>
               <div onClick={() => setPriceType('coffee')} style={{
                 flex: 1, padding: '10px 0', textAlign: 'center', borderRadius: 10, cursor: 'pointer',
-                background: priceType === 'coffee' ? 'rgba(223,101,48,0.1)' : T.cardInner,
-                border: `1px solid ${priceType === 'coffee' ? 'rgba(223,101,48,0.25)' : 'transparent'}`,
+                background: priceType === 'coffee' ? 'rgba(255,255,255,0.06)' : T.cardInner,
+                border: `1px solid ${priceType === 'coffee' ? 'rgba(255,255,255,0.08)' : 'transparent'}`,
                 color: priceType === 'coffee' ? 'rgba(255,255,255,0.85)' : T.textMid, fontSize: 12, fontWeight: 500,
               }}>قاوەیەک</div>
               <div onClick={() => setPriceType('iqd')} style={{
                 flex: 1, padding: '10px 0', textAlign: 'center', borderRadius: 10, cursor: 'pointer',
-                background: priceType === 'iqd' ? 'rgba(223,101,48,0.1)' : T.cardInner,
-                border: `1px solid ${priceType === 'iqd' ? 'rgba(223,101,48,0.25)' : 'transparent'}`,
+                background: priceType === 'iqd' ? 'rgba(255,255,255,0.06)' : T.cardInner,
+                border: `1px solid ${priceType === 'iqd' ? 'rgba(255,255,255,0.08)' : 'transparent'}`,
                 color: priceType === 'iqd' ? 'rgba(255,255,255,0.85)' : T.textMid, fontSize: 12, fontWeight: 500,
               }}>پارە</div>
             </div>
