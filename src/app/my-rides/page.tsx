@@ -80,7 +80,7 @@ export default function MyRidesPage() {
 
     const { data: reqData } = await supabase
       .from('ride_requests')
-      .select('*, ride:rides(*, driver:profiles!driver_id(full_name, phone, avatar_url))')
+      .select('*, seen_by_passenger, ride:rides(*, driver:profiles!driver_id(full_name, phone, avatar_url))')
       .eq('passenger_id', user.id)
       .order('created_at', { ascending: false })
     setJoinedRides(reqData || [])
@@ -126,7 +126,7 @@ export default function MyRidesPage() {
         const st = statusConfig[req.status] || statusConfig.pending
 
         return (
-          <Link key={req.id} href={`/rides/${ride.id}`} style={{ textDecoration: 'none', display: 'block' }}>
+          <Link key={req.id} href={`/rides/${ride.id}`} onClick={() => { if (req.status === 'approved' || req.status === 'declined') markSeen(req.id) }} style={{ textDecoration: 'none', display: 'block' }}>
             <div style={{
               background: T.card, borderRadius: T.radius, marginBottom: 10,
               boxShadow: T.shadow, overflow: 'hidden',
@@ -142,8 +142,8 @@ export default function MyRidesPage() {
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', flex: 1, margin: '0 6px' }}>
                     <div style={{ width: 6, height: 6, borderRadius: '50%', background: T.text, flexShrink: 0 }} />
-                    <div style={{ flex: 1, height: 1, background: `linear-gradient(to right, ${T.text}, #333, ${T.orange})` }} />
-                    <div style={{ width: 6, height: 6, borderRadius: '50%', border: `2px solid ${T.orange}`, flexShrink: 0 }} />
+                    <div style={{ flex: 1, height: 1, background: `rgba(255,255,255,0.25)` }} />
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', border: '2px solid rgba(255,255,255,0.85)', flexShrink: 0 }} />
                   </div>
                   <div style={{ textAlign: 'center', minWidth: 38 }}>
                     <div style={{ fontSize: 13, fontWeight: 700, color: T.text }}>{toKurdishNum(depTime)}</div>
@@ -193,6 +193,9 @@ export default function MyRidesPage() {
                     fontSize: 9, padding: '3px 9px', borderRadius: 20,
                     background: st.bg, color: st.color, fontWeight: 600,
                   }}>{st.text}</span>
+                  {!req.seen_by_passenger && (req.status === 'approved' || req.status === 'declined') && (
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'rgba(255,255,255,0.7)' }} />
+                  )}
                 </div>
               </div>
 
@@ -210,7 +213,7 @@ export default function MyRidesPage() {
                     <div>جێگای بەردەست: <span style={{ color: '#ccc' }}>{ride.available_seats > 0 ? `${ride.available_seats} جێ` : 'پڕە'}</span></div>
                   </div>
                   {ride.notes && (
-                    <div style={{ padding: '8px 12px', background: T.cardInner, borderRadius: 10, borderRight: `3px solid ${T.orange}` }}>
+                    <div style={{ padding: '8px 12px', background: T.cardInner, borderRadius: 10, borderRight: '3px solid rgba(255,255,255,0.15)' }}>
                       <div style={{ fontSize: 8, color: T.textFaint, marginBottom: 2, fontWeight: 600 }}>تێبینی</div>
                       <div style={{ fontSize: 10, color: '#999', lineHeight: 1.8 }}>{ride.notes}</div>
                     </div>
