@@ -33,8 +33,8 @@ const ProfileIcon = ({ active }: { active: boolean }) => (
 
 const navItems = [
   { href: '/home', Icon: HomeIcon, label: 'سەرەکی' },
-  { href: '/post-ride', Icon: PostIcon, label: 'گەشتێک پۆستکە' },
   { href: '/my-rides', Icon: RidesIcon, label: 'گەشتەکانم' },
+  { href: '/post-ride', Icon: PostIcon, label: 'گەشتێک پۆستکە' },
   { href: '/profile', Icon: ProfileIcon, label: 'خۆت' },
 ]
 
