@@ -264,7 +264,7 @@ export default function RideDetailPage() {
   if (!ride) {
     return (
       <div style={{ ...pageWrap, textAlign: 'center', paddingTop: '3rem' }}>
-        <p style={{ color: '#666' }}>ئەم ڕێیەکە نەدۆزرایەوە</p>
+        <p style={{ color: '#666' }}>ئەم گەشتە نەدۆزرایەوە</p>
         <Link href="/home" style={{ color: T.orange, marginTop: '1rem', display: 'inline-block' }}>{ku.back}</Link>
         <BottomNav />
       </div>
@@ -464,7 +464,7 @@ export default function RideDetailPage() {
               </div>
             ) : (
               <div style={{ textAlign: 'center', padding: '8px 0' }}>
-                <p style={{ fontSize: 12, color: T.textDim, margin: 0 }}>ئەمە ڕێی خۆتە!</p>
+                <p style={{ fontSize: 12, color: T.textDim, margin: 0 }}>ئەمە گەشتی خۆتە!</p>
               </div>
             )
           )}

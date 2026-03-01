@@ -220,7 +220,7 @@ export default function PostRidePage() {
         </svg>
         <h2 style={{ fontSize: 20, fontWeight: 700, color: T.text, marginBottom: 8 }}>ناسنامەکانت نێردران</h2>
         <p style={{ fontSize: 13, color: T.textDim, textAlign: 'center', marginBottom: 32, lineHeight: 1.8 }}>
-          کاتێک پشتڕاست کرایتەوە، دەتوانیت ڕێ پۆست بکەیت
+          کاتێک پشتڕاست کرایتەوە، دەتوانیت گەشت پۆست بکەیت
         </p>
         <div onClick={() => router.push('/home')} style={{
           background: T.card, border: `1px solid ${T.border}`, borderRadius: 12,
@@ -313,7 +313,7 @@ export default function PostRidePage() {
     <div style={{ direction: 'rtl', minHeight: '100vh', background: T.bg, maxWidth: 480, margin: '0 auto', padding: '24px 20px 96px', fontFamily: "'Noto Sans Arabic', sans-serif", position: 'relative' }}>
 
       <div style={{ marginBottom: 20 }}>
-        <h1 style={{ fontSize: 20, fontWeight: 700, color: T.text }}><span style={{ color: T.orange }}>ڕێ</span> پۆستکە</h1>
+        <h1 style={{ fontSize: 20, fontWeight: 700, color: T.text }}><span style={{ color: T.orange }}>ڕێ</span> گەشت پۆستکە</h1>
       </div>
 
       {/* Tab switcher */}
@@ -333,7 +333,7 @@ export default function PostRidePage() {
           border: `1px solid ${activeTab === 'manage' ? 'rgba(255,255,255,0.08)' : T.border}`,
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
         }}>
-          ڕێکانم
+          گەشتەکانم
           {totalPending > 0 && <span style={{ background: T.orange, color: '#fff', fontSize: 9, fontWeight: 700, borderRadius: 10, padding: '1px 6px' }}>{toKurdishNum(totalPending)}</span>}
         </div>
       </div>
@@ -438,7 +438,7 @@ export default function PostRidePage() {
             </div>
             <div style={{ height: 1, background: T.border, margin: '4px 0 12px' }} />
             <div style={{ fontSize: 9, color: T.textFaint, marginBottom: 6, fontWeight: 600 }}>تێبینی</div>
-            <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="هەر شتێک دەربارەی ڕێیەکەت..." rows={2} className="note-input" style={{ background: T.cardInner, border: 'none', borderRadius: 10, padding: '10px 14px', width: '100%', fontSize: 12, color: '#ccc', WebkitTextFillColor: '#ccc', outline: 'none', resize: 'none', fontFamily: "'Noto Sans Arabic', sans-serif", lineHeight: 1.8 }} />
+            <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="هەر شتێک دەربارەی گەشتەکەت..." rows={2} className="note-input" style={{ background: T.cardInner, border: 'none', borderRadius: 10, padding: '10px 14px', width: '100%', fontSize: 12, color: '#ccc', WebkitTextFillColor: '#ccc', outline: 'none', resize: 'none', fontFamily: "'Noto Sans Arabic', sans-serif", lineHeight: 1.8 }} />
           </div>
 
           {error && <p style={{ color: '#f87171', fontSize: 12, textAlign: 'center', marginBottom: 12 }}>{error}</p>}
@@ -458,7 +458,7 @@ export default function PostRidePage() {
         <div>
           {loadingManage ? <div /> : myPostedRides.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '4rem 0' }}>
-              <p style={{ color: T.textFaint, fontSize: 14 }}>هێشتا ڕێت پۆست نەکردووە</p>
+              <p style={{ color: T.textFaint, fontSize: 14 }}>هێشتا گەشتت پۆست نەکردووە</p>
             </div>
           ) : myPostedRides.map(ride => {
             const depTime = formatTimeFromISO(ride.departure_time)
@@ -579,7 +579,7 @@ export default function PostRidePage() {
 
                 {requests.length === 0 && !isCompleted && !isCancelled && (
                   <div style={{ borderTop: `1px solid ${T.border}`, padding: '8px 16px' }}>
-                    <p style={{ fontSize: 10, color: T.textFaint, margin: 0 }}>هێشتا کەس داوای ئەم ڕێیە نەکردووە</p>
+                    <p style={{ fontSize: 10, color: T.textFaint, margin: 0 }}>هێشتا کەس داوای ئەم گەشتە نەکردووە</p>
                   </div>
                 )}
 
