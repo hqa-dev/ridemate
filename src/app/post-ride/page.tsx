@@ -320,14 +320,14 @@ export default function PostRidePage() {
           flex: 1, padding: '9px 0', textAlign: 'center', borderRadius: 10,
           fontSize: 12, fontWeight: activeTab === 'post' ? 600 : 400, cursor: 'pointer',
           background: activeTab === 'post' ? 'rgba(223,101,48,0.1)' : 'transparent',
-          color: activeTab === 'post' ? T.orange : T.textDim,
+          color: activeTab === 'post' ? 'rgba(255,255,255,0.85)' : T.textDim,
           border: `1px solid ${activeTab === 'post' ? 'rgba(223,101,48,0.25)' : T.border}`,
         }}>گەشتێکی نوێ</div>
         <div onClick={() => setActiveTab('manage')} style={{
           flex: 1, padding: '9px 0', textAlign: 'center', borderRadius: 10,
           fontSize: 12, fontWeight: activeTab === 'manage' ? 600 : 400, cursor: 'pointer',
           background: activeTab === 'manage' ? 'rgba(223,101,48,0.1)' : 'transparent',
-          color: activeTab === 'manage' ? T.orange : T.textDim,
+          color: activeTab === 'manage' ? 'rgba(255,255,255,0.85)' : T.textDim,
           border: `1px solid ${activeTab === 'manage' ? 'rgba(223,101,48,0.25)' : T.border}`,
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
         }}>
@@ -343,7 +343,7 @@ export default function PostRidePage() {
           <div style={{ background: T.card, borderRadius: T.radius, marginBottom: 14, boxShadow: T.shadow, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.06)' }}>
             <div style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 10 }}>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, flexShrink: 0 }}>
-                <div style={{ width: 8, height: 8, borderRadius: '50%', border: `2px solid ${T.orange}` }} />
+                <div style={{ width: 8, height: 8, borderRadius: '50%', border: `2px solid rgba(255,255,255,0.85)` }} />
                 <div style={{ width: 1, height: 24, background: '#333' }} />
                 <div style={{ width: 8, height: 8, borderRadius: '50%', background: T.text }} />
               </div>
@@ -384,13 +384,13 @@ export default function PostRidePage() {
                 flex: 1, padding: '10px 0', textAlign: 'center', borderRadius: 10, cursor: 'pointer',
                 background: priceType === 'coffee' ? 'rgba(223,101,48,0.1)' : T.cardInner,
                 border: `1px solid ${priceType === 'coffee' ? 'rgba(223,101,48,0.25)' : 'transparent'}`,
-                color: priceType === 'coffee' ? T.orange : T.textMid, fontSize: 12, fontWeight: 500,
+                color: priceType === 'coffee' ? 'rgba(255,255,255,0.85)' : T.textMid, fontSize: 12, fontWeight: 500,
               }}>قاوەیەک</div>
               <div onClick={() => setPriceType('iqd')} style={{
                 flex: 1, padding: '10px 0', textAlign: 'center', borderRadius: 10, cursor: 'pointer',
                 background: priceType === 'iqd' ? 'rgba(223,101,48,0.1)' : T.cardInner,
                 border: `1px solid ${priceType === 'iqd' ? 'rgba(223,101,48,0.25)' : 'transparent'}`,
-                color: priceType === 'iqd' ? T.orange : T.textMid, fontSize: 12, fontWeight: 500,
+                color: priceType === 'iqd' ? 'rgba(255,255,255,0.85)' : T.textMid, fontSize: 12, fontWeight: 500,
               }}>پارە</div>
             </div>
             {priceType === 'iqd' && (
@@ -426,7 +426,7 @@ export default function PostRidePage() {
           {error && <p style={{ color: '#f87171', fontSize: 12, textAlign: 'center', marginBottom: 12 }}>{error}</p>}
 
           <div onClick={handleSubmit} style={{
-            background: T.card, color: T.orange, border: `1px solid ${T.border}`, borderRadius: 14,
+            background: T.card, color: 'rgba(255,255,255,0.85)', border: `1px solid ${T.border}`, borderRadius: 14,
             padding: 14, textAlign: 'center', cursor: loading ? 'default' : 'pointer',
             opacity: loading ? 0.5 : 1,
           }}>
@@ -470,8 +470,8 @@ export default function PostRidePage() {
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', flex: 1, margin: '0 6px' }}>
                       <div style={{ width: 6, height: 6, borderRadius: '50%', background: T.text, flexShrink: 0 }} />
-                      <div style={{ flex: 1, height: 1, background: `linear-gradient(to right, ${T.text}, #333, ${T.orange})` }} />
-                      <div style={{ width: 6, height: 6, borderRadius: '50%', border: `2px solid ${T.orange}`, flexShrink: 0 }} />
+                      <div style={{ flex: 1, height: 1, background: `rgba(255,255,255,0.25)` }} />
+                      <div style={{ width: 6, height: 6, borderRadius: '50%', border: `2px solid rgba(255,255,255,0.85)`, flexShrink: 0 }} />
                     </div>
                     <div style={{ textAlign: 'center', minWidth: 38 }}>
                       <div style={{ fontSize: 13, fontWeight: 700, color: T.text }}>{toKurdishNum(depTime)}</div>
@@ -521,7 +521,7 @@ export default function PostRidePage() {
                       <div>جێگای بەردەست: <span style={{ color: '#ccc' }}>{ride.available_seats > 0 ? `${ride.available_seats} جێ` : 'پڕە'}</span></div>
                     </div>
                     {ride.notes && (
-                      <div style={{ padding: '8px 12px', background: T.cardInner, borderRadius: 10, borderRight: `3px solid ${T.orange}` }}>
+                      <div style={{ padding: '8px 12px', background: T.cardInner, borderRadius: 10, borderRight: `3px solid rgba(255,255,255,0.15)` }}>
                         <div style={{ fontSize: 8, color: T.textFaint, marginBottom: 2, fontWeight: 600 }}>تێبینی</div>
                         <div style={{ fontSize: 10, color: '#999', lineHeight: 1.8 }}>{ride.notes}</div>
                       </div>
