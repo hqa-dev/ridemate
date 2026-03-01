@@ -265,7 +265,7 @@ export default function ProfilePage() {
         </div>
 
         {/* Account section */}
-        <div style={{ fontSize: 10, color: '#555', marginBottom: 8, fontWeight: 500, letterSpacing: 0.5 }}>ئەکاونت</div>
+        <div style={{ fontSize: 10, color: '#555', marginBottom: 8, fontWeight: 500, letterSpacing: 0.5 }}>هەژمار</div>
         <div style={{ background: '#1e1e1e', borderRadius: 16, overflow: 'hidden', marginBottom: 24 }}>
           <div
             onClick={() => { if (!showDeleteConfirm) setShowDeleteConfirm(true) }}
@@ -273,7 +273,7 @@ export default function ProfilePage() {
           >
             {showDeleteConfirm ? (
               <div onClick={e => e.stopPropagation()}>
-                <p style={{ fontSize: 13, color: '#f87171', marginBottom: 12, marginTop: 0, lineHeight: 1.7, textAlign: 'right' }}>دڵنیایت دەتەوێ ئەکاونتەکەت بسڕیتەوە؟</p>
+                <p style={{ fontSize: 13, color: '#f87171', marginBottom: 12, marginTop: 0, lineHeight: 1.7, textAlign: 'right' }}>دڵنیایت دەتەوێ هەژمارەکەت بسڕیتەوە؟</p>
                 <div style={{ display: 'flex', gap: 8 }}>
                   <button onClick={handleDeleteAccount} style={{ flex: 1, background: '#dc2626', color: 'white', border: 'none', borderRadius: 10, padding: 10, fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>بەڵێ دڵنیام</button>
                   <button onClick={(e) => { e.stopPropagation(); setShowDeleteConfirm(false) }} style={{ flex: 1, background: '#2a2a2a', color: '#777', border: 'none', borderRadius: 10, padding: 10, fontSize: 13, cursor: 'pointer' }}>پاشگەز</button>
