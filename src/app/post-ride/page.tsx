@@ -205,6 +205,9 @@ export default function PostRidePage() {
         </div>
 
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 20px' }}>
+          <h1 style={{ fontSize: 20, fontWeight: 800, color: '#e5e5e5', marginBottom: 10, lineHeight: 1.6 }}>
+            بوون بە <span style={{ color: '#df6530' }}>شۆفێر</span>
+          </h1>
           <p style={{ color: '#777', marginBottom: 28, fontSize: 12, lineHeight: 1.8 }}>
             مۆڵەتی شۆفێری و سێلفی بنێرە بۆ ئەوەی ببی بە شۆفێڕ
           </p>
@@ -223,13 +226,13 @@ export default function PostRidePage() {
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
+              <span style={{ fontSize: 9, color: '#555', letterSpacing: 1 }}>مۆڵەتی شۆفێری</span>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span style={{ fontSize: 9, color: '#555', letterSpacing: 1.5 }}>کوردستان</span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="10" /><path d="M2 12h20" /><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20" />
                 </svg>
-                <span style={{ fontSize: 9, color: '#555', letterSpacing: 1 }}>Kurdistan</span>
               </div>
-              <span style={{ fontSize: 9, color: '#555', letterSpacing: 1.5 }}>مۆڵەتی شۆفێری</span>
             </div>
             <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
               <div style={{
