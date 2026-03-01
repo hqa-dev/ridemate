@@ -46,8 +46,8 @@ function formatWhatsApp(phone: string) {
 }
 
 const T = {
-  bg: '#060606', card: '#262830', cardInner: '#303440',
-  border: '#3c4050', orange: '#df6530',
+  bg: '#0e1015', card: '#1a1c22', cardInner: '#1f2128',
+  border: 'rgba(255,255,255,0.06)', orange: '#df6530',
   text: '#e5e5e5', textMid: '#aaa', textDim: '#777', textFaint: '#555',
   green: '#4ade80', greenBg: '#1a2e1a', radius: 14,
   shadow: '0 2px 8px rgba(0,0,0,0.3)',

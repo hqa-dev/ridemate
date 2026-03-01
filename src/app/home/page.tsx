@@ -90,7 +90,7 @@ export default function HomePage() {
   }
 
   return (
-    <div style={{ direction: 'rtl', height: '100vh', background: '#060606', maxWidth: 480, margin: '0 auto', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+    <div style={{ direction: 'rtl', height: '100vh', background: '#0e1015', maxWidth: 480, margin: '0 auto', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
 
       {/* Fixed header + search */}
       <div style={{ padding: '24px 20px 0', flexShrink: 0 }}>
@@ -105,7 +105,7 @@ export default function HomePage() {
         <div
           onClick={() => setSearchOpen(true)}
           style={{
-            background: '#262830',
+            background: '#1a1c22',
             borderRadius: 50,
             padding: '14px 20px',
             boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
@@ -132,7 +132,7 @@ export default function HomePage() {
       {/* Search bar — expanded */}
       {searchOpen && (
         <div style={{
-          background: '#262830',
+          background: '#1a1c22',
           borderRadius: 20,
           boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
           padding: 20,
@@ -142,7 +142,7 @@ export default function HomePage() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
             <div
               onClick={() => setSearchOpen(false)}
-              style={{ cursor: 'pointer', width: 30, height: 30, borderRadius: '50%', background: '#303440', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              style={{ cursor: 'pointer', width: 30, height: 30, borderRadius: '50%', background: '#1f2128', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#686e88" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M18 6L6 18"/><path d="M6 6l12 12"/>
@@ -155,14 +155,14 @@ export default function HomePage() {
           <div style={{ display: 'flex', gap: 12, padding: '4px 0' }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, paddingTop: 12 }}>
               <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#df6530' }} />
-              <div style={{ width: 1, height: 32, background: '#3c4050' }} />
+              <div style={{ width: 1, height: 32, background: 'rgba(255,255,255,0.06)' }} />
               <div style={{ width: 10, height: 10, borderRadius: '50%', border: '2px solid #eaedf5', background: 'transparent' }} />
             </div>
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 8 }}>
               <div
                 onClick={() => { const keys = ['', 'erbil', 'suli', 'duhok']; const idx = keys.indexOf(from); setFrom(keys[(idx + 1) % keys.length]); }}
                 style={{
-                  background: '#303440', borderRadius: 12, padding: '12px 16px',
+                  background: '#1f2128', borderRadius: 12, padding: '12px 16px',
                   fontSize: 14, color: from ? '#eaedf5' : '#686e88', cursor: 'pointer',
                   fontFamily: "'Noto Sans Arabic', sans-serif",
                 }}
@@ -172,7 +172,7 @@ export default function HomePage() {
               <div
                 onClick={() => { const keys = ['', 'erbil', 'suli', 'duhok']; const idx = keys.indexOf(to); setTo(keys[(idx + 1) % keys.length]); }}
                 style={{
-                  background: '#303440', borderRadius: 12, padding: '12px 16px',
+                  background: '#1f2128', borderRadius: 12, padding: '12px 16px',
                   fontSize: 14, color: to ? '#eaedf5' : '#686e88', cursor: 'pointer',
                   fontFamily: "'Noto Sans Arabic', sans-serif",
                 }}
@@ -207,7 +207,7 @@ export default function HomePage() {
         return (
           <Link key={ride.id} href={`/rides/${ride.id}`} style={{ textDecoration: 'none' }}>
             <div style={{
-              background: '#262830',
+              background: '#1a1c22',
               borderRadius: 16,
               marginBottom: 10,
               boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
@@ -237,7 +237,7 @@ export default function HomePage() {
               </div>
 
               {/* Footer — driver · seats · price */}
-              <div style={{ borderTop: '1px solid #3c4050', padding: '10px 18px', display: 'flex', alignItems: 'center', direction: 'rtl' }}>
+              <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '10px 18px', display: 'flex', alignItems: 'center', direction: 'rtl' }}>
                 <span style={{ flex: 1, textAlign: 'right', fontSize: 12, color: '#aaa' }}>{driver.full_name || 'شۆفێر'}</span>
                 <span style={{ flex: 1, textAlign: 'center', fontSize: 10, color: '#777' }}>
                   {isFull ? 'پڕە' : seatsDisplay}

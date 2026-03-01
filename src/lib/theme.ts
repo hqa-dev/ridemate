@@ -1,16 +1,16 @@
-// Slate Dark Theme — RideMate
+// Glass Dark Theme — RideMate
 export const theme = {
-  bg: '#060606',
-  card: '#262830',
-  cardInner: '#303440',
-  border: '#3c4050',
-  cardBorder: 'rgba(160,170,200,0.06)',
-  cardShadow: '0 3px 16px rgba(0,0,0,0.6)',
+  bg: '#0e1015',
+  card: '#1a1c22',
+  cardInner: '#1f2128',
+  border: 'rgba(255,255,255,0.06)',
+  cardBorder: 'rgba(255,255,255,0.08)',
+  cardShadow: '0 4px 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)',
   radius: 14,
-  text: '#eaedf5',
-  textMid: '#a0a8c0',
-  textDim: '#686e88',
-  textFaint: '#484e62',
+  text: 'rgba(255,255,255,0.85)',
+  textMid: 'rgba(255,255,255,0.5)',
+  textDim: 'rgba(255,255,255,0.25)',
+  textFaint: 'rgba(255,255,255,0.12)',
   orange: '#df6530',
   green: '#4ade80',
   greenBg: '#1a2e1a',
@@ -18,5 +18,10 @@ export const theme = {
   yellowBg: '#2e2a1a',
   red: '#f87171',
   redBg: '#2e1a1a',
+  chipBg: 'rgba(255,255,255,0.06)',
+  navBg: 'rgba(20,22,28,0.75)',
+  activePill: 'rgba(255,255,255,0.1)',
+  activePillBorder: 'rgba(255,255,255,0.08)',
+  activePillShadow: '0 4px 16px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08)',
 } as const
 export type Theme = typeof theme

@@ -24,7 +24,7 @@ export default function LandingPage() {
 
   return (
     <div style={{
-      direction: 'rtl', minHeight: '100vh', background: '#060606',
+      direction: 'rtl', minHeight: '100vh', background: '#0e1015',
       maxWidth: 480, margin: '0 auto',
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
       padding: '2rem 1.25rem', fontFamily: "'Noto Sans Arabic', sans-serif",
@@ -37,7 +37,7 @@ export default function LandingPage() {
       <div
         onClick={handleGoogleSignIn}
         style={{
-          background: '#262830', border: '1px solid #3c4050',
+          background: '#1a1c22', border: '1px solid rgba(255,255,255,0.06)',
           borderRadius: 12, padding: '14px 24px',
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12,
           cursor: 'pointer', width: '100%', maxWidth: 320,
