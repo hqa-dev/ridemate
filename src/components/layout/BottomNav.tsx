@@ -32,10 +32,10 @@ const ProfileIcon = ({ active }: { active: boolean }) => (
 )
 
 const navItems = [
-  { href: '/home', Icon: HomeIcon },
-  { href: '/post-ride', Icon: PostIcon },
-  { href: '/my-rides', Icon: RidesIcon },
-  { href: '/profile', Icon: ProfileIcon },
+  { href: '/home', Icon: HomeIcon, label: 'سەرەکی' },
+  { href: '/post-ride', Icon: PostIcon, label: 'گەشتێک پۆستکە' },
+  { href: '/my-rides', Icon: RidesIcon, label: 'گەشتەکانم' },
+  { href: '/profile', Icon: ProfileIcon, label: 'خۆت' },
 ]
 
 export function BottomNav() {
@@ -44,7 +44,7 @@ export function BottomNav() {
     <nav style={{
       position: 'fixed', bottom: 14, left: '50%', transform: 'translateX(-50%)',
       width: 'calc(100% - 24px)', maxWidth: 456,
-      display: 'flex', direction: 'rtl', justifyContent: 'center', gap: 18,
+      display: 'flex', direction: 'rtl', justifyContent: 'center', gap: 10,
       zIndex: 100,
     }}>
       {navItems.map((item) => {
@@ -52,14 +52,29 @@ export function BottomNav() {
         return (
           <Link key={item.href} href={item.href} style={{
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            width: 64, height: 38, borderRadius: 14,
+            gap: active ? 8 : 0,
+            height: 38, borderRadius: 14,
+            padding: active ? '0 16px' : '0',
+            width: active ? 'auto' : 52,
             background: active ? '#1e1e1e' : '#161616',
             border: `1px solid ${active ? 'rgba(223,101,48,0.25)' : '#222'}`,
             boxShadow: active ? '0 2px 12px rgba(223,101,48,0.08)' : '0 2px 8px rgba(0,0,0,0.3)',
             textDecoration: 'none',
-            transition: 'all 0.25s ease',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
           }}>
             <item.Icon active={active} />
+            {active && (
+              <span style={{
+                fontSize: 11,
+                fontWeight: 600,
+                color: '#df6530',
+                fontFamily: "'Noto Sans Arabic', sans-serif",
+              }}>
+                {item.label}
+              </span>
+            )}
           </Link>
         )
       })}
