@@ -129,7 +129,6 @@ export default function RideDetailPage() {
   const [driverTripCount, setDriverTripCount] = useState(0)
 
   const [completing, setCompleting] = useState(false)
-  const [detailsOpen, setDetailsOpen] = useState(false)
 
   useEffect(() => { loadRide() }, [rideId])
 
@@ -248,15 +247,16 @@ export default function RideDetailPage() {
 
   const inp: React.CSSProperties = {
     width: '100%',
-    background: T.border,
+    background: T.cardInner,
     border: '1px solid #333',
     borderRadius: 12,
-    padding: '10px 12px',
-    fontSize: 13,
+    padding: '10px 14px',
+    fontSize: 12,
     outline: 'none',
     direction: 'rtl',
     resize: 'none',
-    color: T.text,
+    color: '#ccc',
+    lineHeight: 2,
   }
 
   if (loading) return <div style={pageWrap}><BottomNav /></div>
@@ -284,7 +284,7 @@ export default function RideDetailPage() {
   const distance = routeInfo?.distance || ''
 
   const priceDisplay = ride.price_type === 'coffee'
-    ? '☕ قاوەیەک'
+    ? 'قاوەیەک'
     : `${toKurdishNum(Number(ride.price_iqd).toLocaleString('en'))} دینار`
 
   return (
@@ -365,71 +365,57 @@ export default function RideDetailPage() {
               </>
             )}
           </div>
-          {/* Details toggle */}
-          <div
-            onClick={() => setDetailsOpen(!detailsOpen)}
-            style={{
-              width: 28, height: 28, borderRadius: 8,
-              background: detailsOpen ? T.border : 'transparent',
-              border: `1px solid ${detailsOpen ? '#444' : '#333'}`,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', flexShrink: 0,
-              transition: 'all 0.2s',
-            }}
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={detailsOpen ? T.textMid : '#555'} strokeWidth="2" strokeLinecap="round">
-              <line x1="4" y1="7" x2="20" y2="7" />
-              <line x1="4" y1="12" x2="20" y2="12" />
-              <line x1="4" y1="17" x2="20" y2="17" />
-            </svg>
-          </div>
         </div>
 
-        {/* Collapsible details */}
-        {detailsOpen && (
-          <div style={{ borderTop: `1px solid ${T.border}`, padding: '14px 18px' }}>
+        {/* Details — always visible */}
+        <div style={{ borderTop: `1px solid ${T.border}`, padding: '14px 18px' }}>
 
-            {carParts && (
-              <div style={{
-                marginBottom: 12, padding: '10px 14px',
-                background: T.cardInner, borderRadius: 12,
-                fontSize: 12, color: T.textMid, lineHeight: 2,
-              }}>
-                {ride.car_make && <div>جۆری: <span style={{ color: '#ccc' }}>{ride.car_make}</span></div>}
-                {ride.car_model && <div>مۆدێل: <span style={{ color: '#ccc' }}>{ride.car_model}</span></div>}
-                {carColor && <div>ڕەنگ: <span style={{ color: '#ccc' }}>{COLOR_KU[carColor.toLowerCase()] || carColor}</span></div>}
-              </div>
-            )}
-
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 12 }}>
-              <span style={{ background: T.border, color: T.textMid, padding: '5px 14px', borderRadius: 20, fontSize: 12 }}>
-                {priceDisplay}
-              </span>
+          {carParts && (
+            <div style={{
+              marginBottom: 12, padding: '10px 14px',
+              background: T.cardInner, borderRadius: 12,
+              fontSize: 12, color: T.textMid, lineHeight: 2,
+            }}>
+              {ride.car_make && <div>جۆر: <span style={{ color: '#ccc' }}>{ride.car_make}</span></div>}
+              {ride.car_model && <div>مۆدێل: <span style={{ color: '#ccc' }}>{ride.car_model}</span></div>}
+              {carColor && <div>ڕەنگ: <span style={{ color: '#ccc' }}>{COLOR_KU[carColor.toLowerCase()] || carColor}</span></div>}
+              <div>نرخ: <span style={{ color: '#ccc' }}>{priceDisplay}</span></div>
               {ride.available_seats > 0 ? (
-                <span style={{ background: T.border, color: T.textMid, padding: '5px 14px', borderRadius: 20, fontSize: 12 }}>
-                  {ride.available_seats} جێ
-                </span>
+                <div>جێگای بەردەست: <span style={{ color: '#ccc' }}>{ride.available_seats} جێ</span></div>
               ) : (
-                <span style={{ background: T.border, color: T.textDim, padding: '5px 14px', borderRadius: 20, fontSize: 12 }}>پڕە</span>
-              )}
-              {ride.smoking !== null && (
-                <span style={{ background: T.border, color: T.textDim, padding: '5px 14px', borderRadius: 20, fontSize: 12 }}>
-                  {ride.smoking ? '🚬' : '🚭'}
-                </span>
+                <div>جێگای بەردەست: <span style={{ color: T.textDim }}>پڕە</span></div>
               )}
             </div>
+          )}
 
-            {ride.notes && (
-              <div style={{
-                padding: '10px 14px', background: T.cardInner,
-                borderRadius: 12, borderRight: `3px solid ${T.orange}`,
-              }}>
-                <div style={{ fontSize: 9, color: T.textFaint, marginBottom: 3, fontWeight: 600 }}>تێبینی</div>
-                <div style={{ fontSize: 11, color: '#999', lineHeight: 1.8 }}>{ride.notes}</div>
-              </div>
-            )}
-          </div>
-        )}
+          {!carParts && (
+            <div style={{
+              marginBottom: 12, padding: '10px 14px',
+              background: T.cardInner, borderRadius: 12,
+              fontSize: 12, color: T.textMid, lineHeight: 2,
+            }}>
+              <div>نرخ: <span style={{ color: '#ccc' }}>{priceDisplay}</span></div>
+              {ride.available_seats > 0 ? (
+                <div>جێگای بەردەست: <span style={{ color: '#ccc' }}>{ride.available_seats} جێ</span></div>
+              ) : (
+                <div>جێگای بەردەست: <span style={{ color: T.textDim }}>پڕە</span></div>
+              )}
+              {ride.smoking !== null && (
+                <div>{ride.smoking ? '🚬 جگەرەکێشان ڕێگەپێدراوە' : '🚭 جگەرەکێشان قەدەغەیە'}</div>
+              )}
+            </div>
+          )}
+
+          {ride.notes && (
+            <div style={{
+              padding: '10px 14px', background: T.cardInner,
+              borderRadius: 12, borderRight: `3px solid ${T.orange}`,
+            }}>
+              <div style={{ fontSize: 9, color: T.textFaint, marginBottom: 3, fontWeight: 600 }}>تێبینی</div>
+              <div style={{ fontSize: 11, color: '#999', lineHeight: 1.8 }}>{ride.notes}</div>
+            </div>
+          )}
+        </div>
 
         {/* ── Action Area ── */}
         <div style={{ borderTop: `1px solid ${T.border}`, padding: '16px 18px' }}>
@@ -460,10 +446,21 @@ export default function RideDetailPage() {
                 </svg>
               </div>
             ) : isCompleted ? (
-              <div style={{ textAlign: 'center', padding: '8px 0' }}>
-                <span style={{ fontSize: 24, display: 'block', marginBottom: 6 }}>🏁</span>
-                <p style={{ fontWeight: 600, color: T.green, fontSize: 13, margin: 0 }}>گەشتەکە تەواو بوو</p>
-                <p style={{ fontSize: 10, color: '#2d6a3e', marginTop: 4 }}>ڕێکەوت: {new Date(ride.completed_at).toLocaleDateString('en-GB')}</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0' }}>
+                <div style={{
+                  width: 28, height: 28, borderRadius: 8,
+                  background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.15)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={T.green} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </div>
+                <div style={{ width: 1, height: 32, background: '#333', flexShrink: 0, margin: '0 5px' }} />
+                <div>
+                  <p style={{ fontWeight: 500, color: T.textMid, fontSize: 13, margin: '0 0 3px' }}>گەشتەکە تەواو بوو</p>
+                  <p style={{ fontSize: 11, color: T.textFaint, margin: 0 }}>ڕێکەوت: {new Date(ride.completed_at).toLocaleDateString('en-GB')}</p>
+                </div>
               </div>
             ) : (
               <div style={{ textAlign: 'center', padding: '8px 0' }}>
@@ -477,7 +474,7 @@ export default function RideDetailPage() {
             isCompleted && requestStatus === 'approved' ? (
               !hasRated ? (
                 <div style={{ textAlign: 'center' }}>
-                  <p style={{ fontWeight: 700, fontSize: 14, color: T.text, marginBottom: 4 }}>چۆن بوو گەشتەکە؟</p>
+                  <p style={{ fontWeight: 700, fontSize: 14, color: T.text, marginBottom: 4 }}>گەشتەکە چۆن بوو بە لاتەوە؟</p>
                   <p style={{ fontSize: 11, color: T.textDim, marginBottom: 12 }}>هەڵسەنگاندنەکەت دوای ٧٢ کاتژمێر دەردەکەوێ</p>
                   <StarSelector value={selectedRating} onChange={setSelectedRating} />
                   {selectedRating > 0 && (
@@ -496,10 +493,21 @@ export default function RideDetailPage() {
                   )}
                 </div>
               ) : (
-                <div style={{ textAlign: 'center', padding: '8px 0' }}>
-                  <span style={{ fontSize: 24, display: 'block', marginBottom: 6 }}>⭐</span>
-                  <p style={{ fontWeight: 600, color: T.green, fontSize: 13, margin: 0 }}>سوپاس بۆ هەڵسەنگاندنەکەت!</p>
-                  <p style={{ fontSize: 11, color: T.textDim, marginTop: 4 }}>هەڵسەنگاندنەکەت دوای ٧٢ کاتژمێر دەردەکەوێ</p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0' }}>
+                  <div style={{
+                    width: 28, height: 28, borderRadius: 8,
+                    background: 'rgba(223,101,48,0.08)', border: '1px solid rgba(223,101,48,0.15)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                  }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill={T.orange} stroke="none">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                    </svg>
+                  </div>
+                  <div style={{ width: 1, height: 32, background: '#333', flexShrink: 0, margin: '0 5px' }} />
+                  <div>
+                    <p style={{ fontWeight: 500, color: T.textMid, fontSize: 13, margin: '0 0 3px' }}>سوپاس بۆ هەڵسەنگاندنەکەت!</p>
+                    <p style={{ fontSize: 11, color: T.textFaint, margin: 0 }}>هەڵسەنگاندنەکەت دوای ٧٢ کاتژمێر دەردەکەوێ</p>
+                  </div>
                 </div>
               )
             ) :
@@ -512,13 +520,12 @@ export default function RideDetailPage() {
               <button
                 onClick={() => setShowModal(true)}
                 style={{
-                  width: '100%', background: T.orange, color: '#fff',
-                  border: 'none', borderRadius: 12, padding: 14,
+                  width: '100%', background: '#1e1e1e', color: '#df6530',
+                  border: '1px solid #2a2a2a', borderRadius: 14, padding: 14,
                   fontSize: 15, fontWeight: 700, cursor: 'pointer',
-                  boxShadow: '0 4px 16px rgba(223,101,48,0.2)',
                 }}
               >
-                بەڵێ! داواکاری بنێرە
+                بەڵێ، بینێرە!
               </button>
               )
             ) : requestStatus === 'approved' ? (
@@ -547,13 +554,13 @@ export default function RideDetailPage() {
               </div>
             ) : requestStatus === 'declined' ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0' }}>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
                   <circle cx="12" cy="12" r="10" />
                   <path d="M15 9l-6 6M9 9l6 6" />
                 </svg>
                 <div style={{ width: 1, height: 32, background: '#333', flexShrink: 0, margin: '0 5px' }} />
                 <div>
-                  <p style={{ fontWeight: 500, color: '#f87171', fontSize: 13, margin: '0 0 3px' }}>داواکاریەکت ڕەت کرایەوە</p>
+                  <p style={{ fontWeight: 500, color: '#dc2626', fontSize: 13, margin: '0 0 3px' }}>داواکاریەکت ڕەت کرایەوە</p>
                   <p style={{ fontSize: 11, color: T.textFaint, margin: 0, lineHeight: 1.6 }}>شۆفێر داواکاریەکەتی قبوڵ نەکرد</p>
                 </div>
               </div>
@@ -566,7 +573,7 @@ export default function RideDetailPage() {
                 <div style={{ width: 1, height: 32, background: '#333', flexShrink: 0, margin: '0 5px' }} />
                 <div>
                   <p style={{ fontWeight: 500, color: T.textMid, fontSize: 13, margin: '0 0 3px' }}>داواکاریەکت نێردرا</p>
-                  <p style={{ fontSize: 11, color: T.textFaint, margin: 0, lineHeight: 1.6 }}>کاتێک داواکارییەکت قبوڵ کرا، ئەوسا دەتوانی ژمارەی مۆبایلی شۆفێر ببینی</p>
+                  <p style={{ fontSize: 11, color: T.textFaint, margin: 0, lineHeight: 1.6 }}>کە داواکرییەکەت قبوڵ کرا، ژمارە مۆبایلی شۆفێر لێرە دەردەکەوێ</p>
                 </div>
               </div>
             )
@@ -587,11 +594,11 @@ export default function RideDetailPage() {
             <h2 style={{ fontWeight: 700, fontSize: 17, marginBottom: 12, color: T.text }}>دەمەوێ!</h2>
             <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
               <div style={{ flex: 1 }}>
-                <label style={{ fontSize: 12, color: T.textDim, display: 'block', marginBottom: 4, textAlign: 'right', paddingRight: 4 }}>سواربوون</label>
+                <label style={{ fontSize: 12, color: T.textMid, display: 'block', marginBottom: 4, textAlign: 'right', paddingRight: 4 }}>سواربوون</label>
                 <input value={pickup} onChange={e => setPickup(e.target.value)} style={inp} placeholder="لە کوێ سوار دەبی؟" />
               </div>
               <div style={{ flex: 1 }}>
-                <label style={{ fontSize: 12, color: T.textDim, display: 'block', marginBottom: 4, textAlign: 'right', paddingRight: 4 }}>دابەزین</label>
+                <label style={{ fontSize: 12, color: T.textMid, display: 'block', marginBottom: 4, textAlign: 'right', paddingRight: 4 }}>دابەزین</label>
                 <input value={dropoff} onChange={e => setDropoff(e.target.value)} style={inp} placeholder="لە کوێ دادەبەزی؟" />
               </div>
             </div>
