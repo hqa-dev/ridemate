@@ -18,8 +18,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
       </head>
-      <body style={{ fontFamily: "'Noto Sans Arabic', sans-serif", margin: 0, background: '#121212' }}>
-        {children}
+      <body style={{ fontFamily: "'Noto Sans Arabic', sans-serif", margin: 0, background: '#000' }}>
+        <div style={{ maxWidth: 480, margin: '0 auto', minHeight: '100vh', background: '#121212', borderLeft: '1px solid rgba(255,255,255,0.06)', borderRight: '1px solid rgba(255,255,255,0.06)' }}>
+          {children}
+        </div>
       </body>
     </html>
   )
