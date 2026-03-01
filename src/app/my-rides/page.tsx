@@ -64,6 +64,13 @@ export default function MyRidesPage() {
 
   const supabase = createClient()
 
+  async function markSeen(requestId: string) {
+    await supabase
+      .from('ride_requests')
+      .update({ seen_by_passenger: true })
+      .eq('id', requestId)
+  }
+
   useEffect(() => { loadData() }, [])
 
   async function loadData() {

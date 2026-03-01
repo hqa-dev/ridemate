@@ -36,7 +36,7 @@ export function BottomNav() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
 
-    // Count unread ride request updates (approved/declined that user hasn't seen)
+    // Count unread ride request updates for passenger
     const { count: ridesCount } = await supabase
       .from('ride_requests')
       .select('*', { count: 'exact', head: true })
@@ -44,16 +44,34 @@ export function BottomNav() {
       .in('status', ['approved', 'declined'])
       .eq('seen_by_passenger', false)
 
-    // Count pending requests for driver
-    const { count: postCount } = await supabase
-      .from('ride_requests')
-      .select('*, ride:rides!ride_id(driver_id)', { count: 'exact', head: true })
-      .eq('rides.driver_id', user.id)
-      .eq('status', 'pending')
+    // Count pending requests only if user is a verified driver
+    let postCount = 0
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role, verification_status')
+      .eq('id', user.id)
+      .single()
+    
+    if (profile && (profile.role === 'driver' || profile.role === 'both') && profile.verification_status === 'verified') {
+      const { data: myRides } = await supabase
+        .from('rides')
+        .select('id')
+        .eq('driver_id', user.id)
+      
+      if (myRides && myRides.length > 0) {
+        const rideIds = myRides.map(r => r.id)
+        const { count } = await supabase
+          .from('ride_requests')
+          .select('*', { count: 'exact', head: true })
+          .in('ride_id', rideIds)
+          .eq('status', 'pending')
+        postCount = count || 0
+      }
+    }
 
     setBadges({
       '/my-rides': ridesCount || 0,
-      '/post-ride': postCount || 0,
+      '/post-ride': postCount,
     })
   }
 
