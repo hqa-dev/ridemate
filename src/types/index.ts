@@ -1,5 +1,5 @@
 export type UserRole = 'passenger' | 'driver' | 'both'
-export type VerificationStatus = 'pending' | 'approved' | 'rejected'
+export type VerificationStatus = 'none' | 'pending' | 'verified'
 export type RideStatus = 'active' | 'full' | 'completed' | 'cancelled'
 export type RequestStatus = 'pending' | 'approved' | 'declined'
 export type PriceType = 'coffee' | 'iqd'
