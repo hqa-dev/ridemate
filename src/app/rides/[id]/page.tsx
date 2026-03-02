@@ -208,19 +208,23 @@ export default function RideDetailPage() {
       action: async () => {
         setConfirmModal(null)
         setActionError('')
-        const { error } = await supabase.from('ride_requests')
-          .update({ status: 'cancelled', seen_by_passenger: true })
+        const { data: cancelled, error } = await supabase.from('ride_requests')
+          .update({ status: 'cancelled' })
           .eq('ride_id', rideId)
           .eq('passenger_id', currentUserId)
           .in('status', ['pending', 'approved'])
-        if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
-        const newSeats = ride.available_seats + 1
-        const updates: any = { available_seats: newSeats }
-        if (ride.available_seats === 0) updates.status = 'active'
-        await supabase.from('rides').update(updates).eq('id', rideId)
+          .select()
+        if (error || !cancelled || cancelled.length === 0) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        const wasApproved = cancelled.some((r: any) => r.status === 'cancelled' && requestStatus === 'approved')
+        if (wasApproved) {
+          const newSeats = ride.available_seats + 1
+          const updates: any = { available_seats: newSeats }
+          if (ride.available_seats === 0) updates.status = 'active'
+          await supabase.from('rides').update(updates).eq('id', rideId)
+          setRide((prev: any) => ({ ...prev, available_seats: newSeats, ...(prev.available_seats === 0 ? { status: 'active' } : {}) }))
+        }
         setRequested(false)
         setRequestStatus(null)
-        setRide((prev: any) => ({ ...prev, available_seats: newSeats, ...(prev.available_seats === 0 ? { status: 'active' } : {}) }))
       },
     })
   }
