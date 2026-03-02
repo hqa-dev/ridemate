@@ -218,18 +218,27 @@ export default function RideDetailPage() {
           .in('status', ['pending', 'approved'])
           .maybeSingle()
         if (findErr || !activeReq) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        console.log('[cancelRequest] activeReq before update:', JSON.stringify(activeReq))
+        console.log('[cancelRequest] Setting seen_by_driver: false')
         const { error } = await supabase.from('ride_requests')
           .update({ status: 'cancelled', seen_by_passenger: true, seen_by_driver: false })
           .eq('id', activeReq.id)
-        if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        if (error) { console.log('[cancelRequest] Update error:', JSON.stringify(error)); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        console.log('[cancelRequest] Request cancelled successfully, original status was:', activeReq.status)
         if (activeReq.status === 'approved') {
+          console.log('[cancelRequest] Request was approved, fetching fresh ride data...')
           const { data: freshRide } = await supabase.from('rides').select('available_seats').eq('id', rideId).single()
+          console.log('[cancelRequest] Fresh ride:', JSON.stringify(freshRide))
           if (freshRide) {
+            console.log('[cancelRequest] Updating seats from', freshRide.available_seats, 'to', freshRide.available_seats + 1)
             const newSeats = freshRide.available_seats + 1
             const updates: any = { available_seats: newSeats }
             if (freshRide.available_seats === 0) updates.status = 'active'
-            await supabase.from('rides').update(updates).eq('id', rideId)
+            const { data: seatData, error: seatError } = await supabase.from('rides').update(updates).eq('id', rideId).select()
+            console.log('[cancelRequest] Seat update result:', JSON.stringify({ data: seatData, error: seatError }))
           }
+        } else {
+          console.log('[cancelRequest] Request was pending (not approved), skipping seat return')
         }
         loadRide()
       },
