@@ -178,6 +178,22 @@ export default function RideDetailPage() {
     window.location.reload()
   }
 
+  async function handleCancelRequest() {
+    if (!window.confirm('دڵنیایت لە هەڵوەشاندنەوەی داواکاریەکەت؟')) return
+    setActionError('')
+    const { error } = await supabase.from('ride_requests')
+      .update({ status: 'cancelled' })
+      .eq('ride_id', rideId)
+      .eq('passenger_id', currentUserId)
+    if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+    const newSeats = ride.available_seats + 1
+    const updates: any = { available_seats: newSeats }
+    if (ride.available_seats === 0) updates.status = 'active'
+    await supabase.from('rides').update(updates).eq('id', rideId)
+    setRequestStatus('cancelled')
+    setRide((prev: any) => ({ ...prev, available_seats: newSeats, ...(prev.available_seats === 0 ? { status: 'active' } : {}) }))
+  }
+
   async function handleSubmitRating() {
     if (!currentUserId || !ride || selectedRating === 0) return
     setSubmittingRating(true)
@@ -545,6 +561,16 @@ export default function RideDetailPage() {
                 ) : (
                   <p style={{ color: '#666', fontSize: 12 }}>شۆفێر ژمارەی مۆبایلی زیاد نەکردووە</p>
                 )}
+                <div
+                  onClick={handleCancelRequest}
+                  style={{
+                    background: 'rgba(220,50,50,0.15)', color: '#dc2626',
+                    borderRadius: 10, padding: 10, fontSize: 12, fontWeight: 500,
+                    textAlign: 'center', cursor: 'pointer', marginTop: 12,
+                  }}
+                >
+                  هەڵوەشاندنەوەی داواکاری
+                </div>
               </div>
             ) : requestStatus === 'declined' ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0' }}>
