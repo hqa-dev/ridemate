@@ -530,7 +530,7 @@ export default function PostRidePage() {
                             </div>
                           ) : (
                             <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                              <span style={{ fontSize: 9, padding: '2px 7px', borderRadius: 20, fontWeight: 600, background: req.status === 'approved' ? T.greenBg : '#2e1a1a', color: req.status === 'approved' ? T.green : '#f87171' }}>{req.status === 'approved' ? 'قبوڵ کرا' : 'ڕەتکرایەوە'}</span>
+                              <span style={{ fontSize: 9, padding: '2px 7px', borderRadius: 20, fontWeight: 600, background: req.status === 'approved' ? T.greenBg : req.status === 'cancelled' ? T.redBg : '#2e1a1a', color: req.status === 'approved' ? T.green : req.status === 'cancelled' ? T.red : '#f87171' }}>{req.status === 'approved' ? 'قبوڵ کرا' : req.status === 'cancelled' ? 'هەڵوەشێنراوە' : 'ڕەتکرایەوە'}</span>
                               {req.status === 'approved' && req.passenger?.phone && (
                                 <a href={formatWhatsApp(req.passenger.phone)} target="_blank" rel="noopener noreferrer" style={{ background: '#25D366', color: 'white', borderRadius: 7, padding: '3px 8px', fontSize: 9, fontWeight: 600, textDecoration: 'none' }}>WhatsApp</a>
                               )}
