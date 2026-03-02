@@ -433,7 +433,7 @@ export default function RideDetailPage() {
               {ride.available_seats > 0 ? (
                 <div>جێگای بەردەست: <span style={{ color: '#ccc' }}>{ride.available_seats} جێ</span></div>
               ) : (
-                <div>جێگای بەردەست: <span style={{ color: 'rgba(255,255,255,0.85)', fontWeight: 700 }}>پڕە</span></div>
+                <div>جێگای بەردەست: <span style={{ color: 'rgba(255,255,255,0.85)', fontWeight: 700 }}>0 جێ</span></div>
               )}
             </div>
           )}
@@ -448,7 +448,7 @@ export default function RideDetailPage() {
               {ride.available_seats > 0 ? (
                 <div>جێگای بەردەست: <span style={{ color: '#ccc' }}>{ride.available_seats} جێ</span></div>
               ) : (
-                <div>جێگای بەردەست: <span style={{ color: 'rgba(255,255,255,0.85)', fontWeight: 700 }}>پڕە</span></div>
+                <div>جێگای بەردەست: <span style={{ color: 'rgba(255,255,255,0.85)', fontWeight: 700 }}>0 جێ</span></div>
               )}
               {ride.smoking !== null && (
                 <div>{ride.smoking ? '🚬 جگەرەکێشان ڕێگەپێدراوە' : '🚭 جگەرەکێشان قەدەغەیە'}</div>

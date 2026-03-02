@@ -206,7 +206,7 @@ export default function HomePage() {
               <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '10px 18px', display: 'flex', alignItems: 'center', direction: 'rtl' }}>
                 <span style={{ flex: 1, textAlign: 'right', fontSize: 12, color: '#aaa' }}>{driver.full_name || 'شۆفێر'}</span>
                 <span style={{ flex: 1, textAlign: 'center', fontSize: 12, color: isFull ? 'rgba(255,255,255,0.85)' : '#777', fontWeight: isFull ? 700 : undefined }}>
-                  {isFull ? 'پڕە' : seatsDisplay}
+                  {isFull ? '0 جێ' : seatsDisplay}
                 </span>
                 <span style={{ flex: 1, textAlign: 'left', fontSize: 12, fontWeight: 400, color: '#aaa' }}>{priceDisplay}</span>
               </div>
