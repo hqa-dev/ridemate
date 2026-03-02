@@ -13,7 +13,7 @@ export const ku = {
 
   signIn: 'چوونە ژوورەوە',
   signUp: 'تۆمارکردن',
-signOut: 'دەرچوون',
+  signOut: 'دەرچوون',
   welcomeBack: 'بەخێربێیتەوە',
   noAccount: 'هەژمارت نییە؟',
   continueWithGoogle: 'بە گووگڵ بەژداربە',
@@ -62,7 +62,7 @@ signOut: 'دەرچوون',
 
   rideDetails: 'کورتەی گەشت',
   driverInfo: 'زانیاری شۆفێر',
-verified: 'ناسراوە ✓',
+  verified: 'ناسراوە ✓',
   price: 'نرخ',
   coffeeAndConvo: 'قاوەیەک بۆ شۆفێر، قسەی خۆش بۆ ڕێگا',
   coffeeNote: 'ئەمە بێ بەرامبەر نییە. پێویستە قاوەیەک بۆ شۆفێر بکڕی، لەوەشە شۆفێر داوای پارە بکا (کەمتر لە ٥ هەزار دینار)',
