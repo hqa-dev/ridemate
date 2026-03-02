@@ -219,7 +219,7 @@ export default function RideDetailPage() {
           .maybeSingle()
         if (findErr || !activeReq) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
         const { error } = await supabase.from('ride_requests')
-          .update({ status: 'cancelled', seen_by_passenger: true })
+          .update({ status: 'cancelled', seen_by_passenger: true, seen_by_driver: false })
           .eq('id', activeReq.id)
         if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
         if (activeReq.status === 'approved') {
@@ -253,7 +253,7 @@ export default function RideDetailPage() {
           .maybeSingle()
         if (findErr || !activeReq) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
         const { error } = await supabase.from('ride_requests')
-          .update({ status: 'cancelled' })
+          .update({ status: 'cancelled', seen_by_driver: false })
           .eq('id', activeReq.id)
         if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
         loadRide()
