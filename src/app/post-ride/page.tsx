@@ -159,7 +159,7 @@ export default function PostRidePage() {
     await supabase.from('ride_requests')
       .update({ status: 'cancelled', seen_by_passenger: false })
       .eq('ride_id', rideId)
-      .eq('status', 'approved')
+      .in('status', ['approved', 'pending'])
     loadPostedRides()
   }
 
