@@ -141,6 +141,10 @@ export default function PostRidePage() {
   }
 
   async function handleRequest(requestId: string, action: 'approved' | 'declined', rideId: string) {
+    if (action === 'approved') {
+      const ride = myPostedRides.find(r => r.id === rideId)
+      if (ride && ride.available_seats <= 0) return
+    }
     const { error: reqErr } = await supabase.from('ride_requests').update({ status: action }).eq('id', requestId)
     if (reqErr) { setError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
     if (action === 'approved') {
@@ -519,9 +523,9 @@ export default function PostRidePage() {
                       }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                           <span style={{ fontSize: 11, color: T.text, fontWeight: 500 }}>{req.passenger?.full_name || 'سەرنشین'}</span>
-                          {req.status === 'pending' ? (
+                          {req.status === 'pending' && !isCompleted && !isCancelled ? (
                             <div style={{ display: 'flex', gap: 5 }}>
-                              <button onClick={() => handleRequest(req.id, 'approved', ride.id)} style={{ background: '#16a34a', color: 'white', border: 'none', borderRadius: 7, padding: '4px 10px', fontSize: 10, fontWeight: 600, cursor: 'pointer' }}>قبوڵ</button>
+                              <button onClick={() => handleRequest(req.id, 'approved', ride.id)} disabled={ride.available_seats <= 0} style={{ background: ride.available_seats <= 0 ? '#333' : '#16a34a', color: 'white', border: 'none', borderRadius: 7, padding: '4px 10px', fontSize: 10, fontWeight: 600, cursor: ride.available_seats <= 0 ? 'default' : 'pointer', opacity: ride.available_seats <= 0 ? 0.5 : 1 }}>قبوڵ</button>
                               <button onClick={() => handleRequest(req.id, 'declined', ride.id)} style={{ background: T.border, color: '#f87171', border: 'none', borderRadius: 7, padding: '4px 10px', fontSize: 10, cursor: 'pointer' }}>ڕەت</button>
                             </div>
                           ) : (
