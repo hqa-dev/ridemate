@@ -166,17 +166,20 @@ export default function RideDetailPage() {
     setCompleting(false)
   }
 
-  async function handleCancelRide() {
+  async function handleCancelRide(e?: React.MouseEvent) {
+    if (e) { e.preventDefault(); e.stopPropagation() }
     if (!window.confirm('دڵنیایت لە هەڵوەشاندنەوەی ئەم گەشتە؟')) return
     setActionError('')
-    const { error: rideErr } = await supabase.from('rides').update({ status: 'cancelled' }).eq('id', rideId)
-    if (rideErr) { console.error('Cancel ride error:', rideErr); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
-    const { error: reqErr } = await supabase.from('ride_requests')
+    const { error: rideErr, data: rideData } = await supabase.from('rides').update({ status: 'cancelled' }).eq('id', rideId).select()
+    console.error('Cancel ride result:', { rideErr, rideData })
+    if (rideErr) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+    const { error: reqErr, data: reqData } = await supabase.from('ride_requests')
       .update({ status: 'cancelled', seen_by_passenger: false })
       .eq('ride_id', rideId)
       .in('status', ['approved', 'pending'])
-    if (reqErr) console.error('Cancel requests error:', reqErr)
-    setRide((prev: any) => ({ ...prev, status: 'cancelled' }))
+      .select()
+    console.error('Cancel requests result:', { reqErr, reqData })
+    window.location.reload()
   }
 
   async function handleCancelRequest() {
@@ -478,7 +481,7 @@ export default function RideDetailPage() {
                   borderRadius: 10, padding: '10px 0', fontSize: 13, fontWeight: 500,
                   textAlign: 'center', textDecoration: 'none',
                 }}>بەڕێوەبردن</Link>
-                <div onClick={handleCancelRide} style={{
+                <div onClick={(e) => handleCancelRide(e)} style={{
                   flex: 1, background: 'rgba(220,50,50,0.15)', color: '#dc2626',
                   borderRadius: 10, padding: '10px 0', fontSize: 13, fontWeight: 500,
                   textAlign: 'center', cursor: 'pointer',

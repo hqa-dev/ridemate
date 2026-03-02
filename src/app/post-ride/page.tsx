@@ -215,12 +215,15 @@ export default function PostRidePage() {
   }
 
   async function handleCancelRide(rideId: string) {
-    const { error: cancelErr } = await supabase.from('rides').update({ status: 'cancelled' }).eq('id', rideId)
+    const { error: cancelErr, data: cancelData } = await supabase.from('rides').update({ status: 'cancelled' }).eq('id', rideId).select()
+    console.error('Cancel ride result:', { cancelErr, cancelData })
     if (cancelErr) { setError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
-    await supabase.from('ride_requests')
+    const { error: reqErr, data: reqData } = await supabase.from('ride_requests')
       .update({ status: 'cancelled', seen_by_passenger: false })
       .eq('ride_id', rideId)
       .in('status', ['approved', 'pending'])
+      .select()
+    console.error('Cancel requests result:', { reqErr, reqData })
     loadPostedRides()
   }
 
