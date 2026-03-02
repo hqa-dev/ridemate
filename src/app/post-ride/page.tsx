@@ -189,7 +189,8 @@ export default function PostRidePage() {
   }
 
   async function handleRequest(requestId: string, action: 'approved' | 'declined', rideId: string) {
-    await supabase.from('ride_requests').update({ status: action }).eq('id', requestId)
+    const { error: reqErr } = await supabase.from('ride_requests').update({ status: action }).eq('id', requestId)
+    if (reqErr) { setError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
     if (action === 'approved') {
       await supabase.rpc('decrement_seats', { ride_id_input: rideId })
     }
@@ -197,7 +198,8 @@ export default function PostRidePage() {
   }
 
   async function handleCancelRide(rideId: string) {
-    await supabase.from('rides').update({ status: 'cancelled' }).eq('id', rideId)
+    const { error: cancelErr } = await supabase.from('rides').update({ status: 'cancelled' }).eq('id', rideId)
+    if (cancelErr) { setError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
     loadPostedRides()
   }
 

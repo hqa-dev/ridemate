@@ -132,6 +132,7 @@ export default function RideDetailPage() {
   const [driverTripCount, setDriverTripCount] = useState(0)
 
   const [completing, setCompleting] = useState(false)
+  const [actionError, setActionError] = useState('')
 
   useEffect(() => { loadRide() }, [rideId])
 
@@ -197,6 +198,7 @@ export default function RideDetailPage() {
     if (!currentUserId || !ride) return
     if (ride.available_seats <= 0) return
     setSending(true)
+    setActionError('')
     const { error } = await supabase.from('ride_requests').insert({
       ride_id: rideId,
       passenger_id: currentUserId,
@@ -204,7 +206,7 @@ export default function RideDetailPage() {
       dropoff: dropoff || null,
       status: 'pending',
     })
-    if (error) { setSending(false); return }
+    if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); setSending(false); return }
     setRequested(true)
     setRequestStatus('pending')
     setShowModal(false)
@@ -213,11 +215,12 @@ export default function RideDetailPage() {
 
   async function handleCompleteRide() {
     setCompleting(true)
+    setActionError('')
     const { error } = await supabase
       .from('rides')
       .update({ status: 'completed', completed_at: new Date().toISOString() })
       .eq('id', rideId)
-    if (error) { setCompleting(false); return }
+    if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); setCompleting(false); return }
     setRide((prev: any) => ({ ...prev, status: 'completed', completed_at: new Date().toISOString() }))
     setCompleting(false)
   }
@@ -225,6 +228,7 @@ export default function RideDetailPage() {
   async function handleSubmitRating() {
     if (!currentUserId || !ride || selectedRating === 0) return
     setSubmittingRating(true)
+    setActionError('')
     const visibleAfter = new Date(Date.now() + 72 * 60 * 60 * 1000).toISOString()
     const { error } = await supabase.from('ratings').insert({
       ride_id: rideId,
@@ -233,7 +237,7 @@ export default function RideDetailPage() {
       score: selectedRating,
       visible_after: visibleAfter,
     })
-    if (error) { setSubmittingRating(false); return }
+    if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); setSubmittingRating(false); return }
     setHasRated(true)
     setSubmittingRating(false)
   }
@@ -422,6 +426,7 @@ export default function RideDetailPage() {
 
         {/* ── Action Area ── */}
         <div style={{ borderTop: `1px solid ${T.border}`, padding: '16px 18px' }}>
+          {actionError && <p style={{ color: '#f87171', fontSize: 12, textAlign: 'center', marginBottom: 10 }}>{actionError}</p>}
 
           {/* Driver views */}
           {isOwnRide && (
