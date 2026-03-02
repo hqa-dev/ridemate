@@ -73,17 +73,20 @@ function StarSelector({ value, onChange }: { value: number; onChange: (v: number
 }
 
 function StarDisplay({ rating, size = 12 }: { rating: number; size?: number }) {
-  const stars = []
   const full = Math.floor(rating)
   const hasHalf = rating % 1 >= 0.3
-  for (let i = 0; i < 5; i++) {
-    if (i < full) stars.push('★')
-    else if (i === full && hasHalf) stars.push('★')
-    else stars.push('☆')
-  }
   return (
-    <span style={{ color: '#df6530', fontSize: size, letterSpacing: 1, direction: 'ltr', display: 'inline-block', opacity: 0.7 }}>
-      {stars.join('')}
+    <span style={{ color: '#df6530', fontSize: size, letterSpacing: 1, direction: 'ltr', display: 'inline-flex', alignItems: 'center', opacity: 0.7 }}>
+      {[0, 1, 2, 3, 4].map(i => {
+        if (i < full) return <span key={i}>★</span>
+        if (i === full && hasHalf) return (
+          <span key={i} style={{ position: 'relative', display: 'inline-block', width: '1em' }}>
+            <span style={{ color: 'rgba(255,255,255,0.06)' }}>★</span>
+            <span style={{ position: 'absolute', left: 0, top: 0, overflow: 'hidden', width: '0.5em' }}>★</span>
+          </span>
+        )
+        return <span key={i} style={{ color: 'rgba(255,255,255,0.06)' }}>★</span>
+      })}
     </span>
   )
 }
