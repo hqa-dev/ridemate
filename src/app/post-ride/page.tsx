@@ -533,11 +533,15 @@ export default function PostRidePage() {
                 {/* Status + hamburger + pending */}
                 <div style={{ borderTop: `1px solid ${T.border}`, padding: '5px 16px', display: 'flex', alignItems: 'center', gap: 6 }}>
                   <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <span style={{
-                      fontSize: 9, padding: '2px 8px', borderRadius: 20, fontWeight: 600,
-                      background: isCompleted ? T.greenBg : isCancelled ? '#2e1a1a' : isFull ? 'rgba(139,0,0,0.15)' : '#2e2a1a',
-                      color: isCompleted ? T.green : isCancelled ? '#f87171' : isFull ? '#8b0000' : '#fbbf24',
-                    }}>{isCompleted ? 'تەواو بوو ✓' : isCancelled ? 'هەڵوەشێنرایەوە' : isFull ? 'پڕە' : 'چالاک'}</span>
+                    {isFull ? (
+                      <span style={{ fontSize: 12, color: '#8b0000' }}>پڕە</span>
+                    ) : (
+                      <span style={{
+                        fontSize: 9, padding: '2px 8px', borderRadius: 20, fontWeight: 600,
+                        background: isCompleted ? T.greenBg : isCancelled ? '#2e1a1a' : '#2e2a1a',
+                        color: isCompleted ? T.green : isCancelled ? '#f87171' : '#fbbf24',
+                      }}>{isCompleted ? 'تەواو بوو ✓' : isCancelled ? 'هەڵوەشێنرایەوە' : 'چالاک'}</span>
+                    )}
                     {hasUnseenPending && <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'rgba(255,255,255,0.7)' }} />}
                     <span style={{ fontSize: 10, color: T.textDim }}>{ride.available_seats} جێ</span>
                   </div>
@@ -565,7 +569,7 @@ export default function PostRidePage() {
                       {ride.car_model && <div>مۆدێل: <span style={{ color: '#ccc' }}>{ride.car_model}</span></div>}
                       {carColor && <div>ڕەنگ: <span style={{ color: '#ccc' }}>{COLOR_KU[carColor.toLowerCase()] || carColor}</span></div>}
                       <div>نرخ: <span style={{ color: '#ccc' }}>{priceDisp}</span></div>
-                      <div>جێگای بەردەست: <span style={{ color: ride.available_seats > 0 ? '#ccc' : '#8b0000' }}>{ride.available_seats > 0 ? `${ride.available_seats} جێ` : 'پڕە'}</span></div>
+                      <div>جێگای بەردەست: <span style={{ color: ride.available_seats > 0 ? '#ccc' : '#8b0000', fontSize: ride.available_seats > 0 ? undefined : 12 }}>{ride.available_seats > 0 ? `${ride.available_seats} جێ` : 'پڕە'}</span></div>
                     </div>
                     {ride.notes && (
                       <div style={{ padding: '8px 12px', background: T.cardInner, borderRadius: 10, borderRight: `3px solid rgba(255,255,255,0.15)` }}>
