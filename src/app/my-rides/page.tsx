@@ -36,6 +36,8 @@ export default function MyRidesPage() {
         .from('ride_requests')
         .update({ seen_by_passenger: true })
         .in('id', unseen.map(r => r.id))
+      const unseenIds = new Set(unseen.map(r => r.id))
+      setJoinedRides(prev => prev.map(r => unseenIds.has(r.id) ? { ...r, seen_by_passenger: true } : r))
     }
   }
 
