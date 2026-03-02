@@ -194,6 +194,18 @@ export default function RideDetailPage() {
     setRide((prev: any) => ({ ...prev, available_seats: newSeats, ...(prev.available_seats === 0 ? { status: 'active' } : {}) }))
   }
 
+  async function handleWithdrawRequest() {
+    if (!window.confirm('دڵنیایت لە پاشگەزبوونەوە؟')) return
+    setActionError('')
+    const { error } = await supabase.from('ride_requests')
+      .delete()
+      .eq('ride_id', rideId)
+      .eq('passenger_id', currentUserId)
+    if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+    setRequested(false)
+    setRequestStatus(null)
+  }
+
   async function handleSubmitRating() {
     if (!currentUserId || !ride || selectedRating === 0) return
     setSubmittingRating(true)
@@ -585,15 +597,27 @@ export default function RideDetailPage() {
                 </div>
               </div>
             ) : (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0' }}>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                  <circle cx="12" cy="12" r="10" />
-                  <polyline points="12 6 12 12 16 14" />
-                </svg>
-                <div style={{ width: 1, height: 32, background: '#333', flexShrink: 0, margin: '0 5px' }} />
-                <div>
-                  <p style={{ fontWeight: 500, color: T.textMid, fontSize: 13, margin: '0 0 3px' }}>داواکاریەکت نێردرا</p>
-                  <p style={{ fontSize: 11, color: T.textFaint, margin: 0, lineHeight: 1.6 }}>کە داواکرییەکەت قبوڵ کرا، ژمارە مۆبایلی شۆفێر لێرە دەردەکەوێ</p>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0' }}>
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                  </svg>
+                  <div style={{ width: 1, height: 32, background: '#333', flexShrink: 0, margin: '0 5px' }} />
+                  <div>
+                    <p style={{ fontWeight: 500, color: T.textMid, fontSize: 13, margin: '0 0 3px' }}>داواکاریەکت نێردرا</p>
+                    <p style={{ fontSize: 11, color: T.textFaint, margin: 0, lineHeight: 1.6 }}>کە داواکرییەکەت قبوڵ کرا، ژمارە مۆبایلی شۆفێر لێرە دەردەکەوێ</p>
+                  </div>
+                </div>
+                <div
+                  onClick={handleWithdrawRequest}
+                  style={{
+                    background: 'rgba(220,50,50,0.15)', color: '#dc2626',
+                    borderRadius: 10, padding: 10, fontSize: 12, fontWeight: 500,
+                    textAlign: 'center', cursor: 'pointer', marginTop: 4,
+                  }}
+                >
+                  پاشگەزبوونەوە
                 </div>
               </div>
             )

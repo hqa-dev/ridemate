@@ -51,6 +51,13 @@ export default function MyRidesPage() {
     loadData()
   }
 
+  async function handleWithdrawRequest(requestId: string) {
+    if (!window.confirm('دڵنیایت لە پاشگەزبوونەوە؟')) return
+    const { error } = await supabase.from('ride_requests').delete().eq('id', requestId)
+    if (error) return
+    loadData()
+  }
+
   const toggle = (id: string) => setExpanded(prev => ({ ...prev, [id]: !prev[id] }))
 
   return (
@@ -240,12 +247,22 @@ export default function MyRidesPage() {
                 </div>
               )}
 
-              {/* Pending hint */}
+              {/* Pending hint + withdraw */}
               {req.status === 'pending' && !isRideCancelled && (
                 <div style={{ borderTop: `1px solid ${T.border}`, padding: '10px 16px' }}>
-                  <p style={{ fontSize: 10, color: T.textFaint, margin: 0, lineHeight: 1.6 }}>
+                  <p style={{ fontSize: 10, color: T.textFaint, margin: '0 0 8px', lineHeight: 1.6 }}>
                     کە داواکرییەکەت قبوڵ کرا، ژمارە مۆبایلی شۆفێر لێرە دەردەکەوێ
                   </p>
+                  <div
+                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleWithdrawRequest(req.id) }}
+                    style={{
+                      background: 'rgba(220,50,50,0.15)', color: '#dc2626',
+                      borderRadius: 10, padding: 9, fontSize: 11, fontWeight: 500,
+                      textAlign: 'center', cursor: 'pointer',
+                    }}
+                  >
+                    پاشگەزبوونەوە
+                  </div>
                 </div>
               )}
 
