@@ -219,7 +219,9 @@ export default function RideDetailPage() {
           .eq('id', activeReq.id)
         if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
         if (activeReq.status === 'approved') {
-          await supabase.rpc('increment_seats', { ride_id_input: rideId })
+          console.log('[cancelRequest] About to call increment_seats RPC for ride:', rideId)
+          const { data, error: rpcErr } = await supabase.rpc('increment_seats', { ride_id_input: rideId })
+          console.log('[cancelRequest] increment_seats RPC result:', JSON.stringify({ data, error: rpcErr }))
         }
         loadRide()
       },
