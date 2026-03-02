@@ -188,8 +188,11 @@ export default function PostRidePage() {
     else { setActiveTab('manage'); loadPostedRides(); setFromCity(''); setToCity(''); setDate(''); setTime(''); setSeats('1'); setPrice(''); setCarMake(''); setCarModel(''); setCarColor(''); setNotes(''); setLoading(false) }
   }
 
-  async function handleRequest(requestId: string, action: 'approved' | 'declined') {
+  async function handleRequest(requestId: string, action: 'approved' | 'declined', rideId: string) {
     await supabase.from('ride_requests').update({ status: action }).eq('id', requestId)
+    if (action === 'approved') {
+      await supabase.rpc('decrement_seats', { ride_id_input: rideId })
+    }
     loadPostedRides()
   }
 
@@ -560,8 +563,8 @@ export default function PostRidePage() {
                           <span style={{ fontSize: 11, color: T.text, fontWeight: 500 }}>{req.passenger?.full_name || 'سەرنشین'}</span>
                           {req.status === 'pending' ? (
                             <div style={{ display: 'flex', gap: 5 }}>
-                              <button onClick={() => handleRequest(req.id, 'approved')} style={{ background: '#16a34a', color: 'white', border: 'none', borderRadius: 7, padding: '4px 10px', fontSize: 10, fontWeight: 600, cursor: 'pointer' }}>قبوڵ</button>
-                              <button onClick={() => handleRequest(req.id, 'declined')} style={{ background: T.border, color: '#f87171', border: 'none', borderRadius: 7, padding: '4px 10px', fontSize: 10, cursor: 'pointer' }}>ڕەت</button>
+                              <button onClick={() => handleRequest(req.id, 'approved', ride.id)} style={{ background: '#16a34a', color: 'white', border: 'none', borderRadius: 7, padding: '4px 10px', fontSize: 10, fontWeight: 600, cursor: 'pointer' }}>قبوڵ</button>
+                              <button onClick={() => handleRequest(req.id, 'declined', ride.id)} style={{ background: T.border, color: '#f87171', border: 'none', borderRadius: 7, padding: '4px 10px', fontSize: 10, cursor: 'pointer' }}>ڕەت</button>
                             </div>
                           ) : (
                             <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
