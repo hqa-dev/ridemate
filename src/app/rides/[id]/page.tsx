@@ -101,7 +101,7 @@ export default function RideDetailPage() {
         .select('id, status')
         .eq('ride_id', rideId)
         .eq('passenger_id', user.id)
-        .in('status', ['pending', 'approved'])
+        .not('status', 'in', '("cancelled","declined")')
         .maybeSingle()
       if (existing) {
         setRequested(true)
@@ -209,6 +209,7 @@ export default function RideDetailPage() {
           .update({ status: 'cancelled', seen_by_passenger: true })
           .eq('ride_id', rideId)
           .eq('passenger_id', currentUserId)
+          .in('status', ['pending', 'approved'])
         if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
         const newSeats = ride.available_seats + 1
         const updates: any = { available_seats: newSeats }
@@ -231,6 +232,7 @@ export default function RideDetailPage() {
           .delete()
           .eq('ride_id', rideId)
           .eq('passenger_id', currentUserId)
+          .in('status', ['pending'])
         if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
         setRequested(false)
         setRequestStatus(null)
