@@ -534,7 +534,7 @@ export default function PostRidePage() {
                 <div style={{ borderTop: `1px solid ${T.border}`, padding: '5px 16px', display: 'flex', alignItems: 'center', gap: 6 }}>
                   <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 6 }}>
                     {isFull ? (
-                      <span style={{ fontSize: 12, color: '#8b0000' }}>پڕە</span>
+                      <span style={{ fontSize: 12, color: '#8b0000', fontWeight: 700 }}>پڕە</span>
                     ) : (
                       <span style={{
                         fontSize: 9, padding: '2px 8px', borderRadius: 20, fontWeight: 600,
@@ -569,7 +569,7 @@ export default function PostRidePage() {
                       {ride.car_model && <div>مۆدێل: <span style={{ color: '#ccc' }}>{ride.car_model}</span></div>}
                       {carColor && <div>ڕەنگ: <span style={{ color: '#ccc' }}>{COLOR_KU[carColor.toLowerCase()] || carColor}</span></div>}
                       <div>نرخ: <span style={{ color: '#ccc' }}>{priceDisp}</span></div>
-                      <div>جێگای بەردەست: <span style={{ color: ride.available_seats > 0 ? '#ccc' : '#8b0000', fontSize: ride.available_seats > 0 ? undefined : 12 }}>{ride.available_seats > 0 ? `${ride.available_seats} جێ` : 'پڕە'}</span></div>
+                      <div>جێگای بەردەست: <span style={{ color: ride.available_seats > 0 ? '#ccc' : '#8b0000', fontSize: ride.available_seats > 0 ? undefined : 12, fontWeight: ride.available_seats > 0 ? undefined : 700 }}>{ride.available_seats > 0 ? `${ride.available_seats} جێ` : 'پڕە'}</span></div>
                     </div>
                     {ride.notes && (
                       <div style={{ padding: '8px 12px', background: T.cardInner, borderRadius: 10, borderRight: `3px solid rgba(255,255,255,0.15)` }}>

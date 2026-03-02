@@ -205,7 +205,7 @@ export default function HomePage() {
               {/* Footer — driver · seats · price */}
               <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '10px 18px', display: 'flex', alignItems: 'center', direction: 'rtl' }}>
                 <span style={{ flex: 1, textAlign: 'right', fontSize: 12, color: '#aaa' }}>{driver.full_name || 'شۆفێر'}</span>
-                <span style={{ flex: 1, textAlign: 'center', fontSize: 12, color: isFull ? '#8b0000' : '#777' }}>
+                <span style={{ flex: 1, textAlign: 'center', fontSize: 12, color: isFull ? '#8b0000' : '#777', fontWeight: isFull ? 700 : undefined }}>
                   {isFull ? 'پڕە' : seatsDisplay}
                 </span>
                 <span style={{ flex: 1, textAlign: 'left', fontSize: 12, fontWeight: 400, color: '#aaa' }}>{priceDisplay}</span>
