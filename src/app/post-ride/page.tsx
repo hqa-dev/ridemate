@@ -202,7 +202,7 @@ export default function PostRidePage() {
       const ride = myPostedRides.find(r => r.id === rideId)
       if (ride && ride.available_seats <= 0) return
     }
-    const { error: reqErr } = await supabase.from('ride_requests').update({ status: action }).eq('id', requestId)
+    const { error: reqErr } = await supabase.from('ride_requests').update({ status: action, seen_by_passenger: false }).eq('id', requestId)
     if (reqErr) { setError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
     if (action === 'approved') {
       await supabase.rpc('decrement_seats', { ride_id_input: rideId })

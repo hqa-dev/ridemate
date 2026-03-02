@@ -182,7 +182,7 @@ export default function RideDetailPage() {
     if (!window.confirm('دڵنیایت لە هەڵوەشاندنەوەی داواکاریەکەت؟')) return
     setActionError('')
     const { error } = await supabase.from('ride_requests')
-      .update({ status: 'cancelled' })
+      .update({ status: 'cancelled', seen_by_passenger: true })
       .eq('ride_id', rideId)
       .eq('passenger_id', currentUserId)
     if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
