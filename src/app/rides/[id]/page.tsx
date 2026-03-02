@@ -208,23 +208,28 @@ export default function RideDetailPage() {
       action: async () => {
         setConfirmModal(null)
         setActionError('')
-        // Query the active request ID fresh to avoid stale closure
-        const { data: activeReq } = await supabase.from('ride_requests')
+        // Get user fresh from auth — no closure dependency
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) { setActionError('تکایە دووبارە بچۆرەوە ژوورەوە'); return }
+        const { data: activeReq, error: findErr } = await supabase.from('ride_requests')
           .select('id, status')
           .eq('ride_id', rideId)
-          .eq('passenger_id', currentUserId!)
+          .eq('passenger_id', user.id)
           .in('status', ['pending', 'approved'])
           .maybeSingle()
-        if (!activeReq) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        if (findErr || !activeReq) { console.error('Find request error:', findErr, 'rideId:', rideId, 'userId:', user.id); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
         const { error } = await supabase.from('ride_requests')
           .update({ status: 'cancelled', seen_by_passenger: true })
           .eq('id', activeReq.id)
-        if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        if (error) { console.error('Cancel request error:', error); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
         if (activeReq.status === 'approved') {
-          const newSeats = (ride?.available_seats ?? 0) + 1
-          const updates: any = { available_seats: newSeats }
-          if (ride?.available_seats === 0) updates.status = 'active'
-          await supabase.from('rides').update(updates).eq('id', rideId)
+          const { data: freshRide } = await supabase.from('rides').select('available_seats').eq('id', rideId).single()
+          if (freshRide) {
+            const newSeats = freshRide.available_seats + 1
+            const updates: any = { available_seats: newSeats }
+            if (freshRide.available_seats === 0) updates.status = 'active'
+            await supabase.from('rides').update(updates).eq('id', rideId)
+          }
         }
         loadRide()
       },
@@ -237,18 +242,20 @@ export default function RideDetailPage() {
       action: async () => {
         setConfirmModal(null)
         setActionError('')
-        // Query the active request ID fresh to avoid stale closure
-        const { data: activeReq } = await supabase.from('ride_requests')
+        // Get user fresh from auth — no closure dependency
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) { setActionError('تکایە دووبارە بچۆرەوە ژوورەوە'); return }
+        const { data: activeReq, error: findErr } = await supabase.from('ride_requests')
           .select('id')
           .eq('ride_id', rideId)
-          .eq('passenger_id', currentUserId!)
+          .eq('passenger_id', user.id)
           .in('status', ['pending'])
           .maybeSingle()
-        if (!activeReq) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        if (findErr || !activeReq) { console.error('Find request error:', findErr, 'rideId:', rideId, 'userId:', user.id); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
         const { error } = await supabase.from('ride_requests')
           .update({ status: 'cancelled' })
           .eq('id', activeReq.id)
-        if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        if (error) { console.error('Withdraw request error:', error); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
         loadRide()
       },
     })
