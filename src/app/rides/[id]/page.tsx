@@ -65,6 +65,7 @@ export default function RideDetailPage() {
   const [currentUserId, setCurrentUserId] = useState<string | null>(null)
   const [isOwnRide, setIsOwnRide] = useState(false)
   const [requestStatus, setRequestStatus] = useState<string | null>(null)
+  const [requestDbId, setRequestDbId] = useState<string | null>(null)
 
   const [selectedRating, setSelectedRating] = useState(0)
   const [hasRated, setHasRated] = useState(false)
@@ -106,9 +107,11 @@ export default function RideDetailPage() {
       if (existing) {
         setRequested(true)
         setRequestStatus(existing.status)
+        setRequestDbId(existing.id)
       } else {
         setRequested(false)
         setRequestStatus(null)
+        setRequestDbId(null)
       }
     }
 
@@ -153,15 +156,18 @@ export default function RideDetailPage() {
       .eq('passenger_id', currentUserId)
       .in('status', ['cancelled', 'declined'])
       .select()
-    if (!revived || revived.length === 0) {
-      const { error } = await supabase.from('ride_requests').insert({
+    if (revived && revived.length > 0) {
+      setRequestDbId(revived[0].id)
+    } else {
+      const { data: inserted, error } = await supabase.from('ride_requests').insert({
         ride_id: rideId,
         passenger_id: currentUserId,
         pickup: pickup || null,
         dropoff: dropoff || null,
         status: 'pending',
-      })
-      if (error) { console.error('Send request error:', error); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); setSending(false); return }
+      }).select()
+      if (error || !inserted || inserted.length === 0) { console.error('Send request error:', error); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); setSending(false); return }
+      setRequestDbId(inserted[0].id)
     }
     setRequested(true)
     setRequestStatus('pending')
@@ -208,15 +214,12 @@ export default function RideDetailPage() {
       action: async () => {
         setConfirmModal(null)
         setActionError('')
-        const { data: cancelled, error } = await supabase.from('ride_requests')
-          .update({ status: 'cancelled' })
-          .eq('ride_id', rideId)
-          .eq('passenger_id', currentUserId)
-          .in('status', ['pending', 'approved'])
-          .select()
-        if (error || !cancelled || cancelled.length === 0) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
-        const wasApproved = cancelled.some((r: any) => r.status === 'cancelled' && requestStatus === 'approved')
-        if (wasApproved) {
+        if (!requestDbId) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        const { error } = await supabase.from('ride_requests')
+          .update({ status: 'cancelled', seen_by_passenger: true })
+          .eq('id', requestDbId)
+        if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        if (requestStatus === 'approved') {
           const newSeats = ride.available_seats + 1
           const updates: any = { available_seats: newSeats }
           if (ride.available_seats === 0) updates.status = 'active'
@@ -225,6 +228,7 @@ export default function RideDetailPage() {
         }
         setRequested(false)
         setRequestStatus(null)
+        setRequestDbId(null)
       },
     })
   }
@@ -235,14 +239,14 @@ export default function RideDetailPage() {
       action: async () => {
         setConfirmModal(null)
         setActionError('')
+        if (!requestDbId) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
         const { error } = await supabase.from('ride_requests')
           .update({ status: 'cancelled' })
-          .eq('ride_id', rideId)
-          .eq('passenger_id', currentUserId)
-          .in('status', ['pending'])
+          .eq('id', requestDbId)
         if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
         setRequested(false)
         setRequestStatus(null)
+        setRequestDbId(null)
       },
     })
   }
