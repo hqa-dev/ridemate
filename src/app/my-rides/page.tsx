@@ -213,7 +213,7 @@ export default function MyRidesPage() {
               )}
 
               {/* Pending hint */}
-              {req.status === 'pending' && (
+              {req.status === 'pending' && !isRideCancelled && (
                 <div style={{ borderTop: `1px solid ${T.border}`, padding: '10px 16px' }}>
                   <p style={{ fontSize: 10, color: T.textFaint, margin: 0, lineHeight: 1.6 }}>
                     کە داواکرییەکەت قبوڵ کرا، ژمارە مۆبایلی شۆفێر لێرە دەردەکەوێ
