@@ -108,19 +108,19 @@ export default function AdminPage() {
                   {docUrls[p.id]?.id && (
                     <div>
                       <div style={{ fontSize: '0.75rem', color: '#78716c', marginBottom: '0.25rem', fontWeight: 600 }}>ID</div>
-                      <a href={docUrls[p.id].id} target="_blank"><img src={docUrls[p.id].id} alt="ID" style={imgStyle} /></a>
+                      <a href={docUrls[p.id].id} target="_blank" rel="noopener noreferrer"><img src={docUrls[p.id].id} alt="ID" style={imgStyle} /></a>
                     </div>
                   )}
                   {docUrls[p.id]?.selfie && (
                     <div>
                       <div style={{ fontSize: '0.75rem', color: '#78716c', marginBottom: '0.25rem', fontWeight: 600 }}>Selfie</div>
-                      <a href={docUrls[p.id].selfie} target="_blank"><img src={docUrls[p.id].selfie} alt="Selfie" style={imgStyle} /></a>
+                      <a href={docUrls[p.id].selfie} target="_blank" rel="noopener noreferrer"><img src={docUrls[p.id].selfie} alt="Selfie" style={imgStyle} /></a>
                     </div>
                   )}
                   {docUrls[p.id]?.license && (
                     <div>
                       <div style={{ fontSize: '0.75rem', color: '#78716c', marginBottom: '0.25rem', fontWeight: 600 }}>License</div>
-                      <a href={docUrls[p.id].license} target="_blank"><img src={docUrls[p.id].license} alt="License" style={imgStyle} /></a>
+                      <a href={docUrls[p.id].license} target="_blank" rel="noopener noreferrer"><img src={docUrls[p.id].license} alt="License" style={imgStyle} /></a>
                     </div>
                   )}
                   {!docUrls[p.id]?.id && !docUrls[p.id]?.selfie && !docUrls[p.id]?.license && (
