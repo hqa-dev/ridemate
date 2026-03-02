@@ -214,7 +214,8 @@ export default function RideDetailPage() {
         const updates: any = { available_seats: newSeats }
         if (ride.available_seats === 0) updates.status = 'active'
         await supabase.from('rides').update(updates).eq('id', rideId)
-        setRequestStatus('cancelled')
+        setRequested(false)
+        setRequestStatus(null)
         setRide((prev: any) => ({ ...prev, available_seats: newSeats, ...(prev.available_seats === 0 ? { status: 'active' } : {}) }))
       },
     })
