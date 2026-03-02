@@ -282,7 +282,7 @@ export default function RideDetailPage() {
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={T.red} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
             <circle cx="12" cy="12" r="10" /><path d="M15 9l-6 6M9 9l6 6" />
           </svg>
-          <span style={{ fontSize: 12, color: T.red, fontWeight: 500 }}>ئەم گەشتە هەڵوەشێنراوەتەوە</span>
+          <span style={{ fontSize: 12, color: T.red, fontWeight: 500 }}>هەڵوەشێنرایەوە</span>
         </div>
       )}
 
@@ -456,7 +456,7 @@ export default function RideDetailPage() {
               </div>
             ) : isCancelled ? (
               <div style={{ textAlign: 'center', padding: '8px 0' }}>
-                <p style={{ fontSize: 12, color: T.textDim, margin: 0 }}>ئەم گەشتە هەڵوەشێنراوەتەوە</p>
+                <p style={{ fontSize: 12, color: T.textDim, margin: 0 }}>هەڵوەشێنرایەوە</p>
               </div>
             ) : (
               <div style={{ display: 'flex', gap: 8 }}>
@@ -478,7 +478,7 @@ export default function RideDetailPage() {
           {!isOwnRide && (
             isCancelled ? (
               <div style={{ textAlign: 'center', padding: '8px 0' }}>
-                <p style={{ fontWeight: 500, color: T.textDim, fontSize: 13, margin: 0 }}>ئەم گەشتە هەڵوەشێنراوەتەوە</p>
+                <p style={{ fontWeight: 500, color: T.textDim, fontSize: 13, margin: 0 }}>هەڵوەشێنرایەوە</p>
               </div>
             ) :
             isCompleted && requestStatus === 'approved' ? (

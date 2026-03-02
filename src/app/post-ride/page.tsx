@@ -533,7 +533,7 @@ export default function PostRidePage() {
                       fontSize: 9, padding: '2px 8px', borderRadius: 20, fontWeight: 600,
                       background: isCompleted ? T.greenBg : isCancelled ? '#2e1a1a' : isFull ? 'rgba(139,0,0,0.15)' : '#2e2a1a',
                       color: isCompleted ? T.green : isCancelled ? '#f87171' : isFull ? '#8b0000' : '#fbbf24',
-                    }}>{isCompleted ? 'تەواو بوو ✓' : isCancelled ? 'هەڵوەشاوە' : isFull ? 'پڕە' : 'چالاک'}</span>
+                    }}>{isCompleted ? 'تەواو بوو ✓' : isCancelled ? 'هەڵوەشێنرایەوە' : isFull ? 'پڕە' : 'چالاک'}</span>
                     {hasUnseenPending && <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'rgba(255,255,255,0.7)' }} />}
                     <span style={{ fontSize: 10, color: T.textDim }}>{ride.available_seats} جێ</span>
                   </div>
@@ -590,7 +590,7 @@ export default function PostRidePage() {
                             </div>
                           ) : (
                             <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                              <span style={{ fontSize: 9, padding: '2px 7px', borderRadius: 20, fontWeight: 600, background: req.status === 'approved' ? T.greenBg : req.status === 'cancelled' ? T.redBg : '#2e1a1a', color: req.status === 'approved' ? T.green : req.status === 'cancelled' ? T.red : '#f87171' }}>{req.status === 'approved' ? 'قبوڵ کرا' : req.status === 'cancelled' ? 'هەڵوەشێنراوە' : 'ڕەتکرایەوە'}</span>
+                              <span style={{ fontSize: 9, padding: '2px 7px', borderRadius: 20, fontWeight: 600, background: req.status === 'approved' ? T.greenBg : req.status === 'cancelled' ? T.redBg : '#2e1a1a', color: req.status === 'approved' ? T.green : req.status === 'cancelled' ? T.red : '#f87171' }}>{req.status === 'approved' ? 'قبوڵ کرا' : req.status === 'cancelled' ? 'هەڵوەشێنرایەوە' : 'ڕەتکرایەوە'}</span>
                               {req.status === 'approved' && req.passenger?.phone && (
                                 <a href={formatWhatsApp(req.passenger.phone)} target="_blank" rel="noopener noreferrer" style={{ background: '#25D366', color: 'white', borderRadius: 7, padding: '3px 8px', fontSize: 9, fontWeight: 600, textDecoration: 'none' }}>WhatsApp</a>
                               )}

@@ -87,10 +87,10 @@ export default function MyRidesPage() {
           pending: { text: 'چاوەڕوانە', color: '#fbbf24', bg: '#2e2a1a' },
           approved: { text: isCompleted ? 'تەواو بوو ✓' : 'قبوڵ کرا', color: T.green, bg: T.greenBg },
           declined: { text: 'ڕەت کرایەوە', color: '#dc2626', bg: '#2e1a1a' },
-          cancelled: { text: 'شۆفێر گەشتەکەی هەڵوەشاندەوە', color: T.textMid, bg: T.border },
+          cancelled: { text: 'هەڵوەشێنرایەوە', color: T.textMid, bg: T.border },
         }
         const st = isRideCancelled
-          ? { text: 'گەشت هەڵوەشێنراوەتەوە', color: '#dc2626', bg: '#2e1a1a' }
+          ? { text: 'هەڵوەشێنرایەوە', color: '#dc2626', bg: '#2e1a1a' }
           : (statusConfig[req.status] || statusConfig.pending)
 
         return (
@@ -259,7 +259,7 @@ export default function MyRidesPage() {
               {/* Cancelled by driver */}
               {req.status === 'cancelled' && (
                 <div style={{ borderTop: `1px solid ${T.border}`, padding: '10px 16px' }}>
-                  <p style={{ fontSize: 10, color: T.textFaint, margin: 0 }}>شۆفێر ئەم گەشتە هەڵیوەشاندەوە</p>
+                  <p style={{ fontSize: 10, color: T.textFaint, margin: 0 }}>هەڵوەشێنرایەوە</p>
                 </div>
               )}
             </div>
