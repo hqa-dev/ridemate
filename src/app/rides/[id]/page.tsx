@@ -219,13 +219,7 @@ export default function RideDetailPage() {
           .eq('id', activeReq.id)
         if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
         if (activeReq.status === 'approved') {
-          const { data: freshRide } = await supabase.from('rides').select('available_seats').eq('id', rideId).single()
-          if (freshRide) {
-            const newSeats = freshRide.available_seats + 1
-            const updates: any = { available_seats: newSeats }
-            if (freshRide.available_seats === 0) updates.status = 'active'
-            await supabase.from('rides').update(updates).eq('id', rideId)
-          }
+          await supabase.rpc('increment_seats', { ride_id_input: rideId })
         }
         loadRide()
       },
