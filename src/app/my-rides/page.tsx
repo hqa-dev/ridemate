@@ -168,7 +168,7 @@ export default function MyRidesPage() {
                     {ride.car_model && <div>مۆدێل: <span style={{ color: '#ccc' }}>{ride.car_model}</span></div>}
                     {carColor && <div>ڕەنگ: <span style={{ color: '#ccc' }}>{COLOR_KU[carColor.toLowerCase()] || carColor}</span></div>}
                     <div>نرخ: <span style={{ color: '#ccc' }}>{priceDisplay}</span></div>
-                    <div>جێگای بەردەست: <span style={{ color: '#ccc' }}>{ride.available_seats > 0 ? `${ride.available_seats} جێ` : 'پڕە'}</span></div>
+                    <div>جێگای بەردەست: <span style={{ color: ride.available_seats > 0 ? '#ccc' : '#8b0000' }}>{ride.available_seats > 0 ? `${ride.available_seats} جێ` : 'پڕە'}</span></div>
                   </div>
                   {ride.notes && (
                     <div style={{ padding: '8px 12px', background: T.cardInner, borderRadius: 10, borderRight: '3px solid rgba(255,255,255,0.15)' }}>
