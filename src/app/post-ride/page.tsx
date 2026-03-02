@@ -48,6 +48,7 @@ export default function PostRidePage() {
   const [myPostedRides, setMyPostedRides] = useState<any[]>([])
   const [expanded, setExpanded] = useState<Record<string, boolean>>({})
   const [loadingManage, setLoadingManage] = useState(false)
+  const [unseenPendingCount, setUnseenPendingCount] = useState(0)
 
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get('tab') === 'manage') setActiveTab('manage')
@@ -63,6 +64,16 @@ export default function PostRidePage() {
       setIsVerifiedDriver(true)
     }
     setChecking(false)
+  }
+
+  async function loadUnseenCount() {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return
+    const { data: myRides } = await supabase.from('rides').select('id').eq('driver_id', user.id).in('status', ['active', 'full'])
+    if (!myRides?.length) return
+    const { count } = await supabase.from('ride_requests').select('*', { count: 'exact', head: true })
+      .in('ride_id', myRides.map(r => r.id)).eq('status', 'pending').eq('seen_by_driver', false)
+    setUnseenPendingCount(count || 0)
   }
 
   async function loadPostedRides() {
@@ -82,6 +93,7 @@ export default function PostRidePage() {
       )
       if (unseenIds.length > 0) {
         await supabase.from('ride_requests').update({ seen_by_driver: true }).in('id', unseenIds)
+        setUnseenPendingCount(0)
       }
       setMyPostedRides(rides.map(r => ({
         ...r,
@@ -96,13 +108,15 @@ export default function PostRidePage() {
   }
 
   useEffect(() => {
+    if (isVerifiedDriver) loadUnseenCount()
+  }, [isVerifiedDriver])
+
+  useEffect(() => {
     if (activeTab === 'manage' && isVerifiedDriver) loadPostedRides()
   }, [activeTab, isVerifiedDriver])
 
   const toggle = (id: string) => setExpanded(prev => ({ ...prev, [id]: !prev[id] }))
 
-  const totalPending = myPostedRides.reduce((sum, r) =>
-    sum + (r.ride_requests?.filter((req: any) => req.status === 'pending').length || 0), 0)
 
   // ─── Become a Driver: submit ───
   async function handleVerifySubmit() {
@@ -342,7 +356,7 @@ export default function PostRidePage() {
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
         }}>
           گەشتەکانم
-          {totalPending > 0 && <span style={{ background: T.orange, color: '#fff', fontSize: 9, fontWeight: 700, borderRadius: 10, padding: '1px 6px' }}>{toKurdishNum(totalPending)}</span>}
+          {unseenPendingCount > 0 && <span style={{ background: 'rgba(255,255,255,0.85)', color: '#0e1015', fontSize: 8, fontWeight: 700, borderRadius: 7, minWidth: 14, height: 14, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '0 3px' }}>{toKurdishNum(unseenPendingCount)}</span>}
         </div>
       </div>
 
