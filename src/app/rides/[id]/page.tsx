@@ -179,7 +179,7 @@ export default function RideDetailPage() {
   }
 
   async function handleCancelRequest() {
-    if (!window.confirm('دڵنیایت لە هەڵوەشاندنەوەی داواکاریەکەت؟')) return
+    if (!window.confirm('دڵنیایت لە پاشگەزبوونەوە؟')) return
     setActionError('')
     const { error } = await supabase.from('ride_requests')
       .update({ status: 'cancelled', seen_by_passenger: true })
@@ -581,7 +581,7 @@ export default function RideDetailPage() {
                     textAlign: 'center', cursor: 'pointer', marginTop: 12,
                   }}
                 >
-                  هەڵوەشاندنەوەی داواکاری
+                  پاشگەزبوونەوە
                 </div>
               </div>
             ) : requestStatus === 'declined' ? (

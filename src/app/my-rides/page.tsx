@@ -42,7 +42,7 @@ export default function MyRidesPage() {
   }
 
   async function handleCancelRequest(requestId: string, rideId: string, currentSeats: number) {
-    if (!window.confirm('دڵنیایت لە هەڵوەشاندنەوەی داواکاریەکەت؟')) return
+    if (!window.confirm('دڵنیایت لە پاشگەزبوونەوە؟')) return
     const { error } = await supabase.from('ride_requests').update({ status: 'cancelled', seen_by_passenger: true }).eq('id', requestId)
     if (error) return
     const updates: any = { available_seats: currentSeats + 1 }
@@ -223,7 +223,7 @@ export default function MyRidesPage() {
                       textAlign: 'center', cursor: 'pointer',
                     }}
                   >
-                    هەڵوەشاندنەوەی داواکاری
+                    پاشگەزبوونەوە
                   </div>
                 </div>
               )}
