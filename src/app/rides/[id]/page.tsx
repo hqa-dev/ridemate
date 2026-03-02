@@ -146,20 +146,23 @@ export default function RideDetailPage() {
     if (ride.available_seats <= 0) return
     setSending(true)
     setActionError('')
-    // Remove any old cancelled/declined request before re-requesting
-    await supabase.from('ride_requests')
-      .delete()
+    // Try to revive an old cancelled/declined request first, otherwise insert new
+    const { data: revived } = await supabase.from('ride_requests')
+      .update({ status: 'pending', pickup: pickup || null, dropoff: dropoff || null })
       .eq('ride_id', rideId)
       .eq('passenger_id', currentUserId)
       .in('status', ['cancelled', 'declined'])
-    const { error } = await supabase.from('ride_requests').insert({
-      ride_id: rideId,
-      passenger_id: currentUserId,
-      pickup: pickup || null,
-      dropoff: dropoff || null,
-      status: 'pending',
-    })
-    if (error) { console.error('Send request error:', error); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); setSending(false); return }
+      .select()
+    if (!revived || revived.length === 0) {
+      const { error } = await supabase.from('ride_requests').insert({
+        ride_id: rideId,
+        passenger_id: currentUserId,
+        pickup: pickup || null,
+        dropoff: dropoff || null,
+        status: 'pending',
+      })
+      if (error) { console.error('Send request error:', error); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); setSending(false); return }
+    }
     setRequested(true)
     setRequestStatus('pending')
     setShowModal(false)
@@ -229,7 +232,7 @@ export default function RideDetailPage() {
         setConfirmModal(null)
         setActionError('')
         const { error } = await supabase.from('ride_requests')
-          .delete()
+          .update({ status: 'cancelled' })
           .eq('ride_id', rideId)
           .eq('passenger_id', currentUserId)
           .in('status', ['pending'])
