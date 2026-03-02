@@ -217,14 +217,11 @@ export default function RideDetailPage() {
           .eq('passenger_id', user.id)
           .in('status', ['pending', 'approved'])
           .maybeSingle()
-        if (findErr || !activeReq) { console.error('[handleCancelRequest] Find request error:', JSON.stringify(findErr, null, 2), 'rideId:', rideId, 'userId:', user.id); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
-        console.log('[handleCancelRequest] Found request:', JSON.stringify(activeReq), '— calling .update({ status: cancelled, seen_by_passenger: true }).eq(id,', activeReq.id, ')')
-        const { error, data: updateResult } = await supabase.from('ride_requests')
+        if (findErr || !activeReq) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        const { error } = await supabase.from('ride_requests')
           .update({ status: 'cancelled', seen_by_passenger: true })
           .eq('id', activeReq.id)
-          .select()
-        console.log('[handleCancelRequest] Update result:', JSON.stringify({ error, updateResult }, null, 2))
-        if (error) { console.error('[handleCancelRequest] FAILED:', JSON.stringify(error, null, 2)); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
         if (activeReq.status === 'approved') {
           const { data: freshRide } = await supabase.from('rides').select('available_seats').eq('id', rideId).single()
           if (freshRide) {
@@ -254,14 +251,11 @@ export default function RideDetailPage() {
           .eq('passenger_id', user.id)
           .in('status', ['pending'])
           .maybeSingle()
-        if (findErr || !activeReq) { console.error('[handleWithdrawRequest] Find request error:', JSON.stringify(findErr, null, 2), 'rideId:', rideId, 'userId:', user.id); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
-        console.log('[handleWithdrawRequest] Found request:', JSON.stringify(activeReq), '— calling .update({ status: cancelled }).eq(id,', activeReq.id, ')')
-        const { error, data: updateResult } = await supabase.from('ride_requests')
+        if (findErr || !activeReq) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        const { error } = await supabase.from('ride_requests')
           .update({ status: 'cancelled' })
           .eq('id', activeReq.id)
-          .select()
-        console.log('[handleWithdrawRequest] Update result:', JSON.stringify({ error, updateResult }, null, 2))
-        if (error) { console.error('[handleWithdrawRequest] FAILED:', JSON.stringify(error, null, 2)); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
         loadRide()
       },
     })
