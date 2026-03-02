@@ -217,11 +217,12 @@ export default function RideDetailPage() {
           .eq('passenger_id', user.id)
           .in('status', ['pending', 'approved'])
           .maybeSingle()
-        if (findErr || !activeReq) { console.error('Find request error:', findErr, 'rideId:', rideId, 'userId:', user.id); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        if (findErr || !activeReq) { console.error('Find request error:', JSON.stringify(findErr, null, 2), 'rideId:', rideId, 'userId:', user.id); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        console.log('Attempting cancel for request id:', activeReq.id, 'status:', activeReq.status)
         const { error } = await supabase.from('ride_requests')
           .update({ status: 'cancelled', seen_by_passenger: true })
           .eq('id', activeReq.id)
-        if (error) { console.error('Cancel request error:', error); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        if (error) { console.error('Cancel request error:', JSON.stringify(error, null, 2)); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
         if (activeReq.status === 'approved') {
           const { data: freshRide } = await supabase.from('rides').select('available_seats').eq('id', rideId).single()
           if (freshRide) {
@@ -251,11 +252,12 @@ export default function RideDetailPage() {
           .eq('passenger_id', user.id)
           .in('status', ['pending'])
           .maybeSingle()
-        if (findErr || !activeReq) { console.error('Find request error:', findErr, 'rideId:', rideId, 'userId:', user.id); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        if (findErr || !activeReq) { console.error('Find request error:', JSON.stringify(findErr, null, 2), 'rideId:', rideId, 'userId:', user.id); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        console.log('Attempting withdraw for request id:', activeReq.id)
         const { error } = await supabase.from('ride_requests')
           .update({ status: 'cancelled' })
           .eq('id', activeReq.id)
-        if (error) { console.error('Withdraw request error:', error); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        if (error) { console.error('Withdraw request error:', JSON.stringify(error, null, 2)); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
         loadRide()
       },
     })
