@@ -172,9 +172,13 @@ export default function PostRidePage() {
   }
 
   async function handleSubmit() {
-    if (!fromCity || !toCity || !date || !time || !seats) {
-      setError('تکایە هەموو خانەکان پڕبکەرەوە'); return
-    }
+    if (!fromCity) { setError('تکایە شاری دەستپێکردن دیاری بکە'); return }
+    if (!toCity) { setError('تکایە شاری مەبەست دیاری بکە'); return }
+    if (!date) { setError('تکایە بەرواری گەشت دیاری بکە'); return }
+    if (!time) { setError('تکایە کاتی گەشت دیاری بکە'); return }
+    if (!carMake) { setError('تکایە جۆری ئۆتۆمبێل دیاری بکە'); return }
+    if (!carModel) { setError('تکایە مۆدێلی ئۆتۆمبێل دیاری بکە'); return }
+    if (!carColor) { setError('تکایە ڕەنگی ئۆتۆمبێل دیاری بکە'); return }
     if (fromCity === toCity) {
       setError('شوێنی چوون و هاتن ناتوانن هاوشێوە بن'); return
     }
