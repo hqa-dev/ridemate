@@ -101,10 +101,14 @@ export default function RideDetailPage() {
         .select('id, status')
         .eq('ride_id', rideId)
         .eq('passenger_id', user.id)
+        .in('status', ['pending', 'approved'])
         .maybeSingle()
       if (existing) {
         setRequested(true)
         setRequestStatus(existing.status)
+      } else {
+        setRequested(false)
+        setRequestStatus(null)
       }
     }
 
@@ -142,6 +146,12 @@ export default function RideDetailPage() {
     if (ride.available_seats <= 0) return
     setSending(true)
     setActionError('')
+    // Remove any old cancelled/declined request before re-requesting
+    await supabase.from('ride_requests')
+      .delete()
+      .eq('ride_id', rideId)
+      .eq('passenger_id', currentUserId)
+      .in('status', ['cancelled', 'declined'])
     const { error } = await supabase.from('ride_requests').insert({
       ride_id: rideId,
       passenger_id: currentUserId,
@@ -149,7 +159,7 @@ export default function RideDetailPage() {
       dropoff: dropoff || null,
       status: 'pending',
     })
-    if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); setSending(false); return }
+    if (error) { console.error('Send request error:', error); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); setSending(false); return }
     setRequested(true)
     setRequestStatus('pending')
     setShowModal(false)
