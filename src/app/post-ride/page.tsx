@@ -69,7 +69,24 @@ export default function PostRidePage() {
       .select('*, ride_requests(*, passenger:profiles!passenger_id(full_name, phone, avatar_url))')
       .eq('driver_id', user.id)
       .order('created_at', { ascending: false })
-    setMyPostedRides(rides || [])
+    if (rides) {
+      const unseenIds = rides.flatMap(r =>
+        (r.ride_requests || [])
+          .filter((req: any) => req.status === 'pending' && !req.seen_by_driver)
+          .map((req: any) => req.id)
+      )
+      if (unseenIds.length > 0) {
+        await supabase.from('ride_requests').update({ seen_by_driver: true }).in('id', unseenIds)
+      }
+      setMyPostedRides(rides.map(r => ({
+        ...r,
+        ride_requests: (r.ride_requests || []).map((req: any) =>
+          req.status === 'pending' ? { ...req, seen_by_driver: true } : req
+        )
+      })))
+    } else {
+      setMyPostedRides([])
+    }
     setLoadingManage(false)
   }
 
@@ -438,6 +455,7 @@ export default function PostRidePage() {
             const priceDisp = ride.price_type === 'coffee' ? 'قاوەیەک' : `${toKurdishNum(Number(ride.price_iqd || 0).toLocaleString('en'))} دینار`
             const requests = ride.ride_requests || []
             const pendingCount = requests.filter((r: any) => r.status === 'pending').length
+            const hasUnseenPending = requests.some((r: any) => r.status === 'pending' && !r.seen_by_driver)
 
             return (
               <div key={ride.id} style={{
@@ -476,6 +494,7 @@ export default function PostRidePage() {
                       background: isCompleted ? T.greenBg : isCancelled ? '#2e1a1a' : isFull ? T.redBg : '#2e2a1a',
                       color: isCompleted ? T.green : isCancelled ? '#f87171' : isFull ? T.orange : '#fbbf24',
                     }}>{isCompleted ? 'تەواو بوو ✓' : isCancelled ? 'هەڵوەشاوە' : isFull ? 'پڕە' : 'چالاک'}</span>
+                    {hasUnseenPending && <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'rgba(255,255,255,0.7)' }} />}
                     <span style={{ fontSize: 10, color: T.textDim }}>{ride.available_seats} جێ</span>
                   </div>
                   <div onClick={() => toggle(ride.id)} style={{

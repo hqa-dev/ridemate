@@ -66,6 +66,7 @@ export function BottomNav() {
           .select('*', { count: 'exact', head: true })
           .in('ride_id', rideIds)
           .eq('status', 'pending')
+          .eq('seen_by_driver', false)
         postCount = count || 0
       }
     }
