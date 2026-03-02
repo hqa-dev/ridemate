@@ -225,6 +225,7 @@ export default function RideDetailPage() {
   const waLink = driver.phone ? formatWhatsApp(driver.phone) : ''
   const isPastDeparture = new Date(ride.departure_time) < new Date()
   const isCompleted = ride.status === 'completed'
+  const isCancelled = ride.status === 'cancelled'
   const routeKey = `${ride.from_city}-${ride.to_city}`
   const routeInfo = ROUTE_INFO[routeKey]
   const depTime = formatTime(ride.departure_time)
@@ -242,6 +243,20 @@ export default function RideDetailPage() {
       <div style={{ marginBottom: 16 }}>
         <Link href="/home" style={{ color: T.textDim, fontSize: 13, textDecoration: 'none' }}>← {ku.back}</Link>
       </div>
+
+      {/* Cancelled banner */}
+      {isCancelled && (
+        <div style={{
+          background: T.redBg, border: `1px solid rgba(248,113,113,0.15)`,
+          borderRadius: 12, padding: '12px 16px', marginBottom: 12,
+          display: 'flex', alignItems: 'center', gap: 10,
+        }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={T.red} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+            <circle cx="12" cy="12" r="10" /><path d="M15 9l-6 6M9 9l6 6" />
+          </svg>
+          <span style={{ fontSize: 12, color: T.red, fontWeight: 500 }}>ئەم گەشتە هەڵوەشێنراوەتەوە</span>
+        </div>
+      )}
 
       {/* ── Main Card ── */}
       <div style={{
@@ -420,6 +435,11 @@ export default function RideDetailPage() {
 
           {/* Passenger views */}
           {!isOwnRide && (
+            isCancelled ? (
+              <div style={{ textAlign: 'center', padding: '8px 0' }}>
+                <p style={{ fontWeight: 500, color: T.textDim, fontSize: 13, margin: 0 }}>ئەم گەشتە هەڵوەشێنراوەتەوە</p>
+              </div>
+            ) :
             isCompleted && requestStatus === 'approved' ? (
               !hasRated ? (
                 <div style={{ textAlign: 'center' }}>

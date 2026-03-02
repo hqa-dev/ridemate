@@ -41,7 +41,7 @@ export function BottomNav() {
       .from('ride_requests')
       .select('*', { count: 'exact', head: true })
       .eq('passenger_id', user.id)
-      .in('status', ['approved', 'declined'])
+      .in('status', ['approved', 'declined', 'cancelled'])
       .eq('seen_by_passenger', false)
 
     // Count pending requests only if user is a verified driver

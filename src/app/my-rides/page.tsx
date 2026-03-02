@@ -29,8 +29,8 @@ export default function MyRidesPage() {
     setJoinedRides(reqData || [])
     setLoading(false)
 
-    // Mark all unseen approved/declined as seen
-    const unseen = (reqData || []).filter(r => (r.status === 'approved' || r.status === 'declined') && !r.seen_by_passenger)
+    // Mark all unseen approved/declined/cancelled as seen
+    const unseen = (reqData || []).filter(r => (r.status === 'approved' || r.status === 'declined' || r.status === 'cancelled') && !r.seen_by_passenger)
     if (unseen.length > 0) {
       await supabase
         .from('ride_requests')
@@ -74,6 +74,7 @@ export default function MyRidesPage() {
           pending: { text: 'چاوەڕوانە', color: '#fbbf24', bg: '#2e2a1a' },
           approved: { text: isCompleted ? 'تەواو بوو ✓' : 'قبوڵ کرا', color: T.green, bg: T.greenBg },
           declined: { text: 'ڕەت کرایەوە', color: '#dc2626', bg: '#2e1a1a' },
+          cancelled: { text: 'شۆفێر گەشتەکەی هەڵوەشاندەوە', color: T.textMid, bg: T.border },
         }
         const st = statusConfig[req.status] || statusConfig.pending
 
@@ -83,7 +84,7 @@ export default function MyRidesPage() {
               background: T.card, borderRadius: T.radius, marginBottom: 10,
               boxShadow: T.shadow, overflow: 'hidden',
               border: '1px solid rgba(255,255,255,0.06)',
-              opacity: req.status === 'declined' ? 0.6 : 1,
+              opacity: (req.status === 'declined' || req.status === 'cancelled') ? 0.6 : 1,
             }}>
 
               {/* Timeline */}
@@ -145,7 +146,7 @@ export default function MyRidesPage() {
                     fontSize: 9, padding: '3px 9px', borderRadius: 20,
                     background: st.bg, color: st.color, fontWeight: 600,
                   }}>{st.text}</span>
-                  {!req.seen_by_passenger && (req.status === 'approved' || req.status === 'declined') && (
+                  {!req.seen_by_passenger && (req.status === 'approved' || req.status === 'declined' || req.status === 'cancelled') && (
                     <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'rgba(255,255,255,0.7)' }} />
                   )}
                 </div>
@@ -221,6 +222,13 @@ export default function MyRidesPage() {
               {req.status === 'declined' && (
                 <div style={{ borderTop: `1px solid ${T.border}`, padding: '10px 16px' }}>
                   <p style={{ fontSize: 10, color: T.textFaint, margin: 0 }}>شۆفێر داواکاریەکەتی قبوڵ نەکرد</p>
+                </div>
+              )}
+
+              {/* Cancelled by driver */}
+              {req.status === 'cancelled' && (
+                <div style={{ borderTop: `1px solid ${T.border}`, padding: '10px 16px' }}>
+                  <p style={{ fontSize: 10, color: T.textFaint, margin: 0 }}>شۆفێر ئەم گەشتە هەڵیوەشاندەوە</p>
                 </div>
               )}
             </div>

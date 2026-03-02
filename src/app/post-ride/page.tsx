@@ -152,6 +152,10 @@ export default function PostRidePage() {
   async function handleCancelRide(rideId: string) {
     const { error: cancelErr } = await supabase.from('rides').update({ status: 'cancelled' }).eq('id', rideId)
     if (cancelErr) { setError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+    await supabase.from('ride_requests')
+      .update({ status: 'cancelled', seen_by_passenger: false })
+      .eq('ride_id', rideId)
+      .eq('status', 'approved')
     loadPostedRides()
   }
 
