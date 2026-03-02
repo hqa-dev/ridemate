@@ -478,14 +478,16 @@ export default function RideDetailPage() {
           {/* Driver views */}
           {isOwnRide && (
             isPastDeparture && !isCompleted && !isCancelled ? (
-              <div
+              <button
                 onClick={handleCompleteRide}
                 style={{
+                  width: '100%', border: 'none',
                   background: T.border, color: T.textMid,
                   borderRadius: 12, padding: 12, fontSize: 13, fontWeight: 500,
                   textAlign: 'center', cursor: completing ? 'default' : 'pointer',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                   direction: 'rtl', opacity: completing ? 0.5 : 1,
+                  fontFamily: "'Noto Sans Arabic', sans-serif",
                 }}
               >
                 {completing ? '...' : 'گەشتەکە تەواو بوو'}
@@ -499,7 +501,7 @@ export default function RideDetailPage() {
                   <rect x="7" y="17" width="5" height="5" fill={T.orange} />
                   <rect x="17" y="17" width="5" height="5" fill={T.orange} />
                 </svg>
-              </div>
+              </button>
             ) : isCompleted ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0' }}>
                 <div style={{
@@ -528,11 +530,12 @@ export default function RideDetailPage() {
                   borderRadius: 10, padding: '10px 0', fontSize: 13, fontWeight: 500,
                   textAlign: 'center', textDecoration: 'none',
                 }}>بەڕێوەبردن</Link>
-                <div onClick={(e) => handleCancelRide(e)} style={{
+                <button onClick={(e) => handleCancelRide(e)} style={{
                   flex: 1, background: 'rgba(220,50,50,0.15)', color: '#dc2626',
-                  borderRadius: 10, padding: '10px 0', fontSize: 13, fontWeight: 500,
+                  border: 'none', borderRadius: 10, padding: '10px 0', fontSize: 13, fontWeight: 500,
                   textAlign: 'center', cursor: 'pointer',
-                }}>هەڵوەشاندنەوە</div>
+                  fontFamily: "'Noto Sans Arabic', sans-serif",
+                }}>هەڵوەشاندنەوە</button>
               </div>
             )
           )}
@@ -624,16 +627,18 @@ export default function RideDetailPage() {
                 ) : (
                   <p style={{ color: '#666', fontSize: 12 }}>شۆفێر ژمارەی مۆبایلی زیاد نەکردووە</p>
                 )}
-                <div
+                <button
                   onClick={() => handleCancelRequest()}
                   style={{
+                    width: '100%', border: 'none',
                     background: 'rgba(220,50,50,0.15)', color: '#dc2626',
                     borderRadius: 10, padding: 10, fontSize: 12, fontWeight: 500,
                     textAlign: 'center', cursor: 'pointer', marginTop: 12,
+                    fontFamily: "'Noto Sans Arabic', sans-serif",
                   }}
                 >
                   پاشگەزبوونەوە
-                </div>
+                </button>
               </div>
             ) : requestStatus === 'declined' ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0' }}>
@@ -660,16 +665,18 @@ export default function RideDetailPage() {
                     <p style={{ fontSize: 11, color: T.textFaint, margin: 0, lineHeight: 1.6 }}>کە داواکرییەکەت قبوڵ کرا، ژمارە مۆبایلی شۆفێر لێرە دەردەکەوێ</p>
                   </div>
                 </div>
-                <div
+                <button
                   onClick={() => handleWithdrawRequest()}
                   style={{
+                    width: '100%', border: 'none',
                     background: 'rgba(220,50,50,0.15)', color: '#dc2626',
                     borderRadius: 10, padding: 10, fontSize: 12, fontWeight: 500,
                     textAlign: 'center', cursor: 'pointer', marginTop: 4,
+                    fontFamily: "'Noto Sans Arabic', sans-serif",
                   }}
                 >
                   پاشگەزبوونەوە
-                </div>
+                </button>
               </div>
             )
           )}
