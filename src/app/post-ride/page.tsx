@@ -4,46 +4,9 @@ import { BottomNav } from '@/components/layout/BottomNav'
 import { useRouter } from 'next/navigation'
 import { ku } from '@/lib/translations'
 import { createClient } from '@/lib/supabase/client'
+import { CITIES, ROUTE_DISTANCE, COLOR_KU, toKurdishNum, formatTime, estimateArrival, formatWhatsApp } from '@/lib/utils'
 
 const CITY_KEYS = ['', 'erbil', 'suli', 'duhok'] as const
-const CITIES: Record<string, string> = {
-  erbil: ku.erbil,
-  suli: ku.suli,
-  duhok: ku.duhok,
-}
-
-const ROUTE_HOURS: Record<string, number> = {
-  'erbil-suli': 2, 'suli-erbil': 2,
-  'erbil-duhok': 3, 'duhok-erbil': 3,
-  'suli-duhok': 5, 'duhok-suli': 5,
-}
-const ROUTE_DISTANCE: Record<string, string> = {
-  'erbil-suli': '١٦٠ کم', 'suli-erbil': '١٦٠ کم',
-  'erbil-duhok': '١٨٠ کم', 'duhok-erbil': '١٨٠ کم',
-  'suli-duhok': '٣٤٠ کم', 'duhok-suli': '٣٤٠ کم',
-}
-const COLOR_KU: Record<string, string> = {
-  black: 'ڕەش', white: 'سپی', red: 'سوور', blue: 'شین', green: 'سەوز',
-  yellow: 'زەرد', silver: 'زیوی', grey: 'خۆڵەمێشی', gray: 'خۆڵەمێشی',
-  brown: 'قاوەیی', orange: 'پرتەقاڵی', gold: 'ئاڵتوونی',
-}
-
-function toKurdishNum(n: number | string): string {
-  return String(n).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[parseInt(d)])
-}
-function formatTimeFromISO(dt: string): string {
-  const d = new Date(dt)
-  return `${d.getHours()}:${d.getMinutes().toString().padStart(2, '0')}`
-}
-function estimateArrival(dt: string, fromCity: string, toCity: string): string {
-  const d = new Date(dt)
-  const add = ROUTE_HOURS[`${fromCity}-${toCity}`] || 2
-  d.setHours(d.getHours() + add)
-  return `${d.getHours()}:${d.getMinutes().toString().padStart(2, '0')}`
-}
-function formatWhatsApp(phone: string) {
-  return 'https://wa.me/' + phone.replace(/^0/, '964')
-}
 
 const T = {
   bg: '#0e1015', card: '#1a1c22', cardInner: '#1f2128',
@@ -159,10 +122,6 @@ export default function PostRidePage() {
     if (!d) return 'بەروار'
     const [, m, day] = d.split('-')
     return `${toKurdishNum(parseInt(day))}/${toKurdishNum(parseInt(m))}`
-  }
-  function formatTime(t: string) {
-    if (!t) return 'کات'
-    return t
   }
 
   async function handleSubmit() {
@@ -466,7 +425,7 @@ export default function PostRidePage() {
               <p style={{ color: T.textFaint, fontSize: 14 }}>هێشتا گەشتت پۆست نەکردووە</p>
             </div>
           ) : myPostedRides.map(ride => {
-            const depTime = formatTimeFromISO(ride.departure_time)
+            const depTime = formatTime(ride.departure_time)
             const arrTime = estimateArrival(ride.departure_time, ride.from_city, ride.to_city)
             const routeKey = `${ride.from_city}-${ride.to_city}`
             const distance = ROUTE_DISTANCE[routeKey] || ''

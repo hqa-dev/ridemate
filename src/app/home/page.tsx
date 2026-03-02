@@ -4,55 +4,7 @@ import { BottomNav } from '@/components/layout/BottomNav'
 import Link from 'next/link'
 import { ku } from '@/lib/translations'
 import { createClient } from '@/lib/supabase/client'
-
-const CITIES: Record<string, string> = {
-  erbil: ku.erbil,
-  suli: ku.suli,
-  duhok: ku.duhok,
-}
-
-const ROUTE_DISTANCE: Record<string, string> = {
-  'erbil-suli': '١٦٠ کم',
-  'suli-erbil': '١٦٠ کم',
-  'erbil-duhok': '١٨٠ کم',
-  'duhok-erbil': '١٨٠ کم',
-  'suli-duhok': '٣٤٠ کم',
-  'duhok-suli': '٣٤٠ کم',
-}
-
-function formatKurdishDate(dt: string): string {
-  const d = new Date(dt)
-  const day = d.getDate()
-  const month = d.getMonth() + 1
-  const year = d.getFullYear()
-  return toKurdishNum(year) + '/' + toKurdishNum(month) + '/' + toKurdishNum(day)
-}
-
-function toKurdishNum(n: number | string): string {
-  return String(n).replace(/[0-9]/g, (d) => '٠١٢٣٤٥٦٧٨٩'[Number(d)])
-}
-
-function formatTime(dt: string): string {
-  const d = new Date(dt)
-  const h = d.getHours()
-  const m = d.getMinutes().toString().padStart(2, '0')
-  return toKurdishNum(`${h}:${m}`)
-}
-
-function estimateArrival(dt: string, fromCity: string, toCity: string): string {
-  const d = new Date(dt)
-  const hours: Record<string, number> = {
-    'erbil-suli': 2, 'suli-erbil': 2,
-    'erbil-duhok': 3, 'duhok-erbil': 3,
-    'suli-duhok': 5, 'duhok-suli': 5,
-  }
-  const key = `${fromCity}-${toCity}`
-  const add = hours[key] || 2
-  d.setHours(d.getHours() + add)
-  const h = d.getHours()
-  const m = d.getMinutes().toString().padStart(2, '0')
-  return toKurdishNum(`${h}:${m}`)
-}
+import { CITIES, ROUTE_DISTANCE, toKurdishNum, formatKurdishDate, formatTime, estimateArrival } from '@/lib/utils'
 
 export default function HomePage() {
   const [from, setFrom] = useState('')
@@ -202,8 +154,8 @@ export default function HomePage() {
         <p style={{ textAlign: 'center', color: '#aaa', padding: '3rem 0' }}>{ku.noRidesFound}</p>
       ) : rides.map(ride => {
         const driver = ride.driver || {}
-        const depTime = formatTime(ride.departure_time)
-        const arrTime = estimateArrival(ride.departure_time, ride.from_city, ride.to_city)
+        const depTime = toKurdishNum(formatTime(ride.departure_time))
+        const arrTime = toKurdishNum(estimateArrival(ride.departure_time, ride.from_city, ride.to_city))
         const routeKey = `${ride.from_city}-${ride.to_city}`
         const distance = ROUTE_DISTANCE[routeKey] || ''
         const priceDisplay = ride.price_type === 'coffee'
