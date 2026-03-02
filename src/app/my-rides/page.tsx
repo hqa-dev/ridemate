@@ -59,6 +59,7 @@ export default function MyRidesPage() {
         if (!ride) return null
         const driver = ride.driver || {}
         const isCompleted = ride.status === 'completed'
+        const isRideCancelled = ride.status === 'cancelled'
         const depTime = formatTime(ride.departure_time)
         const arrTime = estimateArrival(ride.departure_time, ride.from_city, ride.to_city)
         const routeKey = `${ride.from_city}-${ride.to_city}`
@@ -76,7 +77,9 @@ export default function MyRidesPage() {
           declined: { text: 'ڕەت کرایەوە', color: '#dc2626', bg: '#2e1a1a' },
           cancelled: { text: 'شۆفێر گەشتەکەی هەڵوەشاندەوە', color: T.textMid, bg: T.border },
         }
-        const st = statusConfig[req.status] || statusConfig.pending
+        const st = isRideCancelled
+          ? { text: 'گەشت هەڵوەشێنراوەتەوە', color: '#dc2626', bg: '#2e1a1a' }
+          : (statusConfig[req.status] || statusConfig.pending)
 
         return (
           <Link key={req.id} href={`/rides/${ride.id}`} style={{ textDecoration: 'none', display: 'block' }}>
@@ -84,7 +87,7 @@ export default function MyRidesPage() {
               background: T.card, borderRadius: T.radius, marginBottom: 10,
               boxShadow: T.shadow, overflow: 'hidden',
               border: '1px solid rgba(255,255,255,0.06)',
-              opacity: (req.status === 'declined' || req.status === 'cancelled') ? 0.6 : 1,
+              opacity: (req.status === 'declined' || req.status === 'cancelled' || isRideCancelled) ? 0.6 : 1,
             }}>
 
               {/* Timeline */}
@@ -175,7 +178,7 @@ export default function MyRidesPage() {
               )}
 
               {/* WhatsApp — approved & active */}
-              {req.status === 'approved' && !isCompleted && waLink && (
+              {req.status === 'approved' && !isCompleted && !isRideCancelled && waLink && (
                 <div style={{ borderTop: `1px solid ${T.border}`, padding: '10px 16px' }}>
                   <a href={waLink} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
