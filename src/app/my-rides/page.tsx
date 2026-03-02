@@ -5,14 +5,7 @@ import Link from 'next/link'
 import { ku } from '@/lib/translations'
 import { createClient } from '@/lib/supabase/client'
 import { CITIES, ROUTE_DISTANCE, COLOR_KU, formatWhatsApp, formatTime, estimateArrival, toKurdishNum } from '@/lib/utils'
-
-const T = {
-  bg: '#0e1015', card: '#1a1c22', cardInner: '#1f2128',
-  border: 'rgba(255,255,255,0.06)', orange: '#df6530',
-  text: '#e5e5e5', textMid: '#aaa', textDim: '#777', textFaint: '#555',
-  green: '#4ade80', greenBg: '#1a2e1a', radius: 14,
-  shadow: '0 2px 8px rgba(0,0,0,0.3)',
-}
+import { T } from '@/lib/theme'
 
 export default function MyRidesPage() {
   const [joinedRides, setJoinedRides] = useState<any[]>([])

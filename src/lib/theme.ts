@@ -1,5 +1,5 @@
 // Glass Dark Theme — RideMate
-export const theme = {
+export const T = {
   bg: '#0e1015',
   card: '#1a1c22',
   cardInner: '#1f2128',
@@ -7,10 +7,10 @@ export const theme = {
   cardBorder: 'rgba(255,255,255,0.08)',
   cardShadow: '0 4px 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)',
   radius: 14,
-  text: 'rgba(255,255,255,0.85)',
-  textMid: 'rgba(255,255,255,0.5)',
-  textDim: 'rgba(255,255,255,0.25)',
-  textFaint: 'rgba(255,255,255,0.12)',
+  text: '#e5e5e5',
+  textMid: '#aaa',
+  textDim: '#777',
+  textFaint: '#555',
   orange: '#df6530',
   green: '#4ade80',
   greenBg: '#1a2e1a',
@@ -23,5 +23,6 @@ export const theme = {
   activePill: 'rgba(255,255,255,0.1)',
   activePillBorder: 'rgba(255,255,255,0.08)',
   activePillShadow: '0 4px 16px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08)',
+  shadow: '0 2px 8px rgba(0,0,0,0.3)',
 } as const
-export type Theme = typeof theme
+export type Theme = typeof T
