@@ -203,9 +203,11 @@ export default function RideDetailPage() {
   }
 
   function handleCancelRequest() {
+    console.log('[handleCancelRequest] CALLED — setting up confirm modal')
     setConfirmModal({
       message: 'دڵنیایت لە پاشگەزبوونەوە؟',
       action: async () => {
+        console.log('[handleCancelRequest] CONFIRM clicked — action executing')
         setConfirmModal(null)
         setActionError('')
         // Get user fresh from auth — no closure dependency
@@ -638,7 +640,7 @@ export default function RideDetailPage() {
                   <p style={{ color: '#666', fontSize: 12 }}>شۆفێر ژمارەی مۆبایلی زیاد نەکردووە</p>
                 )}
                 <div
-                  onClick={handleCancelRequest}
+                  onClick={() => { console.log('=== CANCEL BUTTON CLICKED ==='); console.log('requestStatus:', requestStatus); handleCancelRequest() }}
                   style={{
                     background: 'rgba(220,50,50,0.15)', color: '#dc2626',
                     borderRadius: 10, padding: 10, fontSize: 12, fontWeight: 500,
@@ -674,7 +676,7 @@ export default function RideDetailPage() {
                   </div>
                 </div>
                 <div
-                  onClick={handleWithdrawRequest}
+                  onClick={() => { console.log('=== WITHDRAW BUTTON CLICKED ==='); handleWithdrawRequest() }}
                   style={{
                     background: 'rgba(220,50,50,0.15)', color: '#dc2626',
                     borderRadius: 10, padding: 10, fontSize: 12, fontWeight: 500,
