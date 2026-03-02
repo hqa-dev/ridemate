@@ -6,11 +6,13 @@ import { ku } from '@/lib/translations'
 import { createClient } from '@/lib/supabase/client'
 import { CITIES, ROUTE_DISTANCE, COLOR_KU, formatWhatsApp, formatTime, estimateArrival, toKurdishNum } from '@/lib/utils'
 import { T } from '@/lib/theme'
+import { ConfirmModal } from '@/components/ui/ConfirmModal'
 
 export default function MyRidesPage() {
   const [joinedRides, setJoinedRides] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [expanded, setExpanded] = useState<Record<string, boolean>>({})
+  const [confirmModal, setConfirmModal] = useState<{ message: string; action: () => void } | null>(null)
 
   const supabase = createClient()
 
@@ -41,21 +43,31 @@ export default function MyRidesPage() {
     }
   }
 
-  async function handleCancelRequest(requestId: string, rideId: string, currentSeats: number) {
-    if (!window.confirm('دڵنیایت لە پاشگەزبوونەوە؟')) return
-    const { error } = await supabase.from('ride_requests').update({ status: 'cancelled', seen_by_passenger: true }).eq('id', requestId)
-    if (error) return
-    const updates: any = { available_seats: currentSeats + 1 }
-    if (currentSeats === 0) updates.status = 'active'
-    await supabase.from('rides').update(updates).eq('id', rideId)
-    loadData()
+  function handleCancelRequest(requestId: string, rideId: string, currentSeats: number) {
+    setConfirmModal({
+      message: 'دڵنیایت لە پاشگەزبوونەوە؟',
+      action: async () => {
+        setConfirmModal(null)
+        const { error } = await supabase.from('ride_requests').update({ status: 'cancelled', seen_by_passenger: true }).eq('id', requestId)
+        if (error) return
+        const updates: any = { available_seats: currentSeats + 1 }
+        if (currentSeats === 0) updates.status = 'active'
+        await supabase.from('rides').update(updates).eq('id', rideId)
+        loadData()
+      },
+    })
   }
 
-  async function handleWithdrawRequest(requestId: string) {
-    if (!window.confirm('دڵنیایت لە پاشگەزبوونەوە؟')) return
-    const { error } = await supabase.from('ride_requests').delete().eq('id', requestId)
-    if (error) return
-    loadData()
+  function handleWithdrawRequest(requestId: string) {
+    setConfirmModal({
+      message: 'دڵنیایت لە پاشگەزبوونەوە؟',
+      action: async () => {
+        setConfirmModal(null)
+        const { error } = await supabase.from('ride_requests').delete().eq('id', requestId)
+        if (error) return
+        loadData()
+      },
+    })
   }
 
   const toggle = (id: string) => setExpanded(prev => ({ ...prev, [id]: !prev[id] }))
@@ -283,6 +295,13 @@ export default function MyRidesPage() {
           </Link>
         )
       })}
+
+      <ConfirmModal
+        isOpen={!!confirmModal}
+        message={confirmModal?.message || ''}
+        onConfirm={() => confirmModal?.action()}
+        onCancel={() => setConfirmModal(null)}
+      />
 
       <BottomNav />
     </div>
