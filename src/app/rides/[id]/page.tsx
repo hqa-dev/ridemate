@@ -166,6 +166,18 @@ export default function RideDetailPage() {
     setCompleting(false)
   }
 
+  async function handleCancelRide() {
+    if (!window.confirm('دڵنیایت لە هەڵوەشاندنەوەی ئەم گەشتە؟')) return
+    setActionError('')
+    const { error } = await supabase.from('rides').update({ status: 'cancelled' }).eq('id', rideId)
+    if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+    await supabase.from('ride_requests')
+      .update({ status: 'cancelled', seen_by_passenger: false })
+      .eq('ride_id', rideId)
+      .in('status', ['approved', 'pending'])
+    window.location.reload()
+  }
+
   async function handleSubmitRating() {
     if (!currentUserId || !ride || selectedRating === 0) return
     setSubmittingRating(true)
@@ -426,9 +438,22 @@ export default function RideDetailPage() {
                   <p style={{ fontSize: 11, color: T.textFaint, margin: 0 }}>ڕێکەوت: {new Date(ride.completed_at).toLocaleDateString('en-GB')}</p>
                 </div>
               </div>
-            ) : (
+            ) : isCancelled ? (
               <div style={{ textAlign: 'center', padding: '8px 0' }}>
-                <p style={{ fontSize: 12, color: T.textDim, margin: 0 }}>ئەمە گەشتی خۆتە!</p>
+                <p style={{ fontSize: 12, color: T.textDim, margin: 0 }}>ئەم گەشتە هەڵوەشێنراوەتەوە</p>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', gap: 8 }}>
+                <Link href="/post-ride?tab=manage" style={{
+                  flex: 1, background: T.cardInner, color: 'rgba(255,255,255,0.85)',
+                  borderRadius: 10, padding: '10px 0', fontSize: 13, fontWeight: 500,
+                  textAlign: 'center', textDecoration: 'none',
+                }}>بەڕێوەبردن</Link>
+                <div onClick={handleCancelRide} style={{
+                  flex: 1, background: 'rgba(220,50,50,0.15)', color: '#dc2626',
+                  borderRadius: 10, padding: '10px 0', fontSize: 13, fontWeight: 500,
+                  textAlign: 'center', cursor: 'pointer',
+                }}>هەڵوەشاندنەوە</div>
               </div>
             )
           )}

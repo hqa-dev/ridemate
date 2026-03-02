@@ -48,6 +48,10 @@ export default function PostRidePage() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({})
   const [loadingManage, setLoadingManage] = useState(false)
 
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('tab') === 'manage') setActiveTab('manage')
+  }, [])
+
   useEffect(() => { checkVerification() }, [])
 
   async function checkVerification() {
