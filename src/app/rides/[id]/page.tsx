@@ -386,7 +386,7 @@ export default function RideDetailPage() {
 
           {/* Driver views */}
           {isOwnRide && (
-            isPastDeparture && !isCompleted ? (
+            isPastDeparture && !isCompleted && !isCancelled ? (
               <div
                 onClick={handleCompleteRide}
                 style={{
