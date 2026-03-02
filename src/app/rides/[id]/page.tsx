@@ -169,13 +169,14 @@ export default function RideDetailPage() {
   async function handleCancelRide() {
     if (!window.confirm('دڵنیایت لە هەڵوەشاندنەوەی ئەم گەشتە؟')) return
     setActionError('')
-    const { error } = await supabase.from('rides').update({ status: 'cancelled' }).eq('id', rideId)
-    if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
-    await supabase.from('ride_requests')
+    const { error: rideErr } = await supabase.from('rides').update({ status: 'cancelled' }).eq('id', rideId)
+    if (rideErr) { console.error('Cancel ride error:', rideErr); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+    const { error: reqErr } = await supabase.from('ride_requests')
       .update({ status: 'cancelled', seen_by_passenger: false })
       .eq('ride_id', rideId)
       .in('status', ['approved', 'pending'])
-    window.location.reload()
+    if (reqErr) console.error('Cancel requests error:', reqErr)
+    setRide((prev: any) => ({ ...prev, status: 'cancelled' }))
   }
 
   async function handleCancelRequest() {
