@@ -40,6 +40,7 @@ export default function PostRidePage() {
   const [notes, setNotes] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [editingRideId, setEditingRideId] = useState<string | null>(null)
   const dateRef = useRef<HTMLInputElement>(null)
   const timeRef = useRef<HTMLInputElement>(null)
 
@@ -121,6 +122,24 @@ export default function PostRidePage() {
     setSubmitted(true)
   }
 
+  function startEdit(ride: any) {
+    const dep = new Date(ride.departure_time)
+    setEditingRideId(ride.id)
+    setFromCity(ride.from_city)
+    setToCity(ride.to_city)
+    setDate(dep.toISOString().split('T')[0])
+    setTime(dep.toTimeString().slice(0, 5))
+    setSeats(String(ride.available_seats))
+    setSeatsTapped(true)
+    setPriceType(ride.price_type === 'coffee' ? 'coffee' : 'iqd')
+    setPrice(ride.price_iqd ? String(ride.price_iqd) : '')
+    setCarMake(ride.car_make || '')
+    setCarModel(ride.car_model || '')
+    setCarColor(ride.car_color || '')
+    setNotes(ride.notes || '')
+    setActiveTab('post')
+  }
+
   // ─── Post Ride: helpers ───
   function cycleCity(current: string, setter: (v: string) => void) {
     const idx = CITY_KEYS.indexOf(current as typeof CITY_KEYS[number])
@@ -149,16 +168,19 @@ export default function PostRidePage() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) { router.push('/'); return }
     const departureTime = new Date(`${date}T${time}:00`).toISOString()
-    const { error: insertError } = await supabase.from('rides').insert({
-      driver_id: user.id, from_city: fromCity, to_city: toCity,
+    const rideData = {
+      from_city: fromCity, to_city: toCity,
       departure_time: departureTime, available_seats: parseInt(seats),
       price_type: priceType === 'coffee' ? 'coffee' : 'iqd',
       price_iqd: priceType === 'iqd' ? parseInt(price) || 0 : null,
       car_make: carMake || null, car_model: carModel || null,
-      car_color: carColor || null, notes: notes || null, status: 'active',
-    })
-    if (insertError) { setError(insertError.message); setLoading(false) }
-    else { setActiveTab('manage'); loadPostedRides(); setFromCity(''); setToCity(''); setDate(''); setTime(''); setSeats('1'); setPrice(''); setCarMake(''); setCarModel(''); setCarColor(''); setNotes(''); setLoading(false) }
+      car_color: carColor || null, notes: notes || null,
+    }
+    const { error: saveError } = editingRideId
+      ? await supabase.from('rides').update(rideData).eq('id', editingRideId)
+      : await supabase.from('rides').insert({ ...rideData, driver_id: user.id, status: 'active' })
+    if (saveError) { setError(saveError.message); setLoading(false) }
+    else { setEditingRideId(null); setActiveTab('manage'); loadPostedRides(); setFromCity(''); setToCity(''); setDate(''); setTime(''); setSeats('1'); setPrice(''); setCarMake(''); setCarModel(''); setCarColor(''); setNotes(''); setLoading(false) }
   }
 
   async function handleRequest(requestId: string, action: 'approved' | 'declined', rideId: string) {
@@ -434,7 +456,7 @@ export default function PostRidePage() {
             padding: 14, textAlign: 'center', cursor: loading ? 'default' : 'pointer',
             opacity: loading ? 0.5 : 1,
           }}>
-            <span style={{ fontSize: 15, fontWeight: 700 }}>{loading ? '...' : 'بینێرە!'}</span>
+            <span style={{ fontSize: 15, fontWeight: 700 }}>{loading ? '...' : editingRideId ? 'نوێکردنەوە' : 'بینێرە!'}</span>
           </div>
         </div>
       )}
@@ -573,7 +595,8 @@ export default function PostRidePage() {
                 )}
 
                 {!isCompleted && !isCancelled && (
-                  <div style={{ borderTop: `1px solid ${T.border}`, padding: '6px 16px' }}>
+                  <div style={{ borderTop: `1px solid ${T.border}`, padding: '6px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <button onClick={() => startEdit(ride)} style={{ background: T.cardInner, border: 'none', color: 'rgba(255,255,255,0.85)', fontSize: 11, cursor: 'pointer', padding: '5px 12px', borderRadius: 10, fontFamily: "'Noto Sans Arabic', sans-serif" }}>دەسکاری</button>
                     <button onClick={() => handleCancelRide(ride.id)} style={{ background: 'none', border: 'none', color: '#f87171', fontSize: 11, cursor: 'pointer', padding: '3px 0' }}>هەڵوەشاندنەوە</button>
                   </div>
                 )}
