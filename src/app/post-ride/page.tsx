@@ -432,6 +432,7 @@ export default function PostRidePage() {
             const distance = ROUTE_DISTANCE[routeKey] || ''
             const isCompleted = ride.status === 'completed'
             const isCancelled = ride.status === 'cancelled'
+            const isFull = ride.status === 'full'
             const isOpen = expanded[ride.id]
             const carColor = ride.car_color || ''
             const priceDisp = ride.price_type === 'coffee' ? 'قاوەیەک' : `${toKurdishNum(Number(ride.price_iqd || 0).toLocaleString('en'))} دینار`
@@ -472,9 +473,9 @@ export default function PostRidePage() {
                   <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 6 }}>
                     <span style={{
                       fontSize: 9, padding: '2px 8px', borderRadius: 20, fontWeight: 600,
-                      background: isCompleted ? T.greenBg : isCancelled ? '#2e1a1a' : '#2e2a1a',
-                      color: isCompleted ? T.green : isCancelled ? '#f87171' : '#fbbf24',
-                    }}>{isCompleted ? 'تەواو بوو ✓' : isCancelled ? 'هەڵوەشاوە' : 'چالاک'}</span>
+                      background: isCompleted ? T.greenBg : isCancelled ? '#2e1a1a' : isFull ? T.redBg : '#2e2a1a',
+                      color: isCompleted ? T.green : isCancelled ? '#f87171' : isFull ? T.orange : '#fbbf24',
+                    }}>{isCompleted ? 'تەواو بوو ✓' : isCancelled ? 'هەڵوەشاوە' : isFull ? 'پڕە' : 'چالاک'}</span>
                     <span style={{ fontSize: 10, color: T.textDim }}>{ride.available_seats} جێ</span>
                   </div>
                   <div onClick={() => toggle(ride.id)} style={{
