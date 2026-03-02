@@ -77,16 +77,6 @@ export default function RideDetailPage() {
   const [actionError, setActionError] = useState('')
   const [confirmModal, setConfirmModal] = useState<{ message: string; action: () => void } | null>(null)
 
-  // DEBUG: global click listener to trace what element is actually being clicked
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      const target = e.target as HTMLElement
-      console.log('CLICKED:', target.tagName, target.textContent?.slice(0, 30), 'classes:', target.className, 'id:', target.id)
-    }
-    document.addEventListener('click', handler)
-    return () => document.removeEventListener('click', handler)
-  }, [])
-
   useEffect(() => { loadRide() }, [rideId])
 
   async function loadRide() {
@@ -198,29 +188,23 @@ export default function RideDetailPage() {
       action: async () => {
         setConfirmModal(null)
         setActionError('')
-        const { error: rideErr, data: rideData } = await supabase.from('rides').update({ status: 'cancelled' }).eq('id', rideId).select()
-        console.error('Cancel ride result:', { rideErr, rideData })
+        const { error: rideErr } = await supabase.from('rides').update({ status: 'cancelled' }).eq('id', rideId)
         if (rideErr) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
-        const { error: reqErr, data: reqData } = await supabase.from('ride_requests')
+        await supabase.from('ride_requests')
           .update({ status: 'cancelled', seen_by_passenger: false })
           .eq('ride_id', rideId)
           .in('status', ['approved', 'pending'])
-          .select()
-        console.error('Cancel requests result:', { reqErr, reqData })
         window.location.reload()
       },
     })
   }
 
   function handleCancelRequest() {
-    console.log('[handleCancelRequest] CALLED — setting up confirm modal')
     setConfirmModal({
       message: 'دڵنیایت لە پاشگەزبوونەوە؟',
       action: async () => {
-        console.log('[handleCancelRequest] CONFIRM clicked — action executing')
         setConfirmModal(null)
         setActionError('')
-        // Get user fresh from auth — no closure dependency
         const { data: { user } } = await supabase.auth.getUser()
         if (!user) { setActionError('تکایە دووبارە بچۆرەوە ژوورەوە'); return }
         const { data: activeReq, error: findErr } = await supabase.from('ride_requests')
@@ -230,27 +214,18 @@ export default function RideDetailPage() {
           .in('status', ['pending', 'approved'])
           .maybeSingle()
         if (findErr || !activeReq) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
-        console.log('[cancelRequest] activeReq before update:', JSON.stringify(activeReq))
-        console.log('[cancelRequest] Setting seen_by_driver: false')
         const { error } = await supabase.from('ride_requests')
           .update({ status: 'cancelled', seen_by_passenger: true, seen_by_driver: false })
           .eq('id', activeReq.id)
-        if (error) { console.log('[cancelRequest] Update error:', JSON.stringify(error)); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
-        console.log('[cancelRequest] Request cancelled successfully, original status was:', activeReq.status)
+        if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
         if (activeReq.status === 'approved') {
-          console.log('[cancelRequest] Request was approved, fetching fresh ride data...')
           const { data: freshRide } = await supabase.from('rides').select('available_seats').eq('id', rideId).single()
-          console.log('[cancelRequest] Fresh ride:', JSON.stringify(freshRide))
           if (freshRide) {
-            console.log('[cancelRequest] Updating seats from', freshRide.available_seats, 'to', freshRide.available_seats + 1)
             const newSeats = freshRide.available_seats + 1
             const updates: any = { available_seats: newSeats }
             if (freshRide.available_seats === 0) updates.status = 'active'
-            const { data: seatData, error: seatError } = await supabase.from('rides').update(updates).eq('id', rideId).select()
-            console.log('[cancelRequest] Seat update result:', JSON.stringify({ data: seatData, error: seatError }))
+            await supabase.from('rides').update(updates).eq('id', rideId)
           }
-        } else {
-          console.log('[cancelRequest] Request was pending (not approved), skipping seat return')
         }
         loadRide()
       },
@@ -305,7 +280,7 @@ export default function RideDetailPage() {
     background: T.bg,
     maxWidth: 480,
     margin: '0 auto',
-    padding: '24px 20px 6rem',
+    padding: '24px 20px 100px',
     fontFamily: "'Noto Sans Arabic', sans-serif",
   }
 
@@ -650,7 +625,7 @@ export default function RideDetailPage() {
                   <p style={{ color: '#666', fontSize: 12 }}>شۆفێر ژمارەی مۆبایلی زیاد نەکردووە</p>
                 )}
                 <div
-                  onClick={() => { console.log('=== CANCEL BUTTON CLICKED ==='); console.log('requestStatus:', requestStatus); handleCancelRequest() }}
+                  onClick={() => handleCancelRequest()}
                   style={{
                     background: 'rgba(220,50,50,0.15)', color: '#dc2626',
                     borderRadius: 10, padding: 10, fontSize: 12, fontWeight: 500,
@@ -686,7 +661,7 @@ export default function RideDetailPage() {
                   </div>
                 </div>
                 <div
-                  onClick={() => { console.log('=== WITHDRAW BUTTON CLICKED ==='); handleWithdrawRequest() }}
+                  onClick={() => handleWithdrawRequest()}
                   style={{
                     background: 'rgba(220,50,50,0.15)', color: '#dc2626',
                     borderRadius: 10, padding: 10, fontSize: 12, fontWeight: 500,
