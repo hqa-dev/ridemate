@@ -77,6 +77,16 @@ export default function RideDetailPage() {
   const [actionError, setActionError] = useState('')
   const [confirmModal, setConfirmModal] = useState<{ message: string; action: () => void } | null>(null)
 
+  // DEBUG: global click listener to trace what element is actually being clicked
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      console.log('CLICKED:', target.tagName, target.textContent?.slice(0, 30), 'classes:', target.className, 'id:', target.id)
+    }
+    document.addEventListener('click', handler)
+    return () => document.removeEventListener('click', handler)
+  }, [])
+
   useEffect(() => { loadRide() }, [rideId])
 
   async function loadRide() {
