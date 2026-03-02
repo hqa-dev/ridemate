@@ -57,6 +57,7 @@ export function BottomNav() {
         .from('rides')
         .select('id')
         .eq('driver_id', user.id)
+        .in('status', ['active', 'full'])
       
       if (myRides && myRides.length > 0) {
         const rideIds = myRides.map(r => r.id)
