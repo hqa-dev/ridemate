@@ -43,16 +43,15 @@ export default function MyRidesPage() {
     }
   }
 
-  function handleCancelRequest(requestId: string, rideId: string, currentSeats: number) {
+  function handleCancelRequest(requestId: string, rideId: string) {
     setConfirmModal({
       message: 'دڵنیایت لە پاشگەزبوونەوە؟',
       action: async () => {
         setConfirmModal(null)
         const { error } = await supabase.from('ride_requests').update({ status: 'cancelled', seen_by_passenger: true }).eq('id', requestId)
         if (error) return
-        const updates: any = { available_seats: currentSeats + 1 }
-        if (currentSeats === 0) updates.status = 'active'
-        await supabase.from('rides').update(updates).eq('id', rideId)
+        const { error: rpcErr } = await supabase.rpc('increment_seats', { ride_id_input: rideId })
+        if (rpcErr) console.error('increment_seats failed:', rpcErr)
         loadData()
       },
     })
@@ -228,7 +227,7 @@ export default function MyRidesPage() {
               {req.status === 'approved' && !isCompleted && !isRideCancelled && (
                 <div style={{ borderTop: `1px solid ${T.border}`, padding: '10px 16px' }}>
                   <div
-                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleCancelRequest(req.id, ride.id, ride.available_seats) }}
+                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleCancelRequest(req.id, ride.id) }}
                     style={{
                       background: 'rgba(220,50,50,0.15)', color: '#dc2626',
                       borderRadius: 10, padding: 9, fontSize: 11, fontWeight: 500,
