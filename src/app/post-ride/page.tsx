@@ -72,7 +72,7 @@ export default function PostRidePage() {
     const { data: myRides } = await supabase.from('rides').select('id').eq('driver_id', user.id).in('status', ['active', 'full'])
     if (!myRides?.length) return
     const { count } = await supabase.from('ride_requests').select('*', { count: 'exact', head: true })
-      .in('ride_id', myRides.map(r => r.id)).eq('status', 'pending').eq('seen_by_driver', false)
+      .in('ride_id', myRides.map(r => r.id)).eq('status', 'pending')
     setUnseenPendingCount(count || 0)
   }
 
@@ -86,12 +86,7 @@ export default function PostRidePage() {
       .eq('driver_id', user.id)
       .order('created_at', { ascending: false })
     if (rides) {
-      setMyPostedRides(rides.map(r => ({
-        ...r,
-        ride_requests: (r.ride_requests || []).map((req: any) =>
-          req.status === 'pending' ? { ...req, seen_by_driver: true } : req
-        )
-      })))
+      setMyPostedRides(rides)
     } else {
       setMyPostedRides([])
     }
@@ -531,7 +526,7 @@ export default function PostRidePage() {
             const priceDisp = ride.price_type === 'coffee' ? 'قاوەیەک' : `${toKurdishNum(Number(ride.price_iqd || 0).toLocaleString('en'))} دینار`
             const requests = ride.ride_requests || []
             const pendingCount = requests.filter((r: any) => r.status === 'pending').length
-            const hasUnseenPending = requests.some((r: any) => r.status === 'pending' && !r.seen_by_driver)
+            const hasUnseenPending = false
 
             return (
               <div key={ride.id} style={{

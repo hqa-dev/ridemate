@@ -14,7 +14,7 @@ function NavIcon({ type, active }: { type: string; active: boolean }) {
 
 const navItems = [
   { href: '/home', icon: 'home', label: 'گەشتەکان' },
-  { href: '/account', icon: 'profile', label: 'هەژمار' },
+  { href: '/account', icon: 'profile', label: 'خۆت' },
 ]
 
 export function BottomNav() {
@@ -32,44 +32,14 @@ export function BottomNav() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
 
-    // Count unread ride request updates for passenger
-    const { count: passengerCount } = await supabase
-      .from('ride_requests')
+    const { count } = await supabase
+      .from('notifications')
       .select('*', { count: 'exact', head: true })
-      .eq('passenger_id', user.id)
-      .in('status', ['approved', 'declined', 'cancelled'])
-      .eq('seen_by_passenger', false)
+      .eq('user_id', user.id)
+      .eq('seen', false)
 
-    // Count pending requests for driver
-    let driverCount = 0
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role, verification_status')
-      .eq('id', user.id)
-      .single()
-    
-    if (profile && (profile.role === 'driver' || profile.role === 'both') && profile.verification_status === 'verified') {
-      const { data: myRides } = await supabase
-        .from('rides')
-        .select('id')
-        .eq('driver_id', user.id)
-        .in('status', ['active', 'full'])
-      
-      if (myRides && myRides.length > 0) {
-        const rideIds = myRides.map(r => r.id)
-        const { count } = await supabase
-          .from('ride_requests')
-          .select('*', { count: 'exact', head: true })
-          .in('ride_id', rideIds)
-          .eq('status', 'pending')
-          .eq('seen_by_driver', false)
-        driverCount = count || 0
-      }
-    }
-
-    // All badges go on the home/rides tab
     setBadges({
-      '/home': (passengerCount || 0) + driverCount,
+      '/home': count || 0,
     })
   }
 
@@ -96,9 +66,7 @@ export function BottomNav() {
         boxShadow: '0 8px 32px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04)',
       }}>
         {navItems.map((item) => {
-          const active = item.href === '/home' 
-            ? (pathname === '/home' || pathname === '/') 
-            : (pathname === '/account' || pathname === '/profile' || pathname === '/my-rides' || pathname === '/post-ride' || pathname === '/auth/verify')
+          const active = pathname === item.href || (item.href === '/home' && pathname === '/')
           const badge = badges[item.href] || 0
           return (
             <Link key={item.href} href={item.href} style={{

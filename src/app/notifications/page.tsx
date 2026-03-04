@@ -88,22 +88,29 @@ export default function NotificationsPage() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) { setLoading(false); return }
 
-    const { data: notifs } = await supabase
+    const { data: notifs, error: notifErr } = await supabase
       .from('notifications')
-      .select(`
-        id, type, ride_id, ride_request_id, metadata, seen, created_at,
-        from_user:profiles!from_user_id(full_name, avatar_url),
-        ride:rides!ride_id(from_city, to_city, departure_time)
-      `)
+      .select('id, type, ride_id, ride_request_id, from_user_id, metadata, seen, created_at')
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })
       .limit(50)
 
-    if (notifs) {
+    if (notifErr) { console.error('Notification fetch error:', notifErr); setLoading(false); return }
+
+    if (notifs && notifs.length > 0) {
+      // Fetch ride details
+      const rideIds = [...new Set(notifs.map(n => n.ride_id).filter(Boolean))]
+      const { data: rides } = await supabase.from('rides').select('id, from_city, to_city, departure_time').in('id', rideIds)
+      const rideMap = Object.fromEntries((rides || []).map(r => [r.id, r]))
+
+      // Fetch profile details for from_user
+      const userIds = [...new Set(notifs.map(n => n.from_user_id).filter(Boolean))]
+      const { data: profiles } = await supabase.from('profiles').select('id, full_name, avatar_url').in('id', userIds)
+      const profileMap = Object.fromEntries((profiles || []).map(p => [p.id, p]))
+
       const items: NotifItem[] = notifs.map((n: any) => {
-        const fromUser = n.from_user || {}
-        const ride = n.ride || {}
-        // Get pickup/dropoff from metadata if present
+        const fromUser = profileMap[n.from_user_id] || {}
+        const ride = rideMap[n.ride_id] || {}
         const pickup = n.metadata?.pickup || null
         const dropoff = n.metadata?.dropoff || null
         return {
