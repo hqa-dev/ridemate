@@ -28,6 +28,9 @@ export function BottomNav() {
           100% { border-color: rgba(255,255,255,0.06); box-shadow: 0 8px 32px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04); }
         }
         .nav-edge { animation: navEdge 8s ease-in-out infinite; }
+        .nav-tab { transition: flex 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s, border 0.3s, transform 0.3s; }
+        .nav-tab:active { transform: scale(0.95); }
+        .nav-label { transition: opacity 0.2s ease 0.15s, max-width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
       `}</style>
       <nav className="nav-edge" style={{
         position: 'fixed', bottom: 12, left: '50%', transform: 'translateX(-50%)',
@@ -45,12 +48,11 @@ export function BottomNav() {
             ? (pathname === '/home' || pathname === '/') 
             : (pathname === '/account' || pathname === '/profile' || pathname === '/my-rides' || pathname === '/post-ride' || pathname === '/auth/verify')
           return (
-            <Link key={item.href} href={item.href} style={{
+            <Link key={item.href} href={item.href} className="nav-tab" style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              gap: active ? 10 : 0,
+              gap: 10,
               flex: active ? 2.2 : 1,
               height: 50, borderRadius: 50,
-              transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
               background: active ? 'rgba(255,255,255,0.1)' : 'transparent',
               border: `1px solid ${active ? 'rgba(255,255,255,0.06)' : 'transparent'}`,
               textDecoration: 'none',
@@ -58,13 +60,14 @@ export function BottomNav() {
               whiteSpace: 'nowrap',
             }}>
               <NavIcon type={item.icon} active={active} />
-              {active && (
-                <span style={{
-                  fontSize: 12, fontWeight: 600,
-                  color: 'rgba(255,255,255,0.85)',
-                  fontFamily: "'Noto Sans Arabic', sans-serif",
-                }}>{item.label}</span>
-              )}
+              <span className="nav-label" style={{
+                fontSize: 12, fontWeight: 600,
+                color: 'rgba(255,255,255,0.85)',
+                fontFamily: "'Noto Sans Arabic', sans-serif",
+                opacity: active ? 1 : 0,
+                maxWidth: active ? 100 : 0,
+                overflow: 'hidden',
+              }}>{item.label}</span>
             </Link>
           )
         })}
