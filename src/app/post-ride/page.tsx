@@ -2,9 +2,8 @@
 import { useState, useRef, useEffect } from 'react'
 import { BottomNav } from '@/components/layout/BottomNav'
 import { useRouter } from 'next/navigation'
-import { ku } from '@/lib/translations'
 import { createClient } from '@/lib/supabase/client'
-import { CITIES, ROUTE_DISTANCE, COLOR_KU, toKurdishNum, formatTime, estimateArrival, formatWhatsApp } from '@/lib/utils'
+import { CITIES, ROUTE_DISTANCE, toKurdishNum, formatTime, estimateArrival, formatKurdishDate } from '@/lib/utils'
 import { T } from '@/lib/theme'
 
 const CITY_KEYS = ['', 'erbil', 'suli', 'duhok'] as const
@@ -46,7 +45,6 @@ export default function PostRidePage() {
 
   // Manage tab state
   const [myPostedRides, setMyPostedRides] = useState<any[]>([])
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({})
   const [loadingManage, setLoadingManage] = useState(false)
 
   useEffect(() => {
@@ -71,7 +69,7 @@ export default function PostRidePage() {
     if (!user) { setLoadingManage(false); return }
     const { data: rides } = await supabase
       .from('rides')
-      .select('*, ride_requests(*, passenger:profiles!passenger_id(full_name, phone, avatar_url))')
+      .select('id, from_city, to_city, departure_time, available_seats, price_type, price_iqd, status, car_make, car_model, car_color, notes')
       .eq('driver_id', user.id)
       .order('created_at', { ascending: false })
     if (rides) {
@@ -85,9 +83,6 @@ export default function PostRidePage() {
   useEffect(() => {
     if (activeTab === 'manage' && isVerifiedDriver) loadPostedRides()
   }, [activeTab, isVerifiedDriver])
-
-  const toggle = (id: string) => setExpanded(prev => ({ ...prev, [id]: !prev[id] }))
-
 
   // ─── Become a Driver: submit ───
   async function handleVerifySubmit() {
@@ -186,54 +181,6 @@ export default function PostRidePage() {
       }
       setEditingRideId(null); setActiveTab('manage'); loadPostedRides(); setFromCity(''); setToCity(''); setDate(''); setTime(''); setSeats('1'); setPrice(''); setCarMake(''); setCarModel(''); setCarColor(''); setNotes(''); setLoading(false)
     }
-  }
-
-  async function handleRequest(requestId: string, action: 'approved' | 'declined', rideId: string) {
-    if (action === 'approved') {
-      const ride = myPostedRides.find(r => r.id === rideId)
-      if (ride && ride.available_seats <= 0) return
-    }
-    const { error: reqErr } = await supabase.from('ride_requests').update({ status: action }).eq('id', requestId)
-    if (reqErr) { setError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
-    if (action === 'approved') {
-      await supabase.rpc('decrement_seats', { ride_id_input: rideId })
-    }
-    // Get passenger_id and current user (driver)
-    const { data: req } = await supabase.from('ride_requests').select('passenger_id').eq('id', requestId).single()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (req && user) {
-      await supabase.from('notifications').insert({
-        user_id: req.passenger_id,
-        type: action === 'approved' ? 'request_approved' : 'request_declined',
-        ride_id: rideId,
-        from_user_id: user.id,
-        ride_request_id: requestId,
-      })
-    }
-    loadPostedRides()
-  }
-
-  async function handleCancelRide(rideId: string) {
-    const { data: { user } } = await supabase.auth.getUser()
-    // Get affected passengers before cancelling
-    const { data: affected } = await supabase.from('ride_requests').select('passenger_id').eq('ride_id', rideId).in('status', ['approved', 'pending'])
-    const { error: cancelErr } = await supabase.from('rides').update({ status: 'cancelled' }).eq('id', rideId)
-    if (cancelErr) { setError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
-    await supabase.from('ride_requests')
-      .update({ status: 'cancelled' })
-      .eq('ride_id', rideId)
-      .in('status', ['approved', 'pending'])
-    // Notify each affected passenger
-    if (affected && user) {
-      const notifs = affected.map((r: any) => ({
-        user_id: r.passenger_id,
-        type: 'ride_cancelled',
-        ride_id: rideId,
-        from_user_id: user.id,
-      }))
-      if (notifs.length > 0) await supabase.from('notifications').insert(notifs)
-    }
-    loadPostedRides()
   }
 
   // ─── Loading ───
@@ -498,139 +445,81 @@ export default function PostRidePage() {
               <p style={{ color: T.textFaint, fontSize: 14 }}>هێشتا گەشتت پۆست نەکردووە</p>
             </div>
           ) : myPostedRides.map(ride => {
-            const depTime = formatTime(ride.departure_time)
-            const arrTime = estimateArrival(ride.departure_time, ride.from_city, ride.to_city)
+            const depTime = toKurdishNum(formatTime(ride.departure_time))
+            const arrTime = toKurdishNum(estimateArrival(ride.departure_time, ride.from_city, ride.to_city))
             const routeKey = `${ride.from_city}-${ride.to_city}`
             const distance = ROUTE_DISTANCE[routeKey] || ''
             const isCompleted = ride.status === 'completed'
             const isCancelled = ride.status === 'cancelled'
             const isFull = ride.status === 'full'
-            const isOpen = expanded[ride.id]
-            const carColor = ride.car_color || ''
             const priceDisp = ride.price_type === 'coffee' ? 'قاوەیەک' : `${toKurdishNum(Number(ride.price_iqd || 0).toLocaleString('en'))} دینار`
-            const requests = ride.ride_requests || []
-            const pendingCount = requests.filter((r: any) => r.status === 'pending').length
+            const isDimmed = isCompleted || isCancelled
+
+            const statusConfig: Record<string, { text: string; color: string; bg: string }> = {
+              active: { text: 'چالاک', color: '#fbbf24', bg: 'rgba(251,191,36,0.1)' },
+              full: { text: '٠ جێ', color: 'rgba(255,255,255,0.85)', bg: 'rgba(255,255,255,0.08)' },
+              completed: { text: 'تەواو بوو', color: T.green, bg: 'rgba(74,222,128,0.1)' },
+              cancelled: { text: 'هەڵوەشێنرایەوە', color: '#f87171', bg: 'rgba(248,113,113,0.1)' },
+            }
+            const st = statusConfig[ride.status] || statusConfig.active
 
             return (
-              <div key={ride.id} style={{
-                background: T.card, borderRadius: T.radius, marginBottom: 10,
-                boxShadow: T.shadow, overflow: 'hidden',
-                border: '1px solid rgba(255,255,255,0.06)',
-                opacity: isCancelled ? 0.5 : 1,
-              }}>
-                {/* Timeline */}
-                <div style={{ padding: '12px 16px 8px' }} dir="ltr">
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <div style={{ textAlign: 'center', minWidth: 38 }}>
-                      <div style={{ fontSize: 13, fontWeight: 700, color: T.text }}>{toKurdishNum(arrTime)}</div>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', flex: 1, margin: '0 6px' }}>
-                      <div style={{ width: 6, height: 6, borderRadius: '50%', background: T.text, flexShrink: 0 }} />
-                      <div style={{ flex: 1, height: 1, background: `rgba(255,255,255,0.25)` }} />
-                      <div style={{ width: 6, height: 6, borderRadius: '50%', border: `2px solid rgba(255,255,255,0.85)`, flexShrink: 0 }} />
-                    </div>
-                    <div style={{ textAlign: 'center', minWidth: 38 }}>
-                      <div style={{ fontSize: 13, fontWeight: 700, color: T.text }}>{toKurdishNum(depTime)}</div>
-                    </div>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
-                    <span style={{ fontSize: 10, color: '#ccc', minWidth: 38, textAlign: 'center' }}>{CITIES[ride.to_city]}</span>
-                    <span style={{ fontSize: 8, color: T.textDim }}>{distance}</span>
-                    <span style={{ fontSize: 10, color: '#ccc', minWidth: 38, textAlign: 'center' }}>{CITIES[ride.from_city]}</span>
-                  </div>
-                </div>
-
-                {/* Status + hamburger + pending */}
-                <div style={{ borderTop: `1px solid ${T.border}`, padding: '5px 16px', display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 6 }}>
-                    {isFull ? (
-                      <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.85)', fontWeight: 700 }}>0 جێ</span>
-                    ) : (
-                      <span style={{
-                        fontSize: 9, padding: '2px 8px', borderRadius: 20, fontWeight: 600,
-                        background: isCompleted ? T.greenBg : isCancelled ? '#2e1a1a' : '#2e2a1a',
-                        color: isCompleted ? T.green : isCancelled ? '#f87171' : '#fbbf24',
-                      }}>{isCompleted ? 'تەواو بوو ✓' : isCancelled ? 'هەڵوەشێنرایەوە' : 'چالاک'}</span>
-                    )}
-                    <span style={{ fontSize: 10, color: T.textDim }}>{ride.available_seats} جێ</span>
-                  </div>
-                  <div onClick={() => toggle(ride.id)} style={{
-                    width: 22, height: 22, borderRadius: 6,
-                    background: isOpen ? T.border : 'transparent',
-                    border: `1px solid ${isOpen ? '#444' : '#333'}`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    cursor: 'pointer', flexShrink: 0, transition: 'all 0.2s',
+              <div key={ride.id} style={{ position: 'relative' }}>
+                <a href={`/rides/${ride.id}`} style={{ textDecoration: 'none', display: 'block' }}>
+                  <div style={{
+                    background: T.card, borderRadius: 16, marginBottom: 10,
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.3)', overflow: 'hidden',
+                    opacity: isDimmed ? 0.5 : 1,
                   }}>
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={isOpen ? T.textMid : '#555'} strokeWidth="2" strokeLinecap="round">
-                      <line x1="4" y1="7" x2="20" y2="7" /><line x1="4" y1="12" x2="20" y2="12" /><line x1="4" y1="17" x2="20" y2="17" />
-                    </svg>
-                  </div>
-                  <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                    {pendingCount > 0 && <span style={{ fontSize: 9, padding: '2px 8px', borderRadius: 20, background: 'rgba(223,101,48,0.12)', color: T.orange, fontWeight: 600 }}>{pendingCount} داواکاری نوێ</span>}
-                  </div>
-                </div>
-
-                {/* Expandable details */}
-                {isOpen && (
-                  <div style={{ padding: '10px 16px' }}>
-                    <div style={{ padding: '8px 12px', background: T.cardInner, borderRadius: 10, fontSize: 11, color: T.textMid, lineHeight: 2, marginBottom: ride.notes ? 8 : 0 }}>
-                      {ride.car_make && <div>جۆر: <span style={{ color: '#ccc' }}>{ride.car_make}</span></div>}
-                      {ride.car_model && <div>مۆدێل: <span style={{ color: '#ccc' }}>{ride.car_model}</span></div>}
-                      {carColor && <div>ڕەنگ: <span style={{ color: '#ccc' }}>{COLOR_KU[carColor.toLowerCase()] || carColor}</span></div>}
-                      <div>نرخ: <span style={{ color: '#ccc' }}>{priceDisp}</span></div>
-                      <div>جێگای بەردەست: <span style={{ color: ride.available_seats > 0 ? '#ccc' : 'rgba(255,255,255,0.85)', fontSize: ride.available_seats > 0 ? undefined : 12, fontWeight: ride.available_seats > 0 ? undefined : 700 }}>{ride.available_seats > 0 ? `${ride.available_seats} جێ` : '0 جێ'}</span></div>
+                    {/* Date + status */}
+                    <div style={{ padding: '8px 18px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} dir="ltr">
+                      <span style={{
+                        fontSize: 9, padding: '2px 8px', borderRadius: 20,
+                        background: st.bg, color: st.color, fontWeight: 600,
+                      }}>{st.text}</span>
+                      <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>{formatKurdishDate(ride.departure_time)}</span>
                     </div>
-                    {ride.notes && (
-                      <div style={{ padding: '8px 12px', background: T.cardInner, borderRadius: 10, borderRight: `3px solid rgba(255,255,255,0.15)` }}>
-                        <div style={{ fontSize: 8, color: T.textFaint, marginBottom: 2, fontWeight: 600 }}>تێبینی</div>
-                        <div style={{ fontSize: 10, color: '#999', lineHeight: 1.8 }}>{ride.notes}</div>
-                      </div>
-                    )}
-                  </div>
-                )}
 
-                {/* Requests */}
-                {requests.length > 0 && (
-                  <div style={{ borderTop: `1px solid ${T.border}`, padding: '8px 16px 10px' }}>
-                    <div style={{ fontSize: 9, color: T.textFaint, marginBottom: 6, fontWeight: 600 }}>داواکان</div>
-                    {requests.map((req: any) => (
-                      <div key={req.id} style={{
-                        background: T.cardInner, borderRadius: 8, padding: '7px 10px', marginBottom: 4,
-                        border: req.status === 'pending' ? '1px solid rgba(223,101,48,0.15)' : '1px solid transparent',
-                      }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <span style={{ fontSize: 11, color: T.text, fontWeight: 500 }}>{req.passenger?.full_name || 'سەرنشین'}</span>
-                          {req.status === 'pending' && !isCompleted && !isCancelled ? (
-                            <div style={{ display: 'flex', gap: 5 }}>
-                              <button onClick={() => handleRequest(req.id, 'approved', ride.id)} disabled={ride.available_seats <= 0} style={{ background: ride.available_seats <= 0 ? '#333' : '#16a34a', color: 'white', border: 'none', borderRadius: 7, padding: '4px 10px', fontSize: 10, fontWeight: 600, cursor: ride.available_seats <= 0 ? 'default' : 'pointer', opacity: ride.available_seats <= 0 ? 0.5 : 1 }}>قبوڵ</button>
-                              <button onClick={() => handleRequest(req.id, 'declined', ride.id)} style={{ background: T.border, color: '#f87171', border: 'none', borderRadius: 7, padding: '4px 10px', fontSize: 10, cursor: 'pointer' }}>ڕەت</button>
-                            </div>
-                          ) : (
-                            <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                              <span style={{ fontSize: 9, padding: '2px 7px', borderRadius: 20, fontWeight: 600, background: req.status === 'approved' ? T.greenBg : req.status === 'cancelled' ? T.redBg : '#2e1a1a', color: req.status === 'approved' ? T.green : req.status === 'cancelled' ? T.red : '#f87171' }}>{req.status === 'approved' ? 'قبوڵ کرا' : req.status === 'cancelled' ? 'هەڵوەشێنرایەوە' : 'ڕەتکرایەوە'}</span>
-                              {req.status === 'approved' && req.passenger?.phone && (
-                                <a href={formatWhatsApp(req.passenger.phone)} target="_blank" rel="noopener noreferrer" style={{ background: '#25D366', color: 'white', borderRadius: 7, padding: '3px 8px', fontSize: 9, fontWeight: 600, textDecoration: 'none' }}>WhatsApp</a>
-                              )}
-                            </div>
-                          )}
+                    {/* Timeline */}
+                    <div style={{ padding: '2px 18px 12px' }} dir="ltr">
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <div style={{ textAlign: 'center', minWidth: 44 }}>
+                          <div style={{ fontSize: 15, fontWeight: 700, color: '#e5e5e5' }}>{arrTime}</div>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', flex: 1, margin: '0 8px' }}>
+                          <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#e5e5e5', flexShrink: 0 }} />
+                          <div style={{ flex: 1, height: 2, position: 'relative', margin: '0 2px' }}>
+                            <div style={{ position: 'absolute', inset: 0, borderRadius: 1, background: 'linear-gradient(to right, rgba(255,255,255,0.85), transparent 45%, transparent 55%, rgba(255,255,255,0.85))', opacity: 0.5 }} />
+                          </div>
+                          <div style={{ width: 7, height: 7, borderRadius: '50%', border: '2px solid rgba(255,255,255,0.85)', flexShrink: 0 }} />
+                        </div>
+                        <div style={{ textAlign: 'center', minWidth: 44 }}>
+                          <div style={{ fontSize: 15, fontWeight: 700, color: '#e5e5e5' }}>{depTime}</div>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                )}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
+                        <span style={{ fontSize: 11, color: '#ccc', minWidth: 44, textAlign: 'center' }}>{CITIES[ride.to_city]}</span>
+                        <span style={{ fontSize: 9, color: '#aaa' }}>{distance}</span>
+                        <span style={{ fontSize: 11, color: '#ccc', minWidth: 44, textAlign: 'center' }}>{CITIES[ride.from_city]}</span>
+                      </div>
+                    </div>
 
-                {requests.length === 0 && !isCompleted && !isCancelled && (
-                  <div style={{ borderTop: `1px solid ${T.border}`, padding: '8px 16px' }}>
-                    <p style={{ fontSize: 10, color: T.textFaint, margin: 0 }}>هێشتا کەس داوای ئەم گەشتە نەکردووە</p>
+                    {/* Footer */}
+                    <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '10px 18px', display: 'flex', alignItems: 'center', direction: 'rtl' }}>
+                      <span style={{ flex: 1, textAlign: 'right', fontSize: 12, color: '#aaa' }}>{priceDisp}</span>
+                      <span style={{ flex: 1, textAlign: 'center', fontSize: 12, color: '#777' }}>
+                        {toKurdishNum(ride.available_seats)} جێ بەردەستە
+                      </span>
+                      {!isCompleted && !isCancelled && (
+                        <span
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); startEdit(ride) }}
+                          style={{ flex: 1, textAlign: 'left', fontSize: 12, color: 'rgba(255,255,255,0.5)', cursor: 'pointer' }}
+                        >دەسکاری</span>
+                      )}
+                      {(isCompleted || isCancelled) && <span style={{ flex: 1 }} />}
+                    </div>
                   </div>
-                )}
-
-                {!isCompleted && !isCancelled && (
-                  <div style={{ borderTop: `1px solid ${T.border}`, padding: '6px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <button onClick={() => startEdit(ride)} style={{ background: T.cardInner, border: 'none', color: 'rgba(255,255,255,0.85)', fontSize: 11, cursor: 'pointer', padding: '5px 12px', borderRadius: 10, fontFamily: "'Noto Sans Arabic', sans-serif" }}>دەسکاری</button>
-                    <button onClick={() => handleCancelRide(ride.id)} style={{ background: 'none', border: 'none', color: '#f87171', fontSize: 11, cursor: 'pointer', padding: '3px 0' }}>هەڵوەشاندنەوە</button>
-                  </div>
-                )}
+                </a>
               </div>
             )
           })}
