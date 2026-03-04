@@ -1,6 +1,0 @@
-export type UserRole = 'passenger' | 'driver' | 'both'
-export type VerificationStatus = 'none' | 'pending' | 'verified'
-export type RideStatus = 'active' | 'full' | 'completed' | 'cancelled'
-export type RequestStatus = 'pending' | 'approved' | 'declined' | 'cancelled'
-export type PriceType = 'coffee' | 'iqd'
-export type City = 'erbil' | 'suli' | 'duhok'
