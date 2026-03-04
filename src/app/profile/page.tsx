@@ -56,7 +56,7 @@ const Icons = {
     </svg>
   ),
   trash: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc3c3c" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={T.destructive} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
     </svg>
   ),
@@ -68,7 +68,7 @@ function MenuItem({ icon, label, value, isLast, danger, onClick }: {
   return (
     <div onClick={onClick} style={{ display: 'flex', alignItems: 'center', padding: '13px 0', borderBottom: isLast ? 'none' : '1px solid rgba(255,255,255,0.04)', cursor: onClick ? 'pointer' : 'default' }}>
       <div style={{ width: 24, display: 'flex', justifyContent: 'center', marginLeft: 12 }}>{icon}</div>
-      <span style={{ flex: 1, fontSize: 14, color: danger ? '#dc3c3c' : 'rgba(255,255,255,0.7)', fontWeight: danger ? 500 : 400 }}>{label}</span>
+      <span style={{ flex: 1, fontSize: 14, color: danger ? T.destructive : 'rgba(255,255,255,0.7)', fontWeight: danger ? 500 : 400 }}>{label}</span>
       {value && <span style={{ fontSize: 12, color: T.textDim, marginLeft: 6 }}>{value}</span>}
       {!danger && <Arrow />}
     </div>
@@ -241,7 +241,7 @@ export default function ProfilePage() {
           <div style={{ fontSize: 16, fontWeight: 700, color: T.text, marginBottom: 8 }}>{displayName}</div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
             <span style={{ fontSize: 11, color: T.textDim }}>{roleText}</span>
-            {isVerified && <span style={{ fontSize: 11, color: '#22c55e', fontWeight: 600 }}>✓</span>}
+            {isVerified && <span style={{ fontSize: 11, color: T.verified, fontWeight: 600 }}>✓</span>}
           </div>
           <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.2)', direction: 'ltr' as const, textAlign: 'right' as const }}>{displayEmail}</div>
         </div>
@@ -267,7 +267,7 @@ export default function ProfilePage() {
                 <input value={editName} onChange={e => setEditName(e.target.value)} style={{ ...inputStyle, direction: 'rtl' }} />
                 <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.2)', marginTop: 6, paddingRight: 2 }}>تەنها یەک جار دەتوانی ناوەکەت بگۆڕی</div>
                 <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
-                  <button onClick={handleSaveName} disabled={saving} style={{ flex: 1, background: 'rgba(74,222,128,0.12)', color: '#4ade80', border: 'none', borderRadius: 10, padding: '10px 16px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: "'Noto Sans Arabic', sans-serif", opacity: saving ? 0.5 : 1 }}>{saving ? '...' : 'پاشەکەوتکردن'}</button>
+                  <button onClick={handleSaveName} disabled={saving} style={{ flex: 1, background: 'rgba(74,222,128,0.12)', color: T.green, border: 'none', borderRadius: 10, padding: '10px 16px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: "'Noto Sans Arabic', sans-serif", opacity: saving ? 0.5 : 1 }}>{saving ? '...' : 'پاشەکەوتکردن'}</button>
                   <button onClick={() => setEditingName(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)', fontSize: 11, cursor: 'pointer', padding: '10px 16px', fontFamily: "'Noto Sans Arabic', sans-serif" }}>پاشگەز</button>
                 </div>
               </div>
@@ -286,7 +286,7 @@ export default function ProfilePage() {
               <div style={{ padding: '12px 0 14px', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
                 <input value={editPhone} onChange={e => setEditPhone(e.target.value)} dir="ltr" type="tel" placeholder="07501234567" style={inputStyle} />
                 <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
-                  <button onClick={handleSavePhone} disabled={saving} style={{ flex: 1, background: 'rgba(74,222,128,0.12)', color: '#4ade80', border: 'none', borderRadius: 10, padding: '10px 16px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: "'Noto Sans Arabic', sans-serif", opacity: saving ? 0.5 : 1 }}>{saving ? '...' : 'پاشەکەوتکردن'}</button>
+                  <button onClick={handleSavePhone} disabled={saving} style={{ flex: 1, background: 'rgba(74,222,128,0.12)', color: T.green, border: 'none', borderRadius: 10, padding: '10px 16px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: "'Noto Sans Arabic', sans-serif", opacity: saving ? 0.5 : 1 }}>{saving ? '...' : 'پاشەکەوتکردن'}</button>
                   <button onClick={() => setEditingPhone(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)', fontSize: 11, cursor: 'pointer', padding: '10px 16px', fontFamily: "'Noto Sans Arabic', sans-serif" }}>پاشگەز</button>
                 </div>
               </div>
@@ -306,7 +306,7 @@ export default function ProfilePage() {
                 <input value={editEmail} onChange={e => setEditEmail(e.target.value)} dir="ltr" type="email" style={inputStyle} />
                 <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.2)', marginTop: 6, paddingRight: 2 }}>لینکی پشتڕاستکردن دەنێردرێت بۆ ئیمەیلە نوێیەکە</div>
                 <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
-                  <button onClick={handleSaveEmail} disabled={saving} style={{ flex: 1, background: 'rgba(74,222,128,0.12)', color: '#4ade80', border: 'none', borderRadius: 10, padding: '10px 16px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: "'Noto Sans Arabic', sans-serif", opacity: saving ? 0.5 : 1 }}>{saving ? '...' : 'پاشەکەوتکردن'}</button>
+                  <button onClick={handleSaveEmail} disabled={saving} style={{ flex: 1, background: 'rgba(74,222,128,0.12)', color: T.green, border: 'none', borderRadius: 10, padding: '10px 16px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: "'Noto Sans Arabic', sans-serif", opacity: saving ? 0.5 : 1 }}>{saving ? '...' : 'پاشەکەوتکردن'}</button>
                   <button onClick={() => setEditingEmail(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)', fontSize: 11, cursor: 'pointer', padding: '10px 16px', fontFamily: "'Noto Sans Arabic', sans-serif" }}>پاشگەز</button>
                 </div>
               </div>
@@ -320,10 +320,10 @@ export default function ProfilePage() {
           <MenuItem icon={Icons.shield} label="جۆری هەژمار" value={roleText} />
           <div style={{ display: 'flex', alignItems: 'center', padding: '13px 0' }}>
             <div style={{ width: 24, display: 'flex', justifyContent: 'center', marginLeft: 12 }}>
-              <div style={{ width: 8, height: 8, borderRadius: '50%', background: isVerified ? '#22c55e' : T.textDim }} />
+              <div style={{ width: 8, height: 8, borderRadius: '50%', background: isVerified ? T.verified : T.textDim }} />
             </div>
             <span style={{ flex: 1, fontSize: 14, color: 'rgba(255,255,255,0.7)' }}>بارودۆخ</span>
-            <span style={{ fontSize: 12, color: isVerified ? '#22c55e' : T.textDim, fontWeight: 500, marginLeft: 6 }}>
+            <span style={{ fontSize: 12, color: isVerified ? T.verified : T.textDim, fontWeight: 500, marginLeft: 6 }}>
               {isVerified ? 'پشتڕاستکراوە' : 'پشتڕاستنەکراوە'}
             </span>
             <Arrow />
@@ -336,13 +336,13 @@ export default function ProfilePage() {
           {!showDeleteConfirm ? (
             <div onClick={() => setShowDeleteConfirm(true)} style={{ display: 'flex', alignItems: 'center', padding: '13px 0', cursor: 'pointer' }}>
               <div style={{ width: 24, display: 'flex', justifyContent: 'center', marginLeft: 12 }}>{Icons.trash}</div>
-              <span style={{ fontSize: 14, color: '#dc3c3c', fontWeight: 500 }}>هەژمارەکەت بسڕەوە</span>
+              <span style={{ fontSize: 14, color: T.destructive, fontWeight: 500 }}>هەژمارەکەت بسڕەوە</span>
             </div>
           ) : (
             <div style={{ padding: '14px 0' }}>
-              <p style={{ fontSize: 13, color: '#f87171', margin: '0 0 12px', lineHeight: 1.7, textAlign: 'right' }}>دڵنیایت دەتەوێ هەژمارەکەت بسڕیتەوە؟</p>
+              <p style={{ fontSize: 13, color: T.red, margin: '0 0 12px', lineHeight: 1.7, textAlign: 'right' }}>دڵنیایت دەتەوێ هەژمارەکەت بسڕیتەوە؟</p>
               <div style={{ display: 'flex', gap: 8 }}>
-                <button onClick={handleDeleteAccount} style={{ flex: 1, background: '#dc2626', color: 'white', border: 'none', borderRadius: 10, padding: 10, fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: "'Noto Sans Arabic', sans-serif" }}>بەڵێ دڵنیام</button>
+                <button onClick={handleDeleteAccount} style={{ flex: 1, background: T.destructive, color: 'white', border: 'none', borderRadius: 10, padding: 10, fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: "'Noto Sans Arabic', sans-serif" }}>بەڵێ دڵنیام</button>
                 <button onClick={() => setShowDeleteConfirm(false)} style={{ flex: 1, background: 'rgba(255,255,255,0.06)', color: T.textDim, border: 'none', borderRadius: 10, padding: 10, fontSize: 13, cursor: 'pointer', fontFamily: "'Noto Sans Arabic', sans-serif" }}>پاشگەز</button>
               </div>
             </div>

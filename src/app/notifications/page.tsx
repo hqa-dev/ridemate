@@ -22,11 +22,11 @@ function getTypeIcon(type: string) {
   const colors: Record<string, string> = {
     request_received: T.orange,
     request_approved: T.green,
-    request_declined: '#f87171',
-    passenger_cancelled: '#f87171',
+    request_declined: T.red,
+    passenger_cancelled: T.red,
     ride_completed: T.green,
-    ride_cancelled: '#f87171',
-    ride_updated: '#fbbf24',
+    ride_cancelled: T.red,
+    ride_updated: T.amber,
   }
   const c = colors[type] || T.textMid
   switch (type) {
@@ -51,11 +51,11 @@ function getTypeIcon(type: string) {
 const statusText: Record<string, { text: string; color: string }> = {
   request_received: { text: 'دەیەوێ بێ', color: T.orange },
   request_approved: { text: 'قبوڵ کرا', color: T.green },
-  request_declined: { text: 'ڕەت کرایەوە', color: '#f87171' },
-  passenger_cancelled: { text: 'پاشگەزبووەوە', color: '#f87171' },
+  request_declined: { text: 'ڕەت کرایەوە', color: T.red },
+  passenger_cancelled: { text: 'پاشگەزبووەوە', color: T.red },
   ride_completed: { text: 'هەڵیسەنگێنە', color: T.green },
-  ride_cancelled: { text: 'هەڵوەشێنرایەوە', color: '#f87171' },
-  ride_updated: { text: 'گۆڕانکاری', color: '#fbbf24' },
+  ride_cancelled: { text: 'هەڵوەشێنرایەوە', color: T.red },
+  ride_updated: { text: 'گۆڕانکاری', color: T.amber },
 }
 
 interface NotifItem {
@@ -222,7 +222,7 @@ export default function NotificationsPage() {
         <h1 style={{ fontSize: 18, fontWeight: 700, color: T.text, margin: 0 }}>ئاگاداری</h1>
       </div>
 
-      {error && <p style={{ color: '#f87171', fontSize: 12, textAlign: 'center', padding: '0 16px 8px' }}>{error}</p>}
+      {error && <p style={{ color: T.red, fontSize: 12, textAlign: 'center', padding: '0 16px 8px' }}>{error}</p>}
 
       {loading ? <div /> : (
         <>
@@ -321,7 +321,7 @@ function NotifRow({ n, isLast, onApprove, onDecline, processing, router }: {
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={T.green} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
             </button>
             <button onClick={() => onDecline(n)} disabled={isProcessing} style={{ width: 30, height: 30, borderRadius: 8, border: 'none', background: 'rgba(248,113,113,0.1)', cursor: isProcessing ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={T.red} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
           </div>
         ) : (

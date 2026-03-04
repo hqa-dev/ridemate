@@ -232,7 +232,7 @@ export default function PostRidePage() {
           <p style={{ color: T.textDim, marginBottom: 28, fontSize: 12, lineHeight: 1.8 }}>
             مۆڵەتی شۆفێری و سێلفی بنێرە بۆ ئەوەی ببی بە شۆفێڕ
           </p>
-          {uploadError && <p style={{ color: '#f87171', fontSize: 12, marginBottom: 12 }}>{uploadError}</p>}
+          {uploadError && <p style={{ color: T.red, fontSize: 12, marginBottom: 12 }}>{uploadError}</p>}
 
           <input type="file" accept="image/*" ref={licenseRef} style={{ display: 'none' }} onChange={e => setLicenseFile(e.target.files?.[0] || null)} />
           <div onClick={() => licenseRef.current?.click()} style={{
@@ -247,8 +247,8 @@ export default function PostRidePage() {
               </div>
             </div>
             <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
-              <div style={{ width: 56, height: 68, borderRadius: 8, background: licenseFile ? 'rgba(74,222,128,0.08)' : T.cardInner, border: `1px solid ${licenseFile ? 'rgba(74,222,128,0.2)' : '#333'}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {licenseFile ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={T.green} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="8 12 11 15 16 9" /></svg> : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#444" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4" /><path d="M20 21c0-3.31-3.58-6-8-6s-8 2.69-8 6" /></svg>}
+              <div style={{ width: 56, height: 68, borderRadius: 8, background: licenseFile ? 'rgba(74,222,128,0.08)' : T.cardInner, border: `1px solid ${licenseFile ? 'rgba(74,222,128,0.2)' : T.divider}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {licenseFile ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={T.green} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="8 12 11 15 16 9" /></svg> : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4" /><path d="M20 21c0-3.31-3.58-6-8-6s-8 2.69-8 6" /></svg>}
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ height: 6, background: T.cardInner, borderRadius: 3, width: '80%', marginBottom: 8 }} />
@@ -269,8 +269,8 @@ export default function PostRidePage() {
             borderRadius: 16, padding: 20, marginBottom: 10, cursor: 'pointer',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-              <div style={{ width: 56, height: 56, borderRadius: '50%', background: selfieFile ? 'rgba(74,222,128,0.08)' : T.cardInner, border: `2px dashed ${selfieFile ? 'rgba(74,222,128,0.3)' : '#333'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                {selfieFile ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={T.green} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="8 12 11 15 16 9" /></svg> : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#444" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" /><circle cx="12" cy="13" r="4" /></svg>}
+              <div style={{ width: 56, height: 56, borderRadius: '50%', background: selfieFile ? 'rgba(74,222,128,0.08)' : T.cardInner, border: `2px dashed ${selfieFile ? 'rgba(74,222,128,0.3)' : T.divider}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                {selfieFile ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={T.green} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="8 12 11 15 16 9" /></svg> : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" /><circle cx="12" cy="13" r="4" /></svg>}
               </div>
               <div>
                 <div style={{ fontWeight: 600, color: selfieFile ? T.green : T.textMid, fontSize: 13, marginBottom: 4 }}>{selfieFile ? 'سێلفییەکەت سەرکەوتوو بوو' : 'سێلفی بگرە'}</div>
@@ -331,7 +331,7 @@ export default function PostRidePage() {
             <div style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 10 }}>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, flexShrink: 0 }}>
                 <div style={{ width: 8, height: 8, borderRadius: '50%', border: `2px solid rgba(255,255,255,0.85)` }} />
-                <div style={{ width: 1, height: 24, background: '#333' }} />
+                <div style={{ width: 1, height: 24, background: T.divider }} />
                 <div style={{ width: 8, height: 8, borderRadius: '50%', background: T.text }} />
               </div>
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -348,7 +348,7 @@ export default function PostRidePage() {
                 <div style={{ fontSize: 9, color: T.textMid, marginBottom: 3 }}>بەروار</div>
                 <div style={{ fontSize: 13, color: date ? T.text : T.textDim, fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {date ? formatDate(date) : (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#686e88" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
                   )}
                 </div>
                 <input ref={dateRef} type="date" value={date} onChange={e => setDate(e.target.value)} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0 }} />
@@ -358,7 +358,7 @@ export default function PostRidePage() {
                 <div style={{ fontSize: 9, color: T.textMid, marginBottom: 3 }}>کات</div>
                 <div style={{ fontSize: 13, color: time ? T.text : T.textDim, fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {time ? time : (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#686e88" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
                   )}
                 </div>
                 <input ref={timeRef} type="time" value={time} onChange={e => setTime(e.target.value)} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0 }} />
@@ -367,13 +367,13 @@ export default function PostRidePage() {
               <div onClick={cycleSeats} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer' }}>
                 <div style={{ fontSize: 9, color: T.textMid, marginBottom: 3 }}>جێگا</div>
                 <div style={{ fontSize: 13, color: T.text, fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={seatsTapped ? '#e5e5e5' : '#686e88'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={seatsTapped ? T.text : T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M6 19v2" /><path d="M18 19v2" />
                     <path d="M7 19h10a2 2 0 0 0 2-2v-3a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v3a2 2 0 0 0 2 2z" />
                     <path d="M7 10V7a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v3" />
                     <path d="M9 14h6" />
                   </svg>
-                  {seatsTapped && <span style={{ fontSize: 10, fontWeight: 700, color: '#e5e5e5', marginRight: 4 }}>{seats}</span>}
+                  {seatsTapped && <span style={{ fontSize: 10, fontWeight: 700, color: T.text, marginRight: 4 }}>{seats}</span>}
                 </div>
               </div>
             </div>
@@ -410,23 +410,23 @@ export default function PostRidePage() {
             <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 9, color: T.textDim, marginBottom: 4 }}>جۆر</div>
-                <input value={carMake} onChange={e => setCarMake(e.target.value)} placeholder="Toyota" className="car-input" style={{ background: T.cardInner, border: 'none', borderRadius: 10, padding: '10px 14px', width: '100%', fontSize: 12, color: '#ccc', WebkitTextFillColor: '#ccc', outline: 'none', fontFamily: "'Noto Sans Arabic', sans-serif" }} />
+                <input value={carMake} onChange={e => setCarMake(e.target.value)} placeholder="Toyota" className="car-input" style={{ background: T.cardInner, border: 'none', borderRadius: 10, padding: '10px 14px', width: '100%', fontSize: 12, color: T.textMid, WebkitTextFillColor: T.textMid, outline: 'none', fontFamily: "'Noto Sans Arabic', sans-serif" }} />
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 9, color: T.textDim, marginBottom: 4 }}>مۆدێل</div>
-                <input value={carModel} onChange={e => setCarModel(e.target.value)} placeholder="Camry" className="car-input" style={{ background: T.cardInner, border: 'none', borderRadius: 10, padding: '10px 14px', width: '100%', fontSize: 12, color: '#ccc', WebkitTextFillColor: '#ccc', outline: 'none', fontFamily: "'Noto Sans Arabic', sans-serif" }} />
+                <input value={carModel} onChange={e => setCarModel(e.target.value)} placeholder="Camry" className="car-input" style={{ background: T.cardInner, border: 'none', borderRadius: 10, padding: '10px 14px', width: '100%', fontSize: 12, color: T.textMid, WebkitTextFillColor: T.textMid, outline: 'none', fontFamily: "'Noto Sans Arabic', sans-serif" }} />
               </div>
             </div>
             <div style={{ marginBottom: 10 }}>
               <div style={{ fontSize: 9, color: T.textDim, marginBottom: 4 }}>ڕەنگ</div>
-              <input value={carColor} onChange={e => setCarColor(e.target.value)} placeholder="White" className="car-input" style={{ background: T.cardInner, border: 'none', borderRadius: 10, padding: '10px 14px', width: '100%', fontSize: 12, color: '#ccc', WebkitTextFillColor: '#ccc', outline: 'none', fontFamily: "'Noto Sans Arabic', sans-serif" }} />
+              <input value={carColor} onChange={e => setCarColor(e.target.value)} placeholder="White" className="car-input" style={{ background: T.cardInner, border: 'none', borderRadius: 10, padding: '10px 14px', width: '100%', fontSize: 12, color: T.textMid, WebkitTextFillColor: T.textMid, outline: 'none', fontFamily: "'Noto Sans Arabic', sans-serif" }} />
             </div>
             <div style={{ height: 1, background: T.border, margin: '4px 0 12px' }} />
             <div style={{ fontSize: 9, color: T.textFaint, marginBottom: 6, fontWeight: 600 }}>تێبینی</div>
-            <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="هەر شتێک دەربارەی گەشتەکەت..." rows={2} className="note-input" style={{ background: T.cardInner, border: 'none', borderRadius: 10, padding: '10px 14px', width: '100%', fontSize: 12, color: '#ccc', WebkitTextFillColor: '#ccc', outline: 'none', resize: 'none', fontFamily: "'Noto Sans Arabic', sans-serif", lineHeight: 1.8 }} />
+            <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="هەر شتێک دەربارەی گەشتەکەت..." rows={2} className="note-input" style={{ background: T.cardInner, border: 'none', borderRadius: 10, padding: '10px 14px', width: '100%', fontSize: 12, color: T.textMid, WebkitTextFillColor: T.textMid, outline: 'none', resize: 'none', fontFamily: "'Noto Sans Arabic', sans-serif", lineHeight: 1.8 }} />
           </div>
 
-          {error && <p style={{ color: '#f87171', fontSize: 12, textAlign: 'center', marginBottom: 12 }}>{error}</p>}
+          {error && <p style={{ color: T.red, fontSize: 12, textAlign: 'center', marginBottom: 12 }}>{error}</p>}
 
           <div onClick={handleSubmit} style={{
             background: T.card, color: 'rgba(255,255,255,0.85)', border: `1px solid ${T.border}`, borderRadius: 14,
@@ -451,10 +451,10 @@ export default function PostRidePage() {
             const isDimmed = isCompleted || isCancelled
 
             const rideStatusConfig: Record<string, { text: string; color: string; bg: string }> = {
-              active: { text: 'چالاک', color: '#fbbf24', bg: 'rgba(251,191,36,0.1)' },
+              active: { text: 'چالاک', color: T.amber, bg: 'rgba(251,191,36,0.1)' },
               full: { text: '٠ جێ', color: 'rgba(255,255,255,0.85)', bg: 'rgba(255,255,255,0.08)' },
               completed: { text: 'تەواو بوو', color: T.green, bg: 'rgba(74,222,128,0.1)' },
-              cancelled: { text: 'هەڵوەشێنرایەوە', color: '#f87171', bg: 'rgba(248,113,113,0.1)' },
+              cancelled: { text: 'هەڵوەشێنرایەوە', color: T.red, bg: 'rgba(248,113,113,0.1)' },
             }
             const st = rideStatusConfig[ride.status] || rideStatusConfig.active
 

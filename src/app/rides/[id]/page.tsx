@@ -30,7 +30,7 @@ function StarSelector({ value, onChange }: { value: number; onChange: (v: number
           onClick={() => onChange(star)}
           style={{
             fontSize: 28, cursor: 'pointer',
-            color: star <= value ? '#df6530' : 'rgba(255,255,255,0.06)',
+            color: star <= value ? T.accent : 'rgba(255,255,255,0.06)',
             transition: 'transform 0.15s',
             transform: star <= value ? 'scale(1.1)' : 'scale(1)',
           }}
@@ -44,7 +44,7 @@ function StarDisplay({ rating, size = 12 }: { rating: number; size?: number }) {
   const full = Math.floor(rating)
   const hasHalf = rating % 1 >= 0.3
   return (
-    <span style={{ color: '#df6530', fontSize: size, letterSpacing: 1, direction: 'ltr', display: 'inline-flex', alignItems: 'center', opacity: 0.7 }}>
+    <span style={{ color: T.accent, fontSize: size, letterSpacing: 1, direction: 'ltr', display: 'inline-flex', alignItems: 'center', opacity: 0.7 }}>
       {[0, 1, 2, 3, 4].map(i => {
         if (i < full) return <span key={i}>★</span>
         if (i === full && hasHalf) return (
@@ -344,14 +344,14 @@ export default function RideDetailPage() {
   const inp: React.CSSProperties = {
     width: '100%',
     background: T.cardInner,
-    border: '1px solid #333',
+    border: `1px solid ${T.divider}`,
     borderRadius: 12,
     padding: '10px 14px',
     fontSize: 12,
     outline: 'none',
     direction: 'rtl',
     resize: 'none',
-    color: '#ccc',
+    color: T.textMid,
     lineHeight: 2,
   }
 
@@ -360,7 +360,7 @@ export default function RideDetailPage() {
   if (!ride) {
     return (
       <div style={{ ...pageWrap, textAlign: 'center', paddingTop: '3rem' }}>
-        <p style={{ color: '#666' }}>ئەم گەشتە نەدۆزرایەوە</p>
+        <p style={{ color: T.textMid }}>ئەم گەشتە نەدۆزرایەوە</p>
         <Link href="/home" style={{ color: T.orange, marginTop: '1rem', display: 'inline-block' }}>{ku.back}</Link>
         <BottomNav />
       </div>
@@ -420,7 +420,7 @@ export default function RideDetailPage() {
             </div>
             <div style={{ display: 'flex', alignItems: 'center', flex: 1, margin: '0 10px' }}>
               <div style={{ width: 7, height: 7, borderRadius: '50%', background: T.text, flexShrink: 0 }} />
-              <div style={{ flex: 1, height: 1, background: `linear-gradient(to right, ${T.text}, #333, ${T.orange})` }} />
+              <div style={{ flex: 1, height: 1, background: `linear-gradient(to right, ${T.text}, ${T.divider}, ${T.orange})` }} />
               <div style={{ width: 7, height: 7, borderRadius: '50%', border: `2px solid ${T.orange}`, flexShrink: 0 }} />
             </div>
             <div style={{ textAlign: 'center', minWidth: 44 }}>
@@ -428,9 +428,9 @@ export default function RideDetailPage() {
             </div>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 3 }}>
-            <span style={{ fontSize: 11, color: '#ccc', minWidth: 44, textAlign: 'center' }}>{CITIES[ride.to_city]}</span>
+            <span style={{ fontSize: 11, color: T.textMid, minWidth: 44, textAlign: 'center' }}>{CITIES[ride.to_city]}</span>
             <span style={{ fontSize: 9, color: T.textMid }}>{distance}</span>
-            <span style={{ fontSize: 11, color: '#ccc', minWidth: 44, textAlign: 'center' }}>{CITIES[ride.from_city]}</span>
+            <span style={{ fontSize: 11, color: T.textMid, minWidth: 44, textAlign: 'center' }}>{CITIES[ride.from_city]}</span>
           </div>
         </div>
 
@@ -527,13 +527,13 @@ export default function RideDetailPage() {
       {ride.notes && (
         <div style={{ margin: '16px 16px 0', padding: '12px 16px', background: T.card, borderRadius: 12, borderRight: `3px solid ${T.orange}`, border: '1px solid rgba(255,255,255,0.04)' }}>
           <div style={{ fontSize: 9, color: T.textFaint, marginBottom: 4, fontWeight: 600 }}>تێبینی</div>
-          <div style={{ fontSize: 11, color: '#999', lineHeight: 1.8 }}>{ride.notes}</div>
+          <div style={{ fontSize: 11, color: T.textDim, lineHeight: 1.8 }}>{ride.notes}</div>
         </div>
       )}
 
       {/* ── Action Area ── */}
       <div style={{ padding: '24px 16px 40px' }}>
-        {actionError && <p style={{ color: '#f87171', fontSize: 12, textAlign: 'center', marginBottom: 10 }}>{actionError}</p>}
+        {actionError && <p style={{ color: T.red, fontSize: 12, textAlign: 'center', marginBottom: 10 }}>{actionError}</p>}
 
         {/* Driver views */}
         {isOwnRide && (
@@ -563,7 +563,7 @@ export default function RideDetailPage() {
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
               </div>
-              <div style={{ width: 1, height: 32, background: '#333', flexShrink: 0, margin: '0 5px' }} />
+              <div style={{ width: 1, height: 32, background: T.divider, flexShrink: 0, margin: '0 5px' }} />
               <div>
                 <p style={{ fontWeight: 500, color: T.textMid, fontSize: 13, margin: '0 0 3px' }}>گەشتەکە تەواو بوو</p>
                 <p style={{ fontSize: 11, color: T.textFaint, margin: 0 }}>ڕێکەوت: {new Date(ride.completed_at).toLocaleDateString('en-GB')}</p>
@@ -581,7 +581,7 @@ export default function RideDetailPage() {
                 textAlign: 'center', textDecoration: 'none',
               }}>بەڕێوەبردن</Link>
               <button onClick={(e) => handleCancelRide(e)} style={{
-                flex: 1, background: 'rgba(220,50,50,0.15)', color: '#dc2626',
+                flex: 1, background: 'rgba(220,50,50,0.15)', color: T.destructive,
                 border: 'none', borderRadius: 10, padding: '10px 0', fontSize: 13, fontWeight: 500,
                 textAlign: 'center', cursor: 'pointer',
                 fontFamily: "'Noto Sans Arabic', sans-serif",
@@ -629,7 +629,7 @@ export default function RideDetailPage() {
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                   </svg>
                 </div>
-                <div style={{ width: 1, height: 32, background: '#333', flexShrink: 0, margin: '0 5px' }} />
+                <div style={{ width: 1, height: 32, background: T.divider, flexShrink: 0, margin: '0 5px' }} />
                 <div>
                   <p style={{ fontWeight: 500, color: T.textMid, fontSize: 13, margin: '0 0 3px' }}>سوپاس بۆ هەڵسەنگاندنەکەت!</p>
                   <p style={{ fontSize: 11, color: T.textFaint, margin: 0 }}>هەڵسەنگاندنەکەت دوای ٧٢ کاتژمێر دەردەکەوێ</p>
@@ -657,7 +657,7 @@ export default function RideDetailPage() {
             )
           ) : requestStatus === 'approved' ? (
             <div style={{ textAlign: 'center' }}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block', margin: '0 auto 6px' }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={T.textFaint} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block', margin: '0 auto 6px' }}>
                 <circle cx="12" cy="12" r="10" />
                 <polyline points="8 12 11 15 16 9" />
               </svg>
@@ -671,18 +671,18 @@ export default function RideDetailPage() {
                   direction: 'rtl',
                 }}>
                   پەیامێک بنێرە بۆ شۆفێر
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366" style={{ flexShrink: 0 }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill={T.whatsapp} style={{ flexShrink: 0 }}>
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                   </svg>
                 </a>
               ) : (
-                <p style={{ color: '#666', fontSize: 12 }}>شۆفێر ژمارەی مۆبایلی زیاد نەکردووە</p>
+                <p style={{ color: T.textMid, fontSize: 12 }}>شۆفێر ژمارەی مۆبایلی زیاد نەکردووە</p>
               )}
               <button
                 onClick={() => handleCancelRequest()}
                 style={{
                   width: '100%', border: 'none',
-                  background: 'rgba(220,50,50,0.15)', color: '#dc2626',
+                  background: 'rgba(220,50,50,0.15)', color: T.destructive,
                   borderRadius: 10, padding: 10, fontSize: 12, fontWeight: 500,
                   textAlign: 'center', cursor: 'pointer', marginTop: 12,
                   fontFamily: "'Noto Sans Arabic', sans-serif",
@@ -693,24 +693,24 @@ export default function RideDetailPage() {
             </div>
           ) : requestStatus === 'declined' ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0' }}>
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={T.destructive} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
                 <circle cx="12" cy="12" r="10" />
                 <path d="M15 9l-6 6M9 9l6 6" />
               </svg>
-              <div style={{ width: 1, height: 32, background: '#333', flexShrink: 0, margin: '0 5px' }} />
+              <div style={{ width: 1, height: 32, background: T.divider, flexShrink: 0, margin: '0 5px' }} />
               <div>
-                <p style={{ fontWeight: 500, color: '#dc2626', fontSize: 13, margin: '0 0 3px' }}>داواکاریەکت ڕەت کرایەوە</p>
+                <p style={{ fontWeight: 500, color: T.destructive, fontSize: 13, margin: '0 0 3px' }}>داواکاریەکت ڕەت کرایەوە</p>
                 <p style={{ fontSize: 11, color: T.textFaint, margin: 0, lineHeight: 1.6 }}>شۆفێر داواکاریەکەتی قبوڵ نەکرد</p>
               </div>
             </div>
           ) : (
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0' }}>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={T.textFaint} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
                   <circle cx="12" cy="12" r="10" />
                   <polyline points="12 6 12 12 16 14" />
                 </svg>
-                <div style={{ width: 1, height: 32, background: '#333', flexShrink: 0, margin: '0 5px' }} />
+                <div style={{ width: 1, height: 32, background: T.divider, flexShrink: 0, margin: '0 5px' }} />
                 <div>
                   <p style={{ fontWeight: 500, color: T.textMid, fontSize: 13, margin: '0 0 3px' }}>داواکاریەکت نێردرا</p>
                   <p style={{ fontSize: 11, color: T.textFaint, margin: 0, lineHeight: 1.6 }}>کە داواکرییەکەت قبوڵ کرا، ژمارە مۆبایلی شۆفێر لێرە دەردەکەوێ</p>
@@ -720,7 +720,7 @@ export default function RideDetailPage() {
                 onClick={() => handleWithdrawRequest()}
                 style={{
                   width: '100%', border: 'none',
-                  background: 'rgba(220,50,50,0.15)', color: '#dc2626',
+                  background: 'rgba(220,50,50,0.15)', color: T.destructive,
                   borderRadius: 10, padding: 10, fontSize: 12, fontWeight: 500,
                   textAlign: 'center', cursor: 'pointer', marginTop: 4,
                   fontFamily: "'Noto Sans Arabic', sans-serif",
@@ -758,7 +758,7 @@ export default function RideDetailPage() {
               دوای ئەوەی داواکارییەکت پەسەند کرا، ژمارەی مۆبایلەکەت لەگەڵ شۆفێر شێر دەکرێ
             </p>
             <button
-              style={{ width: '100%', background: '#16a34a', color: 'white', border: 'none', borderRadius: 12, padding: 14, fontSize: 15, fontWeight: 600, cursor: 'pointer', marginBottom: 8, opacity: sending ? 0.5 : 1 }}
+              style={{ width: '100%', background: T.green, color: 'white', border: 'none', borderRadius: 12, padding: 14, fontSize: 15, fontWeight: 600, cursor: 'pointer', marginBottom: 8, opacity: sending ? 0.5 : 1 }}
               disabled={sending}
               onClick={handleSendRequest}
             >

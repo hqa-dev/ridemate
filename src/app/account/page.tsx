@@ -43,7 +43,7 @@ function MenuItem({ icon, label, value, isLast, danger, onClick }: {
       <div style={{ width: 24, display: 'flex', justifyContent: 'center', marginLeft: 12 }}>
         {icon}
       </div>
-      <span style={{ flex: 1, fontSize: 14, color: danger ? '#dc3c3c' : 'rgba(255,255,255,0.7)', fontWeight: danger ? 500 : 400 }}>
+      <span style={{ flex: 1, fontSize: 14, color: danger ? T.destructive : 'rgba(255,255,255,0.7)', fontWeight: danger ? 500 : 400 }}>
         {label}
       </span>
       {value && (
@@ -97,7 +97,7 @@ const Icons = {
     </svg>
   ),
   logout: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc3c3c" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={T.destructive} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
     </svg>
   ),
