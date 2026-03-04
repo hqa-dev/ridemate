@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { ku } from '@/lib/translations'
 import { createClient } from '@/lib/supabase/client'
 import { CITIES, ROUTE_DISTANCE, toKurdishNum, formatKurdishDate, formatTime, estimateArrival } from '@/lib/utils'
+import { RideCard } from '@/components/ui/RideCard'
 
 export default function HomePage() {
   const [from, setFrom] = useState('')
@@ -178,68 +179,9 @@ export default function HomePage() {
         <div />
       ) : rides.length === 0 ? (
         <p style={{ textAlign: 'center', color: '#aaa', padding: '3rem 0' }}>{ku.noRidesFound}</p>
-      ) : rides.map(ride => {
-        const driver = ride.driver || {}
-        const depTime = toKurdishNum(formatTime(ride.departure_time))
-        const arrTime = toKurdishNum(estimateArrival(ride.departure_time, ride.from_city, ride.to_city))
-        const routeKey = `${ride.from_city}-${ride.to_city}`
-        const distance = ROUTE_DISTANCE[routeKey] || ''
-        const priceDisplay = ride.price_type === 'coffee'
-          ? 'قاوەیەک'
-          : `${toKurdishNum(ride.price_iqd?.toLocaleString() || '0')} دینار`
-        const seatsDisplay = `${toKurdishNum(ride.available_seats)} جێ بەردەستە`
-        const isFull = ride.available_seats <= 0
-
-        return (
-          <Link key={ride.id} href={`/rides/${ride.id}`} style={{ textDecoration: 'none' }}>
-            <div style={{
-              background: '#1a1c22',
-              borderRadius: 16,
-              marginBottom: 10,
-              boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
-              overflow: 'hidden',
-              opacity: isFull ? 0.6 : 1,
-            }}>
-              {/* Timeline header */}
-              <div style={{ padding: '8px 18px 0', display: 'flex', justifyContent: 'flex-end' }} dir="ltr">
-                <span style={{ fontSize: 12, color: '#aaa', minWidth: 38, textAlign: 'center' }}>{formatKurdishDate(ride.departure_time)}</span>
-              </div>
-              <div style={{ padding: '2px 18px 12px' }} dir="ltr">
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <div style={{ textAlign: 'center', minWidth: 44 }}>
-                    <div style={{ fontSize: 15, fontWeight: 700, color: '#e5e5e5' }}>{arrTime}</div>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', flex: 1, margin: '0 8px' }}>
-                    <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#e5e5e5', flexShrink: 0 }} />
-                    <div style={{ flex: 1, height: 2, position: 'relative', margin: '0 2px' }}>
-                      <div style={{ position: 'absolute', inset: 0, borderRadius: 1, background: 'linear-gradient(to right, rgba(255,255,255,0.85), transparent 45%, transparent 55%, rgba(255,255,255,0.85))', opacity: 0.5 }} />
-                      <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: 1, transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.25)', opacity: 0.3 }} />
-                    </div>
-                    <div style={{ width: 7, height: 7, borderRadius: '50%', border: '2px solid rgba(255,255,255,0.85)', flexShrink: 0 }} />
-                  </div>
-                  <div style={{ textAlign: 'center', minWidth: 44 }}>
-                    <div style={{ fontSize: 15, fontWeight: 700, color: '#e5e5e5' }}>{depTime}</div>
-                  </div>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
-                  <span style={{ fontSize: 11, color: '#ccc', minWidth: 44, textAlign: 'center' }}>{CITIES[ride.to_city]}</span>
-                  <span style={{ fontSize: 9, color: '#aaa' }}>{distance}</span>
-                  <span style={{ fontSize: 11, color: '#ccc', minWidth: 44, textAlign: 'center' }}>{CITIES[ride.from_city]}</span>
-                </div>
-              </div>
-
-              {/* Footer — driver · seats · price */}
-              <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '10px 18px', display: 'flex', alignItems: 'center', direction: 'rtl' }}>
-                <span style={{ flex: 1, textAlign: 'right', fontSize: 12, color: '#aaa' }}>{driver.full_name || 'شۆفێر'}</span>
-                <span style={{ flex: 1, textAlign: 'center', fontSize: 12, color: isFull ? 'rgba(255,255,255,0.85)' : '#777', fontWeight: isFull ? 700 : undefined }}>
-                  {isFull ? '0 جێ' : seatsDisplay}
-                </span>
-                <span style={{ flex: 1, textAlign: 'left', fontSize: 12, fontWeight: 400, color: '#aaa' }}>{priceDisplay}</span>
-              </div>
-            </div>
-          </Link>
-        )
-      })}
+      ) : rides.map(ride => (
+        <RideCard key={ride.id} ride={ride} />
+      ))}
       </div>
 
       <BottomNav />
