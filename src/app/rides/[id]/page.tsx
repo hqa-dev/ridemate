@@ -113,7 +113,7 @@ export default function RideDetailPage() {
         .select('id, status')
         .eq('ride_id', rideId)
         .eq('passenger_id', user.id)
-        .in('status', ['pending', 'approved'])
+        .in('status', ['pending', 'approved', 'declined'])
         .maybeSingle()
       if (existing) {
         setRequested(true)

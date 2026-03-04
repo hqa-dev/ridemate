@@ -3,8 +3,9 @@ import { useState, useRef, useEffect } from 'react'
 import { BottomNav } from '@/components/layout/BottomNav'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { CITIES, ROUTE_DISTANCE, toKurdishNum, formatTime, estimateArrival, formatKurdishDate } from '@/lib/utils'
+import { CITIES, toKurdishNum } from '@/lib/utils'
 import { T } from '@/lib/theme'
+import { RideCard } from '@/components/ui/RideCard'
 
 const CITY_KEYS = ['', 'erbil', 'suli', 'duhok'] as const
 
@@ -445,82 +446,31 @@ export default function PostRidePage() {
               <p style={{ color: T.textFaint, fontSize: 14 }}>هێشتا گەشتت پۆست نەکردووە</p>
             </div>
           ) : myPostedRides.map(ride => {
-            const depTime = toKurdishNum(formatTime(ride.departure_time))
-            const arrTime = toKurdishNum(estimateArrival(ride.departure_time, ride.from_city, ride.to_city))
-            const routeKey = `${ride.from_city}-${ride.to_city}`
-            const distance = ROUTE_DISTANCE[routeKey] || ''
             const isCompleted = ride.status === 'completed'
             const isCancelled = ride.status === 'cancelled'
-            const isFull = ride.status === 'full'
-            const priceDisp = ride.price_type === 'coffee' ? 'قاوەیەک' : `${toKurdishNum(Number(ride.price_iqd || 0).toLocaleString('en'))} دینار`
             const isDimmed = isCompleted || isCancelled
 
-            const statusConfig: Record<string, { text: string; color: string; bg: string }> = {
+            const rideStatusConfig: Record<string, { text: string; color: string; bg: string }> = {
               active: { text: 'چالاک', color: '#fbbf24', bg: 'rgba(251,191,36,0.1)' },
               full: { text: '٠ جێ', color: 'rgba(255,255,255,0.85)', bg: 'rgba(255,255,255,0.08)' },
               completed: { text: 'تەواو بوو', color: T.green, bg: 'rgba(74,222,128,0.1)' },
               cancelled: { text: 'هەڵوەشێنرایەوە', color: '#f87171', bg: 'rgba(248,113,113,0.1)' },
             }
-            const st = statusConfig[ride.status] || statusConfig.active
+            const st = rideStatusConfig[ride.status] || rideStatusConfig.active
 
             return (
-              <div key={ride.id} style={{ position: 'relative' }}>
-                <a href={`/rides/${ride.id}`} style={{ textDecoration: 'none', display: 'block' }}>
-                  <div style={{
-                    background: T.card, borderRadius: 16, marginBottom: 10,
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.3)', overflow: 'hidden',
-                    opacity: isDimmed ? 0.5 : 1,
-                  }}>
-                    {/* Date + status */}
-                    <div style={{ padding: '8px 18px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} dir="ltr">
-                      <span style={{
-                        fontSize: 9, padding: '2px 8px', borderRadius: 20,
-                        background: st.bg, color: st.color, fontWeight: 600,
-                      }}>{st.text}</span>
-                      <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>{formatKurdishDate(ride.departure_time)}</span>
-                    </div>
-
-                    {/* Timeline */}
-                    <div style={{ padding: '2px 18px 12px' }} dir="ltr">
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <div style={{ textAlign: 'center', minWidth: 44 }}>
-                          <div style={{ fontSize: 15, fontWeight: 700, color: '#e5e5e5' }}>{arrTime}</div>
-                        </div>
-                        <div style={{ display: 'flex', alignItems: 'center', flex: 1, margin: '0 8px' }}>
-                          <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#e5e5e5', flexShrink: 0 }} />
-                          <div style={{ flex: 1, height: 2, position: 'relative', margin: '0 2px' }}>
-                            <div style={{ position: 'absolute', inset: 0, borderRadius: 1, background: 'linear-gradient(to right, rgba(255,255,255,0.85), transparent 45%, transparent 55%, rgba(255,255,255,0.85))', opacity: 0.5 }} />
-                          </div>
-                          <div style={{ width: 7, height: 7, borderRadius: '50%', border: '2px solid rgba(255,255,255,0.85)', flexShrink: 0 }} />
-                        </div>
-                        <div style={{ textAlign: 'center', minWidth: 44 }}>
-                          <div style={{ fontSize: 15, fontWeight: 700, color: '#e5e5e5' }}>{depTime}</div>
-                        </div>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
-                        <span style={{ fontSize: 11, color: '#ccc', minWidth: 44, textAlign: 'center' }}>{CITIES[ride.to_city]}</span>
-                        <span style={{ fontSize: 9, color: '#aaa' }}>{distance}</span>
-                        <span style={{ fontSize: 11, color: '#ccc', minWidth: 44, textAlign: 'center' }}>{CITIES[ride.from_city]}</span>
-                      </div>
-                    </div>
-
-                    {/* Footer */}
-                    <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '10px 18px', display: 'flex', alignItems: 'center', direction: 'rtl' }}>
-                      <span style={{ flex: 1, textAlign: 'right', fontSize: 12, color: '#aaa' }}>{priceDisp}</span>
-                      <span style={{ flex: 1, textAlign: 'center', fontSize: 12, color: '#777' }}>
-                        {toKurdishNum(ride.available_seats)} جێ بەردەستە
-                      </span>
-                      {!isCompleted && !isCancelled && (
-                        <span
-                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); startEdit(ride) }}
-                          style={{ flex: 1, textAlign: 'left', fontSize: 12, color: 'rgba(255,255,255,0.5)', cursor: 'pointer' }}
-                        >دەسکاری</span>
-                      )}
-                      {(isCompleted || isCancelled) && <span style={{ flex: 1 }} />}
-                    </div>
-                  </div>
-                </a>
-              </div>
+              <RideCard
+                key={ride.id}
+                ride={ride}
+                status={st}
+                dimmed={isDimmed}
+                editButton={!isCompleted && !isCancelled ? (
+                  <span
+                    onClick={() => startEdit(ride)}
+                    style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', cursor: 'pointer' }}
+                  >دەسکاری</span>
+                ) : undefined}
+              />
             )
           })}
         </div>
