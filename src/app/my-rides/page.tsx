@@ -25,22 +25,11 @@ export default function MyRidesPage() {
 
     const { data: reqData } = await supabase
       .from('ride_requests')
-      .select('*, seen_by_passenger, ride:rides(*, driver:profiles!driver_id(full_name, phone, avatar_url))')
+      .select('*, ride:rides(*, driver:profiles!driver_id(full_name, phone, avatar_url))')
       .eq('passenger_id', user.id)
       .order('created_at', { ascending: false })
     setJoinedRides(reqData || [])
     setLoading(false)
-
-    // Mark all unseen approved/declined/cancelled as seen
-    const unseen = (reqData || []).filter(r => (r.status === 'approved' || r.status === 'declined' || r.status === 'cancelled') && !r.seen_by_passenger)
-    if (unseen.length > 0) {
-      await supabase
-        .from('ride_requests')
-        .update({ seen_by_passenger: true })
-        .in('id', unseen.map(r => r.id))
-      const unseenIds = new Set(unseen.map(r => r.id))
-      setJoinedRides(prev => prev.map(r => unseenIds.has(r.id) ? { ...r, seen_by_passenger: true } : r))
-    }
   }
 
   function handleCancelRequest(requestId: string, rideId: string) {
@@ -48,7 +37,7 @@ export default function MyRidesPage() {
       message: 'دڵنیایت لە پاشگەزبوونەوە؟',
       action: async () => {
         setConfirmModal(null)
-        const { error } = await supabase.from('ride_requests').update({ status: 'cancelled', seen_by_passenger: true }).eq('id', requestId)
+        const { error } = await supabase.from('ride_requests').update({ status: 'cancelled' }).eq('id', requestId)
         if (error) return
         const { error: rpcErr } = await supabase.rpc('increment_seats', { ride_id_input: rideId })
         if (rpcErr) console.error('increment_seats failed:', rpcErr)
@@ -179,9 +168,6 @@ export default function MyRidesPage() {
                     fontSize: 9, padding: '3px 9px', borderRadius: 20,
                     background: st.bg, color: st.color, fontWeight: 600,
                   }}>{st.text}</span>
-                  {!req.seen_by_passenger && (req.status === 'approved' || req.status === 'declined' || req.status === 'cancelled') && (
-                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'rgba(255,255,255,0.7)' }} />
-                  )}
                 </div>
               </div>
 

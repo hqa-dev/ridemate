@@ -48,7 +48,6 @@ export default function PostRidePage() {
   const [myPostedRides, setMyPostedRides] = useState<any[]>([])
   const [expanded, setExpanded] = useState<Record<string, boolean>>({})
   const [loadingManage, setLoadingManage] = useState(false)
-  const [unseenPendingCount, setUnseenPendingCount] = useState(0)
 
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get('tab') === 'manage') setActiveTab('manage')
@@ -64,16 +63,6 @@ export default function PostRidePage() {
       setIsVerifiedDriver(true)
     }
     setChecking(false)
-  }
-
-  async function loadUnseenCount() {
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return
-    const { data: myRides } = await supabase.from('rides').select('id').eq('driver_id', user.id).in('status', ['active', 'full'])
-    if (!myRides?.length) return
-    const { count } = await supabase.from('ride_requests').select('*', { count: 'exact', head: true })
-      .in('ride_id', myRides.map(r => r.id)).eq('status', 'pending')
-    setUnseenPendingCount(count || 0)
   }
 
   async function loadPostedRides() {
@@ -92,10 +81,6 @@ export default function PostRidePage() {
     }
     setLoadingManage(false)
   }
-
-  useEffect(() => {
-    if (isVerifiedDriver) loadUnseenCount()
-  }, [isVerifiedDriver])
 
   useEffect(() => {
     if (activeTab === 'manage' && isVerifiedDriver) loadPostedRides()
@@ -387,7 +372,6 @@ export default function PostRidePage() {
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
         }}>
           گەشتەکانم
-          {unseenPendingCount > 0 && <span style={{ background: 'rgba(255,255,255,0.85)', color: '#0e1015', fontSize: 8, fontWeight: 700, borderRadius: 7, minWidth: 14, height: 14, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '0 3px' }}>{toKurdishNum(unseenPendingCount)}</span>}
         </div>
       </div>
 
@@ -526,7 +510,6 @@ export default function PostRidePage() {
             const priceDisp = ride.price_type === 'coffee' ? 'قاوەیەک' : `${toKurdishNum(Number(ride.price_iqd || 0).toLocaleString('en'))} دینار`
             const requests = ride.ride_requests || []
             const pendingCount = requests.filter((r: any) => r.status === 'pending').length
-            const hasUnseenPending = false
 
             return (
               <div key={ride.id} style={{
@@ -569,7 +552,6 @@ export default function PostRidePage() {
                         color: isCompleted ? T.green : isCancelled ? '#f87171' : '#fbbf24',
                       }}>{isCompleted ? 'تەواو بوو ✓' : isCancelled ? 'هەڵوەشێنرایەوە' : 'چالاک'}</span>
                     )}
-                    {hasUnseenPending && <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'rgba(255,255,255,0.7)' }} />}
                     <span style={{ fontSize: 10, color: T.textDim }}>{ride.available_seats} جێ</span>
                   </div>
                   <div onClick={() => toggle(ride.id)} style={{
