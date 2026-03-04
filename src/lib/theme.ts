@@ -1,59 +1,60 @@
-// لیمۆ Theme Tokens
+// لیمۆ Theme Tokens — Bobby
+// Inspired by Bobby gum packaging: ink on white, orange-red + yellow accents
 export const T = {
   // Backgrounds
-  bg: '#0e1015',
-  card: '#1a1c22',
-  cardInner: '#1f2128',
-  modal: '#1a1c22',
+  bg:        '#FAFAF7',          // aged paper white
+  card:      '#FFFFFF',          // pure white card
+  cardInner: '#F5F3EC',          // warm inner surfaces
+  modal:     '#FAFAF7',          // modal background
 
   // Text
-  text: '#e5e5e5',
-  textBright: '#eaedf5',
-  textMid: '#aaa',
-  textDim: '#777',
-  textFaint: '#555',
+  text:       '#1A1208',         // near-black ink
+  textBright: '#1A1208',         // same — no need to brighten on light bg
+  textMid:    '#4A3F2A',         // mid ink
+  textDim:    '#9A8F78',         // faded ink
+  textFaint:  '#9A8F78',         // same as dim on light bg
 
   // Brand accent
-  orange: '#df6530',
-  accent: '#df6530',
-  accentFill: 'rgba(223,101,48,0.08)',
-  accentGlow: 'rgba(223,101,48,0.07)',
+  orange:     '#E8470A',         // Bobby box orange
+  accent:     '#E8470A',         // alias
+  accentFill: 'rgba(232,71,10,0.08)',
+  accentGlow: 'rgba(232,71,10,0.12)',
 
   // Borders & dividers
-  border: 'rgba(255,255,255,0.06)',
-  cardBorder: 'rgba(255,255,255,0.08)',
-  borderDim: 'rgba(255,255,255,0.04)',
-  divider: '#333',
+  border:     '#1A1208',         // thick ink border
+  cardBorder: '#1A1208',         // card outlines
+  borderDim:  'rgba(26,18,8,0.15)', // subtle inner borders
+  divider:    'rgba(26,18,8,0.25)', // dashed row dividers
 
   // Status colors
-  green: '#4ade80',
-  greenBg: '#1a2e1a',
-  red: '#f87171',
-  redBg: '#2e1a1a',
-  yellow: '#fbbf24',
-  yellowBg: '#2e2a1a',
-  amber: '#fbbf24',
-  amberBg: 'rgba(251,191,36,0.1)',
-  destructive: '#dc2626',
-  verified: '#22c55e',
-  whatsapp: '#25D366',
+  green:      '#2A7A1A',         // approve / verified
+  greenBg:    'rgba(42,122,26,0.08)',
+  red:        '#C8001A',         // decline / full / destructive
+  redBg:      'rgba(200,0,26,0.07)',
+  yellow:     '#F5C800',         // warm gum yellow
+  yellowBg:   'rgba(245,200,0,0.12)',
+  amber:      '#F5C800',         // pending — same as yellow
+  amberBg:    'rgba(245,200,0,0.12)',
+  destructive: '#C8001A',        // logout / delete — same as red
+  verified:   '#2A7A1A',         // ✓ badge — same as green
+  whatsapp:   '#25D366',         // never changes
 
   // Navigation
-  navBg: 'rgba(20,22,28,0.75)',
-  navBorder: 'rgba(255,255,255,0.06)',
-  activePill: 'rgba(255,255,255,0.1)',
-  activePillBorder: 'rgba(255,255,255,0.08)',
-  activePillShadow: '0 4px 16px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08)',
-  navGlow: 'rgba(0,180,255,0.15)',
+  navBg:            '#FFFFFF',
+  navBorder:        '#1A1208',
+  activePill:       '#E8470A',
+  activePillBorder: '#1A1208',
+  activePillShadow: '3px 3px 0 #1A1208',
+  navGlow:          'transparent',  // no glow in Bobby
 
   // Icons
-  iconDim: '#686e88',
-  iconMid: '#aaa',
+  iconDim: '#9A8F78',            // inactive nav icons
+  iconMid: '#4A3F2A',            // mid-prominence icons
 
-  // Misc (existing)
-  chipBg: 'rgba(255,255,255,0.06)',
-  cardShadow: '0 4px 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)',
-  shadow: '0 2px 8px rgba(0,0,0,0.3)',
-  radius: 14,
+  // Misc
+  chipBg:     'rgba(26,18,8,0.06)',
+  cardShadow: '3px 3px 0 #1A1208',  // hard comic drop shadow
+  shadow:     '2px 2px 0 #1A1208',  // smaller elements
+  radius:     12,
 } as const
 export type Theme = typeof T

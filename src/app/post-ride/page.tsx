@@ -307,16 +307,16 @@ export default function PostRidePage() {
         <div onClick={() => setActiveTab('post')} style={{
           flex: 1, padding: '9px 0', textAlign: 'center', borderRadius: 10,
           fontSize: 12, fontWeight: activeTab === 'post' ? 600 : 400, cursor: 'pointer',
-          background: activeTab === 'post' ? 'rgba(255,255,255,0.06)' : 'transparent',
-          color: activeTab === 'post' ? 'rgba(255,255,255,0.85)' : T.textDim,
-          border: `1px solid ${activeTab === 'post' ? 'rgba(255,255,255,0.08)' : T.border}`,
+          background: activeTab === 'post' ? T.chipBg : 'transparent',
+          color: activeTab === 'post' ? T.text : T.textDim,
+          border: `1px solid ${activeTab === 'post' ? T.borderDim : T.border}`,
         }}>گەشتێکی نوێ</div>
         <div onClick={() => setActiveTab('manage')} style={{
           flex: 1, padding: '9px 0', textAlign: 'center', borderRadius: 10,
           fontSize: 12, fontWeight: activeTab === 'manage' ? 600 : 400, cursor: 'pointer',
-          background: activeTab === 'manage' ? 'rgba(255,255,255,0.06)' : 'transparent',
-          color: activeTab === 'manage' ? 'rgba(255,255,255,0.85)' : T.textDim,
-          border: `1px solid ${activeTab === 'manage' ? 'rgba(255,255,255,0.08)' : T.border}`,
+          background: activeTab === 'manage' ? T.chipBg : 'transparent',
+          color: activeTab === 'manage' ? T.text : T.textDim,
+          border: `1px solid ${activeTab === 'manage' ? T.borderDim : T.border}`,
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
         }}>
           گەشتەکانم
@@ -327,10 +327,10 @@ export default function PostRidePage() {
       {activeTab === 'post' && (
         <div>
           {/* Route card */}
-          <div style={{ background: T.card, borderRadius: T.radius, marginBottom: 14, boxShadow: T.shadow, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.06)' }}>
+          <div style={{ background: T.card, borderRadius: T.radius, marginBottom: 14, boxShadow: T.shadow, overflow: 'hidden', border: `1px solid ${T.borderDim}` }}>
             <div style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 10 }}>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, flexShrink: 0 }}>
-                <div style={{ width: 8, height: 8, borderRadius: '50%', border: `2px solid rgba(255,255,255,0.85)` }} />
+                <div style={{ width: 8, height: 8, borderRadius: '50%', border: `2px solid ${T.text}` }} />
                 <div style={{ width: 1, height: 24, background: T.divider }} />
                 <div style={{ width: 8, height: 8, borderRadius: '50%', background: T.text }} />
               </div>
@@ -380,20 +380,20 @@ export default function PostRidePage() {
           </div>
 
           {/* Price card */}
-          <div style={{ background: T.card, borderRadius: T.radius, marginBottom: 14, boxShadow: T.shadow, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.06)', padding: '12px 16px' }}>
+          <div style={{ background: T.card, borderRadius: T.radius, marginBottom: 14, boxShadow: T.shadow, overflow: 'hidden', border: `1px solid ${T.borderDim}`, padding: '12px 16px' }}>
             <div style={{ fontSize: 9, color: T.textFaint, marginBottom: 8, fontWeight: 600 }}>نرخ</div>
             <div style={{ display: 'flex', gap: 8 }}>
               <div onClick={() => setPriceType('coffee')} style={{
                 flex: 1, padding: '10px 0', textAlign: 'center', borderRadius: 10, cursor: 'pointer',
-                background: priceType === 'coffee' ? 'rgba(255,255,255,0.06)' : T.cardInner,
-                border: `1px solid ${priceType === 'coffee' ? 'rgba(255,255,255,0.08)' : 'transparent'}`,
-                color: priceType === 'coffee' ? 'rgba(255,255,255,0.85)' : T.textMid, fontSize: 12, fontWeight: 500,
+                background: priceType === 'coffee' ? T.chipBg : T.cardInner,
+                border: `1px solid ${priceType === 'coffee' ? T.borderDim : 'transparent'}`,
+                color: priceType === 'coffee' ? T.text : T.textMid, fontSize: 12, fontWeight: 500,
               }}>قاوەیەک</div>
               <div onClick={() => setPriceType('iqd')} style={{
                 flex: 1, padding: '10px 0', textAlign: 'center', borderRadius: 10, cursor: 'pointer',
-                background: priceType === 'iqd' ? 'rgba(255,255,255,0.06)' : T.cardInner,
-                border: `1px solid ${priceType === 'iqd' ? 'rgba(255,255,255,0.08)' : 'transparent'}`,
-                color: priceType === 'iqd' ? 'rgba(255,255,255,0.85)' : T.textMid, fontSize: 12, fontWeight: 500,
+                background: priceType === 'iqd' ? T.chipBg : T.cardInner,
+                border: `1px solid ${priceType === 'iqd' ? T.borderDim : 'transparent'}`,
+                color: priceType === 'iqd' ? T.text : T.textMid, fontSize: 12, fontWeight: 500,
               }}>پارە</div>
             </div>
             {priceType === 'iqd' && (
@@ -405,7 +405,7 @@ export default function PostRidePage() {
           </div>
 
           {/* Car + Notes card */}
-          <div style={{ background: T.card, borderRadius: T.radius, marginBottom: 14, boxShadow: T.shadow, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.06)', padding: '12px 16px' }}>
+          <div style={{ background: T.card, borderRadius: T.radius, marginBottom: 14, boxShadow: T.shadow, overflow: 'hidden', border: `1px solid ${T.borderDim}`, padding: '12px 16px' }}>
             <div style={{ fontSize: 9, color: T.textFaint, marginBottom: 10, fontWeight: 600 }}>زانیاری ئۆتۆمبێل</div>
             <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
               <div style={{ flex: 1 }}>
@@ -429,7 +429,7 @@ export default function PostRidePage() {
           {error && <p style={{ color: T.red, fontSize: 12, textAlign: 'center', marginBottom: 12 }}>{error}</p>}
 
           <div onClick={handleSubmit} style={{
-            background: T.card, color: 'rgba(255,255,255,0.85)', border: `1px solid ${T.border}`, borderRadius: 14,
+            background: T.card, color: T.text, border: `1px solid ${T.border}`, borderRadius: 14,
             padding: 14, textAlign: 'center', cursor: loading ? 'default' : 'pointer',
             opacity: loading ? 0.5 : 1,
           }}>
@@ -452,7 +452,7 @@ export default function PostRidePage() {
 
             const rideStatusConfig: Record<string, { text: string; color: string; bg: string }> = {
               active: { text: 'چالاک', color: T.amber, bg: 'rgba(251,191,36,0.1)' },
-              full: { text: '٠ جێ', color: 'rgba(255,255,255,0.85)', bg: 'rgba(255,255,255,0.08)' },
+              full: { text: '٠ جێ', color: T.text, bg: T.chipBg },
               completed: { text: 'تەواو بوو', color: T.green, bg: 'rgba(74,222,128,0.1)' },
               cancelled: { text: 'هەڵوەشێنرایەوە', color: T.red, bg: 'rgba(248,113,113,0.1)' },
             }
@@ -467,7 +467,7 @@ export default function PostRidePage() {
                 editButton={!isCompleted && !isCancelled ? (
                   <span
                     onClick={() => startEdit(ride)}
-                    style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', cursor: 'pointer' }}
+                    style={{ fontSize: 12, color: T.textDim, cursor: 'pointer' }}
                   >دەسکاری</span>
                 ) : undefined}
               />

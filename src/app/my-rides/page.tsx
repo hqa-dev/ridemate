@@ -7,7 +7,7 @@ import { T } from '@/lib/theme'
 import { RideCard, REQUEST_STATUS, RIDE_CANCELLED_STATUS } from '@/components/ui/RideCard'
 
 const BackArrow = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={T.textMid} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="15 18 9 12 15 6" />
   </svg>
 )

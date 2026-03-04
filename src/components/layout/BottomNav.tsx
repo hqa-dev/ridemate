@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation'
 import { T } from '@/lib/theme'
 
 function NavIcon({ type, active }: { type: string; active: boolean }) {
-  const color = active ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.25)'
+  const color = active ? 'rgba(255,255,255,0.9)' : T.iconDim
   const sw = active ? 1.8 : 1.5
   const sz = active ? 26 : 22
   if (type === 'home') return <svg width={sz} height={sz} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z" /><path d="M9 21V12h6v9" /></svg>
@@ -35,7 +35,7 @@ export function BottomNav() {
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
         border: `1px solid ${T.navBorder}`,
-        boxShadow: '0 8px 32px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04)',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.08), inset 0 1px 0 rgba(26,18,8,0.04)',
       }}>
         {navItems.map((item) => {
           const active = item.href === '/home'

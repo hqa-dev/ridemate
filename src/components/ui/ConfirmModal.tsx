@@ -1,5 +1,7 @@
 'use client'
 
+import { T } from '@/lib/theme'
+
 interface ConfirmModalProps {
   isOpen: boolean
   message: string
@@ -22,12 +24,12 @@ export function ConfirmModal({ isOpen, message, onConfirm, onCancel }: ConfirmMo
       <div
         onClick={e => e.stopPropagation()}
         style={{
-          background: '#1a1c22', width: '100%', maxWidth: 340,
+          background: T.card, width: '100%', maxWidth: 340,
           borderRadius: 14, padding: '24px 20px',
           direction: 'rtl', fontFamily: "'Noto Sans Arabic', sans-serif",
         }}
       >
-        <p style={{ fontSize: 14, color: '#eaedf5', marginBottom: 20, marginTop: 0, lineHeight: 1.8, textAlign: 'center' }}>
+        <p style={{ fontSize: 14, color: T.text, marginBottom: 20, marginTop: 0, lineHeight: 1.8, textAlign: 'center' }}>
           {message}
         </p>
         <div style={{ display: 'flex', gap: 8 }}>
@@ -45,7 +47,7 @@ export function ConfirmModal({ isOpen, message, onConfirm, onCancel }: ConfirmMo
           <button
             onClick={onCancel}
             style={{
-              flex: 1, background: '#1f2128', color: 'rgba(255,255,255,0.85)',
+              flex: 1, background: T.cardInner, color: T.text,
               border: 'none', borderRadius: 10, padding: '10px 0',
               fontSize: 13, fontWeight: 500, cursor: 'pointer',
               fontFamily: "'Noto Sans Arabic', sans-serif",

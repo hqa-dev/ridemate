@@ -49,7 +49,7 @@ export function RideCard({ ride, status, dimmed, editButton }: RideCardProps) {
           ) : (
             <span />
           )}
-          <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>{formatKurdishDate(ride.departure_time)}</span>
+          <span style={{ fontSize: 12, color: T.textDim }}>{formatKurdishDate(ride.departure_time)}</span>
         </div>
 
         {/* Timeline */}
@@ -61,10 +61,10 @@ export function RideCard({ ride, status, dimmed, editButton }: RideCardProps) {
             <div style={{ display: 'flex', alignItems: 'center', flex: 1, margin: '0 8px' }}>
               <div style={{ width: 7, height: 7, borderRadius: '50%', background: T.text, flexShrink: 0 }} />
               <div style={{ flex: 1, height: 2, position: 'relative', margin: '0 2px' }}>
-                <div style={{ position: 'absolute', inset: 0, borderRadius: 1, background: 'linear-gradient(to right, rgba(255,255,255,0.85), transparent 45%, transparent 55%, rgba(255,255,255,0.85))', opacity: 0.5 }} />
-                <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: 1, transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.25)', opacity: 0.3 }} />
+                <div style={{ position: 'absolute', inset: 0, borderRadius: 1, background: `linear-gradient(to right, ${T.text}, transparent 45%, transparent 55%, ${T.text})`, opacity: 0.5 }} />
+                <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: 1, transform: 'translateY(-50%)', background: T.borderDim, opacity: 0.3 }} />
               </div>
-              <div style={{ width: 7, height: 7, borderRadius: '50%', border: '2px solid rgba(255,255,255,0.85)', flexShrink: 0 }} />
+              <div style={{ width: 7, height: 7, borderRadius: '50%', border: `2px solid ${T.text}`, flexShrink: 0 }} />
             </div>
             <div style={{ textAlign: 'center', minWidth: 44 }}>
               <div style={{ fontSize: 15, fontWeight: 700, color: T.text }}>{depTime}</div>
@@ -80,7 +80,7 @@ export function RideCard({ ride, status, dimmed, editButton }: RideCardProps) {
         {/* Footer — driver · seats · price */}
         <div style={{ borderTop: `1px solid ${T.border}`, padding: '10px 18px', display: 'flex', alignItems: 'center', direction: 'rtl' }}>
           <span style={{ flex: 1, textAlign: 'right', fontSize: 12, color: T.textMid }}>{driver.full_name || 'شۆفێر'}</span>
-          <span style={{ flex: 1, textAlign: 'center', fontSize: 12, color: isFull ? 'rgba(255,255,255,0.85)' : T.textDim, fontWeight: isFull ? 700 : undefined }}>
+          <span style={{ flex: 1, textAlign: 'center', fontSize: 12, color: isFull ? T.text : T.textDim, fontWeight: isFull ? 700 : undefined }}>
             {isFull ? '٠ جێ' : seatsDisplay}
           </span>
           <span style={{ flex: 1, textAlign: 'left', fontSize: 12, fontWeight: 400, color: T.textMid }}>{priceDisplay}</span>
@@ -95,7 +95,7 @@ export const REQUEST_STATUS: Record<string, { text: string; color: string; bg: s
   pending: { text: 'چاوەڕوانە', color: T.amber, bg: T.amberBg },
   approved: { text: 'قبوڵ کرا', color: T.green, bg: 'rgba(74,222,128,0.1)' },
   declined: { text: 'ڕەت کرایەوە', color: T.red, bg: 'rgba(248,113,113,0.1)' },
-  cancelled: { text: 'هەڵوەشێنرایەوە', color: T.textMid, bg: 'rgba(255,255,255,0.05)' },
+  cancelled: { text: 'هەڵوەشێنرایەوە', color: T.textMid, bg: T.chipBg },
 }
 
 export const RIDE_CANCELLED_STATUS = { text: 'هەڵوەشێنرایەوە', color: T.red, bg: 'rgba(248,113,113,0.1)' }

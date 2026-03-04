@@ -7,7 +7,7 @@ import { T } from '@/lib/theme'
 import { ConfirmModal } from '@/components/ui/ConfirmModal'
 
 const BackArrow = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={T.textMid} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="15 18 9 12 15 6" />
   </svg>
 )
@@ -59,7 +59,7 @@ export default function SettingsPage() {
 
         {/* Language */}
         <div style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.3)', padding: '0 4px 8px' }}>زمان</div>
+          <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '0 4px 8px' }}>زمان</div>
           <div style={{
             background: T.card, borderRadius: 12, overflow: 'hidden',
             border: `1px solid ${T.border}`,
@@ -69,19 +69,19 @@ export default function SettingsPage() {
               padding: '16px 16px', direction: 'rtl',
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={T.textDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                 </svg>
                 <span style={{ fontSize: 14, color: T.text }}>کوردی سۆرانی</span>
               </div>
-              <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)' }}>بەم زووانە</span>
+              <span style={{ fontSize: 11, color: T.iconDim }}>بەم زووانە</span>
             </div>
           </div>
         </div>
 
         {/* Notifications */}
         <div style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.3)', padding: '0 4px 8px' }}>ئاگاداری</div>
+          <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '0 4px 8px' }}>ئاگاداری</div>
           <div style={{
             background: T.card, borderRadius: 12, overflow: 'hidden',
             border: `1px solid ${T.border}`,
@@ -91,19 +91,19 @@ export default function SettingsPage() {
               padding: '16px 16px', direction: 'rtl',
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={T.textDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" />
                 </svg>
                 <span style={{ fontSize: 14, color: T.text }}>ئاگادارییەکانی پوش</span>
               </div>
-              <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)' }}>بەم زووانە</span>
+              <span style={{ fontSize: 11, color: T.iconDim }}>بەم زووانە</span>
             </div>
           </div>
         </div>
 
         {/* Danger zone */}
         <div>
-          <div style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.3)', padding: '0 4px 8px' }}>مەترسیدار</div>
+          <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '0 4px 8px' }}>مەترسیدار</div>
           <div style={{
             background: T.card, borderRadius: 12, overflow: 'hidden',
             border: '1px solid rgba(248,113,113,0.1)',
@@ -121,7 +121,7 @@ export default function SettingsPage() {
               </svg>
               <div>
                 <span style={{ fontSize: 14, color: T.red }}>سڕینەوەی هەژمار</span>
-                <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.25)', margin: '3px 0 0' }}>هەموو داتاکانت دەسڕێتەوە و ناگەڕێتەوە</p>
+                <p style={{ fontSize: 11, color: T.iconDim, margin: '3px 0 0' }}>هەموو داتاکانت دەسڕێتەوە و ناگەڕێتەوە</p>
               </div>
             </div>
           </div>

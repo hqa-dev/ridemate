@@ -10,13 +10,13 @@ import { T } from '@/lib/theme'
 import { ConfirmModal } from '@/components/ui/ConfirmModal'
 
 const BackArrow = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={T.textMid} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="15 18 9 12 15 6" />
   </svg>
 )
 
 const PersonIcon = ({ size = 16 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="8" r="4" /><path d="M20 21c0-3.31-3.58-6-8-6s-8 2.69-8 6" />
   </svg>
 )
@@ -30,7 +30,7 @@ function StarSelector({ value, onChange }: { value: number; onChange: (v: number
           onClick={() => onChange(star)}
           style={{
             fontSize: 28, cursor: 'pointer',
-            color: star <= value ? T.accent : 'rgba(255,255,255,0.06)',
+            color: star <= value ? T.accent : T.borderDim,
             transition: 'transform 0.15s',
             transform: star <= value ? 'scale(1.1)' : 'scale(1)',
           }}
@@ -49,11 +49,11 @@ function StarDisplay({ rating, size = 12 }: { rating: number; size?: number }) {
         if (i < full) return <span key={i}>★</span>
         if (i === full && hasHalf) return (
           <span key={i} style={{ position: 'relative', display: 'inline-block', width: '1em' }}>
-            <span style={{ color: 'rgba(255,255,255,0.06)' }}>★</span>
+            <span style={{ color: T.borderDim }}>★</span>
             <span style={{ position: 'absolute', left: 0, top: 0, overflow: 'hidden', width: '0.5em' }}>★</span>
           </span>
         )
-        return <span key={i} style={{ color: 'rgba(255,255,255,0.06)' }}>★</span>
+        return <span key={i} style={{ color: T.borderDim }}>★</span>
       })}
     </span>
   )
@@ -412,7 +412,7 @@ export default function RideDetailPage() {
       )}
 
       {/* Timeline + Stats */}
-      <div style={{ background: T.card, margin: '0 16px', borderRadius: 14, border: '1px solid rgba(255,255,255,0.04)', overflow: 'hidden' }}>
+      <div style={{ background: T.card, margin: '0 16px', borderRadius: 14, border: `1px solid ${T.borderDim}`, overflow: 'hidden' }}>
         <div style={{ padding: '18px 20px 14px' }} dir="ltr">
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <div style={{ textAlign: 'center', minWidth: 44 }}>
@@ -460,8 +460,8 @@ export default function RideDetailPage() {
       </div>
 
       {/* Driver */}
-      <div style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.3)', padding: '20px 20px 8px' }}>شۆفێر</div>
-      <div style={{ background: T.card, margin: '0 16px', borderRadius: 12, padding: '14px 16px', border: '1px solid rgba(255,255,255,0.04)', display: 'flex', alignItems: 'center', gap: 12 }}>
+      <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '20px 20px 8px' }}>شۆفێر</div>
+      <div style={{ background: T.card, margin: '0 16px', borderRadius: 12, padding: '14px 16px', border: `1px solid ${T.borderDim}`, display: 'flex', alignItems: 'center', gap: 12 }}>
         <div style={{
           width: 40, height: 40, borderRadius: 10,
           background: T.cardInner, border: `1px solid ${T.cardBorder}`,
@@ -474,7 +474,7 @@ export default function RideDetailPage() {
             <PersonIcon size={20} />
           )}
         </div>
-        <div style={{ width: 1, height: 32, background: 'rgba(255,255,255,0.06)', flexShrink: 0 }} />
+        <div style={{ width: 1, height: 32, background: T.borderDim, flexShrink: 0 }} />
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 14, fontWeight: 600, color: T.text, marginBottom: 2 }}>
             {driver.full_name || 'شۆفێر'}
@@ -492,10 +492,10 @@ export default function RideDetailPage() {
       {/* Passengers */}
       {(approvedPassengers.length > 0 || isOwnRide) && (
         <>
-          <div style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.3)', padding: '20px 20px 8px' }}>سەرنشینەکان</div>
-          <div style={{ background: T.card, margin: '0 16px', borderRadius: 12, padding: '0 16px', border: '1px solid rgba(255,255,255,0.04)' }}>
+          <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '20px 20px 8px' }}>سەرنشینەکان</div>
+          <div style={{ background: T.card, margin: '0 16px', borderRadius: 12, padding: '0 16px', border: `1px solid ${T.borderDim}` }}>
             {approvedPassengers.map((p: any, i: number) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', padding: '12px 0', gap: 10, borderBottom: i < approvedPassengers.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
+              <div key={i} style={{ display: 'flex', alignItems: 'center', padding: '12px 0', gap: 10, borderBottom: i < approvedPassengers.length - 1 ? `1px solid ${T.borderDim}` : 'none' }}>
                 <div style={{ width: 28, height: 28, borderRadius: 8, background: T.cardInner, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
                   {p.passenger?.avatar_url ? (
                     <img src={p.passenger.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} referrerPolicy="no-referrer" />
@@ -503,7 +503,7 @@ export default function RideDetailPage() {
                     <PersonIcon size={14} />
                   )}
                 </div>
-                <span style={{ flex: 1, fontSize: 13, color: 'rgba(255,255,255,0.6)' }}>{p.passenger?.full_name || 'سەرنشین'}</span>
+                <span style={{ flex: 1, fontSize: 13, color: T.textMid }}>{p.passenger?.full_name || 'سەرنشین'}</span>
                 {(p.pickup || p.dropoff) && (
                   <span style={{ fontSize: 10, color: T.textDim }}>
                     {p.pickup || '—'} ← {p.dropoff || '—'}
@@ -512,11 +512,11 @@ export default function RideDetailPage() {
               </div>
             ))}
             {ride.available_seats > 0 && (
-              <div style={{ display: 'flex', alignItems: 'center', padding: '12px 0', gap: 10, borderTop: approvedPassengers.length > 0 ? '1px solid rgba(255,255,255,0.04)' : 'none', opacity: 0.25 }}>
-                <div style={{ width: 28, height: 28, borderRadius: 8, border: '1px dashed rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>+</span>
+              <div style={{ display: 'flex', alignItems: 'center', padding: '12px 0', gap: 10, borderTop: approvedPassengers.length > 0 ? `1px solid ${T.borderDim}` : 'none', opacity: 0.25 }}>
+                <div style={{ width: 28, height: 28, borderRadius: 8, `1px dashed ${T.divider}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <span style={{ fontSize: 12, color: T.textDim }}>+</span>
                 </div>
-                <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>{toKurdishNum(ride.available_seats)} جێگای بەردەست</span>
+                <span style={{ fontSize: 12, color: T.textDim }}>{toKurdishNum(ride.available_seats)} جێگای بەردەست</span>
               </div>
             )}
           </div>
@@ -525,7 +525,7 @@ export default function RideDetailPage() {
 
       {/* Notes */}
       {ride.notes && (
-        <div style={{ margin: '16px 16px 0', padding: '12px 16px', background: T.card, borderRadius: 12, borderRight: `3px solid ${T.orange}`, border: '1px solid rgba(255,255,255,0.04)' }}>
+        <div style={{ margin: '16px 16px 0', padding: '12px 16px', background: T.card, borderRadius: 12, borderRight: `3px solid ${T.orange}`, border: `1px solid ${T.borderDim}` }}>
           <div style={{ fontSize: 9, color: T.textFaint, marginBottom: 4, fontWeight: 600 }}>تێبینی</div>
           <div style={{ fontSize: 11, color: T.textDim, lineHeight: 1.8 }}>{ride.notes}</div>
         </div>
@@ -576,7 +576,7 @@ export default function RideDetailPage() {
           ) : (
             <div style={{ display: 'flex', gap: 8 }}>
               <Link href="/post-ride?tab=manage" style={{
-                flex: 1, background: T.cardInner, color: 'rgba(255,255,255,0.85)',
+                flex: 1, background: T.cardInner, color: T.text,
                 borderRadius: 10, padding: '10px 0', fontSize: 13, fontWeight: 500,
                 textAlign: 'center', textDecoration: 'none',
               }}>بەڕێوەبردن</Link>
