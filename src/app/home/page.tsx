@@ -12,11 +12,38 @@ export default function HomePage() {
   const [rides, setRides] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [searchOpen, setSearchOpen] = useState(false)
+  const [hasUnseen, setHasUnseen] = useState(false)
   const supabase = createClient()
 
   useEffect(() => {
     loadRides()
+    checkNotifications()
   }, [from, to])
+
+  async function checkNotifications() {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return
+
+    // Check unseen requests as driver
+    const { count: driverCount } = await supabase
+      .from('ride_requests')
+      .select('id', { count: 'exact', head: true })
+      .eq('seen_by_driver', false)
+      .in('status', ['pending', 'cancelled'])
+      .in('ride_id', 
+        (await supabase.from('rides').select('id').eq('driver_id', user.id)).data?.map((r: any) => r.id) || []
+      )
+
+    // Check unseen responses as passenger
+    const { count: passengerCount } = await supabase
+      .from('ride_requests')
+      .select('id', { count: 'exact', head: true })
+      .eq('passenger_id', user.id)
+      .eq('seen_by_passenger', false)
+      .in('status', ['approved', 'declined', 'cancelled'])
+
+    setHasUnseen((driverCount || 0) + (passengerCount || 0) > 0)
+  }
 
   async function loadRides() {
     setLoading(true)
@@ -58,6 +85,19 @@ export default function HomePage() {
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
           <h1 style={{ fontSize: 28, fontWeight: 800, color: '#df6530', letterSpacing: -1 }}>ڕێ</h1>
+          <Link href="/my-rides" style={{ position: 'relative', padding: 6, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+              <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+            </svg>
+            {hasUnseen && (
+              <div style={{
+                position: 'absolute', top: 4, right: 4,
+                width: 8, height: 8, borderRadius: '50%',
+                background: '#df6530', border: '2px solid #0e1015',
+              }} />
+            )}
+          </Link>
         </div>
 
       {/* Search bar — collapsed */}
