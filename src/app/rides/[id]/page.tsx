@@ -167,7 +167,7 @@ export default function RideDetailPage() {
     setSending(true)
     setActionError('')
     const { data: revived } = await supabase.from('ride_requests')
-      .update({ status: 'pending', pickup: pickup || null, dropoff: dropoff || null })
+      .update({ status: 'pending', pickup: pickup || null, dropoff: dropoff || null, seen_by_driver: false })
       .eq('ride_id', rideId)
       .eq('passenger_id', currentUserId)
       .in('status', ['cancelled', 'declined'])

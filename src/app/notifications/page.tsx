@@ -383,18 +383,18 @@ function NotifRow({
 
           <div>
             <div style={{ fontSize: 13, fontWeight: n.unseen ? 700 : 500, color: n.unseen ? T.text : 'rgba(255,255,255,0.5)' }}>{n.personName}</div>
-            <div style={{ fontSize: 10, color: st.color, marginTop: 2, fontWeight: 500 }}>{st.text}</div>
+            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', marginTop: 2 }}>{n.route} · {n.date}</div>
           </div>
         </div>
 
-        {/* TAP ZONE 2: Details → ride detail */}
+        {/* TAP ZONE 2: Status + pickup → ride detail */}
         <div
-          style={{ flex: 1, minWidth: 0, cursor: isActionable ? 'default' : 'pointer' }}
+          style={{ flex: 1, minWidth: 0, cursor: isActionable ? 'default' : 'pointer', textAlign: 'left' }}
           onClick={() => { if (!isActionable) router.push(`/rides/${n.rideId}`) }}
         >
-          <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)' }}>{n.route} · {n.date}</div>
+          <div style={{ fontSize: 11, color: st.color, fontWeight: 500 }}>{st.text}</div>
           {(n.pickup || n.dropoff) && (
-            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', marginTop: 2 }}>
+            <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)', marginTop: 2 }}>
               {n.pickup || '—'}{n.dropoff ? ` ← ${n.dropoff}` : ''}
             </div>
           )}
