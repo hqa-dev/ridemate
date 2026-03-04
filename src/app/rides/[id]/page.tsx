@@ -293,6 +293,7 @@ export default function RideDetailPage() {
     background: T.bg,
     maxWidth: 480,
     margin: '0 auto',
+    paddingBottom: 100,
     fontFamily: "'Noto Sans Arabic', sans-serif",
   }
 
