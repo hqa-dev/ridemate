@@ -46,7 +46,7 @@ export function BottomNav() {
         {navItems.map((item) => {
           const active = item.href === '/home' 
             ? (pathname === '/home' || pathname === '/') 
-            : (pathname === '/account' || pathname === '/profile' || pathname === '/my-rides' || pathname === '/post-ride' || pathname === '/auth/verify')
+            : (pathname === '/account' || pathname === '/profile' || pathname === '/my-rides' || pathname === '/post-ride')
           return (
             <Link key={item.href} href={item.href} className="nav-tab" style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center',

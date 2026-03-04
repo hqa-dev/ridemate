@@ -190,10 +190,10 @@ export default function AccountPage() {
         padding: '0 14px',
         border: '1px solid rgba(255,255,255,0.04)',
       }}>
+        <MenuItem icon={Icons.profile} label="پرۆفایل" onClick={() => router.push('/profile')} />
         <MenuItem icon={Icons.myRides} label="گەشتەکانم" onClick={() => router.push('/my-rides')} />
         <MenuItem icon={Icons.postRide} label="گەشتێک پۆستکە" onClick={() => router.push('/post-ride')} />
-        <MenuItem icon={Icons.profile} label="پرۆفایل" onClick={() => router.push('/profile')} />
-        <MenuItem icon={Icons.car} label="شۆفێر" value={isDriver ? 'چالاککراوە' : 'چالاکنەکراوە'} onClick={() => router.push('/auth/verify')} />
+        <MenuItem icon={Icons.car} label="شۆفێر" value={isDriver ? 'چالاککراوە' : 'چالاکنەکراوە'} onClick={() => router.push('/post-ride')} />
         <MenuItem icon={Icons.settings} label="ڕێکخستنەکان" onClick={comingSoon} />
         <MenuItem icon={Icons.bell} label="ئاگاداریەکان" value="کراوە" isLast onClick={comingSoon} />
       </div>
