@@ -1,20 +1,30 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { BottomNav } from '@/components/layout/BottomNav'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ku } from '@/lib/translations'
+import { BottomNav } from '@/components/layout/BottomNav'
 import { createClient } from '@/lib/supabase/client'
-import { CITIES, ROUTE_DISTANCE, COLOR_KU, formatWhatsApp, formatTime, estimateArrival, toKurdishNum } from '@/lib/utils'
+import { CITIES, ROUTE_DISTANCE, formatTime, estimateArrival, toKurdishNum, formatKurdishDate } from '@/lib/utils'
 import { T } from '@/lib/theme'
-import { ConfirmModal } from '@/components/ui/ConfirmModal'
+
+const BackArrow = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="15 18 9 12 15 6" />
+  </svg>
+)
+
+const statusConfig: Record<string, { text: string; color: string; bg: string }> = {
+  pending: { text: 'چاوەڕوانە', color: '#fbbf24', bg: 'rgba(251,191,36,0.1)' },
+  approved: { text: 'قبوڵ کرا', color: T.green, bg: 'rgba(74,222,128,0.1)' },
+  declined: { text: 'ڕەت کرایەوە', color: '#f87171', bg: 'rgba(248,113,113,0.1)' },
+  cancelled: { text: 'هەڵوەشێنرایەوە', color: T.textMid, bg: 'rgba(255,255,255,0.05)' },
+}
 
 export default function MyRidesPage() {
-  const [joinedRides, setJoinedRides] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({})
-  const [confirmModal, setConfirmModal] = useState<{ message: string; action: () => void } | null>(null)
-
+  const router = useRouter()
   const supabase = createClient()
+  const [rides, setRides] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => { loadData() }, [])
 
@@ -23,270 +33,103 @@ export default function MyRidesPage() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) { setLoading(false); return }
 
-    const { data: reqData } = await supabase
+    const { data } = await supabase
       .from('ride_requests')
-      .select('*, ride:rides(*, driver:profiles!driver_id(full_name, phone, avatar_url))')
+      .select('id, status, ride:rides(id, from_city, to_city, departure_time, available_seats, price_type, price_iqd, status, driver:profiles!driver_id(full_name))')
       .eq('passenger_id', user.id)
       .order('created_at', { ascending: false })
-    setJoinedRides(reqData || [])
+
+    setRides(data || [])
     setLoading(false)
   }
-
-  function handleCancelRequest(requestId: string, rideId: string) {
-    setConfirmModal({
-      message: 'دڵنیایت لە پاشگەزبوونەوە؟',
-      action: async () => {
-        setConfirmModal(null)
-        const { error } = await supabase.from('ride_requests').update({ status: 'cancelled' }).eq('id', requestId)
-        if (error) return
-        const { error: rpcErr } = await supabase.rpc('increment_seats', { ride_id_input: rideId })
-        if (rpcErr) console.error('increment_seats failed:', rpcErr)
-        loadData()
-      },
-    })
-  }
-
-  function handleWithdrawRequest(requestId: string) {
-    setConfirmModal({
-      message: 'دڵنیایت لە پاشگەزبوونەوە؟',
-      action: async () => {
-        setConfirmModal(null)
-        const { error } = await supabase.from('ride_requests').delete().eq('id', requestId)
-        if (error) return
-        loadData()
-      },
-    })
-  }
-
-  const toggle = (id: string) => setExpanded(prev => ({ ...prev, [id]: !prev[id] }))
 
   return (
     <div style={{
       direction: 'rtl', minHeight: '100vh', background: T.bg,
-      maxWidth: 480, margin: '0 auto', padding: '24px 20px 96px',
-      fontFamily: "'Noto Sans Arabic', sans-serif",
+      fontFamily: "'Noto Sans Arabic', sans-serif", maxWidth: 480, margin: '0 auto',
+      paddingBottom: 100,
     }}>
-      <h1 style={{ fontSize: 22, fontWeight: 700, color: T.text, marginBottom: 20 }}>{ku.myRides}</h1>
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'center', padding: '24px 20px 20px', gap: 12 }}>
+        <div onClick={() => router.back()} style={{ cursor: 'pointer', padding: 4 }}><BackArrow /></div>
+        <h1 style={{ fontSize: 18, fontWeight: 700, color: T.text, margin: 0 }}>گەشتەکانم</h1>
+      </div>
 
-      {loading ? <div /> : joinedRides.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '4rem 0' }}>
-          <p style={{ color: T.textFaint, fontSize: 14 }}>هێشتا داوای هیچ گەشتێکت نەکردووە</p>
-          <p style={{ color: T.textDim, fontSize: 11, marginTop: 4 }}>لە لاپەڕەی سەرەکی گەشتێک هەڵبژێرە و داواکاری بنێرە، گەر قبوڵ بکرێ، لێرە دەیبینی</p>
-        </div>
-      ) : joinedRides.map(req => {
-        const ride = req.ride
-        if (!ride) return null
-        const driver = ride.driver || {}
-        const isCompleted = ride.status === 'completed'
-        const isRideCancelled = ride.status === 'cancelled'
-        const depTime = formatTime(ride.departure_time)
-        const arrTime = estimateArrival(ride.departure_time, ride.from_city, ride.to_city)
-        const routeKey = `${ride.from_city}-${ride.to_city}`
-        const distance = ROUTE_DISTANCE[routeKey] || ''
-        const isOpen = expanded[req.id]
-        const carColor = ride.car_color || ''
-        const priceDisplay = ride.price_type === 'coffee'
-          ? 'قاوەیەک'
-          : `${toKurdishNum(Number(ride.price_iqd).toLocaleString('en'))} دینار`
-        const waLink = driver.phone ? formatWhatsApp(driver.phone) : ''
+      <div style={{ padding: '0 20px' }}>
+        {loading ? <div /> : rides.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+            <p style={{ fontSize: 13, color: T.textDim }}>هێشتا داوای هیچ گەشتێکت نەکردووە</p>
+          </div>
+        ) : rides.map(req => {
+          const ride = req.ride
+          if (!ride) return null
+          const driver = ride.driver || {}
+          const depTime = toKurdishNum(formatTime(ride.departure_time))
+          const arrTime = toKurdishNum(estimateArrival(ride.departure_time, ride.from_city, ride.to_city))
+          const routeKey = `${ride.from_city}-${ride.to_city}`
+          const distance = ROUTE_DISTANCE[routeKey] || ''
+          const priceDisplay = ride.price_type === 'coffee'
+            ? 'قاوەیەک'
+            : `${toKurdishNum(Number(ride.price_iqd || 0).toLocaleString('en'))} دینار`
+          const isRideCancelled = ride.status === 'cancelled'
+          const st = isRideCancelled
+            ? { text: 'هەڵوەشێنرایەوە', color: '#f87171', bg: 'rgba(248,113,113,0.1)' }
+            : (statusConfig[req.status] || statusConfig.pending)
+          const isDimmed = req.status === 'declined' || req.status === 'cancelled' || isRideCancelled
 
-        const statusConfig: Record<string, { text: string; color: string; bg: string }> = {
-          pending: { text: 'چاوەڕوانە', color: '#fbbf24', bg: '#2e2a1a' },
-          approved: { text: isCompleted ? 'تەواو بوو ✓' : 'قبوڵ کرا', color: T.green, bg: T.greenBg },
-          declined: { text: 'ڕەت کرایەوە', color: '#dc2626', bg: '#2e1a1a' },
-          cancelled: { text: 'هەڵوەشێنرایەوە', color: T.textMid, bg: T.border },
-        }
-        const st = isRideCancelled
-          ? { text: 'هەڵوەشێنرایەوە', color: '#dc2626', bg: '#2e1a1a' }
-          : (statusConfig[req.status] || statusConfig.pending)
-
-        return (
-          <Link key={req.id} href={`/rides/${ride.id}`} style={{ textDecoration: 'none', display: 'block' }}>
-            <div style={{
-              background: T.card, borderRadius: T.radius, marginBottom: 10,
-              boxShadow: T.shadow, overflow: 'hidden',
-              border: '1px solid rgba(255,255,255,0.06)',
-              opacity: (req.status === 'declined' || req.status === 'cancelled' || isRideCancelled) ? 0.6 : 1,
-            }}>
-
-              {/* Timeline */}
-              <div style={{ padding: '12px 16px 8px' }} dir="ltr">
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <div style={{ textAlign: 'center', minWidth: 38 }}>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: T.text }}>{toKurdishNum(arrTime)}</div>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', flex: 1, margin: '0 6px' }}>
-                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: T.text, flexShrink: 0 }} />
-                    <div style={{ flex: 1, height: 1, background: `rgba(255,255,255,0.25)` }} />
-                    <div style={{ width: 6, height: 6, borderRadius: '50%', border: '2px solid rgba(255,255,255,0.85)', flexShrink: 0 }} />
-                  </div>
-                  <div style={{ textAlign: 'center', minWidth: 38 }}>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: T.text }}>{toKurdishNum(depTime)}</div>
-                  </div>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
-                  <span style={{ fontSize: 10, color: '#ccc', minWidth: 38, textAlign: 'center' }}>{CITIES[ride.to_city]}</span>
-                  <span style={{ fontSize: 8, color: T.textDim }}>{distance}</span>
-                  <span style={{ fontSize: 10, color: '#ccc', minWidth: 38, textAlign: 'center' }}>{CITIES[ride.from_city]}</span>
-                </div>
-              </div>
-
-              {/* Driver + hamburger + status */}
-              <div style={{ borderTop: `1px solid ${T.border}`, padding: '5px 16px', display: 'flex', alignItems: 'center', gap: 6 }}>
-                <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <div style={{
-                    width: 24, height: 24, borderRadius: 6, border: '1px solid #333',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden',
-                  }}>
-                    {driver.avatar_url ? (
-                      <img src={driver.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} referrerPolicy="no-referrer" />
-                    ) : (
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="8" r="4" fill="#555" />
-                        <path d="M4 21c0-4 3.6-7 8-7s8 3 8 7" fill="#555" />
-                      </svg>
-                    )}
-                  </div>
-                  <span style={{ fontSize: 11, fontWeight: 500, color: T.textMid }}>{driver.full_name || 'شۆفێر'}</span>
-                </div>
-                <div
-                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggle(req.id) }}
-                  style={{
-                    width: 22, height: 22, borderRadius: 6,
-                    background: isOpen ? T.border : 'transparent',
-                    border: `1px solid ${isOpen ? '#444' : '#333'}`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    cursor: 'pointer', flexShrink: 0, transition: 'all 0.2s',
-                  }}
-                >
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={isOpen ? T.textMid : '#555'} strokeWidth="2" strokeLinecap="round">
-                    <line x1="4" y1="7" x2="20" y2="7" /><line x1="4" y1="12" x2="20" y2="12" /><line x1="4" y1="17" x2="20" y2="17" />
-                  </svg>
-                </div>
-                <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
+          return (
+            <Link key={req.id} href={`/rides/${ride.id}`} style={{ textDecoration: 'none', display: 'block' }}>
+              <div style={{
+                background: T.card, borderRadius: 16, marginBottom: 10,
+                boxShadow: '0 2px 8px rgba(0,0,0,0.3)', overflow: 'hidden',
+                opacity: isDimmed ? 0.5 : 1,
+              }}>
+                {/* Date */}
+                <div style={{ padding: '8px 18px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} dir="ltr">
                   <span style={{
-                    fontSize: 9, padding: '3px 9px', borderRadius: 20,
+                    fontSize: 9, padding: '2px 8px', borderRadius: 20,
                     background: st.bg, color: st.color, fontWeight: 600,
                   }}>{st.text}</span>
+                  <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>{formatKurdishDate(ride.departure_time)}</span>
+                </div>
+
+                {/* Timeline */}
+                <div style={{ padding: '2px 18px 12px' }} dir="ltr">
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div style={{ textAlign: 'center', minWidth: 44 }}>
+                      <div style={{ fontSize: 15, fontWeight: 700, color: '#e5e5e5' }}>{arrTime}</div>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', flex: 1, margin: '0 8px' }}>
+                      <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#e5e5e5', flexShrink: 0 }} />
+                      <div style={{ flex: 1, height: 2, position: 'relative', margin: '0 2px' }}>
+                        <div style={{ position: 'absolute', inset: 0, borderRadius: 1, background: 'linear-gradient(to right, rgba(255,255,255,0.85), transparent 45%, transparent 55%, rgba(255,255,255,0.85))', opacity: 0.5 }} />
+                      </div>
+                      <div style={{ width: 7, height: 7, borderRadius: '50%', border: '2px solid rgba(255,255,255,0.85)', flexShrink: 0 }} />
+                    </div>
+                    <div style={{ textAlign: 'center', minWidth: 44 }}>
+                      <div style={{ fontSize: 15, fontWeight: 700, color: '#e5e5e5' }}>{depTime}</div>
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
+                    <span style={{ fontSize: 11, color: '#ccc', minWidth: 44, textAlign: 'center' }}>{CITIES[ride.to_city]}</span>
+                    <span style={{ fontSize: 9, color: '#aaa' }}>{distance}</span>
+                    <span style={{ fontSize: 11, color: '#ccc', minWidth: 44, textAlign: 'center' }}>{CITIES[ride.from_city]}</span>
+                  </div>
+                </div>
+
+                {/* Footer */}
+                <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '10px 18px', display: 'flex', alignItems: 'center', direction: 'rtl' }}>
+                  <span style={{ flex: 1, textAlign: 'right', fontSize: 12, color: '#aaa' }}>{driver.full_name || 'شۆفێر'}</span>
+                  <span style={{ flex: 1, textAlign: 'center', fontSize: 12, color: '#777' }}>
+                    {toKurdishNum(ride.available_seats)} جێ بەردەستە
+                  </span>
+                  <span style={{ flex: 1, textAlign: 'left', fontSize: 12, color: '#aaa' }}>{priceDisplay}</span>
                 </div>
               </div>
-
-              {/* Expandable details */}
-              {isOpen && (
-                <div style={{ padding: '10px 16px' }}>
-                  <div style={{
-                    padding: '8px 12px', background: T.cardInner, borderRadius: 10,
-                    fontSize: 11, color: T.textMid, lineHeight: 2, marginBottom: ride.notes ? 8 : 0,
-                  }}>
-                    {ride.car_make && <div>جۆر: <span style={{ color: '#ccc' }}>{ride.car_make}</span></div>}
-                    {ride.car_model && <div>مۆدێل: <span style={{ color: '#ccc' }}>{ride.car_model}</span></div>}
-                    {carColor && <div>ڕەنگ: <span style={{ color: '#ccc' }}>{COLOR_KU[carColor.toLowerCase()] || carColor}</span></div>}
-                    <div>نرخ: <span style={{ color: '#ccc' }}>{priceDisplay}</span></div>
-                    <div>جێگای بەردەست: <span style={{ color: ride.available_seats > 0 ? '#ccc' : 'rgba(255,255,255,0.85)', fontSize: ride.available_seats > 0 ? undefined : 12, fontWeight: ride.available_seats > 0 ? undefined : 700 }}>{ride.available_seats > 0 ? `${ride.available_seats} جێ` : '0 جێ'}</span></div>
-                  </div>
-                  {ride.notes && (
-                    <div style={{ padding: '8px 12px', background: T.cardInner, borderRadius: 10, borderRight: '3px solid rgba(255,255,255,0.15)' }}>
-                      <div style={{ fontSize: 8, color: T.textFaint, marginBottom: 2, fontWeight: 600 }}>تێبینی</div>
-                      <div style={{ fontSize: 10, color: '#999', lineHeight: 1.8 }}>{ride.notes}</div>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* WhatsApp — approved & active */}
-              {req.status === 'approved' && !isCompleted && !isRideCancelled && waLink && (
-                <div style={{ borderTop: `1px solid ${T.border}`, padding: '10px 16px' }}>
-                  <a href={waLink} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                    background: T.border, color: T.textMid, borderRadius: 10, padding: 9,
-                    fontSize: 11, fontWeight: 500, textDecoration: 'none', direction: 'rtl',
-                  }}>
-                    پەیامێک بنێرە بۆ شۆفێر
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="#25D366" style={{ flexShrink: 0 }}>
-                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                    </svg>
-                  </a>
-                </div>
-              )}
-
-              {/* Cancel request — approved & active */}
-              {req.status === 'approved' && !isCompleted && !isRideCancelled && (
-                <div style={{ borderTop: `1px solid ${T.border}`, padding: '10px 16px' }}>
-                  <div
-                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleCancelRequest(req.id, ride.id) }}
-                    style={{
-                      background: 'rgba(220,50,50,0.15)', color: '#dc2626',
-                      borderRadius: 10, padding: 9, fontSize: 11, fontWeight: 500,
-                      textAlign: 'center', cursor: 'pointer',
-                    }}
-                  >
-                    پاشگەزبوونەوە
-                  </div>
-                </div>
-              )}
-
-              {/* Completed */}
-              {isCompleted && req.status === 'approved' && (
-                <div style={{ borderTop: `1px solid ${T.border}`, padding: '10px 16px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <div style={{
-                      width: 24, height: 24, borderRadius: 6,
-                      background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.15)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                    }}>
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={T.green} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                    </div>
-                    <div style={{ width: 1, height: 20, background: '#333', flexShrink: 0 }} />
-                    <p style={{ fontWeight: 500, color: T.textMid, fontSize: 11, margin: 0 }}>گەشتەکە تەواو بوو</p>
-                  </div>
-                </div>
-              )}
-
-              {/* Pending hint + withdraw */}
-              {req.status === 'pending' && !isRideCancelled && (
-                <div style={{ borderTop: `1px solid ${T.border}`, padding: '10px 16px' }}>
-                  <p style={{ fontSize: 10, color: T.textFaint, margin: '0 0 8px', lineHeight: 1.6 }}>
-                    کە داواکرییەکەت قبوڵ کرا، ژمارە مۆبایلی شۆفێر لێرە دەردەکەوێ
-                  </p>
-                  <div
-                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleWithdrawRequest(req.id) }}
-                    style={{
-                      background: 'rgba(220,50,50,0.15)', color: '#dc2626',
-                      borderRadius: 10, padding: 9, fontSize: 11, fontWeight: 500,
-                      textAlign: 'center', cursor: 'pointer',
-                    }}
-                  >
-                    پاشگەزبوونەوە
-                  </div>
-                </div>
-              )}
-
-              {/* Declined */}
-              {req.status === 'declined' && (
-                <div style={{ borderTop: `1px solid ${T.border}`, padding: '10px 16px' }}>
-                  <p style={{ fontSize: 10, color: T.textFaint, margin: 0 }}>شۆفێر داواکاریەکەتی قبوڵ نەکرد</p>
-                </div>
-              )}
-
-              {/* Cancelled by driver */}
-              {req.status === 'cancelled' && (
-                <div style={{ borderTop: `1px solid ${T.border}`, padding: '10px 16px' }}>
-                  <p style={{ fontSize: 10, color: T.textFaint, margin: 0 }}>هەڵوەشێنرایەوە</p>
-                </div>
-              )}
-            </div>
-          </Link>
-        )
-      })}
-
-      <ConfirmModal
-        isOpen={!!confirmModal}
-        message={confirmModal?.message || ''}
-        onConfirm={() => confirmModal?.action()}
-        onCancel={() => setConfirmModal(null)}
-      />
+            </Link>
+          )
+        })}
+      </div>
 
       <BottomNav />
     </div>
