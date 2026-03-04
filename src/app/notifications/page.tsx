@@ -344,7 +344,7 @@ function NotifRow({
   const isProcessing = processing === n.id
 
   const statusText: Record<string, { text: string; color: string }> = {
-    request_received: { text: 'دەیەوێ سواربێ', color: T.orange },
+    request_received: { text: 'دەیەوێ بێ', color: T.orange },
     request_approved: { text: 'قبوڵ کرا', color: T.green },
     request_declined: { text: 'ڕەت کرایەوە', color: '#f87171' },
     passenger_cancelled: { text: 'پاشگەزبووەوە', color: '#f87171' },
