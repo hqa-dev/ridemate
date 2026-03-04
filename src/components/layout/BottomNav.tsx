@@ -12,7 +12,7 @@ function NavIcon({ type, active }: { type: string; active: boolean }) {
 
 const navItems = [
   { href: '/home', icon: 'home', label: 'گەشتەکان' },
-  { href: '/account', icon: 'profile', label: 'خۆت' },
+  { href: '/account', icon: 'profile', label: 'هەژمار' },
 ]
 
 export function BottomNav() {
