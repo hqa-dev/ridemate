@@ -17,32 +17,18 @@ export default function HomePage() {
 
   useEffect(() => {
     loadRides()
-    checkNotifications()
+    checkBell()
   }, [from, to])
 
-  async function checkNotifications() {
+  async function checkBell() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
-
-    // Check unseen requests as driver
-    const { count: driverCount } = await supabase
-      .from('ride_requests')
-      .select('id', { count: 'exact', head: true })
-      .eq('seen_by_driver', false)
-      .in('status', ['pending', 'cancelled'])
-      .in('ride_id', 
-        (await supabase.from('rides').select('id').eq('driver_id', user.id)).data?.map((r: any) => r.id) || []
-      )
-
-    // Check unseen responses as passenger
-    const { count: passengerCount } = await supabase
-      .from('ride_requests')
-      .select('id', { count: 'exact', head: true })
-      .eq('passenger_id', user.id)
-      .eq('seen_by_passenger', false)
-      .in('status', ['approved', 'declined', 'cancelled'])
-
-    setHasUnseen((driverCount || 0) + (passengerCount || 0) > 0)
+    const { count } = await supabase
+      .from('notifications')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', user.id)
+      .eq('seen', false)
+    setHasUnseen((count || 0) > 0)
   }
 
   async function loadRides() {

@@ -1,8 +1,6 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
 
 function NavIcon({ type, active }: { type: string; active: boolean }) {
   const color = active ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.25)'
@@ -19,29 +17,6 @@ const navItems = [
 
 export function BottomNav() {
   const pathname = usePathname()
-  const [badges, setBadges] = useState<Record<string, number>>({})
-
-  useEffect(() => {
-    loadBadges()
-    const interval = setInterval(loadBadges, 30000)
-    return () => clearInterval(interval)
-  }, [])
-
-  async function loadBadges() {
-    const supabase = createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return
-
-    const { count } = await supabase
-      .from('notifications')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', user.id)
-      .eq('seen', false)
-
-    setBadges({
-      '/home': count || 0,
-    })
-  }
 
   return (
     <>
@@ -67,7 +42,6 @@ export function BottomNav() {
       }}>
         {navItems.map((item) => {
           const active = pathname === item.href || (item.href === '/home' && pathname === '/')
-          const badge = badges[item.href] || 0
           return (
             <Link key={item.href} href={item.href} style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -90,19 +64,6 @@ export function BottomNav() {
                   color: 'rgba(255,255,255,0.85)',
                   fontFamily: "'Noto Sans Arabic', sans-serif",
                 }}>{item.label}</span>
-              )}
-              {badge > 0 && (
-                <div style={{
-                  position: 'absolute',
-                  top: active ? 4 : 6,
-                  left: active ? 12 : 8,
-                  minWidth: 14, height: 14, borderRadius: 7,
-                  background: 'rgba(255,255,255,0.85)',
-                  border: '1.5px solid rgba(20,22,28,0.9)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 8, fontWeight: 700, color: '#0e1015',
-                  padding: '0 3px',
-                }}>{badge}</div>
               )}
             </Link>
           )
