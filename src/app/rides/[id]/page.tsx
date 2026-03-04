@@ -513,7 +513,7 @@ export default function RideDetailPage() {
             ))}
             {ride.available_seats > 0 && (
               <div style={{ display: 'flex', alignItems: 'center', padding: '12px 0', gap: 10, borderTop: approvedPassengers.length > 0 ? `1px solid ${T.borderDim}` : 'none', opacity: 0.25 }}>
-                <div style={{ width: 28, height: 28, borderRadius: 8, `1px dashed ${T.divider}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <div style={{ width: 28, height: 28, borderRadius: 8, border: `1px dashed ${T.divider}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <span style={{ fontSize: 12, color: T.textDim }}>+</span>
                 </div>
                 <span style={{ fontSize: 12, color: T.textDim }}>{toKurdishNum(ride.available_seats)} جێگای بەردەست</span>
