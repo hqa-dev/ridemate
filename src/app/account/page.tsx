@@ -194,7 +194,7 @@ export default function AccountPage() {
         <MenuItem icon={Icons.myRides} label="گەشتەکانم" onClick={() => router.push('/my-rides')} />
         <MenuItem icon={Icons.postRide} label="گەشتێک پۆستکە" onClick={() => router.push('/post-ride')} />
         <MenuItem icon={Icons.car} label="شۆفێر" value={isDriver ? 'چالاککراوە' : 'چالاکنەکراوە'} onClick={() => router.push('/post-ride')} />
-        <MenuItem icon={Icons.settings} label="ڕێکخستنەکان" onClick={comingSoon} />
+        <MenuItem icon={Icons.settings} label="ڕێکخستنەکان" onClick={() => router.push('/settings')} />
         <MenuItem icon={Icons.bell} label="ئاگاداریەکان" value="کراوە" isLast onClick={comingSoon} />
       </div>
 
