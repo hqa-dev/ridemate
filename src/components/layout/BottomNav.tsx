@@ -32,8 +32,8 @@ export function BottomNav() {
       <nav className="nav-edge" style={{
         position: 'fixed', bottom: 12, left: '50%', transform: 'translateX(-50%)',
         width: 'calc(100% - 56px)', maxWidth: 420,
-        display: 'flex', direction: 'rtl', justifyContent: 'space-around', alignItems: 'center',
-        zIndex: 100, borderRadius: 50, padding: '8px 6px',
+        display: 'flex', direction: 'rtl', alignItems: 'center',
+        zIndex: 100, borderRadius: 50, padding: '4px 5px', gap: 4,
         background: 'rgba(20,22,28,0.75)',
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
@@ -41,18 +41,18 @@ export function BottomNav() {
         boxShadow: '0 8px 32px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04)',
       }}>
         {navItems.map((item) => {
-          const active = pathname === item.href || (item.href === '/home' && pathname === '/')
+          const active = item.href === '/home' 
+            ? (pathname === '/home' || pathname === '/') 
+            : (pathname === '/account' || pathname === '/profile' || pathname === '/my-rides' || pathname === '/post-ride' || pathname === '/auth/verify')
           return (
             <Link key={item.href} href={item.href} style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              gap: active ? 8 : 0, position: 'relative',
-              width: active ? 'auto' : 48,
-              padding: active ? '0 18px' : '0',
-              height: active ? 52 : 48, borderRadius: 50,
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              gap: active ? 10 : 0,
+              flex: active ? 2.2 : 1,
+              height: 50, borderRadius: 50,
+              transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
               background: active ? 'rgba(255,255,255,0.1)' : 'transparent',
-              boxShadow: active ? '0 4px 16px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08)' : 'none',
-              border: `1px solid ${active ? 'rgba(255,255,255,0.08)' : 'transparent'}`,
+              border: `1px solid ${active ? 'rgba(255,255,255,0.06)' : 'transparent'}`,
               textDecoration: 'none',
               overflow: 'hidden',
               whiteSpace: 'nowrap',
@@ -60,7 +60,7 @@ export function BottomNav() {
               <NavIcon type={item.icon} active={active} />
               {active && (
                 <span style={{
-                  fontSize: 11, fontWeight: 600,
+                  fontSize: 12, fontWeight: 600,
                   color: 'rgba(255,255,255,0.85)',
                   fontFamily: "'Noto Sans Arabic', sans-serif",
                 }}>{item.label}</span>
