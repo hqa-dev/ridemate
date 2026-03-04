@@ -18,7 +18,7 @@ export default function ConfirmPage() {
       if (attempts < 10) {
         setTimeout(check, 500)
       } else {
-        window.location.href = '/auth/register'
+        window.location.href = '/'
       }
     }
     check()
