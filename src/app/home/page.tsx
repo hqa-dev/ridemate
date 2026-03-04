@@ -6,6 +6,7 @@ import { ku } from '@/lib/translations'
 import { createClient } from '@/lib/supabase/client'
 import { CITIES, ROUTE_DISTANCE, toKurdishNum, formatKurdishDate, formatTime, estimateArrival } from '@/lib/utils'
 import { RideCard } from '@/components/ui/RideCard'
+import { T } from '@/lib/theme'
 
 export default function HomePage() {
   const [from, setFrom] = useState('')
@@ -64,14 +65,14 @@ export default function HomePage() {
   }
 
   return (
-    <div style={{ direction: 'rtl', height: '100vh', background: '#0e1015', maxWidth: 480, margin: '0 auto', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+    <div style={{ direction: 'rtl', height: '100vh', background: T.bg, maxWidth: 480, margin: '0 auto', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
 
       {/* Fixed header + search */}
       <div style={{ padding: '24px 20px 0', flexShrink: 0 }}>
 
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: '#df6530', letterSpacing: -1 }}>ڕێ</h1>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: T.accent, letterSpacing: -1 }}>ڕێ</h1>
           <Link href="/notifications" style={{ position: 'relative', padding: 6, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
@@ -81,7 +82,7 @@ export default function HomePage() {
               <div style={{
                 position: 'absolute', top: 4, right: 4,
                 width: 8, height: 8, borderRadius: '50%',
-                background: '#df6530', border: '2px solid #0e1015',
+                background: T.accent, border: `2px solid ${T.bg}`,
               }} />
             )}
           </Link>
@@ -92,10 +93,10 @@ export default function HomePage() {
         <div
           onClick={() => setSearchOpen(true)}
           style={{
-            background: '#1a1c22',
+            background: T.card,
             borderRadius: 50,
             padding: '14px 20px',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+            boxShadow: T.shadow,
             display: 'flex',
             alignItems: 'center',
             gap: 10,
@@ -103,14 +104,14 @@ export default function HomePage() {
             marginBottom: 20,
           }}
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#df6530" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={T.accent} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
           </svg>
-          <span style={{ fontSize: 13.5, color: '#ccc' }}>
+          <span style={{ fontSize: 13.5, color: T.textMid }}>
             {from && to ? (
               <>{CITIES[from]} ← {CITIES[to]}</>
             ) : (
-              <>بگە<span style={{ color: '#df6530', fontWeight: 700 }}>ڕێ</span></>
+              <>بگە<span style={{ color: T.accent, fontWeight: 700 }}>ڕێ</span></>
             )}
           </span>
         </div>
@@ -119,38 +120,38 @@ export default function HomePage() {
       {/* Search bar — expanded */}
       {searchOpen && (
         <div style={{
-          background: '#1a1c22',
+          background: T.card,
           borderRadius: 20,
           boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
           padding: 20,
           marginBottom: 20,
-          border: '1px solid rgba(160,170,200,0.06)',
+          border: `1px solid ${T.border}`,
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
             <div
               onClick={() => setSearchOpen(false)}
-              style={{ cursor: 'pointer', width: 30, height: 30, borderRadius: '50%', background: '#1f2128', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              style={{ cursor: 'pointer', width: 30, height: 30, borderRadius: '50%', background: T.cardInner, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#686e88" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M18 6L6 18"/><path d="M6 6l12 12"/>
               </svg>
             </div>
-            <span style={{ fontSize: 15, fontWeight: 700, color: '#eaedf5' }}>بگە<span style={{ color: '#df6530' }}>ڕێ</span></span>
+            <span style={{ fontSize: 15, fontWeight: 700, color: T.textBright }}>بگە<span style={{ color: T.accent }}>ڕێ</span></span>
           </div>
 
           {/* Vertical route */}
           <div style={{ display: 'flex', gap: 12, padding: '4px 0' }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, paddingTop: 12 }}>
-              <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#df6530' }} />
-              <div style={{ width: 1, height: 32, background: 'rgba(255,255,255,0.06)' }} />
-              <div style={{ width: 10, height: 10, borderRadius: '50%', border: '2px solid #eaedf5', background: 'transparent' }} />
+              <div style={{ width: 10, height: 10, borderRadius: '50%', background: T.accent }} />
+              <div style={{ width: 1, height: 32, background: T.border }} />
+              <div style={{ width: 10, height: 10, borderRadius: '50%', border: `2px solid ${T.textBright}`, background: 'transparent' }} />
             </div>
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 8 }}>
               <div
                 onClick={() => { const keys = ['', 'erbil', 'suli', 'duhok']; const idx = keys.indexOf(from); setFrom(keys[(idx + 1) % keys.length]); }}
                 style={{
-                  background: '#1f2128', borderRadius: 12, padding: '12px 16px',
-                  fontSize: 14, color: from ? '#eaedf5' : '#686e88', cursor: 'pointer',
+                  background: T.cardInner, borderRadius: 12, padding: '12px 16px',
+                  fontSize: 14, color: from ? T.textBright : T.iconDim, cursor: 'pointer',
                   fontFamily: "'Noto Sans Arabic', sans-serif",
                 }}
               >
@@ -159,8 +160,8 @@ export default function HomePage() {
               <div
                 onClick={() => { const keys = ['', 'erbil', 'suli', 'duhok']; const idx = keys.indexOf(to); setTo(keys[(idx + 1) % keys.length]); }}
                 style={{
-                  background: '#1f2128', borderRadius: 12, padding: '12px 16px',
-                  fontSize: 14, color: to ? '#eaedf5' : '#686e88', cursor: 'pointer',
+                  background: T.cardInner, borderRadius: 12, padding: '12px 16px',
+                  fontSize: 14, color: to ? T.textBright : T.iconDim, cursor: 'pointer',
                   fontFamily: "'Noto Sans Arabic', sans-serif",
                 }}
               >
@@ -178,7 +179,7 @@ export default function HomePage() {
       {loading ? (
         <div />
       ) : rides.length === 0 ? (
-        <p style={{ textAlign: 'center', color: '#aaa', padding: '3rem 0' }}>{ku.noRidesFound}</p>
+        <p style={{ textAlign: 'center', color: T.textMid, padding: '3rem 0' }}>{ku.noRidesFound}</p>
       ) : rides.map(ride => (
         <RideCard key={ride.id} ride={ride} />
       ))}

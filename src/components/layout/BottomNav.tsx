@@ -1,6 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { T } from '@/lib/theme'
 
 function NavIcon({ type, active }: { type: string; active: boolean }) {
   const color = active ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.25)'
@@ -21,31 +22,24 @@ export function BottomNav() {
   return (
     <>
       <style>{`
-        @keyframes navEdge {
-          0% { border-color: rgba(255,255,255,0.06); box-shadow: 0 8px 32px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04); }
-          33% { border-color: rgba(0,180,255,0.2); box-shadow: 0 8px 32px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04), 0 0 14px rgba(0,180,255,0.06); }
-          66% { border-color: rgba(0,140,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04), 0 0 18px rgba(0,160,255,0.04); }
-          100% { border-color: rgba(255,255,255,0.06); box-shadow: 0 8px 32px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04); }
-        }
-        .nav-edge { animation: navEdge 8s ease-in-out infinite; }
         .nav-tab { transition: flex 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s, border 0.3s, transform 0.3s; }
         .nav-tab:active { transform: scale(0.95); }
         .nav-label { transition: opacity 0.2s ease 0.15s, max-width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
       `}</style>
-      <nav className="nav-edge" style={{
+      <nav style={{
         position: 'fixed', bottom: 12, left: '50%', transform: 'translateX(-50%)',
         width: 'calc(100% - 56px)', maxWidth: 420,
         display: 'flex', direction: 'rtl', alignItems: 'center',
         zIndex: 100, borderRadius: 50, padding: '4px 5px', gap: 4,
-        background: 'rgba(20,22,28,0.75)',
+        background: T.navBg,
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
-        border: '1px solid rgba(255,255,255,0.06)',
+        border: `1px solid ${T.navBorder}`,
         boxShadow: '0 8px 32px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04)',
       }}>
         {navItems.map((item) => {
-          const active = item.href === '/home' 
-            ? (pathname === '/home' || pathname === '/') 
+          const active = item.href === '/home'
+            ? (pathname === '/home' || pathname === '/')
             : (pathname === '/account' || pathname === '/profile' || pathname === '/my-rides' || pathname === '/post-ride')
           return (
             <Link key={item.href} href={item.href} className="nav-tab" style={{
@@ -53,8 +47,8 @@ export function BottomNav() {
               gap: 10,
               flex: active ? 2.2 : 1,
               height: 50, borderRadius: 50,
-              background: active ? 'rgba(255,255,255,0.1)' : 'transparent',
-              border: `1px solid ${active ? 'rgba(255,255,255,0.06)' : 'transparent'}`,
+              background: active ? T.activePill : 'transparent',
+              border: `1px solid ${active ? T.navBorder : 'transparent'}`,
               textDecoration: 'none',
               overflow: 'hidden',
               whiteSpace: 'nowrap',

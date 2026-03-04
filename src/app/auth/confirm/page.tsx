@@ -1,6 +1,7 @@
 'use client'
 import { useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { T } from '@/lib/theme'
 
 export default function ConfirmPage() {
   const supabase = createClient()
@@ -24,8 +25,8 @@ export default function ConfirmPage() {
   }, [])
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0e1015', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <p style={{ color: '#a8a29e', fontSize: '1rem' }}>...چاوەڕوان بە</p>
+    <div style={{ minHeight: '100vh', background: T.bg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <p style={{ color: T.textDim, fontSize: '1rem' }}>...چاوەڕوان بە</p>
     </div>
   )
 }

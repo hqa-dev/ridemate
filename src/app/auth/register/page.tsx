@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { ku } from '@/lib/translations'
 import { createClient } from '@/lib/supabase/client'
+import { T } from '@/lib/theme'
 
 type Step = 'signin' | 'role' | 'verify'
 
@@ -84,32 +85,32 @@ export default function RegisterPage() {
   }
 
   const btn: React.CSSProperties = {
-    background: '#df6530', color: 'white', border: 'none', borderRadius: 12,
+    background: T.accent, color: 'white', border: 'none', borderRadius: 12,
     padding: '14px', fontSize: 15, fontWeight: 700, cursor: 'pointer',
     width: '100%', marginBottom: 8, fontFamily: "'Noto Sans Arabic', sans-serif",
   }
   const btnSec: React.CSSProperties = {
-    background: '#1a1c22', color: '#aaa', border: '1px solid rgba(255,255,255,0.06)',
+    background: T.card, color: T.textMid, border: `1px solid ${T.border}`,
     borderRadius: 12, padding: '12px', cursor: 'pointer', width: '100%',
     fontSize: 13, fontFamily: "'Noto Sans Arabic', sans-serif",
   }
   const uploadStyle = (hasFile: boolean): React.CSSProperties => ({
-    border: `2px dashed ${hasFile ? '#4ade80' : 'rgba(255,255,255,0.06)'}`,
+    border: `2px dashed ${hasFile ? T.green : T.border}`,
     background: hasFile ? 'rgba(74,222,128,0.03)' : 'transparent',
     borderRadius: 16, padding: '24px', textAlign: 'center',
     cursor: 'pointer', marginBottom: 12,
   })
 
   return (
-    <div style={{ direction: 'rtl', minHeight: '100vh', background: '#0e1015', maxWidth: 480, margin: '0 auto', padding: '0 20px 48px', fontFamily: "'Noto Sans Arabic', sans-serif" }}>
+    <div style={{ direction: 'rtl', minHeight: '100vh', background: T.bg, maxWidth: 480, margin: '0 auto', padding: '0 20px 48px', fontFamily: "'Noto Sans Arabic', sans-serif" }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 0' }}>
         <span
           onClick={() => { if (step === 'role') setStep('signin'); if (step === 'verify') setStep('role'); }}
-          style={{ color: '#555', textDecoration: 'none', fontSize: 13, cursor: step !== 'signin' ? 'pointer' : 'default' }}
+          style={{ color: T.textFaint, textDecoration: 'none', fontSize: 13, cursor: step !== 'signin' ? 'pointer' : 'default' }}
         >
           {step !== 'signin' ? '← گەڕانەوە' : ''}
         </span>
-        <span style={{ fontSize: 22, fontWeight: 800, color: '#df6530' }}>ڕێ</span>
+        <span style={{ fontSize: 22, fontWeight: 800, color: T.accent }}>ڕێ</span>
         <div style={{ width: 60 }} />
       </div>
 
@@ -118,36 +119,36 @@ export default function RegisterPage() {
         {[1, 2, 3].map(n => (
           <div key={n} style={{
             height: 4, flex: 1, borderRadius: 99,
-            background: (step === 'signin' && n === 1) || (step === 'role' && n <= 2) || step === 'verify' ? '#df6530' : 'rgba(255,255,255,0.06)',
+            background: (step === 'signin' && n === 1) || (step === 'role' && n <= 2) || step === 'verify' ? T.accent : T.border,
           }} />
         ))}
       </div>
 
       {step === 'signin' && (
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 700, color: '#e5e5e5', marginBottom: 8 }}>{ku.createAccount}</h1>
-          <p style={{ color: '#777', marginBottom: 24, fontSize: 13 }}>بە گووگڵ چوونەژوورەوە بکە بۆ دەستپێکردن</p>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: T.text, marginBottom: 8 }}>{ku.createAccount}</h1>
+          <p style={{ color: T.textDim, marginBottom: 24, fontSize: 13 }}>بە گووگڵ چوونەژوورەوە بکە بۆ دەستپێکردن</p>
 
           {error && (
-            <div style={{ background: '#2e1a1a', border: '1px solid rgba(248,113,113,0.2)', borderRadius: 12, padding: '12px 16px', marginBottom: 16, color: '#f87171', fontSize: 13 }}>{error}</div>
+            <div style={{ background: T.redBg, border: '1px solid rgba(248,113,113,0.2)', borderRadius: 12, padding: '12px 16px', marginBottom: 16, color: T.red, fontSize: 13 }}>{error}</div>
           )}
 
           {isSignedIn ? (
-            <div style={{ background: '#1a2e1a', border: '1px solid rgba(74,222,128,0.2)', borderRadius: 16, padding: 16, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{ background: T.greenBg, border: '1px solid rgba(74,222,128,0.2)', borderRadius: 16, padding: 16, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
               <span style={{ fontSize: 18 }}>✓</span>
               <div>
-                <span style={{ fontWeight: 600, color: '#4ade80', display: 'block', fontSize: 13 }}>چوونەژوورەوە سەرکەوتوو بوو</span>
-                {userName && <span style={{ fontSize: 11, color: '#aaa' }}>بەخێربێیتەوە، {userName}</span>}
+                <span style={{ fontWeight: 600, color: T.green, display: 'block', fontSize: 13 }}>چوونەژوورەوە سەرکەوتوو بوو</span>
+                {userName && <span style={{ fontSize: 11, color: T.textMid }}>بەخێربێیتەوە، {userName}</span>}
               </div>
             </div>
           ) : (
             <div onClick={handleGoogleSignIn} style={{
-              background: '#1a1c22', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14,
+              background: T.card, border: `1px solid ${T.border}`, borderRadius: 14,
               padding: '14px 20px', cursor: 'pointer', marginBottom: 16,
               display: 'flex', alignItems: 'center', gap: 12,
             }}>
               <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59a14.5 14.5 0 0 1 0-9.18l-7.98-6.19a24.01 24.01 0 0 0 0 21.56l7.98-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-              <span style={{ fontWeight: 500, color: '#e5e5e5', fontSize: 14 }}>{ku.continueWithGoogle}</span>
+              <span style={{ fontWeight: 500, color: T.text, fontSize: 14 }}>{ku.continueWithGoogle}</span>
             </div>
           )}
 
@@ -157,8 +158,8 @@ export default function RegisterPage() {
 
       {step === 'role' && (
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 700, color: '#e5e5e5', marginBottom: 8 }}>{ku.iAm}</h1>
-          <p style={{ color: '#777', marginBottom: 24, fontSize: 13 }}>{ku.chooseRole}</p>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: T.text, marginBottom: 8 }}>{ku.iAm}</h1>
+          <p style={{ color: T.textDim, marginBottom: 24, fontSize: 13 }}>{ku.chooseRole}</p>
           {[
             { value: 'passenger', icon: '🧳', label: ku.passenger, desc: ku.passengerDesc },
             { value: 'driver', icon: '🚗', label: ku.driver, desc: ku.driverDesc },
@@ -166,14 +167,14 @@ export default function RegisterPage() {
           ].map(opt => (
             <div key={opt.value} onClick={() => setRole(opt.value)} style={{
               display: 'flex', alignItems: 'center', gap: 14,
-              background: role === opt.value ? 'rgba(223,101,48,0.08)' : '#1a1c22',
-              border: `1.5px solid ${role === opt.value ? '#df6530' : 'rgba(255,255,255,0.06)'}`,
+              background: role === opt.value ? T.accentFill : T.card,
+              border: `1.5px solid ${role === opt.value ? T.accent : T.border}`,
               borderRadius: 16, padding: '14px 16px', cursor: 'pointer', marginBottom: 10,
             }}>
               <span style={{ fontSize: 28 }}>{opt.icon}</span>
               <div>
-                <div style={{ fontWeight: 600, color: '#e5e5e5', fontSize: 14 }}>{opt.label}</div>
-                <div style={{ fontSize: 11, color: '#777' }}>{opt.desc}</div>
+                <div style={{ fontWeight: 600, color: T.text, fontSize: 14 }}>{opt.label}</div>
+                <div style={{ fontSize: 11, color: T.textDim }}>{opt.desc}</div>
               </div>
             </div>
           ))}
@@ -184,25 +185,25 @@ export default function RegisterPage() {
 
       {step === 'verify' && (
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 700, color: '#e5e5e5', marginBottom: 8 }}>{ku.verifyIdentity}</h1>
-          <p style={{ color: '#777', marginBottom: 24, fontSize: 13, lineHeight: 1.8 }}>{ku.verifyDesc}</p>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: T.text, marginBottom: 8 }}>{ku.verifyIdentity}</h1>
+          <p style={{ color: T.textDim, marginBottom: 24, fontSize: 13, lineHeight: 1.8 }}>{ku.verifyDesc}</p>
 
           {error && (
-            <div style={{ background: '#2e1a1a', border: '1px solid rgba(248,113,113,0.2)', borderRadius: 12, padding: '12px 16px', marginBottom: 16, color: '#f87171', fontSize: 13 }}>{error}</div>
+            <div style={{ background: T.redBg, border: '1px solid rgba(248,113,113,0.2)', borderRadius: 12, padding: '12px 16px', marginBottom: 16, color: T.red, fontSize: 13 }}>{error}</div>
           )}
 
           <input type="file" accept="image/*" ref={idRef} style={{ display: 'none' }} onChange={e => setIdFile(e.target.files?.[0] || null)} />
           <div style={uploadStyle(!!idFile)} onClick={() => idRef.current?.click()}>
             <div style={{ fontSize: 36, marginBottom: 8 }}>🪪</div>
-            <div style={{ fontWeight: 600, color: idFile ? '#4ade80' : '#aaa', fontSize: 13 }}>{idFile ? idFile.name : ku.uploadId}</div>
-            <div style={{ fontSize: 11, color: '#555', marginTop: 4 }}>{idFile ? '✓ ئەپلۆد کرا' : ku.uploadIdDesc}</div>
+            <div style={{ fontWeight: 600, color: idFile ? T.green : T.textMid, fontSize: 13 }}>{idFile ? idFile.name : ku.uploadId}</div>
+            <div style={{ fontSize: 11, color: T.textFaint, marginTop: 4 }}>{idFile ? '✓ ئەپلۆد کرا' : ku.uploadIdDesc}</div>
           </div>
 
           <input type="file" accept="image/*" capture="user" ref={selfieRef} style={{ display: 'none' }} onChange={e => setSelfieFile(e.target.files?.[0] || null)} />
           <div style={uploadStyle(!!selfieFile)} onClick={() => selfieRef.current?.click()}>
             <div style={{ fontSize: 36, marginBottom: 8 }}>🤳</div>
-            <div style={{ fontWeight: 600, color: selfieFile ? '#4ade80' : '#aaa', fontSize: 13 }}>{selfieFile ? selfieFile.name : ku.takeSelfie}</div>
-            <div style={{ fontSize: 11, color: '#555', marginTop: 4 }}>{selfieFile ? '✓ ئەپلۆد کرا' : ku.takeSelfieDesc}</div>
+            <div style={{ fontWeight: 600, color: selfieFile ? T.green : T.textMid, fontSize: 13 }}>{selfieFile ? selfieFile.name : ku.takeSelfie}</div>
+            <div style={{ fontSize: 11, color: T.textFaint, marginTop: 4 }}>{selfieFile ? '✓ ئەپلۆد کرا' : ku.takeSelfieDesc}</div>
           </div>
 
           {(role === 'driver' || role === 'both') && (
@@ -210,8 +211,8 @@ export default function RegisterPage() {
               <input type="file" accept="image/*,.pdf" ref={licenseRef} style={{ display: 'none' }} onChange={e => setLicenseFile(e.target.files?.[0] || null)} />
               <div style={uploadStyle(!!licenseFile)} onClick={() => licenseRef.current?.click()}>
                 <div style={{ fontSize: 32 }}>📄</div>
-                <div style={{ fontWeight: 600, color: licenseFile ? '#4ade80' : '#aaa', fontSize: 13 }}>{licenseFile ? licenseFile.name : ku.uploadLicense}</div>
-                {licenseFile && <div style={{ fontSize: 11, color: '#555', marginTop: 4 }}>✓ ئەپلۆد کرا</div>}
+                <div style={{ fontWeight: 600, color: licenseFile ? T.green : T.textMid, fontSize: 13 }}>{licenseFile ? licenseFile.name : ku.uploadLicense}</div>
+                {licenseFile && <div style={{ fontSize: 11, color: T.textFaint, marginTop: 4 }}>✓ ئەپلۆد کرا</div>}
               </div>
             </>
           )}
