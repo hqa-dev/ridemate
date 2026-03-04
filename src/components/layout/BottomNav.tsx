@@ -9,16 +9,12 @@ function NavIcon({ type, active }: { type: string; active: boolean }) {
   const sw = active ? 1.8 : 1.5
   const sz = active ? 26 : 22
   if (type === 'home') return <svg width={sz} height={sz} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z" /><path d="M9 21V12h6v9" /></svg>
-  if (type === 'rides') return <svg width={sz} height={sz} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z" /><path d="M15 5.764v15" /><path d="M9 3.236v15" /></svg>
-  if (type === 'post') return <svg width={sz} height={sz} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="2" /><path d="M12 2a10 10 0 0 1 8.5 15" /><path d="M12 2a10 10 0 0 0-8.5 15" /><path d="M12 22a10 10 0 0 0 0-4" /><line x1="12" y1="14" x2="12" y2="21" /><line x1="4.5" y1="16" x2="10" y2="12" /><line x1="19.5" y1="16" x2="14" y2="12" /></svg>
   return <svg width={sz} height={sz} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4" /><path d="M20 21c0-3.31-3.58-6-8-6s-8 2.69-8 6" /></svg>
 }
 
 const navItems = [
-  { href: '/home', icon: 'home', label: 'سەرەکی' },
-  { href: '/my-rides', icon: 'rides', label: 'گەشتەکانم' },
-  { href: '/post-ride', icon: 'post', label: 'گەشتێک پۆستکە' },
-  { href: '/profile', icon: 'profile', label: 'خۆت' },
+  { href: '/home', icon: 'home', label: 'گەشتەکان' },
+  { href: '/account', icon: 'profile', label: 'هەژمار' },
 ]
 
 export function BottomNav() {
@@ -37,15 +33,15 @@ export function BottomNav() {
     if (!user) return
 
     // Count unread ride request updates for passenger
-    const { count: ridesCount } = await supabase
+    const { count: passengerCount } = await supabase
       .from('ride_requests')
       .select('*', { count: 'exact', head: true })
       .eq('passenger_id', user.id)
       .in('status', ['approved', 'declined', 'cancelled'])
       .eq('seen_by_passenger', false)
 
-    // Count pending requests only if user is a verified driver
-    let postCount = 0
+    // Count pending requests for driver
+    let driverCount = 0
     const { data: profile } = await supabase
       .from('profiles')
       .select('role, verification_status')
@@ -67,13 +63,13 @@ export function BottomNav() {
           .in('ride_id', rideIds)
           .eq('status', 'pending')
           .eq('seen_by_driver', false)
-        postCount = count || 0
+        driverCount = count || 0
       }
     }
 
+    // All badges go on the home/rides tab
     setBadges({
-      '/my-rides': ridesCount || 0,
-      '/post-ride': postCount,
+      '/home': (passengerCount || 0) + driverCount,
     })
   }
 
@@ -100,7 +96,9 @@ export function BottomNav() {
         boxShadow: '0 8px 32px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04)',
       }}>
         {navItems.map((item) => {
-          const active = pathname === item.href || (item.href === '/home' && pathname === '/')
+          const active = item.href === '/home' 
+            ? (pathname === '/home' || pathname === '/') 
+            : (pathname === '/account' || pathname === '/profile' || pathname === '/my-rides' || pathname === '/post-ride' || pathname === '/auth/verify')
           const badge = badges[item.href] || 0
           return (
             <Link key={item.href} href={item.href} style={{
