@@ -343,6 +343,16 @@ function NotifRow({
   const isActionable = n.type === 'request_received'
   const isProcessing = processing === n.id
 
+  const statusText: Record<string, { text: string; color: string }> = {
+    request_received: { text: 'دەیەوێ سواربێ', color: T.orange },
+    request_approved: { text: 'قبوڵ کرا', color: T.green },
+    request_declined: { text: 'ڕەت کرایەوە', color: '#f87171' },
+    passenger_cancelled: { text: 'پاشگەزبووەوە', color: '#f87171' },
+    ride_completed: { text: 'هەڵیسەنگێنە', color: T.green },
+    ride_cancelled: { text: 'هەڵوەشێنرایەوە', color: '#f87171' },
+  }
+  const st = statusText[n.type] || { text: '', color: T.textDim }
+
   return (
     <div style={{ borderBottom: isLast ? 'none' : '1px solid rgba(255,255,255,0.04)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 0' }}>
@@ -371,7 +381,10 @@ function NotifRow({
 
           <div style={{ width: 1, height: 28, background: 'rgba(255,255,255,0.06)', flexShrink: 0 }} />
 
-          <div style={{ fontSize: 13, fontWeight: n.unseen ? 700 : 500, color: n.unseen ? T.text : 'rgba(255,255,255,0.5)' }}>{n.personName}</div>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: n.unseen ? 700 : 500, color: n.unseen ? T.text : 'rgba(255,255,255,0.5)' }}>{n.personName}</div>
+            <div style={{ fontSize: 10, color: st.color, marginTop: 2, fontWeight: 500 }}>{st.text}</div>
+          </div>
         </div>
 
         {/* TAP ZONE 2: Details → ride detail */}
