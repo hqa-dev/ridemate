@@ -167,21 +167,32 @@ export default function RideDetailPage() {
     setSending(true)
     setActionError('')
     const { data: revived } = await supabase.from('ride_requests')
-      .update({ status: 'pending', pickup: pickup || null, dropoff: dropoff || null, seen_by_driver: false })
+      .update({ status: 'pending', pickup: pickup || null, dropoff: dropoff || null })
       .eq('ride_id', rideId)
       .eq('passenger_id', currentUserId)
       .in('status', ['cancelled', 'declined'])
       .select()
+    let requestId = revived?.[0]?.id
     if (!revived || revived.length === 0) {
-      const { error } = await supabase.from('ride_requests').insert({
+      const { data: inserted, error } = await supabase.from('ride_requests').insert({
         ride_id: rideId,
         passenger_id: currentUserId,
         pickup: pickup || null,
         dropoff: dropoff || null,
         status: 'pending',
-      })
+      }).select()
       if (error) { console.error('Send request error:', error); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); setSending(false); return }
+      requestId = inserted?.[0]?.id
     }
+    // Notify driver
+    await supabase.from('notifications').insert({
+      user_id: ride.driver_id,
+      type: 'request_received',
+      ride_id: rideId,
+      from_user_id: currentUserId,
+      ride_request_id: requestId || null,
+      metadata: { pickup: pickup || null, dropoff: dropoff || null },
+    })
     setRequested(true)
     setRequestStatus('pending')
     setShowModal(false)
@@ -196,6 +207,17 @@ export default function RideDetailPage() {
       .update({ status: 'completed', completed_at: new Date().toISOString() })
       .eq('id', rideId)
     if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); setCompleting(false); return }
+    // Notify all approved passengers
+    const { data: approved } = await supabase.from('ride_requests').select('passenger_id').eq('ride_id', rideId).eq('status', 'approved')
+    if (approved && currentUserId) {
+      const notifs = approved.map((r: any) => ({
+        user_id: r.passenger_id,
+        type: 'ride_completed',
+        ride_id: rideId,
+        from_user_id: currentUserId,
+      }))
+      if (notifs.length > 0) await supabase.from('notifications').insert(notifs)
+    }
     setRide((prev: any) => ({ ...prev, status: 'completed', completed_at: new Date().toISOString() }))
     setCompleting(false)
   }
@@ -209,10 +231,22 @@ export default function RideDetailPage() {
         setActionError('')
         const { error: rideErr } = await supabase.from('rides').update({ status: 'cancelled' }).eq('id', rideId)
         if (rideErr) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        // Get affected passengers before updating requests
+        const { data: affected } = await supabase.from('ride_requests').select('passenger_id').eq('ride_id', rideId).in('status', ['approved', 'pending'])
         await supabase.from('ride_requests')
-          .update({ status: 'cancelled', seen_by_passenger: false })
+          .update({ status: 'cancelled' })
           .eq('ride_id', rideId)
           .in('status', ['approved', 'pending'])
+        // Notify each passenger
+        if (affected && currentUserId) {
+          const notifs = affected.map((r: any) => ({
+            user_id: r.passenger_id,
+            type: 'ride_cancelled',
+            ride_id: rideId,
+            from_user_id: currentUserId,
+          }))
+          if (notifs.length > 0) await supabase.from('notifications').insert(notifs)
+        }
         window.location.reload()
       },
     })
@@ -234,12 +268,22 @@ export default function RideDetailPage() {
           .maybeSingle()
         if (findErr || !activeReq) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
         const { error } = await supabase.from('ride_requests')
-          .update({ status: 'cancelled', seen_by_passenger: true, seen_by_driver: false })
+          .update({ status: 'cancelled' })
           .eq('id', activeReq.id)
         if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
         if (activeReq.status === 'approved') {
           const { error: rpcErr } = await supabase.rpc('increment_seats', { ride_id_input: rideId })
           if (rpcErr) { setActionError('هەڵەیەک ڕوویدا لە گەڕاندنەوەی جێگا'); console.error('increment_seats failed:', rpcErr) }
+        }
+        // Notify driver
+        if (ride) {
+          await supabase.from('notifications').insert({
+            user_id: ride.driver_id,
+            type: 'passenger_cancelled',
+            ride_id: rideId,
+            from_user_id: user.id,
+            ride_request_id: activeReq.id,
+          })
         }
         loadRide()
       },
@@ -262,7 +306,7 @@ export default function RideDetailPage() {
           .maybeSingle()
         if (findErr || !activeReq) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
         const { error } = await supabase.from('ride_requests')
-          .update({ status: 'cancelled', seen_by_driver: false })
+          .update({ status: 'cancelled' })
           .eq('id', activeReq.id)
         if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
         loadRide()

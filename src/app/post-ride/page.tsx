@@ -86,15 +86,6 @@ export default function PostRidePage() {
       .eq('driver_id', user.id)
       .order('created_at', { ascending: false })
     if (rides) {
-      const unseenIds = rides.flatMap(r =>
-        (r.ride_requests || [])
-          .filter((req: any) => req.status === 'pending' && !req.seen_by_driver)
-          .map((req: any) => req.id)
-      )
-      if (unseenIds.length > 0) {
-        await supabase.from('ride_requests').update({ seen_by_driver: true }).in('id', unseenIds)
-        setUnseenPendingCount(0)
-      }
       setMyPostedRides(rides.map(r => ({
         ...r,
         ride_requests: (r.ride_requests || []).map((req: any) =>
@@ -198,7 +189,23 @@ export default function PostRidePage() {
       ? await supabase.from('rides').update(rideData).eq('id', editingRideId)
       : await supabase.from('rides').insert({ ...rideData, driver_id: user.id, status: 'active' })
     if (saveError) { setError(saveError.message); setLoading(false) }
-    else { setEditingRideId(null); setActiveTab('manage'); loadPostedRides(); setFromCity(''); setToCity(''); setDate(''); setTime(''); setSeats('1'); setPrice(''); setCarMake(''); setCarModel(''); setCarColor(''); setNotes(''); setLoading(false) }
+    else {
+      // If editing, notify approved passengers about changes
+      if (editingRideId) {
+        const { data: approved } = await supabase.from('ride_requests').select('passenger_id').eq('ride_id', editingRideId).eq('status', 'approved')
+        if (approved && approved.length > 0) {
+          const notifs = approved.map((r: any) => ({
+            user_id: r.passenger_id,
+            type: 'ride_updated',
+            ride_id: editingRideId,
+            from_user_id: user.id,
+            metadata: { changes: ['وردەکاری گەشتەکە گۆڕدرا'] },
+          }))
+          await supabase.from('notifications').insert(notifs)
+        }
+      }
+      setEditingRideId(null); setActiveTab('manage'); loadPostedRides(); setFromCity(''); setToCity(''); setDate(''); setTime(''); setSeats('1'); setPrice(''); setCarMake(''); setCarModel(''); setCarColor(''); setNotes(''); setLoading(false)
+    }
   }
 
   async function handleRequest(requestId: string, action: 'approved' | 'declined', rideId: string) {
@@ -206,24 +213,46 @@ export default function PostRidePage() {
       const ride = myPostedRides.find(r => r.id === rideId)
       if (ride && ride.available_seats <= 0) return
     }
-    const { error: reqErr } = await supabase.from('ride_requests').update({ status: action, seen_by_passenger: false }).eq('id', requestId)
+    const { error: reqErr } = await supabase.from('ride_requests').update({ status: action }).eq('id', requestId)
     if (reqErr) { setError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
     if (action === 'approved') {
       await supabase.rpc('decrement_seats', { ride_id_input: rideId })
+    }
+    // Get passenger_id and current user (driver)
+    const { data: req } = await supabase.from('ride_requests').select('passenger_id').eq('id', requestId).single()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (req && user) {
+      await supabase.from('notifications').insert({
+        user_id: req.passenger_id,
+        type: action === 'approved' ? 'request_approved' : 'request_declined',
+        ride_id: rideId,
+        from_user_id: user.id,
+        ride_request_id: requestId,
+      })
     }
     loadPostedRides()
   }
 
   async function handleCancelRide(rideId: string) {
-    const { error: cancelErr, data: cancelData } = await supabase.from('rides').update({ status: 'cancelled' }).eq('id', rideId).select()
-    console.error('Cancel ride result:', { cancelErr, cancelData })
+    const { data: { user } } = await supabase.auth.getUser()
+    // Get affected passengers before cancelling
+    const { data: affected } = await supabase.from('ride_requests').select('passenger_id').eq('ride_id', rideId).in('status', ['approved', 'pending'])
+    const { error: cancelErr } = await supabase.from('rides').update({ status: 'cancelled' }).eq('id', rideId)
     if (cancelErr) { setError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
-    const { error: reqErr, data: reqData } = await supabase.from('ride_requests')
-      .update({ status: 'cancelled', seen_by_passenger: false })
+    await supabase.from('ride_requests')
+      .update({ status: 'cancelled' })
       .eq('ride_id', rideId)
       .in('status', ['approved', 'pending'])
-      .select()
-    console.error('Cancel requests result:', { reqErr, reqData })
+    // Notify each affected passenger
+    if (affected && user) {
+      const notifs = affected.map((r: any) => ({
+        user_id: r.passenger_id,
+        type: 'ride_cancelled',
+        ride_id: rideId,
+        from_user_id: user.id,
+      }))
+      if (notifs.length > 0) await supabase.from('notifications').insert(notifs)
+    }
     loadPostedRides()
   }
 
