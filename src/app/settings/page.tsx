@@ -129,13 +129,12 @@ export default function SettingsPage() {
 
       </div>
 
-      {confirmModal && (
-        <ConfirmModal
-          message={confirmModal.message}
-          onConfirm={confirmModal.action}
-          onCancel={() => setConfirmModal(null)}
-        />
-      )}
+      <ConfirmModal
+        isOpen={!!confirmModal}
+        message={confirmModal?.message || ''}
+        onConfirm={confirmModal?.action || (() => {})}
+        onCancel={() => setConfirmModal(null)}
+      />
 
       <BottomNav />
     </div>
