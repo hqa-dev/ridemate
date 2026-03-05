@@ -307,12 +307,6 @@ function NotifRow({ n, isLast, onApprove, onDecline, processing, router }: {
           ) : (
             <span style={{ fontSize: 10, color: st.color, fontWeight: 700, border: `2px solid currentColor`, borderRadius: 6, padding: '2px 7px', boxShadow: `2px 2px 0 ${T.text}`, display: 'inline-block' }}>{st.text}</span>
           )}
-          {isActionable && (
-            <div style={{ display:'flex', gap:6, marginTop:8, width:'100%' }} dir="rtl">
-              <button onClick={() => onDecline(n)} disabled={isProcessing} style={{ flex:1, background:T.red, color:'#fff', border:`2px solid ${T.text}`, borderRadius:7, padding:'6px 0', textAlign:'center', fontSize:10, fontWeight:700, fontFamily:"'Noto Sans Arabic', sans-serif", boxShadow:`2px 2px 0 ${T.text}`, cursor:'pointer' }}>ڕەتکردنەوە</button>
-              <button onClick={() => onApprove(n)} disabled={isProcessing} style={{ flex:1, background:T.green, color:'#fff', border:`2px solid ${T.text}`, borderRadius:7, padding:'6px 0', textAlign:'center', fontSize:10, fontWeight:700, fontFamily:"'Noto Sans Arabic', sans-serif", boxShadow:`2px 2px 0 ${T.text}`, cursor:'pointer' }}>پەسەندکردن</button>
-            </div>
-          )}
           {(n.pickup && n.pickup.length > 2 && n.dropoff && n.dropoff.length > 2) && (
             <div style={{ fontSize: 10, color: T.iconDim, marginTop: 2 }}>
               {n.pickup} ← {n.dropoff}
@@ -325,8 +319,17 @@ function NotifRow({ n, isLast, onApprove, onDecline, processing, router }: {
           )}
         </div>
 
-        {/* Arrow for non-actionable */}
-        {!isActionable && (
+        {/* Actions or arrow */}
+        {isActionable ? (
+          <div style={{ display:'flex', gap:6, flexShrink:0 }}>
+            <button onClick={() => onApprove(n)} disabled={isProcessing} style={{ width:32, height:32, borderRadius:7, background:T.green, border:`2px solid ${T.text}`, boxShadow:`2px 2px 0 ${T.text}`, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer' }}>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+            <button onClick={() => onDecline(n)} disabled={isProcessing} style={{ width:32, height:32, borderRadius:7, background:T.red, border:`2px solid ${T.text}`, boxShadow:`2px 2px 0 ${T.text}`, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer' }}>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+        ) : (
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, cursor: 'pointer' }} onClick={() => router.push(`/rides/${n.rideId}`)}>
             <polyline points="9 18 15 12 9 6" />
           </svg>
