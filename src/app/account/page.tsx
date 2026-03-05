@@ -194,14 +194,15 @@ export default function AccountPage() {
         padding: '0 14px',
         border: `2px solid ${T.text}`,
         boxShadow: `3px 3px 0 ${T.text}`,
-        overflow: 'hidden',
       }}>
-        <MenuItem icon={Icons.profile} label="پرۆفایل" onClick={() => router.push('/profile')} />
-        <MenuItem icon={Icons.myRides} label="گەشتەکانم" onClick={() => router.push('/my-rides')} />
-        <MenuItem icon={Icons.postRide} label="گەشتێک پۆستکە" onClick={() => router.push('/post-ride')} />
-        <MenuItem icon={Icons.car} label="شۆفێر" value={isDriver ? 'چالاککراوە' : 'چالاکنەکراوە'} onClick={() => router.push('/post-ride')} />
-        <MenuItem icon={Icons.settings} label="ڕێکخستنەکان" onClick={() => router.push('/settings')} />
-        <MenuItem icon={Icons.bell} label="ئاگاداریەکان" value="کراوە" isLast onClick={comingSoon} />
+        <div style={{ overflow: 'hidden' }}>
+          <MenuItem icon={Icons.profile} label="پرۆفایل" onClick={() => router.push('/profile')} />
+          <MenuItem icon={Icons.myRides} label="گەشتەکانم" onClick={() => router.push('/my-rides')} />
+          <MenuItem icon={Icons.postRide} label="گەشتێک پۆستکە" onClick={() => router.push('/post-ride')} />
+          <MenuItem icon={Icons.car} label="شۆفێر" value={isDriver ? 'چالاککراوە' : 'چالاکنەکراوە'} onClick={() => router.push('/post-ride')} />
+          <MenuItem icon={Icons.settings} label="ڕێکخستنەکان" onClick={() => router.push('/settings')} />
+          <MenuItem icon={Icons.bell} label="ئاگاداریەکان" value="کراوە" isLast onClick={comingSoon} />
+        </div>
       </div>
 
       {/* Support section */}
@@ -213,10 +214,11 @@ export default function AccountPage() {
         padding: '0 14px',
         border: `2px solid ${T.text}`,
         boxShadow: `3px 3px 0 ${T.text}`,
-        overflow: 'hidden',
       }}>
-        <MenuItem icon={Icons.chat} label="پەیوەندی" onClick={comingSoon} />
-        <MenuItem icon={Icons.info} label="دەربارەی ڕێ" value="v1.0.0" isLast onClick={comingSoon} />
+        <div style={{ overflow: 'hidden' }}>
+          <MenuItem icon={Icons.chat} label="پەیوەندی" onClick={comingSoon} />
+          <MenuItem icon={Icons.info} label="دەربارەی ڕێ" value="v1.0.0" isLast onClick={comingSoon} />
+        </div>
       </div>
 
       {/* Sign out */}
