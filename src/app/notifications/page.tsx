@@ -132,11 +132,11 @@ export default function NotificationsPage() {
           requestStatus: n.ride_request_id ? (requestMap[n.ride_request_id] || null) : null,
         }
       })
-      setNotifications(items)
+      setNotifications(items) // captures original seen state from fetch
     }
     setLoading(false)
 
-    // Mark all as seen
+    // Mark all as seen in DB (after state is set with original seen values)
     await supabase
       .from('notifications')
       .update({ seen: true })
@@ -308,9 +308,9 @@ function NotifRow({ n, isLast, onApprove, onDecline, processing, router }: {
           ) : (
             <span style={{ fontSize: 10, color: st.color, fontWeight: 700, border: `2px solid currentColor`, borderRadius: 6, padding: '2px 7px', boxShadow: `2px 2px 0 ${T.text}`, display: 'inline-block' }}>{st.text}</span>
           )}
-          {(n.pickup || n.dropoff) && (
+          {(n.pickup && n.pickup.length > 2 && n.dropoff && n.dropoff.length > 2) && (
             <div style={{ fontSize: 10, color: T.iconDim, marginTop: 2 }}>
-              {n.pickup || '—'}{n.dropoff ? ` ← ${n.dropoff}` : ''}
+              {n.pickup} ← {n.dropoff}
             </div>
           )}
           {n.type === 'ride_updated' && n.metadata?.changes && (
