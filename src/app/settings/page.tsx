@@ -74,9 +74,9 @@ export default function SettingsPage() {
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={T.textDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                 </svg>
-                <span style={{ fontSize: 14, color: T.text }}>کوردی سۆرانی</span>
+                <span style={{ fontSize: 14, color: T.text }}>زمانی کوردی</span>
               </div>
-              <Toggle />
+              <span style={{ fontSize: 11, color: T.textDim, fontFamily: "'Noto Sans Arabic', sans-serif" }}>زمانی کوردی</span>
             </div>
           </div>
         </div>
