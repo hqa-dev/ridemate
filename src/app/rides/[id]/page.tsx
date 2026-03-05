@@ -21,6 +21,18 @@ const PersonIcon = ({ size = 16 }: { size?: number }) => (
   </svg>
 )
 
+function SketchPerson({ size = 14, hat = false }: { size?: number; hat?: boolean }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+      stroke={T.text} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="7" r="3.5"/>
+      <path d="M6 21 Q7 14 12 13 Q17 14 18 21"/>
+      <path d="M9 16 Q12 18 15 16"/>
+      {hat && <path d="M7 5 Q12 1 17 5" strokeWidth="1.5"/>}
+    </svg>
+  )
+}
+
 function SketchCar({ size = 48, color = '#1A1208' }: { size?: number; color?: string }) {
   return (
     <svg width={size} height={size * 0.55} viewBox="0 0 80 44" fill="none"
@@ -479,7 +491,7 @@ export default function RideDetailPage() {
             { l: 'جگەرە', v: ride.smoking ? '🚬' : '🚭' },
             { l: 'ئۆتۆ', v: ride.car_model || ride.car_make || '-' },
           ].map((s, i) => (
-            <div key={i} style={{ flex: 1, textAlign: 'center', borderLeft: i < 3 ? `1.5px dashed ${T.textDim}` : 'none' }}>
+            <div key={i} style={{ flex: 1, textAlign: 'center', borderRight: i < 3 ? `1.5px dashed ${T.textDim}` : 'none' }}>
               <div style={{ fontSize: 8, color: T.textDim, fontFamily: "'Noto Sans Arabic', sans-serif" }}>{s.l}</div>
               <div style={{ fontSize: 11, fontWeight: 700, color: T.textMid, fontFamily: "'Noto Sans Arabic', sans-serif" }}>{s.v}</div>
             </div>
@@ -490,17 +502,8 @@ export default function RideDetailPage() {
       {/* Driver */}
       <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '20px 20px 8px' }}>شۆفێر</div>
       <div style={{ background: T.card, margin: '0 16px', borderRadius: 12, border: `2px solid ${T.border}`, boxShadow: T.cardShadow, padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12 }}>
-        <div style={{
-          width: 40, height: 40, borderRadius: 8,
-          background: T.cardInner, border: `2px solid ${T.border}`,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          flexShrink: 0, overflow: 'hidden',
-        }}>
-          {driver.avatar_url ? (
-            <img src={driver.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} referrerPolicy="no-referrer" />
-          ) : (
-            <PersonIcon size={20} />
-          )}
+        <div style={{ width: 36, height: 36, borderRadius: 8, border: `2px solid ${T.text}`, background: T.cardInner, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <SketchPerson size={22} hat={true} />
         </div>
         <div style={{ width: 1, height: 32, background: T.divider, flexShrink: 0 }} />
         <div style={{ flex: 1 }}>
@@ -553,7 +556,7 @@ export default function RideDetailPage() {
 
       {/* Notes */}
       {ride.notes && (
-        <div style={{ margin: '16px 16px 0', padding: '12px 16px', background: T.card, borderRadius: 12, border: `2px solid ${T.border}`, boxShadow: T.cardShadow, borderRight: `4px solid ${T.accent}` }}>
+        <div style={{ margin: '16px 16px 0', padding: '12px 16px', background: T.card, borderRadius: 12, border: `2px solid ${T.text}`, boxShadow: T.cardShadow }}>
           <div style={{ fontSize: 9, color: T.textFaint, marginBottom: 4, fontWeight: 600 }}>تێبینی</div>
           <div style={{ fontSize: 11, color: T.textDim, lineHeight: 1.8 }}>{ride.notes}</div>
         </div>
@@ -604,15 +607,16 @@ export default function RideDetailPage() {
           ) : (
             <div style={{ display: 'flex', gap: 8 }}>
               <Link href="/post-ride?tab=manage" style={{
-                flex: 1, background: T.cardInner, color: T.text,
-                border: `2px solid ${T.border}`, borderRadius: 10, padding: '10px 0',
-                fontSize: 13, fontWeight: 500, textAlign: 'center', textDecoration: 'none',
-                boxShadow: T.shadow,
+                flex: 1, background: T.accent, color: '#fff',
+                border: `2px solid ${T.text}`, borderRadius: 9, padding: '12px 0',
+                fontSize: 13, fontWeight: 800, textAlign: 'center', textDecoration: 'none',
+                boxShadow: `3px 3px 0 ${T.text}`,
               }}>بەڕێوەبردن</Link>
               <button onClick={(e) => handleCancelRide(e)} style={{
-                flex: 1, background: T.redBg, color: T.destructive,
-                border: `1.5px solid ${T.red}`, borderRadius: 10, padding: '10px 0',
-                fontSize: 13, fontWeight: 600, textAlign: 'center', cursor: 'pointer',
+                flex: 1, background: T.card, color: T.text,
+                border: `2px solid ${T.text}`, borderRadius: 9, padding: '12px 0',
+                fontSize: 13, fontWeight: 800, textAlign: 'center', cursor: 'pointer',
+                boxShadow: `3px 3px 0 ${T.text}`,
                 fontFamily: "'Noto Sans Arabic', sans-serif",
               }}>هەڵوەشاندنەوە</button>
             </div>
