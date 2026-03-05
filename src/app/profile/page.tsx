@@ -244,7 +244,7 @@ export default function ProfilePage() {
             {Icons.camera}
           </div>
         </div>
-        <div style={{ width: 1, height: 48, borderRight: `1.5px dashed ${T.textDim}`, margin: '0 16px', flexShrink: 0 }} />
+        <div style={{ width: 1, height: 48, borderRight: `1px solid ${T.borderDim}`, margin: '0 16px', flexShrink: 0 }} />
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontSize: 16, fontWeight: 700, color: T.text, marginBottom: 8 }}>{displayName}</div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
