@@ -400,7 +400,7 @@ export default function RideDetailPage() {
       {/* Cancelled banner */}
       {isCancelled && (
         <div style={{
-          background: T.redBg, border: '1px solid rgba(248,113,113,0.15)',
+          background: T.redBg, border: `1.5px solid ${T.red}`,
           borderRadius: 12, padding: '12px 16px', margin: '0 16px 12px',
           display: 'flex', alignItems: 'center', gap: 10,
         }}>
@@ -412,7 +412,7 @@ export default function RideDetailPage() {
       )}
 
       {/* Timeline + Stats */}
-      <div style={{ background: T.card, margin: '0 16px', borderRadius: 14, border: `1px solid ${T.borderDim}`, overflow: 'hidden' }}>
+      <div style={{ background: T.card, margin: '0 16px', borderRadius: 12, border: `2px solid ${T.border}`, boxShadow: T.cardShadow, overflow: 'hidden' }}>
         <div style={{ padding: '18px 20px 14px' }} dir="ltr">
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <div style={{ textAlign: 'center', minWidth: 44 }}>
@@ -444,14 +444,14 @@ export default function RideDetailPage() {
         )}
 
         {/* Stats bar */}
-        <div style={{ display: 'flex', borderTop: `1px solid ${T.border}` }}>
+        <div style={{ display: 'flex', borderTop: `1.5px dashed ${T.divider}` }}>
           {[
             { label: 'نرخ', value: priceDisplay },
             { label: 'جێگا', value: `${toKurdishNum(ride.available_seats)}/${toKurdishNum(totalSeats)}` },
             { label: 'جگەرە', value: ride.smoking ? '🚬' : '🚭' },
             { label: 'ئۆتۆ', value: ride.car_model || ride.car_make || '-' },
           ].map((s, i) => (
-            <div key={i} style={{ flex: 1, padding: '11px 0', textAlign: 'center', borderLeft: i < 3 ? `1px solid ${T.border}` : 'none' }}>
+            <div key={i} style={{ flex: 1, padding: '11px 0', textAlign: 'center', borderLeft: i < 3 ? `1px dashed ${T.divider}` : 'none' }}>
               <div style={{ fontSize: 9, color: T.textDim, marginBottom: 3 }}>{s.label}</div>
               <div style={{ fontSize: 12, color: T.textMid, fontWeight: 600 }}>{s.value}</div>
             </div>
@@ -461,10 +461,10 @@ export default function RideDetailPage() {
 
       {/* Driver */}
       <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '20px 20px 8px' }}>شۆفێر</div>
-      <div style={{ background: T.card, margin: '0 16px', borderRadius: 12, padding: '14px 16px', border: `1px solid ${T.borderDim}`, display: 'flex', alignItems: 'center', gap: 12 }}>
+      <div style={{ background: T.card, margin: '0 16px', borderRadius: 12, border: `2px solid ${T.border}`, boxShadow: T.cardShadow, padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12 }}>
         <div style={{
-          width: 40, height: 40, borderRadius: 10,
-          background: T.cardInner, border: `1px solid ${T.cardBorder}`,
+          width: 40, height: 40, borderRadius: 8,
+          background: T.cardInner, border: `2px solid ${T.border}`,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           flexShrink: 0, overflow: 'hidden',
         }}>
@@ -474,7 +474,7 @@ export default function RideDetailPage() {
             <PersonIcon size={20} />
           )}
         </div>
-        <div style={{ width: 1, height: 32, background: T.borderDim, flexShrink: 0 }} />
+        <div style={{ width: 1, height: 32, background: T.divider, flexShrink: 0 }} />
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 14, fontWeight: 600, color: T.text, marginBottom: 2 }}>
             {driver.full_name || 'شۆفێر'}
@@ -493,10 +493,10 @@ export default function RideDetailPage() {
       {(approvedPassengers.length > 0 || isOwnRide) && (
         <>
           <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '20px 20px 8px' }}>سەرنشینەکان</div>
-          <div style={{ background: T.card, margin: '0 16px', borderRadius: 12, padding: '0 16px', border: `1px solid ${T.borderDim}` }}>
+          <div style={{ background: T.card, margin: '0 16px', borderRadius: 12, border: `2px solid ${T.border}`, boxShadow: T.cardShadow, padding: '0 16px' }}>
             {approvedPassengers.map((p: any, i: number) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', padding: '12px 0', gap: 10, borderBottom: i < approvedPassengers.length - 1 ? `1px solid ${T.borderDim}` : 'none' }}>
-                <div style={{ width: 28, height: 28, borderRadius: 8, background: T.cardInner, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
+              <div key={i} style={{ display: 'flex', alignItems: 'center', padding: '12px 0', gap: 10, borderBottom: i < approvedPassengers.length - 1 ? `1.5px dashed ${T.divider}` : 'none' }}>
+                <div style={{ width: 28, height: 28, borderRadius: 6, background: T.cardInner, border: `1.5px solid ${T.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
                   {p.passenger?.avatar_url ? (
                     <img src={p.passenger.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} referrerPolicy="no-referrer" />
                   ) : (
@@ -525,7 +525,7 @@ export default function RideDetailPage() {
 
       {/* Notes */}
       {ride.notes && (
-        <div style={{ margin: '16px 16px 0', padding: '12px 16px', background: T.card, borderRadius: 12, borderRight: `3px solid ${T.orange}`, border: `1px solid ${T.borderDim}` }}>
+        <div style={{ margin: '16px 16px 0', padding: '12px 16px', background: T.card, borderRadius: 12, border: `2px solid ${T.border}`, boxShadow: T.cardShadow, borderRight: `4px solid ${T.accent}` }}>
           <div style={{ fontSize: 9, color: T.textFaint, marginBottom: 4, fontWeight: 600 }}>تێبینی</div>
           <div style={{ fontSize: 11, color: T.textDim, lineHeight: 1.8 }}>{ride.notes}</div>
         </div>
@@ -577,13 +577,14 @@ export default function RideDetailPage() {
             <div style={{ display: 'flex', gap: 8 }}>
               <Link href="/post-ride?tab=manage" style={{
                 flex: 1, background: T.cardInner, color: T.text,
-                borderRadius: 10, padding: '10px 0', fontSize: 13, fontWeight: 500,
-                textAlign: 'center', textDecoration: 'none',
+                border: `2px solid ${T.border}`, borderRadius: 10, padding: '10px 0',
+                fontSize: 13, fontWeight: 500, textAlign: 'center', textDecoration: 'none',
+                boxShadow: T.shadow,
               }}>بەڕێوەبردن</Link>
               <button onClick={(e) => handleCancelRide(e)} style={{
-                flex: 1, background: 'rgba(220,50,50,0.15)', color: T.destructive,
-                border: 'none', borderRadius: 10, padding: '10px 0', fontSize: 13, fontWeight: 500,
-                textAlign: 'center', cursor: 'pointer',
+                flex: 1, background: T.redBg, color: T.destructive,
+                border: `1.5px solid ${T.red}`, borderRadius: 10, padding: '10px 0',
+                fontSize: 13, fontWeight: 600, textAlign: 'center', cursor: 'pointer',
                 fontFamily: "'Noto Sans Arabic', sans-serif",
               }}>هەڵوەشاندنەوە</button>
             </div>
@@ -646,9 +647,10 @@ export default function RideDetailPage() {
             <button
               onClick={() => setShowModal(true)}
               style={{
-                width: '100%', background: T.card, color: T.orange,
-                border: `1px solid ${T.border}`, borderRadius: 14, padding: '15px 0',
-                fontSize: 15, fontWeight: 700, cursor: 'pointer',
+                width: '100%', background: T.accent, color: '#fff',
+                border: `2px solid ${T.border}`, borderRadius: 12, padding: '15px 0',
+                fontSize: 15, fontWeight: 800, cursor: 'pointer',
+                boxShadow: T.cardShadow,
                 fontFamily: "'Noto Sans Arabic', sans-serif",
               }}
             >
@@ -681,9 +683,9 @@ export default function RideDetailPage() {
               <button
                 onClick={() => handleCancelRequest()}
                 style={{
-                  width: '100%', border: 'none',
-                  background: 'rgba(220,50,50,0.15)', color: T.destructive,
-                  borderRadius: 10, padding: 10, fontSize: 12, fontWeight: 500,
+                  width: '100%', background: T.redBg, color: T.destructive,
+                  border: `1.5px solid ${T.red}`, borderRadius: 10, padding: 10,
+                  fontSize: 12, fontWeight: 600,
                   textAlign: 'center', cursor: 'pointer', marginTop: 12,
                   fontFamily: "'Noto Sans Arabic', sans-serif",
                 }}
@@ -719,9 +721,9 @@ export default function RideDetailPage() {
               <button
                 onClick={() => handleWithdrawRequest()}
                 style={{
-                  width: '100%', border: 'none',
-                  background: 'rgba(220,50,50,0.15)', color: T.destructive,
-                  borderRadius: 10, padding: 10, fontSize: 12, fontWeight: 500,
+                  width: '100%', background: T.redBg, color: T.destructive,
+                  border: `1.5px solid ${T.red}`, borderRadius: 10, padding: 10,
+                  fontSize: 12, fontWeight: 600,
                   textAlign: 'center', cursor: 'pointer', marginTop: 4,
                   fontFamily: "'Noto Sans Arabic', sans-serif",
                 }}
@@ -740,7 +742,7 @@ export default function RideDetailPage() {
           onClick={() => setShowModal(false)}
         >
           <div
-            style={{ background: T.card, width: '100%', maxWidth: 420, borderRadius: 24, padding: '24px 20px', direction: 'rtl' }}
+            style={{ background: T.card, width: '100%', maxWidth: 420, borderRadius: 16, padding: '24px 20px', direction: 'rtl', border: `2px solid ${T.border}`, boxShadow: T.cardShadow }}
             onClick={e => e.stopPropagation()}
           >
             <h2 style={{ fontWeight: 700, fontSize: 17, marginBottom: 12, color: T.text }}>دەمەوێ!</h2>
@@ -758,7 +760,7 @@ export default function RideDetailPage() {
               دوای ئەوەی داواکارییەکت پەسەند کرا، ژمارەی مۆبایلەکەت لەگەڵ شۆفێر شێر دەکرێ
             </p>
             <button
-              style={{ width: '100%', background: T.green, color: 'white', border: 'none', borderRadius: 12, padding: 14, fontSize: 15, fontWeight: 600, cursor: 'pointer', marginBottom: 8, opacity: sending ? 0.5 : 1 }}
+              style={{ width: '100%', background: T.accent, color: 'white', border: `2px solid ${T.border}`, borderRadius: 12, padding: 14, fontSize: 15, fontWeight: 700, cursor: 'pointer', marginBottom: 8, boxShadow: T.shadow, opacity: sending ? 0.5 : 1, fontFamily: "'Noto Sans Arabic', sans-serif" }}
               disabled={sending}
               onClick={handleSendRequest}
             >
