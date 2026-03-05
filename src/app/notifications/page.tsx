@@ -66,6 +66,7 @@ interface NotifItem {
   dropoff: string | null
   seen: boolean
   metadata: any
+  requestStatus: string | null
 }
 
 export default function NotificationsPage() {
@@ -103,6 +104,13 @@ export default function NotificationsPage() {
       const { data: profiles } = await supabase.from('profiles').select('id, full_name, avatar_url').in('id', userIds)
       const profileMap = Object.fromEntries((profiles || []).map(p => [p.id, p]))
 
+      // Fetch ride_request statuses for actionable notifications
+      const requestIds = [...new Set(notifs.map(n => n.ride_request_id).filter(Boolean))]
+      const { data: requests } = requestIds.length > 0
+        ? await supabase.from('ride_requests').select('id, status').in('id', requestIds)
+        : { data: [] }
+      const requestMap = Object.fromEntries((requests || []).map(r => [r.id, r.status]))
+
       const items: NotifItem[] = notifs.map((n: any) => {
         const fromUser = profileMap[n.from_user_id] || {}
         const ride = rideMap[n.ride_id] || {}
@@ -115,12 +123,13 @@ export default function NotificationsPage() {
           requestId: n.ride_request_id,
           personName: fromUser.full_name || '—',
           personAvatar: fromUser.avatar_url || null,
-          route: ride.from_city && ride.to_city ? `${CITIES[ride.from_city]} ← ${CITIES[ride.to_city]}` : '',
+          route: ride.from_city && ride.to_city && CITIES[ride.from_city] && CITIES[ride.to_city] ? `${CITIES[ride.from_city]} ← ${CITIES[ride.to_city]}` : '',
           date: ride.departure_time ? formatKurdishDate(ride.departure_time) : '',
           pickup,
           dropoff,
           seen: n.seen,
           metadata: n.metadata || {},
+          requestStatus: n.ride_request_id ? (requestMap[n.ride_request_id] || null) : null,
         }
       })
       setNotifications(items)
@@ -265,7 +274,7 @@ export default function NotificationsPage() {
 function NotifRow({ n, isLast, onApprove, onDecline, processing, router }: {
   n: NotifItem; isLast: boolean; onApprove: (n: NotifItem) => void; onDecline: (n: NotifItem) => void; processing: string | null; router: any
 }) {
-  const isActionable = n.type === 'request_received'
+  const isActionable = n.type === 'request_received' && n.requestStatus === 'pending'
   const isProcessing = processing === n.id
   const st = statusText[n.type] || { text: '', color: T.textDim }
 
@@ -285,7 +294,7 @@ function NotifRow({ n, isLast, onApprove, onDecline, processing, router }: {
           <div style={{ width: 1, height: 28, background: T.borderDim, flexShrink: 0 }} />
           <div>
             <div style={{ fontSize: 13, fontWeight: !n.seen ? 700 : 500, color: !n.seen ? T.text : T.textDim }}>{n.personName}</div>
-            <div style={{ fontSize: 11, color: T.textDim, marginTop: 2 }}>{n.route} · {n.date}</div>
+            <div style={{ fontSize: 11, color: T.textDim, marginTop: 2 }}>{[n.route, n.date].filter(Boolean).join(' · ')}</div>
           </div>
         </div>
 
@@ -294,7 +303,11 @@ function NotifRow({ n, isLast, onApprove, onDecline, processing, router }: {
           style={{ flex: 1, minWidth: 0, cursor: isActionable ? 'default' : 'pointer', textAlign: 'left' }}
           onClick={() => { if (!isActionable) router.push(`/rides/${n.rideId}`) }}
         >
-          <span style={{ fontSize: 10, color: st.color, fontWeight: 700, border: `2px solid currentColor`, borderRadius: 6, padding: '2px 7px', boxShadow: `2px 2px 0 ${T.text}`, display: 'inline-block' }}>{st.text}</span>
+          {(n.type === 'request_received' || n.type === 'passenger_cancelled') ? (
+            <span style={{ fontSize: 10, color: T.textMid, fontWeight: 600, border: `1.5px solid ${T.textDim}`, borderRadius: 5, padding: '2px 8px', background: T.cardInner, display: 'inline-block' }}>{st.text}</span>
+          ) : (
+            <span style={{ fontSize: 10, color: st.color, fontWeight: 700, border: `2px solid currentColor`, borderRadius: 6, padding: '2px 7px', boxShadow: `2px 2px 0 ${T.text}`, display: 'inline-block' }}>{st.text}</span>
+          )}
           {(n.pickup || n.dropoff) && (
             <div style={{ fontSize: 10, color: T.iconDim, marginTop: 2 }}>
               {n.pickup || '—'}{n.dropoff ? ` ← ${n.dropoff}` : ''}
