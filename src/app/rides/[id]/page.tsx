@@ -385,14 +385,14 @@ export default function RideDetailPage() {
     lineHeight: 2,
   }
 
-  if (loading) return <div style={pageWrap}><BottomNav /></div>
+  if (loading) return <div style={pageWrap}><BottomNav active="home" /></div>
 
   if (!ride) {
     return (
       <div style={{ ...pageWrap, textAlign: 'center', paddingTop: '3rem' }}>
         <p style={{ color: T.textMid }}>ئەم گەشتە نەدۆزرایەوە</p>
         <Link href="/home" style={{ color: T.orange, marginTop: '1rem', display: 'inline-block' }}>{ku.back}</Link>
-        <BottomNav />
+        <BottomNav active="home" />
       </div>
     )
   }
@@ -491,7 +491,7 @@ export default function RideDetailPage() {
             { l: 'جگەرە', v: ride.smoking ? '🚬' : '🚭' },
             { l: 'ئۆتۆ', v: ride.car_model || ride.car_make || '-' },
           ].map((s, i) => (
-            <div key={i} style={{ flex: 1, textAlign: 'center', borderRight: i < 3 ? `1.5px dashed ${T.textDim}` : 'none' }}>
+            <div key={i} style={{ flex: 1, textAlign: 'center', borderRight: i > 0 ? `1.5px dashed ${T.textDim}` : 'none' }}>
               <div style={{ fontSize: 8, color: T.textDim, fontFamily: "'Noto Sans Arabic', sans-serif" }}>{s.l}</div>
               <div style={{ fontSize: 11, fontWeight: 700, color: T.textMid, fontFamily: "'Noto Sans Arabic', sans-serif" }}>{s.v}</div>
             </div>
@@ -815,7 +815,7 @@ export default function RideDetailPage() {
         onCancel={() => setConfirmModal(null)}
       />
 
-      <BottomNav />
+      <BottomNav active="home" />
     </div>
   )
 }

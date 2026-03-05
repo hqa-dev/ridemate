@@ -16,7 +16,7 @@ const navItems = [
   { href: '/account', icon: 'profile', label: 'هەژمار' },
 ]
 
-export function BottomNav() {
+export function BottomNav({ active: activeOverride }: { active?: 'home' | 'account' } = {}) {
   const pathname = usePathname()
 
   return (
@@ -38,7 +38,9 @@ export function BottomNav() {
         boxShadow: '0 8px 32px rgba(0,0,0,0.08), inset 0 1px 0 rgba(26,18,8,0.04)',
       }}>
         {navItems.map((item) => {
-          const active = item.href === '/home'
+          const active = activeOverride
+            ? (item.icon === activeOverride)
+            : item.href === '/home'
             ? (pathname === '/home' || pathname === '/')
             : (pathname === '/account' || pathname === '/profile' || pathname === '/my-rides' || pathname === '/post-ride')
           return (
