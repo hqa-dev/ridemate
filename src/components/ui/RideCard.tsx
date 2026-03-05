@@ -57,11 +57,15 @@ function RouteLine({ from, to, dep, arr }: { from: string; to: string; dep: stri
       </div>
       {/* SVG curved line */}
       <div style={{ flex: 1, position: 'relative', height: 16 }}>
-        <svg width="100%" height="16" viewBox="0 0 100 16" preserveAspectRatio="none">
-          <path d="M2 11 Q50 3 98 11" stroke={T.text} strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+        <svg width="100%" height="16" viewBox="0 0 300 16" preserveAspectRatio="none">
+          <path d="M6 11 Q150 3 294 11" stroke={T.text} strokeWidth="1.5" fill="none" strokeLinecap="round"/>
         </svg>
-        <div style={{ position:'absolute', left:0, top:'50%', transform:'translateY(-50%)', width:6, height:6, borderRadius:'50%', background:T.text, marginLeft:1 }}/>
-        <div style={{ position:'absolute', right:0, top:'50%', transform:'translateY(-50%)', width:8, height:8, borderRadius:'50%', background:T.accent, border:`1.5px solid ${T.text}`, marginRight:1 }}/>
+        <svg style={{ position:'absolute', left:0, top:0 }} width="12" height="16" viewBox="0 0 12 16">
+          <path d="M6 8 m0,-4 a4,4 0 0,0 0,8" fill={T.text}/>
+        </svg>
+        <svg style={{ position:'absolute', right:0, top:0 }} width="12" height="16" viewBox="0 0 12 16">
+          <path d="M6 8 m0,-4 a4,4 0 0,1 0,8" fill={T.accent} stroke={T.text} strokeWidth="1"/>
+        </svg>
       </div>
       {/* Arrival — LEFT — ink */}
       <div style={{ textAlign: 'center', minWidth: 38 }}>
