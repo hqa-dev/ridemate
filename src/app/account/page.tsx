@@ -137,7 +137,7 @@ export default function AccountPage() {
   const isVerified = profile?.verification_status === 'verified'
 
   return (
-    <div style={{ direction: 'rtl', minHeight: '100vh', background: T.bg, maxWidth: 480, margin: '0 auto', fontFamily: "'Noto Sans Arabic', sans-serif" }}>
+    <div style={{ direction: 'rtl', minHeight: '100vh', background: T.bg, maxWidth: 480, margin: '0 auto' }}>
 
       {/* Header */}
       <div style={{ padding: '24px 20px 0' }}>
@@ -219,7 +219,7 @@ export default function AccountPage() {
           fontWeight: 600,
           color: T.text,
           zIndex: 200,
-          boxShadow: '0 8px 32px rgba(0,0,0,0.6)',
+          boxShadow: T.toastShadow,
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
           whiteSpace: 'nowrap',

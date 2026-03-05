@@ -44,7 +44,6 @@ export function RideCard({ ride, status, dimmed, editButton }: RideCardProps) {
         marginBottom: 10,
         overflow: 'hidden',
         opacity: dimmed ? 0.5 : (isFull && !status) ? 0.6 : 1,
-        fontFamily: "'Noto Sans Arabic', sans-serif",
       }}>
 
         {/* Status pill or edit button — only shown when present */}

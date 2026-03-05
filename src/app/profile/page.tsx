@@ -213,7 +213,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div style={{ direction: 'rtl', minHeight: '100vh', background: T.bg, maxWidth: 480, margin: '0 auto', fontFamily: "'Noto Sans Arabic', sans-serif" }}>
+    <div style={{ direction: 'rtl', minHeight: '100vh', background: T.bg, maxWidth: 480, margin: '0 auto' }}>
 
       <PageHeader title="پرۆفایل" back onBack={() => router.push('/account')} />
 
@@ -336,7 +336,7 @@ export default function ProfilePage() {
             <div style={{ padding: '14px 0' }}>
               <p style={{ fontSize: 13, color: T.red, margin: '0 0 12px', lineHeight: 1.7, textAlign: 'right' }}>دڵنیایت دەتەوێ هەژمارەکەت بسڕیتەوە؟</p>
               <div style={{ display: 'flex', gap: 8 }}>
-                <button onClick={handleDeleteAccount} style={{ flex: 1, background: T.destructive, color: 'white', border: 'none', borderRadius: 10, padding: 10, fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>بەڵێ دڵنیام</button>
+                <button onClick={handleDeleteAccount} style={{ flex: 1, background: T.destructive, color: T.onAccent, border: 'none', borderRadius: 10, padding: 10, fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>بەڵێ دڵنیام</button>
                 <button onClick={() => setShowDeleteConfirm(false)} style={{ flex: 1, background: T.chipBg, color: T.textDim, border: 'none', borderRadius: 10, padding: 10, fontSize: 13, cursor: 'pointer' }}>پاشگەز</button>
               </div>
             </div>
@@ -350,7 +350,7 @@ export default function ProfilePage() {
           position: 'fixed', bottom: 80, left: '50%', transform: 'translateX(-50%)',
           background: T.card, border: `1px solid ${T.cardBorder}`, borderRadius: 12,
           padding: '10px 20px', fontSize: 13, fontWeight: 600, color: T.text,
-          zIndex: 200, boxShadow: '0 8px 32px rgba(0,0,0,0.6)',
+          zIndex: 200, boxShadow: T.toastShadow,
           backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', whiteSpace: 'nowrap',
         }}>
           {toast}

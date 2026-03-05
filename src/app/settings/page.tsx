@@ -49,7 +49,7 @@ export default function SettingsPage() {
   return (
     <div style={{
       direction: 'rtl', minHeight: '100vh', background: T.bg,
-      fontFamily: "'Noto Sans Arabic', sans-serif", maxWidth: 480, margin: '0 auto',
+      maxWidth: 480, margin: '0 auto',
       paddingBottom: 100,
     }}>
       <PageHeader title="ڕێکخستنەکان" back />

@@ -339,7 +339,6 @@ export default function RideDetailPage() {
     maxWidth: 480,
     margin: '0 auto',
     paddingBottom: 100,
-    fontFamily: "'Noto Sans Arabic', sans-serif",
   }
 
   const inp: React.CSSProperties = {
@@ -444,8 +443,8 @@ export default function RideDetailPage() {
             { l: 'ئۆتۆ', v: ride.car_model || ride.car_make || '-' },
           ].map((s, i) => (
             <div key={i} style={{ flex: 1, textAlign: 'center', borderRight: i > 0 ? `1.5px dashed ${T.textDim}` : 'none' }}>
-              <div style={{ fontSize: 8, color: T.textDim, fontFamily: "'Noto Sans Arabic', sans-serif" }}>{s.l}</div>
-              <div style={{ fontSize: 11, fontWeight: 700, color: T.textMid, fontFamily: "'Noto Sans Arabic', sans-serif" }}>{s.v}</div>
+              <div style={{ fontSize: 8, color: T.textDim }}>{s.l}</div>
+              <div style={{ fontSize: 11, fontWeight: 700, color: T.textMid }}>{s.v}</div>
             </div>
           ))}
         </div>
@@ -559,7 +558,7 @@ export default function RideDetailPage() {
           ) : (
             <div style={{ display: 'flex', gap: 8 }}>
               <Link href="/post-ride?tab=manage" style={{
-                flex: 1, background: T.accent, color: '#fff',
+                flex: 1, background: T.accent, color: T.onAccent,
                 border: `2px solid ${T.text}`, borderRadius: 9, padding: '12px 0',
                 fontSize: 13, fontWeight: 800, textAlign: 'center', textDecoration: 'none',
                 boxShadow: `3px 3px 0 ${T.text}`,
@@ -594,7 +593,7 @@ export default function RideDetailPage() {
                     disabled={submittingRating}
                     style={{
                       marginTop: 12, width: '100%', background: T.orange,
-                      color: '#fff', border: 'none', borderRadius: 12,
+                      color: T.onAccent, border: 'none', borderRadius: 12,
                       padding: 13, fontSize: 15, fontWeight: 700, cursor: 'pointer',
                       opacity: submittingRating ? 0.5 : 1,
                     }}
@@ -631,7 +630,7 @@ export default function RideDetailPage() {
             <button
               onClick={() => setShowModal(true)}
               style={{
-                width: '100%', background: T.accent, color: '#fff',
+                width: '100%', background: T.accent, color: T.onAccent,
                 border: `2px solid ${T.border}`, borderRadius: 12, padding: '15px 0',
                 fontSize: 15, fontWeight: 800, cursor: 'pointer',
                 boxShadow: T.cardShadow,
@@ -722,7 +721,7 @@ export default function RideDetailPage() {
       {/* Request Modal */}
       {showModal && (
         <div
-          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 200, padding: 20 }}
+          style={{ position: 'fixed', inset: 0, background: T.backdrop, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 200, padding: 20 }}
           onClick={() => setShowModal(false)}
         >
           <div
@@ -744,7 +743,7 @@ export default function RideDetailPage() {
               دوای ئەوەی داواکارییەکت پەسەند کرا، ژمارەی مۆبایلەکەت لەگەڵ شۆفێر شێر دەکرێ
             </p>
             <button
-              style={{ width: '100%', background: T.accent, color: 'white', border: `2px solid ${T.border}`, borderRadius: 12, padding: 14, fontSize: 15, fontWeight: 700, cursor: 'pointer', marginBottom: 8, boxShadow: T.shadow, opacity: sending ? 0.5 : 1, fontFamily: "'Noto Sans Arabic', sans-serif" }}
+              style={{ width: '100%', background: T.accent, color: T.onAccent, border: `2px solid ${T.border}`, borderRadius: 12, padding: 14, fontSize: 15, fontWeight: 700, cursor: 'pointer', marginBottom: 8, boxShadow: T.shadow, opacity: sending ? 0.5 : 1 }}
               disabled={sending}
               onClick={handleSendRequest}
             >

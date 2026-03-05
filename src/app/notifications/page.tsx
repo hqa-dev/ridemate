@@ -219,7 +219,7 @@ export default function NotificationsPage() {
   return (
     <div style={{
       direction: 'rtl', minHeight: '100vh', background: T.bg,
-      fontFamily: "'Noto Sans Arabic', sans-serif", maxWidth: 480, margin: '0 auto',
+      maxWidth: 480, margin: '0 auto',
       paddingBottom: 100,
     }}>
       <PageHeader title="ئاگاداری" back />
@@ -279,7 +279,7 @@ function NotifRow({ n, isLast, onApprove, onDecline, processing, router }: {
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 0' }}>
         {/* Avatar + name */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0, cursor: 'pointer' }}>
-          <div style={{ width:36, height:36, borderRadius:8, border:`2px solid ${T.text}`, background:nameColor(n.personName), display:'flex', alignItems:'center', justifyContent:'center', fontSize:14, fontWeight:800, color:'#fff', flexShrink:0 }}>
+          <div style={{ width:36, height:36, borderRadius:8, border:`2px solid ${T.text}`, background:nameColor(n.personName), display:'flex', alignItems:'center', justifyContent:'center', fontSize:14, fontWeight:800, color:T.onAccent, flexShrink:0 }}>
             {n.personName.charAt(0)}
           </div>
           <div style={{ width: 1, height: 28, background: T.borderDim, flexShrink: 0 }} />
@@ -315,10 +315,10 @@ function NotifRow({ n, isLast, onApprove, onDecline, processing, router }: {
         {isActionable ? (
           <div style={{ display:'flex', gap:6, flexShrink:0 }}>
             <button onClick={() => onApprove(n)} disabled={isProcessing} style={{ width:32, height:32, borderRadius:7, background:T.green, border:`2px solid ${T.text}`, boxShadow:`2px 2px 0 ${T.text}`, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer' }}>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={T.onAccent} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
             </button>
             <button onClick={() => onDecline(n)} disabled={isProcessing} style={{ width:32, height:32, borderRadius:7, background:T.red, border:`2px solid ${T.text}`, boxShadow:`2px 2px 0 ${T.text}`, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer' }}>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={T.onAccent} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
           </div>
         ) : (

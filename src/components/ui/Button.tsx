@@ -13,7 +13,7 @@ interface ButtonProps {
 const variants = {
   primary: {
     background: T.accent,
-    color: '#fff',
+    color: T.onAccent,
     border: `2px solid ${T.text}`,
     boxShadow: `3px 3px 0 ${T.text}`,
   },
@@ -25,7 +25,7 @@ const variants = {
   },
   danger: {
     background: T.red,
-    color: '#fff',
+    color: T.onAccent,
     border: `2px solid ${T.text}`,
     boxShadow: `3px 3px 0 ${T.text}`,
   },

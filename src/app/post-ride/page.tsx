@@ -223,7 +223,6 @@ export default function PostRidePage() {
       <div style={{
         direction: 'rtl', height: '100vh', background: T.bg,
         maxWidth: 480, margin: '0 auto', display: 'flex', flexDirection: 'column',
-        fontFamily: "'Noto Sans Arabic', sans-serif",
       }}>
         <div style={{ padding: '24px 20px 0', flexShrink: 0 }}>
           <span onClick={() => router.push('/home')} style={{ color: T.textFaint, fontSize: 13, cursor: 'pointer' }}>← گەڕانەوە</span>
@@ -299,7 +298,7 @@ export default function PostRidePage() {
   // VERIFIED DRIVER — POST + MANAGE
   // ═══════════════════════════════════════
   return (
-    <div style={{ direction: 'rtl', minHeight: '100vh', background: T.bg, maxWidth: 480, margin: '0 auto', padding: '24px 20px 96px', fontFamily: "'Noto Sans Arabic', sans-serif", position: 'relative' }}>
+    <div style={{ direction: 'rtl', minHeight: '100vh', background: T.bg, maxWidth: 480, margin: '0 auto', padding: '24px 20px 96px', position: 'relative' }}>
 
       <div style={{ marginBottom: 20 }}>
         <h1 style={{ fontSize: 20, fontWeight: 700, color: T.text }}><span style={{ color: T.orange }}>ڕێ</span> گەشت پۆستکە</h1>
@@ -311,7 +310,7 @@ export default function PostRidePage() {
           flex: 1, padding: '9px 0', textAlign: 'center', borderRadius: 9,
           fontSize: 12, fontWeight: 600, cursor: 'pointer',
           background: activeTab === 'post' ? T.accent : T.card,
-          color: activeTab === 'post' ? '#fff' : T.text,
+          color: activeTab === 'post' ? T.onAccent : T.text,
           border: `2px solid ${T.text}`,
           boxShadow: activeTab === 'post' ? `3px 3px 0 ${T.text}` : `2px 2px 0 ${T.textDim}`,
         }}>گەشتێکی نوێ</div>
@@ -319,7 +318,7 @@ export default function PostRidePage() {
           flex: 1, padding: '9px 0', textAlign: 'center', borderRadius: 9,
           fontSize: 12, fontWeight: 600, cursor: 'pointer',
           background: activeTab === 'manage' ? T.accent : T.card,
-          color: activeTab === 'manage' ? '#fff' : T.text,
+          color: activeTab === 'manage' ? T.onAccent : T.text,
           border: `2px solid ${T.text}`,
           boxShadow: activeTab === 'manage' ? `3px 3px 0 ${T.text}` : `2px 2px 0 ${T.textDim}`,
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
@@ -345,11 +344,11 @@ export default function PostRidePage() {
                 <div style={{ width: 8, height: 8, borderRadius: '50%', background: T.text }} />
               </div>
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 0 }}>
-                <div onClick={() => cycleCity(fromCity, setFromCity)} style={{ background: T.cardInner, borderRadius: 10, padding: '10px 14px', fontSize: 13, color: fromCity ? T.text : T.textDim, cursor: 'pointer', fontFamily: "'Noto Sans Arabic', sans-serif" }}>
+                <div onClick={() => cycleCity(fromCity, setFromCity)} style={{ background: T.cardInner, borderRadius: 10, padding: '10px 14px', fontSize: 13, color: fromCity ? T.text : T.textDim, cursor: 'pointer' }}>
                   {fromCity ? CITIES[fromCity] : 'لە کوێ؟'}
                 </div>
                 <DashedDivider style={{ margin: '0 4px' }} />
-                <div onClick={() => cycleCity(toCity, setToCity)} style={{ background: T.cardInner, borderRadius: 10, padding: '10px 14px', fontSize: 13, color: toCity ? T.text : T.textDim, cursor: 'pointer', fontFamily: "'Noto Sans Arabic', sans-serif" }}>
+                <div onClick={() => cycleCity(toCity, setToCity)} style={{ background: T.cardInner, borderRadius: 10, padding: '10px 14px', fontSize: 13, color: toCity ? T.text : T.textDim, cursor: 'pointer' }}>
                   {toCity ? CITIES[toCity] : 'بۆ کوێ؟'}
                 </div>
               </div>
@@ -404,14 +403,14 @@ export default function PostRidePage() {
                 background: priceType === 'coffee' ? T.accent : T.card,
                 border: `2px solid ${T.text}`,
                 boxShadow: priceType === 'coffee' ? `3px 3px 0 ${T.text}` : `2px 2px 0 ${T.textDim}`,
-                color: priceType === 'coffee' ? '#fff' : T.text, fontSize: 12, fontWeight: 500,
+                color: priceType === 'coffee' ? T.onAccent : T.text, fontSize: 12, fontWeight: 500,
               }}>قاوەیەک</div>
               <div onClick={() => setPriceType('iqd')} style={{
                 flex: 1, padding: '10px 0', textAlign: 'center', borderRadius: 9, cursor: 'pointer',
                 background: priceType === 'iqd' ? T.accent : T.card,
                 border: `2px solid ${T.text}`,
                 boxShadow: priceType === 'iqd' ? `3px 3px 0 ${T.text}` : `2px 2px 0 ${T.textDim}`,
-                color: priceType === 'iqd' ? '#fff' : T.text, fontSize: 12, fontWeight: 500,
+                color: priceType === 'iqd' ? T.onAccent : T.text, fontSize: 12, fontWeight: 500,
               }}>پارە</div>
             </div>
             {priceType === 'iqd' && (
@@ -450,7 +449,7 @@ export default function PostRidePage() {
           {error && <p style={{ color: T.red, fontSize: 12, textAlign: 'center', marginBottom: 12 }}>{error}</p>}
 
           <div onClick={handleSubmit} style={{
-            background: T.accent, color: '#fff', border: `2px solid ${T.text}`, borderRadius: 12,
+            background: T.accent, color: T.onAccent, border: `2px solid ${T.text}`, borderRadius: 12,
             padding: '14px 0', textAlign: 'center', cursor: loading ? 'default' : 'pointer',
             opacity: loading ? 0.5 : 1, width: '100%',
             boxShadow: `3px 3px 0 ${T.text}`,

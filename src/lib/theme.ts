@@ -51,6 +51,13 @@ export const T = {
   iconDim: '#9A8F78',            // inactive nav icons
   iconMid: '#4A3F2A',            // mid-prominence icons
 
+  // On-accent
+  onAccent:   '#FFFFFF',             // white text/icon on accent bg
+
+  // Overlays
+  backdrop:    'rgba(0,0,0,0.7)',    // modal backdrop
+  toastShadow: '0 8px 32px rgba(0,0,0,0.6)', // toast / floating card shadow
+
   // Misc
   chipBg:     'rgba(26,18,8,0.06)',
   cardShadow: '3px 3px 0 #1A1208',  // hard comic drop shadow

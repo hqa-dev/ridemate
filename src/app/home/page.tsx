@@ -77,7 +77,6 @@ export default function HomePage() {
           <h1 style={{
             fontSize: 26, fontWeight: 800, color: T.text, letterSpacing: -0.5,
             textShadow: `2px 2px 0 ${T.accent}`,
-            fontFamily: "'Noto Sans Arabic', sans-serif",
             margin: 0,
           }}>لیمۆ</h1>
 
@@ -124,7 +123,7 @@ export default function HomePage() {
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={T.accent} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
             </svg>
-            <span style={{ fontSize: 13.5, color: T.textMid, fontFamily: "'Noto Sans Arabic', sans-serif" }}>
+            <span style={{ fontSize: 13.5, color: T.textMid }}>
               {from && to ? (
                 <>{CITIES[from]} ← {CITIES[to]}</>
               ) : (
@@ -157,7 +156,7 @@ export default function HomePage() {
                   <path d="M18 6L6 18"/><path d="M6 6l12 12"/>
                 </svg>
               </div>
-              <span style={{ fontSize: 15, fontWeight: 700, color: T.text, fontFamily: "'Noto Sans Arabic', sans-serif" }}>بگەڕێ</span>
+              <span style={{ fontSize: 15, fontWeight: 700, color: T.text }}>بگەڕێ</span>
             </div>
 
             {/* Vertical route */}
@@ -174,7 +173,6 @@ export default function HomePage() {
                     background: T.cardInner, border: `1.5px solid ${T.border}`,
                     borderRadius: 12, padding: '12px 16px',
                     fontSize: 14, color: from ? T.text : T.textDim, cursor: 'pointer',
-                    fontFamily: "'Noto Sans Arabic', sans-serif",
                   }}
                 >
                   {from ? CITIES[from] : 'لە کوێ؟'}
@@ -185,7 +183,6 @@ export default function HomePage() {
                     background: T.cardInner, border: `1.5px solid ${T.border}`,
                     borderRadius: 12, padding: '12px 16px',
                     fontSize: 14, color: to ? T.text : T.textDim, cursor: 'pointer',
-                    fontFamily: "'Noto Sans Arabic', sans-serif",
                   }}
                 >
                   {to ? CITIES[to] : 'بۆ کوێ؟'}
@@ -201,7 +198,7 @@ export default function HomePage() {
         {loading ? (
           <div />
         ) : rides.length === 0 ? (
-          <p style={{ textAlign: 'center', color: T.textMid, padding: '3rem 0', fontFamily: "'Noto Sans Arabic', sans-serif" }}>{ku.noRidesFound}</p>
+          <p style={{ textAlign: 'center', color: T.textMid, padding: '3rem 0' }}>{ku.noRidesFound}</p>
         ) : rides.map(ride => (
           <RideCard key={ride.id} ride={ride} />
         ))}

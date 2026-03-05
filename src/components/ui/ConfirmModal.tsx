@@ -16,7 +16,7 @@ export function ConfirmModal({ isOpen, message, onConfirm, onCancel }: ConfirmMo
     <div
       onClick={onCancel}
       style={{
-        position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)',
+        position: 'fixed', inset: 0, background: T.backdrop,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         zIndex: 300, padding: 20,
       }}
@@ -26,7 +26,7 @@ export function ConfirmModal({ isOpen, message, onConfirm, onCancel }: ConfirmMo
         style={{
           background: T.card, width: '100%', maxWidth: 340,
           borderRadius: 14, padding: '24px 20px',
-          direction: 'rtl', fontFamily: "'Noto Sans Arabic', sans-serif",
+          direction: 'rtl',
         }}
       >
         <p style={{ fontSize: 14, color: T.text, marginBottom: 20, marginTop: 0, lineHeight: 1.8, textAlign: 'center' }}>
@@ -36,7 +36,7 @@ export function ConfirmModal({ isOpen, message, onConfirm, onCancel }: ConfirmMo
           <button
             onClick={onConfirm}
             style={{
-              flex: 1, background: 'rgba(220,50,50,0.15)', color: '#dc2626',
+              flex: 1, background: T.redBg, color: T.red,
               border: 'none', borderRadius: 10, padding: '10px 0',
               fontSize: 13, fontWeight: 600, cursor: 'pointer',
               fontFamily: "'Noto Sans Arabic', sans-serif",

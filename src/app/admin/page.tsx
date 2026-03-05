@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { T } from '@/lib/theme'
 
 const ADMIN_EMAILS = ['hawiefr@gmail.com', 'hawkarakrd@gmail.com']
 
@@ -68,63 +69,63 @@ export default function AdminPage() {
   }
 
   if (loading) return <div style={{ padding: '2rem', textAlign: 'center' }}>Loading...</div>
-  if (!authorized) return <div style={{ padding: '2rem', textAlign: 'center', color: '#dc2626' }}>Access denied</div>
+  if (!authorized) return <div style={{ padding: '2rem', textAlign: 'center', color: T.red }}>Access denied</div>
 
   const imgStyle = { width: '100%', maxWidth: '300px', borderRadius: '0.5rem', cursor: 'pointer' } as React.CSSProperties
 
   return (
     <div style={{ maxWidth: '600px', margin: '0 auto', padding: '2rem 1.25rem' }}>
-      <h1 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.5rem' }}>Admin</h1>
-      <p style={{ color: '#78716c', marginBottom: '2rem' }}>{pending.length} pending</p>
+      <h1 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.5rem', color: T.text }}>Admin</h1>
+      <p style={{ color: T.textDim, marginBottom: '2rem' }}>{pending.length} pending</p>
 
       {pending.length === 0 && (
-        <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '1rem', padding: '1.25rem', textAlign: 'center', color: '#a8a29e' }}>No pending verifications</div>
+        <div style={{ background: T.card, border: `1px solid ${T.borderDim}`, borderRadius: '1rem', padding: '1.25rem', textAlign: 'center', color: T.iconDim }}>No pending verifications</div>
       )}
 
       {pending.map(p => (
-        <div key={p.id} style={{ background: 'white', border: expanded === p.id ? '2px solid #df6530' : '1px solid #e7e5e4', borderRadius: '1rem', marginBottom: '0.5rem', overflow: 'hidden' }}>
+        <div key={p.id} style={{ background: T.card, border: expanded === p.id ? `2px solid ${T.accent}` : `1px solid ${T.borderDim}`, borderRadius: '1rem', marginBottom: '0.5rem', overflow: 'hidden' }}>
           <div
             onClick={() => handleExpand(p.id)}
             style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem 1.25rem', cursor: 'pointer' }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <div style={{ width: 40, height: 40, borderRadius: 10, background: '#fae8d8', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', fontWeight: 700, color: '#df6530' }}>
+              <div style={{ width: 40, height: 40, borderRadius: 10, background: T.accentFill, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', fontWeight: 700, color: T.accent }}>
                 {(p.full_name || '?').charAt(0)}
               </div>
               <div>
-                <div style={{ fontWeight: 600, fontSize: '0.95rem', color: '#1c1917' }}>{p.full_name || 'No name'}</div>
-                <div style={{ fontSize: '0.75rem', color: '#a8a29e' }}>{p.email} &middot; {p.role}</div>
+                <div style={{ fontWeight: 600, fontSize: '0.95rem', color: T.text }}>{p.full_name || 'No name'}</div>
+                <div style={{ fontSize: '0.75rem', color: T.iconDim }}>{p.email} &middot; {p.role}</div>
               </div>
             </div>
-            <span style={{ fontSize: '1.2rem', color: '#a8a29e', transition: 'transform 0.2s', transform: expanded === p.id ? 'rotate(180deg)' : 'rotate(0deg)' }}>&#9660;</span>
+            <span style={{ fontSize: '1.2rem', color: T.iconDim, transition: 'transform 0.2s', transform: expanded === p.id ? 'rotate(180deg)' : 'rotate(0deg)' }}>&#9660;</span>
           </div>
 
           {expanded === p.id && (
-            <div style={{ padding: '0 1.25rem 1.25rem', borderTop: '1px solid #e7e5e4' }}>
+            <div style={{ padding: '0 1.25rem 1.25rem', borderTop: `1px solid ${T.borderDim}` }}>
               {loadingDocs === p.id ? (
-                <p style={{ color: '#a8a29e', fontSize: '0.85rem', padding: '1rem 0' }}>Loading documents...</p>
+                <p style={{ color: T.iconDim, fontSize: '0.85rem', padding: '1rem 0' }}>Loading documents...</p>
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem' }}>
                   {docUrls[p.id]?.id && (
                     <div>
-                      <div style={{ fontSize: '0.75rem', color: '#78716c', marginBottom: '0.25rem', fontWeight: 600 }}>ID</div>
+                      <div style={{ fontSize: '0.75rem', color: T.textDim, marginBottom: '0.25rem', fontWeight: 600 }}>ID</div>
                       <a href={docUrls[p.id].id} target="_blank" rel="noopener noreferrer"><img src={docUrls[p.id].id} alt="ID" style={imgStyle} /></a>
                     </div>
                   )}
                   {docUrls[p.id]?.selfie && (
                     <div>
-                      <div style={{ fontSize: '0.75rem', color: '#78716c', marginBottom: '0.25rem', fontWeight: 600 }}>Selfie</div>
+                      <div style={{ fontSize: '0.75rem', color: T.textDim, marginBottom: '0.25rem', fontWeight: 600 }}>Selfie</div>
                       <a href={docUrls[p.id].selfie} target="_blank" rel="noopener noreferrer"><img src={docUrls[p.id].selfie} alt="Selfie" style={imgStyle} /></a>
                     </div>
                   )}
                   {docUrls[p.id]?.license && (
                     <div>
-                      <div style={{ fontSize: '0.75rem', color: '#78716c', marginBottom: '0.25rem', fontWeight: 600 }}>License</div>
+                      <div style={{ fontSize: '0.75rem', color: T.textDim, marginBottom: '0.25rem', fontWeight: 600 }}>License</div>
                       <a href={docUrls[p.id].license} target="_blank" rel="noopener noreferrer"><img src={docUrls[p.id].license} alt="License" style={imgStyle} /></a>
                     </div>
                   )}
                   {!docUrls[p.id]?.id && !docUrls[p.id]?.selfie && !docUrls[p.id]?.license && (
-                    <p style={{ color: '#a8a29e', fontSize: '0.85rem' }}>No documents uploaded</p>
+                    <p style={{ color: T.iconDim, fontSize: '0.85rem' }}>No documents uploaded</p>
                   )}
                 </div>
               )}
@@ -132,13 +133,13 @@ export default function AdminPage() {
               <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1.25rem' }}>
                 <button
                   onClick={() => handleApprove(p.id)}
-                  style={{ flex: 1, background: '#16a34a', color: 'white', border: 'none', borderRadius: '0.75rem', padding: '0.7rem', fontSize: '0.9rem', fontWeight: 600, cursor: 'pointer' }}
+                  style={{ flex: 1, background: T.green, color: T.onAccent, border: 'none', borderRadius: '0.75rem', padding: '0.7rem', fontSize: '0.9rem', fontWeight: 600, cursor: 'pointer' }}
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => handleDecline(p.id)}
-                  style={{ flex: 1, background: '#dc2626', color: 'white', border: 'none', borderRadius: '0.75rem', padding: '0.7rem', fontSize: '0.9rem', fontWeight: 600, cursor: 'pointer' }}
+                  style={{ flex: 1, background: T.red, color: T.onAccent, border: 'none', borderRadius: '0.75rem', padding: '0.7rem', fontSize: '0.9rem', fontWeight: 600, cursor: 'pointer' }}
                 >
                   Decline
                 </button>

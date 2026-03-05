@@ -28,13 +28,13 @@ export default function LandingPage() {
       direction: 'rtl', minHeight: '100vh', background: T.bg,
       maxWidth: 480, margin: '0 auto',
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-      padding: '2rem 1.25rem', fontFamily: "'Noto Sans Arabic', sans-serif",
+      padding: '2rem 1.25rem',
     }}>
 
       {/* Logo */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 32 }}>
         <div style={{
-          background: '#F5C800',
+          background: T.yellow,
           border: `3px solid ${T.border}`,
           borderRadius: '50%',
           width: 64, height: 48,
@@ -48,7 +48,6 @@ export default function LandingPage() {
         <h1 style={{
           fontSize: '2.5rem', fontWeight: 800, color: T.text, marginBottom: 8,
           textShadow: `3px 3px 0 ${T.accent}`,
-          fontFamily: "'Noto Sans Arabic', sans-serif",
         }}>لیمۆ</h1>
         <p style={{ color: T.textDim, fontSize: 13, margin: 0, textAlign: 'center' }}>
           تەنها بۆ هەولێر و سلێمانی و دهۆک

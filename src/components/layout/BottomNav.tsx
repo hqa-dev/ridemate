@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation'
 import { T } from '@/lib/theme'
 
 function NavIcon({ type, active }: { type: string; active: boolean }) {
-  const color = active ? 'rgba(255,255,255,0.9)' : T.iconDim
+  const color = active ? T.onAccent : T.iconDim
   const sw = active ? 1.8 : 1.5
   const sz = active ? 26 : 22
   if (type === 'home') return <svg width={sz} height={sz} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z" /><path d="M9 21V12h6v9" /></svg>
@@ -58,8 +58,7 @@ export function BottomNav({ active: activeOverride }: { active?: 'home' | 'accou
               <NavIcon type={item.icon} active={active} />
               <span className="nav-label" style={{
                 fontSize: 12, fontWeight: 600,
-                color: 'rgba(255,255,255,0.85)',
-                fontFamily: "'Noto Sans Arabic', sans-serif",
+                color: T.onAccent,
                 opacity: active ? 1 : 0,
                 maxWidth: active ? 100 : 0,
                 overflow: 'hidden',
