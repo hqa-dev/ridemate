@@ -15,8 +15,20 @@ function SectionHeader({ title }: { title: string }) {
 
 function Arrow() {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ transform: 'scaleX(-1)', flexShrink: 0 }}>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
       <polyline points="9 18 15 12 9 6" />
+    </svg>
+  )
+}
+
+function SketchPerson({ size = 14, hat = false }: { size?: number; hat?: boolean }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+      stroke={T.text} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="7" r="3.5"/>
+      <path d="M6 21 Q7 14 12 13 Q17 14 18 21"/>
+      <path d="M9 16 Q12 18 15 16"/>
+      {hat && <path d="M7 5 Q12 1 17 5" strokeWidth="1.5"/>}
     </svg>
   )
 }
@@ -36,7 +48,7 @@ function MenuItem({ icon, label, value, isLast, danger, onClick }: {
         display: 'flex',
         alignItems: 'center',
         padding: '13px 0',
-        borderBottom: isLast ? 'none' : `1px solid ${T.borderDim}`,
+        borderBottom: isLast ? 'none' : `1.5px dashed ${T.textDim}`,
         cursor: 'pointer',
       }}
     >
@@ -152,22 +164,15 @@ export default function AccountPage() {
       {/* Profile row */}
       <div
         onClick={() => router.push('/profile')}
-        style={{ display: 'flex', alignItems: 'center', padding: '0 20px 16px', gap: 12, cursor: 'pointer' }}
+        style={{ display: 'flex', alignItems: 'center', margin: '0 12px 16px', padding: '14px', gap: 12, cursor: 'pointer', background: T.card, borderRadius: 10, border: `2px solid ${T.text}`, boxShadow: `3px 3px 0 ${T.text}` }}
       >
         <div style={{
-          width: 44, height: 44, borderRadius: 12,
+          width: 40, height: 40, borderRadius: 9,
           background: T.cardInner,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          border: `1px solid ${T.cardBorder}`,
-          overflow: 'hidden',
+          border: `2px solid ${T.text}`,
         }}>
-          {profile?.avatar_url ? (
-            <img src={profile.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          ) : (
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={T.textDim} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="8" r="4"/><path d="M20 21c0-3.31-3.58-6-8-6s-8 2.69-8 6"/>
-            </svg>
-          )}
+          <SketchPerson size={26} hat={true} />
         </div>
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 15, fontWeight: 700, color: T.text }}>
@@ -178,7 +183,6 @@ export default function AccountPage() {
             {isVerified && ' · پشتڕاستکراوە ✓'}
           </div>
         </div>
-        <Arrow />
       </div>
 
       {/* Account section */}
@@ -186,9 +190,11 @@ export default function AccountPage() {
       <div style={{
         background: T.card,
         margin: '0 12px',
-        borderRadius: 12,
+        borderRadius: 10,
         padding: '0 14px',
-        border: `1px solid ${T.borderDim}`,
+        border: `2px solid ${T.text}`,
+        boxShadow: `3px 3px 0 ${T.text}`,
+        overflow: 'hidden',
       }}>
         <MenuItem icon={Icons.profile} label="پرۆفایل" onClick={() => router.push('/profile')} />
         <MenuItem icon={Icons.myRides} label="گەشتەکانم" onClick={() => router.push('/my-rides')} />
@@ -203,9 +209,11 @@ export default function AccountPage() {
       <div style={{
         background: T.card,
         margin: '0 12px',
-        borderRadius: 12,
+        borderRadius: 10,
         padding: '0 14px',
-        border: `1px solid ${T.borderDim}`,
+        border: `2px solid ${T.text}`,
+        boxShadow: `3px 3px 0 ${T.text}`,
+        overflow: 'hidden',
       }}>
         <MenuItem icon={Icons.chat} label="پەیوەندی" onClick={comingSoon} />
         <MenuItem icon={Icons.info} label="دەربارەی ڕێ" value="v1.0.0" isLast onClick={comingSoon} />
@@ -216,9 +224,10 @@ export default function AccountPage() {
         <div style={{
           background: T.card,
           margin: '0 12px',
-          borderRadius: 12,
+          borderRadius: 10,
           padding: '0 14px',
-          border: `1px solid ${T.borderDim}`,
+          border: `2px solid ${T.red}`,
+          boxShadow: `3px 3px 0 ${T.red}`,
         }}>
           <MenuItem icon={Icons.logout} label="چوونەدەرەوە" danger isLast onClick={handleSignOut} />
         </div>
