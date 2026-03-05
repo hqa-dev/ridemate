@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { CITIES, ROUTE_DISTANCE, formatTime, estimateArrival, toKurdishNum, formatKurdishDate } from '@/lib/utils'
+import { CITIES, ROUTE_DISTANCE, formatTime, estimateArrival, toKurdishNum } from '@/lib/utils'
 import { T } from '@/lib/theme'
 
 interface RideCardProps {
@@ -18,6 +18,62 @@ interface RideCardProps {
   editButton?: React.ReactNode
 }
 
+function SketchCar({ size = 48, color = '#1A1208' }: { size?: number; color?: string }) {
+  return (
+    <svg width={size} height={size * 0.55} viewBox="0 0 80 44" fill="none"
+      stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 28 Q8 18 16 14 Q28 10 42 10 Q54 10 62 14 Q70 18 72 28 L74 34 Q74 38 70 38 L10 38 Q6 38 6 34 Z"/>
+      <path d="M22 28 L26 14 Q34 11 46 14 L52 28 Z"/>
+      <path d="M27 27 L30 16 Q36 13 44 15 L48 27"/>
+      <line x1="38" y1="13" x2="38" y2="27"/>
+      <circle cx="20" cy="38" r="6" fill={T.bg}/><circle cx="20" cy="38" r="3" fill={color}/>
+      <circle cx="58" cy="38" r="6" fill={T.bg}/><circle cx="58" cy="38" r="3" fill={color}/>
+      <path d="M36 26 Q40 24 44 26"/>
+      <ellipse cx="70" cy="26" rx="3" ry="2" fill="#F5C800" stroke={color} strokeWidth="1.5"/>
+      <line x1="2" y1="24" x2="8" y2="24" strokeDasharray="2,2" opacity="0.4"/>
+      <line x1="1" y1="28" x2="6" y2="28" strokeDasharray="2,2" opacity="0.3"/>
+    </svg>
+  )
+}
+
+function SketchPerson({ size = 14 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+      stroke={T.text} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="7" r="3.5"/>
+      <path d="M6 21 Q7 14 12 13 Q17 14 18 21"/>
+      <path d="M9 16 Q12 18 15 16"/>
+    </svg>
+  )
+}
+
+function RouteLine({ from, to, dep, arr }: { from: string; to: string; dep: string; arr: string }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }} dir="rtl">
+      {/* Departure — RIGHT — orange */}
+      <div style={{ textAlign: 'center', minWidth: 38 }}>
+        <div style={{ fontSize: 13, fontWeight: 700, color: T.accent, fontFamily: "'Noto Sans Arabic', sans-serif" }}>{dep}</div>
+        <div style={{ fontSize: 9, color: T.textDim, fontFamily: "'Noto Sans Arabic', sans-serif" }}>{from}</div>
+      </div>
+      {/* SVG curved line */}
+      <div style={{ flex: 1, position: 'relative', height: 12 }}>
+        <svg width="100%" height="12" viewBox="0 0 100 12" preserveAspectRatio="none">
+          <path d="M2 6 Q50 4 98 6" stroke={T.text} strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+          {/* Arrival dot — LEFT — ink */}
+          <circle cx="2" cy="6" r="2.5" fill={T.text}/>
+          {/* Departure dot — RIGHT — orange with ink border */}
+          <circle cx="98" cy="6" r="3" fill={T.accent} stroke={T.text} strokeWidth="1"/>
+        </svg>
+      </div>
+      {/* Arrival — LEFT — ink */}
+      <div style={{ textAlign: 'center', minWidth: 38 }}>
+        <div style={{ fontSize: 13, fontWeight: 700, color: T.text, fontFamily: "'Noto Sans Arabic', sans-serif" }}>{arr}</div>
+        <div style={{ fontSize: 9, color: T.textDim, fontFamily: "'Noto Sans Arabic', sans-serif" }}>{to}</div>
+      </div>
+    </div>
+  )
+}
+
 export function RideCard({ ride, status, dimmed, editButton }: RideCardProps) {
   const driver = ride.driver || {}
   const depTime = toKurdishNum(formatTime(ride.departure_time))
@@ -25,68 +81,80 @@ export function RideCard({ ride, status, dimmed, editButton }: RideCardProps) {
   const routeKey = `${ride.from_city}-${ride.to_city}`
   const distance = ROUTE_DISTANCE[routeKey] || ''
   const priceDisplay = ride.price_type === 'coffee'
-    ? 'قاوەیەک'
+    ? '☕'
     : `${toKurdishNum(Number(ride.price_iqd || 0).toLocaleString('en'))} دینار`
   const isFull = ride.available_seats <= 0
-  const seatsDisplay = `${toKurdishNum(ride.available_seats)} جێ بەردەستە`
+  const seatsDisplay = `${toKurdishNum(ride.available_seats)} جێگا`
 
   return (
     <Link href={`/rides/${ride.id}`} style={{ textDecoration: 'none', display: 'block' }}>
       <div style={{
-        background: T.card, borderRadius: 16, marginBottom: 10,
-        boxShadow: T.shadow, overflow: 'hidden',
+        background: T.card,
+        border: `2px solid ${T.border}`,
+        borderRadius: 12,
+        boxShadow: T.cardShadow,
+        marginBottom: 10,
+        overflow: 'hidden',
         opacity: dimmed ? 0.5 : (isFull && !status) ? 0.6 : 1,
+        fontFamily: "'Noto Sans Arabic', sans-serif",
       }}>
-        {/* Header — date + optional status pill */}
-        <div style={{ padding: '8px 18px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} dir="ltr">
-          {status ? (
-            <span style={{
-              fontSize: 9, padding: '2px 8px', borderRadius: 20,
-              background: status.bg, color: status.color, fontWeight: 600,
-            }}>{status.text}</span>
-          ) : editButton ? (
-            <div onClick={e => e.preventDefault()}>{editButton}</div>
-          ) : (
-            <span />
-          )}
-          <span style={{ fontSize: 12, color: T.textDim }}>{formatKurdishDate(ride.departure_time)}</span>
+
+        {/* Status pill or edit button — only shown when present */}
+        {(status || editButton) && (
+          <div style={{ padding: '8px 12px 0', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} dir="rtl">
+            {status ? (
+              <span style={{
+                fontSize: 9, padding: '2px 7px', borderRadius: 3,
+                background: status.bg, color: status.color, fontWeight: 700,
+                border: `1.5px solid ${status.color}`,
+              }}>{status.text}</span>
+            ) : (
+              <div onClick={e => e.preventDefault()}>{editButton}</div>
+            )}
+          </div>
+        )}
+
+        {/* Sketch car */}
+        <div style={{ display: 'flex', justifyContent: 'center', padding: '10px 12px 6px' }}>
+          <SketchCar size={52} color={dimmed ? T.textDim : T.text} />
         </div>
 
-        {/* Timeline — RTL: right = departure (orange), left = arrival (ink) */}
-        <div style={{ padding: '2px 18px 12px' }} dir="rtl">
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            {/* Departure time — RIGHT — orange */}
-            <div style={{ textAlign: 'center', minWidth: 44 }}>
-              <div style={{ fontSize: 15, fontWeight: 700, color: T.accent }}>{depTime}</div>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', flex: 1, margin: '0 8px' }}>
-              {/* Departure dot — RIGHT — orange filled */}
-              <div style={{ width: 9, height: 9, borderRadius: '50%', background: T.accent, flexShrink: 0 }} />
-              {/* Line — orange on right fading to ink on left */}
-              <div style={{ flex: 1, height: 2, background: `linear-gradient(to left, ${T.accent}, #ccc, ${T.text})`, borderRadius: 1, margin: '0 2px' }} />
-              {/* Arrival dot — LEFT — ink */}
-              <div style={{ width: 7, height: 7, borderRadius: '50%', background: T.text, flexShrink: 0 }} />
-            </div>
-            {/* Arrival time — LEFT — ink */}
-            <div style={{ textAlign: 'center', minWidth: 44 }}>
-              <div style={{ fontSize: 15, fontWeight: 700, color: T.text }}>{arrTime}</div>
-            </div>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
-            <span style={{ fontSize: 11, color: T.textMid, minWidth: 44, textAlign: 'center' }}>{CITIES[ride.from_city]}</span>
-            <span style={{ fontSize: 9, color: T.textMid }}>{distance}</span>
-            <span style={{ fontSize: 11, color: T.textMid, minWidth: 44, textAlign: 'center' }}>{CITIES[ride.to_city]}</span>
-          </div>
+        {/* Dashed divider above route */}
+        <div style={{ borderTop: `1.5px dashed ${T.textDim}`, margin: '0 12px 8px', opacity: 0.4 }} />
+
+        {/* Route line */}
+        <div style={{ padding: '0 12px' }}>
+          <RouteLine
+            from={CITIES[ride.from_city]}
+            to={CITIES[ride.to_city]}
+            dep={depTime}
+            arr={arrTime}
+          />
         </div>
+
+        {/* Dashed divider above footer */}
+        <div style={{ borderTop: `1.5px dashed ${T.textDim}`, margin: '8px 12px 6px', opacity: 0.3 }} />
 
         {/* Footer — driver · seats · price */}
-        <div style={{ borderTop: `1px solid ${T.border}`, padding: '10px 18px', display: 'flex', alignItems: 'center', direction: 'rtl' }}>
-          <span style={{ flex: 1, textAlign: 'right', fontSize: 12, color: T.textMid }}>{driver.full_name || 'شۆفێر'}</span>
-          <span style={{ flex: 1, textAlign: 'center', fontSize: 12, color: isFull ? T.text : T.textDim, fontWeight: isFull ? 700 : undefined }}>
-            {isFull ? '٠ جێ' : seatsDisplay}
+        <div style={{ padding: '0 12px 10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', direction: 'rtl' }}>
+          {/* Driver with sketch person icon */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <div style={{
+              width: 22, height: 22, borderRadius: 5,
+              border: `1.5px solid ${T.border}`,
+              background: T.cardInner,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <SketchPerson size={14} />
+            </div>
+            <span style={{ fontSize: 11, fontWeight: 700, color: T.text }}>{driver.full_name || 'شۆفێر'}</span>
+          </div>
+          {/* Seats · price */}
+          <span style={{ fontSize: 10, color: T.textDim }}>
+            {isFull ? '٠ جێگا' : seatsDisplay} · {priceDisplay}
           </span>
-          <span style={{ flex: 1, textAlign: 'left', fontSize: 12, fontWeight: 400, color: T.textMid }}>{priceDisplay}</span>
         </div>
+
       </div>
     </Link>
   )
@@ -94,10 +162,10 @@ export function RideCard({ ride, status, dimmed, editButton }: RideCardProps) {
 
 // Shared status configs
 export const REQUEST_STATUS: Record<string, { text: string; color: string; bg: string }> = {
-  pending: { text: 'چاوەڕوانە', color: T.amber, bg: T.amberBg },
-  approved: { text: 'قبوڵ کرا', color: T.green, bg: 'rgba(74,222,128,0.1)' },
-  declined: { text: 'ڕەت کرایەوە', color: T.red, bg: 'rgba(248,113,113,0.1)' },
+  pending:   { text: 'چاوەڕوانە',       color: T.amber,   bg: T.amberBg },
+  approved:  { text: 'قبوڵ کرا',        color: T.green,   bg: T.greenBg },
+  declined:  { text: 'ڕەت کرایەوە',    color: T.red,     bg: T.redBg },
   cancelled: { text: 'هەڵوەشێنرایەوە', color: T.textMid, bg: T.chipBg },
 }
 
-export const RIDE_CANCELLED_STATUS = { text: 'هەڵوەشێنرایەوە', color: T.red, bg: 'rgba(248,113,113,0.1)' }
+export const RIDE_CANCELLED_STATUS = { text: 'هەڵوەشێنرایەوە', color: T.red, bg: T.redBg }
