@@ -5,6 +5,9 @@ import { BottomNav } from '@/components/layout/BottomNav'
 import { createClient } from '@/lib/supabase/client'
 import { T } from '@/lib/theme'
 import { ConfirmModal } from '@/components/ui/ConfirmModal'
+import PageHeader from '@/components/ui/PageHeader'
+import SectionLabel from '@/components/ui/SectionLabel'
+import Card from '@/components/ui/Card'
 
 const Toggle = () => (
   <div style={{ width: 36, height: 20, borderRadius: 10, border: `1.5px solid ${T.text}`, background: T.accentFill, display: 'flex', alignItems: 'center', padding: '0 3px', justifyContent: 'flex-end' }}>
@@ -49,23 +52,14 @@ export default function SettingsPage() {
       fontFamily: "'Noto Sans Arabic', sans-serif", maxWidth: 480, margin: '0 auto',
       paddingBottom: 100,
     }}>
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', padding: '24px 20px 20px', gap: 12 }}>
-        <div style={{ width:32, height:32, border:`2px solid ${T.text}`, borderRadius:7, background:T.card, boxShadow:`2px 2px 0 ${T.text}`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, cursor:'pointer' }} onClick={() => router.back()}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={T.text} strokeWidth="2.5" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-        </div>
-        <h1 style={{ fontSize: 18, fontWeight: 700, color: T.text, margin: 0 }}>ڕێکخستنەکان</h1>
-      </div>
+      <PageHeader title="ڕێکخستنەکان" back />
 
       <div style={{ padding: '0 16px' }}>
 
         {/* Language */}
         <div style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '0 4px 8px' }}>زمان</div>
-          <div style={{
-            background: T.card, borderRadius: 10,
-            border: `2px solid ${T.text}`, boxShadow: `3px 3px 0 ${T.text}`,
-          }}>
+          <SectionLabel label="زمان" />
+          <Card>
             <div style={{
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
               padding: '16px 16px', direction: 'rtl',
@@ -76,18 +70,15 @@ export default function SettingsPage() {
                 </svg>
                 <span style={{ fontSize: 14, color: T.text }}>زمانی کوردی</span>
               </div>
-              <span style={{ fontSize: 11, color: T.textDim, fontFamily: "'Noto Sans Arabic', sans-serif" }}>زمانی کوردی</span>
+              <span style={{ fontSize: 11, color: T.textDim }}>زمانی کوردی</span>
             </div>
-          </div>
+          </Card>
         </div>
 
         {/* Notifications */}
         <div style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '0 4px 8px' }}>ئاگاداری</div>
-          <div style={{
-            background: T.card, borderRadius: 10,
-            border: `2px solid ${T.text}`, boxShadow: `3px 3px 0 ${T.text}`,
-          }}>
+          <SectionLabel label="ئاگاداری" />
+          <Card>
             <div style={{
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
               padding: '16px 16px', direction: 'rtl',
@@ -100,16 +91,13 @@ export default function SettingsPage() {
               </div>
               <Toggle />
             </div>
-          </div>
+          </Card>
         </div>
 
         {/* Danger zone */}
         <div>
-          <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '0 4px 8px' }}>مەترسیدار</div>
-          <div style={{
-            background: T.card, borderRadius: 10,
-            border: `2px solid ${T.red}`, boxShadow: `3px 3px 0 ${T.red}`,
-          }}>
+          <SectionLabel label="مەترسیدار" />
+          <Card danger>
             <div
               onClick={handleDeleteAccount}
               style={{
@@ -126,7 +114,7 @@ export default function SettingsPage() {
                 <p style={{ fontSize: 11, color: T.iconDim, margin: '3px 0 0' }}>هەموو داتاکانت دەسڕێتەوە و ناگەڕێتەوە</p>
               </div>
             </div>
-          </div>
+          </Card>
         </div>
 
       </div>

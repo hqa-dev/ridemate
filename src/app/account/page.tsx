@@ -5,14 +5,8 @@ import { BottomNav } from '@/components/layout/BottomNav'
 import { T } from '@/lib/theme'
 import { createClient } from '@/lib/supabase/client'
 import SketchPerson from '@/components/ui/icons/SketchPerson'
-
-function SectionHeader({ title }: { title: string }) {
-  return (
-    <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '16px 16px 8px', letterSpacing: 0.5 }}>
-      {title}
-    </div>
-  )
-}
+import SectionLabel from '@/components/ui/SectionLabel'
+import Card from '@/components/ui/Card'
 
 function Arrow() {
   return (
@@ -151,9 +145,10 @@ export default function AccountPage() {
       </div>
 
       {/* Profile row */}
+      <Card style={{ margin: '0 12px 16px' }}>
       <div
         onClick={() => router.push('/profile')}
-        style={{ display: 'flex', alignItems: 'center', margin: '0 12px 16px', padding: '14px', gap: 12, cursor: 'pointer', background: T.card, borderRadius: 10, border: `2px solid ${T.text}`, boxShadow: `3px 3px 0 ${T.text}` }}
+        style={{ display: 'flex', alignItems: 'center', padding: '14px', gap: 12, cursor: 'pointer' }}
       >
         <div style={{
           width: 40, height: 40, borderRadius: 9,
@@ -173,17 +168,11 @@ export default function AccountPage() {
           </div>
         </div>
       </div>
+      </Card>
 
       {/* Account section */}
-      <SectionHeader title="هەژمار" />
-      <div style={{
-        background: T.card,
-        margin: '0 12px',
-        borderRadius: 10,
-        padding: '0 14px',
-        border: `2px solid ${T.text}`,
-        boxShadow: `3px 3px 0 ${T.text}`,
-      }}>
+      <SectionLabel label="هەژمار" />
+      <Card style={{ margin: '0 12px', padding: '0 14px' }}>
         <div style={{ overflow: 'hidden' }}>
           <MenuItem icon={Icons.profile} label="پرۆفایل" onClick={() => router.push('/profile')} />
           <MenuItem icon={Icons.myRides} label="گەشتەکانم" onClick={() => router.push('/my-rides')} />
@@ -192,36 +181,22 @@ export default function AccountPage() {
           <MenuItem icon={Icons.settings} label="ڕێکخستنەکان" onClick={() => router.push('/settings')} />
           <MenuItem icon={Icons.bell} label="ئاگاداریەکان" value="کراوە" isLast onClick={comingSoon} />
         </div>
-      </div>
+      </Card>
 
       {/* Support section */}
-      <SectionHeader title="یارمەتی" />
-      <div style={{
-        background: T.card,
-        margin: '0 12px',
-        borderRadius: 10,
-        padding: '0 14px',
-        border: `2px solid ${T.text}`,
-        boxShadow: `3px 3px 0 ${T.text}`,
-      }}>
+      <SectionLabel label="یارمەتی" />
+      <Card style={{ margin: '0 12px', padding: '0 14px' }}>
         <div style={{ overflow: 'hidden' }}>
           <MenuItem icon={Icons.chat} label="پەیوەندی" onClick={comingSoon} />
           <MenuItem icon={Icons.info} label="دەربارەی ڕێ" value="v1.0.0" isLast onClick={comingSoon} />
         </div>
-      </div>
+      </Card>
 
       {/* Sign out */}
       <div style={{ marginTop: 16 }}>
-        <div style={{
-          background: T.card,
-          margin: '0 12px',
-          borderRadius: 10,
-          padding: '0 14px',
-          border: `2px solid ${T.red}`,
-          boxShadow: `3px 3px 0 ${T.red}`,
-        }}>
+        <Card danger style={{ margin: '0 12px', padding: '0 14px' }}>
           <MenuItem icon={Icons.logout} label="چوونەدەرەوە" danger isLast onClick={handleSignOut} />
-        </div>
+        </Card>
       </div>
 
       {/* Version */}

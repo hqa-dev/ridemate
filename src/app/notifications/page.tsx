@@ -5,6 +5,9 @@ import { BottomNav } from '@/components/layout/BottomNav'
 import { createClient } from '@/lib/supabase/client'
 import { CITIES, toKurdishNum, formatKurdishDate } from '@/lib/utils'
 import { T } from '@/lib/theme'
+import PageHeader from '@/components/ui/PageHeader'
+import SectionLabel from '@/components/ui/SectionLabel'
+import Card from '@/components/ui/Card'
 
 const AVATAR_COLORS = ['#E8470A','#2A7A1A','#4A6FA5','#8B4513','#6B3FA0']
 function nameColor(name: string) {
@@ -219,13 +222,7 @@ export default function NotificationsPage() {
       fontFamily: "'Noto Sans Arabic', sans-serif", maxWidth: 480, margin: '0 auto',
       paddingBottom: 100,
     }}>
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', padding: '24px 20px 20px', gap: 12 }}>
-        <div style={{ width:32, height:32, border:`2px solid ${T.text}`, borderRadius:7, background:T.card, boxShadow:`2px 2px 0 ${T.text}`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, cursor:'pointer' }} onClick={() => router.back()}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={T.text} strokeWidth="2.5" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-        </div>
-        <h1 style={{ fontSize: 18, fontWeight: 700, color: T.text, margin: 0 }}>ئاگاداری</h1>
-      </div>
+      <PageHeader title="ئاگاداری" back />
 
       {error && <p style={{ color: T.red, fontSize: 12, textAlign: 'center', padding: '0 16px 8px' }}>{error}</p>}
 
@@ -233,23 +230,23 @@ export default function NotificationsPage() {
         <>
           {unseenNotifications.length > 0 && (
             <>
-              <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '0 20px 8px' }}>نوێ</div>
-              <div style={{ background: T.card, margin: '0 16px 16px', borderRadius: 12, padding: '0 16px', border: `2px solid ${T.text}`, boxShadow: `3px 3px 0 ${T.text}` }}>
+              <div style={{ padding: '0 4px' }}><SectionLabel label="نوێ" /></div>
+              <Card style={{ margin: '0 16px 16px', borderRadius: 12, padding: '0 16px' }}>
                 {unseenNotifications.map((n, i) => (
                   <NotifRow key={n.id} n={n} isLast={i === unseenNotifications.length - 1} onApprove={handleApprove} onDecline={handleDecline} processing={processing} router={router} />
                 ))}
-              </div>
+              </Card>
             </>
           )}
 
           {seenNotifications.length > 0 && (
             <>
-              <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '0 20px 8px' }}>پێشوو</div>
-              <div style={{ background: T.card, margin: '0 16px', borderRadius: 12, padding: '0 16px', border: `2px solid ${T.text}`, boxShadow: `3px 3px 0 ${T.text}` }}>
+              <div style={{ padding: '0 4px' }}><SectionLabel label="پێشوو" /></div>
+              <Card style={{ margin: '0 16px', borderRadius: 12, padding: '0 16px' }}>
                 {seenNotifications.map((n, i) => (
                   <NotifRow key={n.id} n={n} isLast={i === seenNotifications.length - 1} onApprove={handleApprove} onDecline={handleDecline} processing={processing} router={router} />
                 ))}
-              </div>
+              </Card>
             </>
           )}
 

@@ -7,6 +7,8 @@ import { CITIES, toKurdishNum } from '@/lib/utils'
 import { T } from '@/lib/theme'
 import { RideCard } from '@/components/ui/RideCard'
 import SketchCar from '@/components/ui/icons/SketchCar'
+import Card from '@/components/ui/Card'
+import DashedDivider from '@/components/ui/DashedDivider'
 
 const CITY_KEYS = ['', 'erbil', 'suli', 'duhok'] as const
 
@@ -335,7 +337,7 @@ export default function PostRidePage() {
           </div>
 
           {/* Route card */}
-          <div style={{ background: T.card, borderRadius: 10, marginBottom: 14, boxShadow: `3px 3px 0 ${T.text}`, overflow: 'hidden', border: `2px solid ${T.text}` }}>
+          <Card style={{ marginBottom: 14, overflow: 'hidden' }}>
             <div style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 10 }}>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, flexShrink: 0 }}>
                 <div style={{ width: 8, height: 8, borderRadius: '50%', border: `2px solid ${T.text}` }} />
@@ -346,16 +348,16 @@ export default function PostRidePage() {
                 <div onClick={() => cycleCity(fromCity, setFromCity)} style={{ background: T.cardInner, borderRadius: 10, padding: '10px 14px', fontSize: 13, color: fromCity ? T.text : T.textDim, cursor: 'pointer', fontFamily: "'Noto Sans Arabic', sans-serif" }}>
                   {fromCity ? CITIES[fromCity] : 'لە کوێ؟'}
                 </div>
-                <div style={{ borderTop: `1.5px dashed ${T.textDim}`, margin: '0 4px', opacity: 0.4 }} />
+                <DashedDivider style={{ margin: '0 4px' }} />
                 <div onClick={() => cycleCity(toCity, setToCity)} style={{ background: T.cardInner, borderRadius: 10, padding: '10px 14px', fontSize: 13, color: toCity ? T.text : T.textDim, cursor: 'pointer', fontFamily: "'Noto Sans Arabic', sans-serif" }}>
                   {toCity ? CITIES[toCity] : 'بۆ کوێ؟'}
                 </div>
               </div>
             </div>
-          </div>
+          </Card>
 
           {/* Date/Time/Seats card */}
-          <div style={{ background: T.card, borderRadius: 10, marginBottom: 14, boxShadow: `3px 3px 0 ${T.text}`, overflow: 'hidden', border: `2px solid ${T.text}` }}>
+          <Card style={{ marginBottom: 14, overflow: 'hidden' }}>
             <div style={{ padding: '12px 16px', display: 'flex', alignItems: 'center' }}>
               <div onClick={() => dateRef.current?.showPicker()} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer', position: 'relative' }}>
                 <div style={{ fontSize: 9, color: T.textMid, marginBottom: 3 }}>بەروار</div>
@@ -390,12 +392,12 @@ export default function PostRidePage() {
                 </div>
               </div>
             </div>
-          </div>
+          </Card>
 
           {/* Price card */}
-          <div style={{ background: T.card, borderRadius: 10, marginBottom: 14, boxShadow: `3px 3px 0 ${T.text}`, overflow: 'hidden', border: `2px solid ${T.text}`, padding: '12px 16px' }}>
+          <Card style={{ marginBottom: 14, overflow: 'hidden', padding: '12px 16px' }}>
             <div style={{ fontSize: 9, color: T.textFaint, marginBottom: 0, fontWeight: 600 }}>نرخ</div>
-            <div style={{ borderTop: `1.5px dashed ${T.textDim}`, margin: '6px 0', opacity: 0.4 }} />
+            <DashedDivider style={{ margin: '6px 0' }} />
             <div style={{ display: 'flex', gap: 8 }}>
               <div onClick={() => setPriceType('coffee')} style={{
                 flex: 1, padding: '10px 0', textAlign: 'center', borderRadius: 9, cursor: 'pointer',
@@ -418,12 +420,12 @@ export default function PostRidePage() {
                   style={{ background: T.cardInner, border: `1.5px solid ${T.textDim}`, borderRadius: 8, padding: '10px 12px', width: '100%', fontSize: 12, color: T.text, WebkitTextFillColor: T.text, outline: 'none', direction: 'ltr', textAlign: 'left', fontFamily: "'Noto Sans Arabic', sans-serif" }} />
               </div>
             )}
-          </div>
+          </Card>
 
           {/* Car + Notes card */}
-          <div style={{ background: T.card, borderRadius: 10, marginBottom: 14, boxShadow: `3px 3px 0 ${T.text}`, overflow: 'hidden', border: `2px solid ${T.text}`, padding: '12px 16px' }}>
+          <Card style={{ marginBottom: 14, overflow: 'hidden', padding: '12px 16px' }}>
             <div style={{ fontSize: 9, color: T.textFaint, marginBottom: 0, fontWeight: 600 }}>زانیاری ئۆتۆمبێل</div>
-            <div style={{ borderTop: `1.5px dashed ${T.textDim}`, margin: '6px 0', opacity: 0.4 }} />
+            <DashedDivider style={{ margin: '6px 0' }} />
             <div style={{ display: 'flex', gap: 8, marginBottom: 0 }}>
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 9, color: T.textDim, marginBottom: 4 }}>جۆر</div>
@@ -434,16 +436,16 @@ export default function PostRidePage() {
                 <input value={carModel} onChange={e => setCarModel(e.target.value)} placeholder="Camry" className="car-input" style={{ background: T.cardInner, border: `1.5px solid ${T.textDim}`, borderRadius: 8, padding: '10px 12px', width: '100%', fontSize: 12, color: T.text, WebkitTextFillColor: T.text, outline: 'none', fontFamily: "'Noto Sans Arabic', sans-serif" }} />
               </div>
             </div>
-            <div style={{ borderTop: `1.5px dashed ${T.textDim}`, margin: '10px 4px', opacity: 0.4 }} />
+            <DashedDivider style={{ margin: '10px 4px' }} />
             <div style={{ marginBottom: 0 }}>
               <div style={{ fontSize: 9, color: T.textDim, marginBottom: 4 }}>ڕەنگ</div>
               <input value={carColor} onChange={e => setCarColor(e.target.value)} placeholder="White" className="car-input" style={{ background: T.cardInner, border: `1.5px solid ${T.textDim}`, borderRadius: 8, padding: '10px 12px', width: '100%', fontSize: 12, color: T.text, WebkitTextFillColor: T.text, outline: 'none', fontFamily: "'Noto Sans Arabic', sans-serif" }} />
             </div>
-            <div style={{ borderTop: `1.5px dashed ${T.textDim}`, margin: '10px 4px', opacity: 0.4 }} />
+            <DashedDivider style={{ margin: '10px 4px' }} />
             <div style={{ fontSize: 9, color: T.textFaint, marginBottom: 0, fontWeight: 600 }}>تێبینی</div>
-            <div style={{ borderTop: `1.5px dashed ${T.textDim}`, margin: '6px 0', opacity: 0.4 }} />
+            <DashedDivider style={{ margin: '6px 0' }} />
             <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="هەر شتێک دەربارەی گەشتەکەت..." rows={2} className="note-input" style={{ background: T.cardInner, border: `1.5px solid ${T.textDim}`, borderRadius: 8, padding: '10px 12px', width: '100%', fontSize: 12, color: T.text, WebkitTextFillColor: T.text, outline: 'none', resize: 'none', fontFamily: "'Noto Sans Arabic', sans-serif", lineHeight: 1.8 }} />
-          </div>
+          </Card>
 
           {error && <p style={{ color: T.red, fontSize: 12, textAlign: 'center', marginBottom: 12 }}>{error}</p>}
 

@@ -11,6 +11,10 @@ import { ConfirmModal } from '@/components/ui/ConfirmModal'
 import SketchCar from '@/components/ui/icons/SketchCar'
 import SketchPerson from '@/components/ui/icons/SketchPerson'
 import RouteLine from '@/components/ui/icons/RouteLine'
+import PageHeader from '@/components/ui/PageHeader'
+import SectionLabel from '@/components/ui/SectionLabel'
+import Card from '@/components/ui/Card'
+import DashedDivider from '@/components/ui/DashedDivider'
 
 const PersonIcon = ({ size = 16 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -386,15 +390,7 @@ export default function RideDetailPage() {
   return (
     <div style={pageWrap}>
 
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', padding: '24px 20px 20px', gap: 12 }}>
-        <div style={{ width:32, height:32, border:`2px solid ${T.text}`, borderRadius:7, background:T.card, boxShadow:`2px 2px 0 ${T.text}`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, cursor:'pointer' }} onClick={() => router.back()}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={T.text} strokeWidth="2.5" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-        </div>
-        <h1 style={{ fontSize: 18, fontWeight: 700, color: T.text, margin: 0 }}>
-          {CITIES[ride.from_city]} ← {CITIES[ride.to_city]}
-        </h1>
-      </div>
+      <PageHeader title={`${CITIES[ride.from_city]} ← ${CITIES[ride.to_city]}`} back />
 
       {/* Cancelled banner */}
       {isCancelled && (
@@ -416,7 +412,7 @@ export default function RideDetailPage() {
       </div>
 
       {/* Timeline + Stats */}
-      <div style={{ background: T.card, margin: '0 16px', borderRadius: 12, border: `2px solid ${T.border}`, boxShadow: T.cardShadow, overflow: 'hidden' }}>
+      <Card style={{ margin: '0 16px', borderRadius: 12, overflow: 'hidden' }}>
         {/* RouteLine */}
         <div style={{ padding: '14px 16px 0' }}>
           <RouteLine
@@ -437,7 +433,7 @@ export default function RideDetailPage() {
         )}
 
         {/* Dashed divider */}
-        <div style={{ borderTop: `1.5px dashed ${T.textDim}`, margin: '10px 0 8px', opacity: 0.4 }} />
+        <DashedDivider style={{ margin: '10px 0 8px' }} />
 
         {/* Stats bar */}
         <div style={{ display: 'flex', padding: '0 0 10px' }}>
@@ -453,11 +449,11 @@ export default function RideDetailPage() {
             </div>
           ))}
         </div>
-      </div>
+      </Card>
 
       {/* Driver */}
-      <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '20px 20px 8px' }}>شۆفێر</div>
-      <div style={{ background: T.card, margin: '0 16px', borderRadius: 12, border: `2px solid ${T.border}`, boxShadow: T.cardShadow, padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12 }}>
+      <SectionLabel label="شۆفێر" />
+      <Card style={{ margin: '0 16px', padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12 }}>
         <div style={{ width: 36, height: 36, borderRadius: 8, border: `2px solid ${T.text}`, background: T.cardInner, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <SketchPerson size={22} hat={true} />
         </div>
@@ -474,13 +470,13 @@ export default function RideDetailPage() {
             {carColor && ` ${carColor}`}
           </div>
         </div>
-      </div>
+      </Card>
 
       {/* Passengers */}
       {(approvedPassengers.length > 0 || isOwnRide) && (
         <>
-          <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '20px 20px 8px' }}>سەرنشینەکان</div>
-          <div style={{ background: T.card, margin: '0 16px', borderRadius: 12, border: `2px solid ${T.border}`, boxShadow: T.cardShadow, padding: '0 16px' }}>
+          <SectionLabel label="سەرنشینەکان" />
+          <Card style={{ margin: '0 16px', padding: '0 16px' }}>
             {approvedPassengers.map((p: any, i: number) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', padding: '12px 0', gap: 10, borderBottom: i < approvedPassengers.length - 1 ? `1.5px dashed ${T.divider}` : 'none' }}>
                 <div style={{ width: 28, height: 28, borderRadius: 6, background: T.cardInner, border: `1.5px solid ${T.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
@@ -506,16 +502,16 @@ export default function RideDetailPage() {
                 <span style={{ fontSize: 12, color: T.textDim }}>{toKurdishNum(ride.available_seats)} جێگای بەردەست</span>
               </div>
             )}
-          </div>
+          </Card>
         </>
       )}
 
       {/* Notes */}
       {ride.notes && (
-        <div style={{ margin: '16px 16px 0', padding: '12px 16px', background: T.card, borderRadius: 12, border: `2px solid ${T.text}`, boxShadow: T.cardShadow }}>
+        <Card style={{ margin: '16px 16px 0', padding: '12px 16px' }}>
           <div style={{ fontSize: 9, color: T.textFaint, marginBottom: 4, fontWeight: 600 }}>تێبینی</div>
           <div style={{ fontSize: 11, color: T.textDim, lineHeight: 1.8 }}>{ride.notes}</div>
-        </div>
+        </Card>
       )}
 
       {/* ── Action Area ── */}

@@ -6,6 +6,9 @@ import { T } from '@/lib/theme'
 import { ku } from '@/lib/translations'
 import { createClient } from '@/lib/supabase/client'
 import SketchPerson from '@/components/ui/icons/SketchPerson'
+import PageHeader from '@/components/ui/PageHeader'
+import SectionLabel from '@/components/ui/SectionLabel'
+import Card from '@/components/ui/Card'
 
 const Arrow = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
@@ -212,17 +215,11 @@ export default function ProfilePage() {
   return (
     <div style={{ direction: 'rtl', minHeight: '100vh', background: T.bg, maxWidth: 480, margin: '0 auto', fontFamily: "'Noto Sans Arabic', sans-serif" }}>
 
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', padding: '24px 20px 20px', gap: 12 }}>
-        <div style={{ width:32, height:32, border:`2px solid ${T.text}`, borderRadius:7, background:T.card, boxShadow:`2px 2px 0 ${T.text}`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, cursor:'pointer' }} onClick={() => router.push('/account')}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={T.text} strokeWidth="2.5" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-        </div>
-        <h1 style={{ fontSize: 18, fontWeight: 700, color: T.text, margin: 0 }}>پرۆفایل</h1>
-      </div>
+      <PageHeader title="پرۆفایل" back onBack={() => router.push('/account')} />
 
       {/* Profile card — avatar right, divider, details left */}
       <input type="file" accept="image/*" ref={avatarInputRef} style={{ display: 'none' }} onChange={e => { const f = e.target.files?.[0]; if (f) handleAvatarUpload(f) }} />
-      <div style={{ margin: '0 12px 8px', padding: '20px 16px', background: T.card, borderRadius: 10, border: `2px solid ${T.text}`, boxShadow: `3px 3px 0 ${T.text}`, display: 'flex', alignItems: 'center' }}>
+      <Card style={{ margin: '0 12px 8px', padding: '20px 16px', display: 'flex', alignItems: 'center' }}>
         <div style={{ position: 'relative', flexShrink: 0, cursor: 'pointer' }} onClick={() => avatarInputRef.current?.click()}>
           <div style={{ width: 64, height: 64, borderRadius: 10, background: T.cardInner, border: `2px solid ${T.text}`, boxShadow: `3px 3px 0 ${T.text}`, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', opacity: uploadingAvatar ? 0.5 : 1 }}>
             {avatarUrl ? (
@@ -242,14 +239,14 @@ export default function ProfilePage() {
           </div>
           <div style={{ fontSize: 10, color: T.iconDim, direction: 'ltr' as const, textAlign: 'right' as const }}>{displayEmail}</div>
         </div>
-      </div>
+      </Card>
 
       {/* Scrollable content */}
       <div style={{ padding: '0 0 120px' }}>
 
         {/* Info section */}
-        <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '16px 16px 8px' }}>زانیاری</div>
-        <div style={{ background: T.card, margin: '0 12px', borderRadius: 10, padding: '0 14px', border: `2px solid ${T.text}`, boxShadow: `3px 3px 0 ${T.text}` }}>
+        <div style={{ marginTop: 16 }}><SectionLabel label="زانیاری" /></div>
+        <Card style={{ margin: '0 12px', padding: '0 14px' }}>
 
           {/* Name */}
           <div>
@@ -309,11 +306,11 @@ export default function ProfilePage() {
               </div>
             )}
           </div>
-        </div>
+        </Card>
 
         {/* Role section */}
-        <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '16px 16px 8px' }}>ڕۆڵ</div>
-        <div style={{ background: T.card, margin: '0 12px', borderRadius: 10, padding: '0 14px', border: `2px solid ${T.text}`, boxShadow: `3px 3px 0 ${T.text}` }}>
+        <div style={{ marginTop: 16 }}><SectionLabel label="ڕۆڵ" /></div>
+        <Card style={{ margin: '0 12px', padding: '0 14px' }}>
           <MenuItem icon={Icons.shield} label="جۆری هەژمار" value={roleText} />
           <div style={{ display: 'flex', alignItems: 'center', padding: '13px 0' }}>
             <div style={{ width: 24, display: 'flex', justifyContent: 'center', marginLeft: 12 }}>
@@ -325,11 +322,11 @@ export default function ProfilePage() {
             </span>
             <Arrow />
           </div>
-        </div>
+        </Card>
 
         {/* Danger */}
-        <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '16px 16px 8px' }}>مەترسی</div>
-        <div style={{ background: T.card, margin: '0 12px', borderRadius: 10, padding: '0 14px', border: `2px solid ${T.red}`, boxShadow: `3px 3px 0 ${T.red}` }}>
+        <div style={{ marginTop: 16 }}><SectionLabel label="مەترسی" /></div>
+        <Card danger style={{ margin: '0 12px', padding: '0 14px' }}>
           {!showDeleteConfirm ? (
             <div onClick={() => setShowDeleteConfirm(true)} style={{ display: 'flex', alignItems: 'center', padding: '13px 0', cursor: 'pointer' }}>
               <div style={{ width: 24, display: 'flex', justifyContent: 'center', marginLeft: 12 }}>{Icons.trash}</div>
@@ -339,12 +336,12 @@ export default function ProfilePage() {
             <div style={{ padding: '14px 0' }}>
               <p style={{ fontSize: 13, color: T.red, margin: '0 0 12px', lineHeight: 1.7, textAlign: 'right' }}>دڵنیایت دەتەوێ هەژمارەکەت بسڕیتەوە؟</p>
               <div style={{ display: 'flex', gap: 8 }}>
-                <button onClick={handleDeleteAccount} style={{ flex: 1, background: T.destructive, color: 'white', border: 'none', borderRadius: 10, padding: 10, fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: "'Noto Sans Arabic', sans-serif" }}>بەڵێ دڵنیام</button>
-                <button onClick={() => setShowDeleteConfirm(false)} style={{ flex: 1, background: T.chipBg, color: T.textDim, border: 'none', borderRadius: 10, padding: 10, fontSize: 13, cursor: 'pointer', fontFamily: "'Noto Sans Arabic', sans-serif" }}>پاشگەز</button>
+                <button onClick={handleDeleteAccount} style={{ flex: 1, background: T.destructive, color: 'white', border: 'none', borderRadius: 10, padding: 10, fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>بەڵێ دڵنیام</button>
+                <button onClick={() => setShowDeleteConfirm(false)} style={{ flex: 1, background: T.chipBg, color: T.textDim, border: 'none', borderRadius: 10, padding: 10, fontSize: 13, cursor: 'pointer' }}>پاشگەز</button>
               </div>
             </div>
           )}
-        </div>
+        </Card>
       </div>
 
       {/* Toast */}
