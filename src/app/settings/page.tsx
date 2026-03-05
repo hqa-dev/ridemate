@@ -6,10 +6,10 @@ import { createClient } from '@/lib/supabase/client'
 import { T } from '@/lib/theme'
 import { ConfirmModal } from '@/components/ui/ConfirmModal'
 
-const BackArrow = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={T.textMid} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="15 18 9 12 15 6" />
-  </svg>
+const Toggle = () => (
+  <div style={{ width: 36, height: 20, borderRadius: 10, border: `1.5px solid ${T.text}`, background: T.accentFill, display: 'flex', alignItems: 'center', padding: '0 3px', justifyContent: 'flex-end' }}>
+    <div style={{ width: 14, height: 14, borderRadius: '50%', background: T.accent }} />
+  </div>
 )
 
 export default function SettingsPage() {
@@ -51,7 +51,9 @@ export default function SettingsPage() {
     }}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', padding: '24px 20px 20px', gap: 12 }}>
-        <div onClick={() => router.back()} style={{ cursor: 'pointer', padding: 4 }}><BackArrow /></div>
+        <div style={{ width:32, height:32, border:`2px solid ${T.text}`, borderRadius:7, background:T.card, boxShadow:`2px 2px 0 ${T.text}`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, cursor:'pointer' }} onClick={() => router.back()}>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={T.text} strokeWidth="2.5" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
         <h1 style={{ fontSize: 18, fontWeight: 700, color: T.text, margin: 0 }}>ڕێکخستنەکان</h1>
       </div>
 
@@ -61,8 +63,8 @@ export default function SettingsPage() {
         <div style={{ marginBottom: 24 }}>
           <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '0 4px 8px' }}>زمان</div>
           <div style={{
-            background: T.card, borderRadius: 12, overflow: 'hidden',
-            border: `1px solid ${T.border}`,
+            background: T.card, borderRadius: 10,
+            border: `2px solid ${T.text}`, boxShadow: `3px 3px 0 ${T.text}`,
           }}>
             <div style={{
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -74,7 +76,7 @@ export default function SettingsPage() {
                 </svg>
                 <span style={{ fontSize: 14, color: T.text }}>کوردی سۆرانی</span>
               </div>
-              <span style={{ fontSize: 11, color: T.iconDim }}>بەم زووانە</span>
+              <Toggle />
             </div>
           </div>
         </div>
@@ -83,8 +85,8 @@ export default function SettingsPage() {
         <div style={{ marginBottom: 24 }}>
           <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '0 4px 8px' }}>ئاگاداری</div>
           <div style={{
-            background: T.card, borderRadius: 12, overflow: 'hidden',
-            border: `1px solid ${T.border}`,
+            background: T.card, borderRadius: 10,
+            border: `2px solid ${T.text}`, boxShadow: `3px 3px 0 ${T.text}`,
           }}>
             <div style={{
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -96,7 +98,7 @@ export default function SettingsPage() {
                 </svg>
                 <span style={{ fontSize: 14, color: T.text }}>ئاگادارییەکانی پوش</span>
               </div>
-              <span style={{ fontSize: 11, color: T.iconDim }}>بەم زووانە</span>
+              <Toggle />
             </div>
           </div>
         </div>
@@ -105,8 +107,8 @@ export default function SettingsPage() {
         <div>
           <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '0 4px 8px' }}>مەترسیدار</div>
           <div style={{
-            background: T.card, borderRadius: 12, overflow: 'hidden',
-            border: '1px solid rgba(248,113,113,0.1)',
+            background: T.card, borderRadius: 10,
+            border: `2px solid ${T.red}`, boxShadow: `3px 3px 0 ${T.red}`,
           }}>
             <div
               onClick={handleDeleteAccount}
@@ -136,7 +138,7 @@ export default function SettingsPage() {
         onCancel={() => setConfirmModal(null)}
       />
 
-      <BottomNav />
+      <BottomNav active="account" />
     </div>
   )
 }
