@@ -302,11 +302,17 @@ function NotifRow({ n, isLast, onApprove, onDecline, processing, router }: {
           style={{ flex: 1, minWidth: 0, cursor: isActionable ? 'default' : 'pointer', textAlign: 'left' }}
           onClick={() => { if (!isActionable) router.push(`/rides/${n.rideId}`) }}
         >
-          {!isActionable && ((n.type === 'request_received' || n.type === 'passenger_cancelled') ? (
+          {(n.type === 'request_received' || n.type === 'passenger_cancelled') ? (
             <span style={{ fontSize: 10, color: T.textMid, fontWeight: 600, border: `1.5px solid ${T.textDim}`, borderRadius: 5, padding: '2px 8px', background: T.cardInner, display: 'inline-block' }}>{st.text}</span>
           ) : (
             <span style={{ fontSize: 10, color: st.color, fontWeight: 700, border: `2px solid currentColor`, borderRadius: 6, padding: '2px 7px', boxShadow: `2px 2px 0 ${T.text}`, display: 'inline-block' }}>{st.text}</span>
-          ))}
+          )}
+          {isActionable && (
+            <div style={{ display:'flex', gap:6, marginTop:8, width:'100%' }} dir="rtl">
+              <button onClick={() => onDecline(n)} disabled={isProcessing} style={{ flex:1, background:T.red, color:'#fff', border:`2px solid ${T.text}`, borderRadius:7, padding:'6px 0', textAlign:'center', fontSize:10, fontWeight:700, fontFamily:"'Noto Sans Arabic', sans-serif", boxShadow:`2px 2px 0 ${T.text}`, cursor:'pointer' }}>ڕەتکردنەوە</button>
+              <button onClick={() => onApprove(n)} disabled={isProcessing} style={{ flex:1, background:T.green, color:'#fff', border:`2px solid ${T.text}`, borderRadius:7, padding:'6px 0', textAlign:'center', fontSize:10, fontWeight:700, fontFamily:"'Noto Sans Arabic', sans-serif", boxShadow:`2px 2px 0 ${T.text}`, cursor:'pointer' }}>پەسەندکردن</button>
+            </div>
+          )}
           {(n.pickup && n.pickup.length > 2 && n.dropoff && n.dropoff.length > 2) && (
             <div style={{ fontSize: 10, color: T.iconDim, marginTop: 2 }}>
               {n.pickup} ← {n.dropoff}
@@ -319,13 +325,8 @@ function NotifRow({ n, isLast, onApprove, onDecline, processing, router }: {
           )}
         </div>
 
-        {/* Actions or arrow */}
-        {isActionable ? (
-          <div style={{ display:'flex', gap:6, marginTop:8, width:'100%' }}>
-            <button onClick={() => onApprove(n)} disabled={isProcessing} style={{ flex:1, background:T.green, color:'#fff', border:`2px solid ${T.text}`, borderRadius:7, padding:'6px 0', textAlign:'center', fontSize:10, fontWeight:700, fontFamily:"'Noto Sans Arabic', sans-serif", boxShadow:`2px 2px 0 ${T.text}`, cursor:'pointer' }}>پەسەندکردن</button>
-            <button onClick={() => onDecline(n)} disabled={isProcessing} style={{ flex:1, background:T.red, color:'#fff', border:`2px solid ${T.text}`, borderRadius:7, padding:'6px 0', textAlign:'center', fontSize:10, fontWeight:700, fontFamily:"'Noto Sans Arabic', sans-serif", boxShadow:`2px 2px 0 ${T.text}`, cursor:'pointer' }}>ڕەتکردنەوە</button>
-          </div>
-        ) : (
+        {/* Arrow for non-actionable */}
+        {!isActionable && (
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, cursor: 'pointer' }} onClick={() => router.push(`/rides/${n.rideId}`)}>
             <polyline points="9 18 15 12 9 6" />
           </svg>
