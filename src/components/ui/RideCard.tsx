@@ -90,7 +90,7 @@ export function RideCard({ ride, status, dimmed, editButton }: RideCardProps) {
         background: T.card,
         border: `2px solid ${T.border}`,
         borderRadius: 12,
-        boxShadow: T.cardShadow,
+        boxShadow: `3px 3px 0 ${T.text}`,
         marginBottom: 10,
         overflow: 'hidden',
         opacity: dimmed ? 0.5 : (isFull && !status) ? 0.6 : 1,
@@ -102,9 +102,10 @@ export function RideCard({ ride, status, dimmed, editButton }: RideCardProps) {
           <div style={{ padding: '8px 12px 0', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} dir="rtl">
             {status ? (
               <span style={{
-                fontSize: 9, padding: '2px 7px', borderRadius: 3,
+                fontSize: 11, padding: '3px 8px', borderRadius: 6,
                 background: status.bg, color: status.color, fontWeight: 700,
-                border: `1.5px solid ${status.color}`,
+                border: `2px solid ${T.text}`,
+                boxShadow: `2px 2px 0 ${T.text}`,
               }}>{status.text}</span>
             ) : (
               <div onClick={e => e.preventDefault()}>{editButton}</div>
