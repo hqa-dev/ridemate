@@ -321,13 +321,9 @@ function NotifRow({ n, isLast, onApprove, onDecline, processing, router }: {
 
         {/* Actions or arrow */}
         {isActionable ? (
-          <div style={{ display: 'flex', gap: 6, flexShrink: 0, opacity: isProcessing ? 0.4 : 1 }}>
-            <button onClick={() => onApprove(n)} disabled={isProcessing} style={{ width: 30, height: 30, borderRadius: 8, background: 'rgba(42,122,26,0.15)', border: `1.5px solid ${T.green}`, cursor: isProcessing ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={T.green} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            </button>
-            <button onClick={() => onDecline(n)} disabled={isProcessing} style={{ width: 30, height: 30, borderRadius: 8, background: 'rgba(200,0,26,0.12)', border: `1.5px solid ${T.red}`, cursor: isProcessing ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={T.red} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-            </button>
+          <div style={{ display:'flex', gap:6, marginTop:8, width:'100%' }}>
+            <button onClick={() => onApprove(n)} disabled={isProcessing} style={{ flex:1, background:T.green, color:'#fff', border:`2px solid ${T.text}`, borderRadius:7, padding:'6px 0', textAlign:'center', fontSize:10, fontWeight:700, fontFamily:"'Noto Sans Arabic', sans-serif", boxShadow:`2px 2px 0 ${T.text}`, cursor:'pointer' }}>پەسەندکردن</button>
+            <button onClick={() => onDecline(n)} disabled={isProcessing} style={{ flex:1, background:T.red, color:'#fff', border:`2px solid ${T.text}`, borderRadius:7, padding:'6px 0', textAlign:'center', fontSize:10, fontWeight:700, fontFamily:"'Noto Sans Arabic', sans-serif", boxShadow:`2px 2px 0 ${T.text}`, cursor:'pointer' }}>ڕەتکردنەوە</button>
           </div>
         ) : (
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, cursor: 'pointer' }} onClick={() => router.push(`/rides/${n.rideId}`)}>
