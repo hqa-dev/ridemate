@@ -21,6 +21,24 @@ const PersonIcon = ({ size = 16 }: { size?: number }) => (
   </svg>
 )
 
+function SketchCar({ size = 48, color = '#1A1208' }: { size?: number; color?: string }) {
+  return (
+    <svg width={size} height={size * 0.55} viewBox="0 0 80 44" fill="none"
+      stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 28 Q8 18 16 14 Q28 10 42 10 Q54 10 62 14 Q70 18 72 28 L74 34 Q74 38 70 38 L10 38 Q6 38 6 34 Z"/>
+      <path d="M22 28 L26 14 Q34 11 46 14 L52 28 Z"/>
+      <path d="M27 27 L30 16 Q36 13 44 15 L48 27"/>
+      <line x1="38" y1="13" x2="38" y2="27"/>
+      <circle cx="20" cy="38" r="6" fill={T.bg}/><circle cx="20" cy="38" r="3" fill={color}/>
+      <circle cx="58" cy="38" r="6" fill={T.bg}/><circle cx="58" cy="38" r="3" fill={color}/>
+      <path d="M36 26 Q40 24 44 26"/>
+      <ellipse cx="70" cy="26" rx="3" ry="2" fill="#F5C800" stroke={color} strokeWidth="1.5"/>
+      <line x1="2" y1="24" x2="8" y2="24" strokeDasharray="2,2" opacity="0.4"/>
+      <line x1="1" y1="28" x2="6" y2="28" strokeDasharray="2,2" opacity="0.3"/>
+    </svg>
+  )
+}
+
 function StarSelector({ value, onChange }: { value: number; onChange: (v: number) => void }) {
   return (
     <div style={{ display: 'flex', gap: 6, justifyContent: 'center', direction: 'ltr' }}>
@@ -413,49 +431,57 @@ export default function RideDetailPage() {
         </div>
       )}
 
+      {/* SketchCar above card */}
+      <div style={{ display: 'flex', justifyContent: 'center', padding: '0 0 8px' }}>
+        <SketchCar size={140} color={T.text} />
+      </div>
+
       {/* Timeline + Stats */}
       <div style={{ background: T.card, margin: '0 16px', borderRadius: 12, border: `2px solid ${T.border}`, boxShadow: T.cardShadow, overflow: 'hidden' }}>
-        <div style={{ padding: '18px 20px 14px' }} dir="ltr">
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <div style={{ textAlign: 'center', minWidth: 44 }}>
-              <div style={{ fontSize: 15, fontWeight: 700, color: T.text }}>{toKurdishNum(arrTime)}</div>
+        {/* RouteLine */}
+        <div style={{ padding: '14px 16px 0' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }} dir="rtl">
+            <div style={{ textAlign: 'center', minWidth: 38 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: T.accent, fontFamily: "'Noto Sans Arabic', sans-serif" }}>{toKurdishNum(depTime)}</div>
+              <div style={{ fontSize: 9, color: T.textDim, fontFamily: "'Noto Sans Arabic', sans-serif" }}>{CITIES[ride.from_city]}</div>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', flex: 1, margin: '0 10px' }}>
-              <div style={{ width: 7, height: 7, borderRadius: '50%', background: T.text, flexShrink: 0 }} />
-              <div style={{ flex: 1, height: 1, background: `linear-gradient(to right, ${T.text}, ${T.divider}, ${T.orange})` }} />
-              <div style={{ width: 7, height: 7, borderRadius: '50%', border: `2px solid ${T.orange}`, flexShrink: 0 }} />
+            <div style={{ flex: 1, position: 'relative', height: 20 }}>
+              <svg width="100%" height="20" viewBox="0 0 300 20" preserveAspectRatio="none">
+                <path d="M8 13 Q60 7 100 13 Q140 19 180 13 Q220 7 260 13 Q276 16 292 13" stroke={T.text} strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+                <path d="M8 9 a4,4 0 0,0 0,8" fill={T.text}/>
+                <path d="M292 9 a4,4 0 0,1 0,8" fill={T.accent} stroke={T.text} strokeWidth="1"/>
+              </svg>
             </div>
-            <div style={{ textAlign: 'center', minWidth: 44 }}>
-              <div style={{ fontSize: 15, fontWeight: 700, color: T.text }}>{toKurdishNum(depTime)}</div>
+            <div style={{ textAlign: 'center', minWidth: 38 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: T.text, fontFamily: "'Noto Sans Arabic', sans-serif" }}>{toKurdishNum(arrTime)}</div>
+              <div style={{ fontSize: 9, color: T.textDim, fontFamily: "'Noto Sans Arabic', sans-serif" }}>{CITIES[ride.to_city]}</div>
             </div>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 3 }}>
-            <span style={{ fontSize: 11, color: T.textMid, minWidth: 44, textAlign: 'center' }}>{CITIES[ride.to_city]}</span>
-            <span style={{ fontSize: 9, color: T.textMid }}>{distance}</span>
-            <span style={{ fontSize: 11, color: T.textMid, minWidth: 44, textAlign: 'center' }}>{CITIES[ride.from_city]}</span>
           </div>
         </div>
 
         {/* Completed badge */}
         {isCompleted && (
-          <div style={{ padding: '0 20px 8px', display: 'flex' }}>
+          <div style={{ padding: '8px 20px 0', display: 'flex' }}>
             <span style={{ fontSize: 10, padding: '3px 10px', borderRadius: 20, background: T.greenBg, color: T.green, fontWeight: 600 }}>
               تەواو بوو ✓
             </span>
           </div>
         )}
 
+        {/* Dashed divider */}
+        <div style={{ borderTop: `1.5px dashed ${T.textDim}`, margin: '10px 0 8px', opacity: 0.4 }} />
+
         {/* Stats bar */}
-        <div style={{ display: 'flex', borderTop: `1.5px dashed ${T.divider}` }}>
+        <div style={{ display: 'flex', padding: '0 0 10px' }}>
           {[
-            { label: 'نرخ', value: priceDisplay },
-            { label: 'جێگا', value: `${toKurdishNum(ride.available_seats)}/${toKurdishNum(totalSeats)}` },
-            { label: 'جگەرە', value: ride.smoking ? '🚬' : '🚭' },
-            { label: 'ئۆتۆ', value: ride.car_model || ride.car_make || '-' },
+            { l: 'نرخ', v: priceDisplay },
+            { l: 'جێگا', v: `${toKurdishNum(ride.available_seats)}/${toKurdishNum(totalSeats)}` },
+            { l: 'جگەرە', v: ride.smoking ? '🚬' : '🚭' },
+            { l: 'ئۆتۆ', v: ride.car_model || ride.car_make || '-' },
           ].map((s, i) => (
-            <div key={i} style={{ flex: 1, padding: '11px 0', textAlign: 'center', borderLeft: i < 3 ? `1px dashed ${T.divider}` : 'none' }}>
-              <div style={{ fontSize: 9, color: T.textDim, marginBottom: 3 }}>{s.label}</div>
-              <div style={{ fontSize: 12, color: T.textMid, fontWeight: 600 }}>{s.value}</div>
+            <div key={i} style={{ flex: 1, textAlign: 'center', borderLeft: i < 3 ? `1.5px dashed ${T.textDim}` : 'none' }}>
+              <div style={{ fontSize: 8, color: T.textDim, fontFamily: "'Noto Sans Arabic', sans-serif" }}>{s.l}</div>
+              <div style={{ fontSize: 11, fontWeight: 700, color: T.textMid, fontFamily: "'Noto Sans Arabic', sans-serif" }}>{s.v}</div>
             </div>
           ))}
         </div>
