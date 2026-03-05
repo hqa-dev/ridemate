@@ -72,7 +72,8 @@ interface NotifItem {
 export default function NotificationsPage() {
   const router = useRouter()
   const supabase = createClient()
-  const [notifications, setNotifications] = useState<NotifItem[]>([])
+  const [unseenNotifications, setUnseenNotifications] = useState<NotifItem[]>([])
+  const [seenNotifications, setSeenNotifications] = useState<NotifItem[]>([])
   const [loading, setLoading] = useState(true)
   const [processing, setProcessing] = useState<string | null>(null)
   const [error, setError] = useState('')
@@ -132,7 +133,8 @@ export default function NotificationsPage() {
           requestStatus: n.ride_request_id ? (requestMap[n.ride_request_id] || null) : null,
         }
       })
-      setNotifications(items) // captures original seen state from fetch
+      setUnseenNotifications(items.filter(i => !i.seen))
+      setSeenNotifications(items.filter(i => i.seen))
     }
     setLoading(false)
 
@@ -178,7 +180,7 @@ export default function NotificationsPage() {
     }
 
     // Remove from list
-    setNotifications(prev => prev.filter(x => x.id !== n.id))
+    setUnseenNotifications(prev => prev.filter(x => x.id !== n.id))
     setProcessing(null)
   }
 
@@ -207,12 +209,9 @@ export default function NotificationsPage() {
       })
     }
 
-    setNotifications(prev => prev.filter(x => x.id !== n.id))
+    setUnseenNotifications(prev => prev.filter(x => x.id !== n.id))
     setProcessing(null)
   }
-
-  const unseen = notifications.filter(n => !n.seen)
-  const seen = notifications.filter(n => n.seen)
 
   return (
     <div style={{
@@ -232,29 +231,29 @@ export default function NotificationsPage() {
 
       {loading ? <div /> : (
         <>
-          {unseen.length > 0 && (
+          {unseenNotifications.length > 0 && (
             <>
               <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '0 20px 8px' }}>نوێ</div>
               <div style={{ background: T.card, margin: '0 16px 16px', borderRadius: 12, padding: '0 16px', border: `2px solid ${T.text}`, boxShadow: `3px 3px 0 ${T.text}` }}>
-                {unseen.map((n, i) => (
-                  <NotifRow key={n.id} n={n} isLast={i === unseen.length - 1} onApprove={handleApprove} onDecline={handleDecline} processing={processing} router={router} />
+                {unseenNotifications.map((n, i) => (
+                  <NotifRow key={n.id} n={n} isLast={i === unseenNotifications.length - 1} onApprove={handleApprove} onDecline={handleDecline} processing={processing} router={router} />
                 ))}
               </div>
             </>
           )}
 
-          {seen.length > 0 && (
+          {seenNotifications.length > 0 && (
             <>
               <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '0 20px 8px' }}>پێشوو</div>
               <div style={{ background: T.card, margin: '0 16px', borderRadius: 12, padding: '0 16px', border: `2px solid ${T.text}`, boxShadow: `3px 3px 0 ${T.text}` }}>
-                {seen.map((n, i) => (
-                  <NotifRow key={n.id} n={n} isLast={i === seen.length - 1} onApprove={handleApprove} onDecline={handleDecline} processing={processing} router={router} />
+                {seenNotifications.map((n, i) => (
+                  <NotifRow key={n.id} n={n} isLast={i === seenNotifications.length - 1} onApprove={handleApprove} onDecline={handleDecline} processing={processing} router={router} />
                 ))}
               </div>
             </>
           )}
 
-          {unseen.length === 0 && seen.length === 0 && (
+          {unseenNotifications.length === 0 && seenNotifications.length === 0 && (
             <div style={{ textAlign: 'center', padding: '60px 20px' }}>
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ margin: '0 auto 12px', display: 'block' }}>
                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
