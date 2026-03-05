@@ -56,15 +56,11 @@ function RouteLine({ from, to, dep, arr }: { from: string; to: string; dep: stri
         <div style={{ fontSize: 9, color: T.textDim, fontFamily: "'Noto Sans Arabic', sans-serif" }}>{from}</div>
       </div>
       {/* SVG curved line */}
-      <div style={{ flex: 1, position: 'relative', height: 16 }}>
-        <svg width="100%" height="16" viewBox="0 0 300 16" preserveAspectRatio="none">
-          <path d="M6 11 Q150 3 294 11" stroke={T.text} strokeWidth="1.5" fill="none" strokeLinecap="round"/>
-        </svg>
-        <svg style={{ position:'absolute', left:0, top:0 }} width="12" height="16" viewBox="0 0 12 16">
-          <path d="M6 8 m0,-4 a4,4 0 0,0 0,8" fill={T.text}/>
-        </svg>
-        <svg style={{ position:'absolute', right:0, top:0 }} width="12" height="16" viewBox="0 0 12 16">
-          <path d="M6 8 m0,-4 a4,4 0 0,1 0,8" fill={T.accent} stroke={T.text} strokeWidth="1"/>
+      <div style={{ flex: 1, position: 'relative', height: 20 }}>
+        <svg width="100%" height="20" viewBox="0 0 300 20" preserveAspectRatio="none">
+          <path d="M8 13 Q150 5 292 13" stroke={T.text} strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+          <path d="M8 9 a4,4 0 0,0 0,8" fill={T.text}/>
+          <path d="M292 9 a4,4 0 0,1 0,8" fill={T.accent} stroke={T.text} strokeWidth="1"/>
         </svg>
       </div>
       {/* Arrival — LEFT — ink */}
