@@ -282,13 +282,8 @@ function NotifRow({ n, isLast, onApprove, onDecline, processing, router }: {
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 0' }}>
         {/* Avatar + name */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0, cursor: 'pointer' }}>
-          <div style={{ position: 'relative', flexShrink: 0 }}>
-            <div style={{ width: 36, height: 36, borderRadius: '50%', border: `2px solid ${T.text}`, background: nameColor(n.personName), display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 800, color: '#fff' }}>
-              {n.personName.charAt(0)}
-            </div>
-            <div style={{ position: 'absolute', bottom: -3, left: -3, width: 16, height: 16, borderRadius: '50%', background: T.card, display: 'flex', alignItems: 'center', justifyContent: 'center', border: `1.5px solid ${T.card}` }}>
-              {getTypeIcon(n.type)}
-            </div>
+          <div style={{ width:36, height:36, borderRadius:8, border:`2px solid ${T.text}`, background:nameColor(n.personName), display:'flex', alignItems:'center', justifyContent:'center', fontSize:14, fontWeight:800, color:'#fff', flexShrink:0 }}>
+            {n.personName.charAt(0)}
           </div>
           <div style={{ width: 1, height: 28, background: T.borderDim, flexShrink: 0 }} />
           <div>
