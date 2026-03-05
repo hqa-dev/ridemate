@@ -302,11 +302,11 @@ function NotifRow({ n, isLast, onApprove, onDecline, processing, router }: {
           style={{ flex: 1, minWidth: 0, cursor: isActionable ? 'default' : 'pointer', textAlign: 'left' }}
           onClick={() => { if (!isActionable) router.push(`/rides/${n.rideId}`) }}
         >
-          {(n.type === 'request_received' || n.type === 'passenger_cancelled') ? (
+          {!isActionable && ((n.type === 'request_received' || n.type === 'passenger_cancelled') ? (
             <span style={{ fontSize: 10, color: T.textMid, fontWeight: 600, border: `1.5px solid ${T.textDim}`, borderRadius: 5, padding: '2px 8px', background: T.cardInner, display: 'inline-block' }}>{st.text}</span>
           ) : (
             <span style={{ fontSize: 10, color: st.color, fontWeight: 700, border: `2px solid currentColor`, borderRadius: 6, padding: '2px 7px', boxShadow: `2px 2px 0 ${T.text}`, display: 'inline-block' }}>{st.text}</span>
-          )}
+          ))}
           {(n.pickup && n.pickup.length > 2 && n.dropoff && n.dropoff.length > 2) && (
             <div style={{ fontSize: 10, color: T.iconDim, marginTop: 2 }}>
               {n.pickup} ← {n.dropoff}
