@@ -58,12 +58,10 @@ function RouteLine({ from, to, dep, arr }: { from: string; to: string; dep: stri
       {/* SVG curved line */}
       <div style={{ flex: 1, position: 'relative', height: 16 }}>
         <svg width="100%" height="16" viewBox="0 0 100 16" preserveAspectRatio="none">
-          <path d="M2 9 Q50 2 98 9" stroke={T.text} strokeWidth="1.5" fill="none" strokeLinecap="round"/>
-          {/* Arrival dot — LEFT — ink */}
-          <circle cx="2" cy="6" r="2.5" fill={T.text}/>
-          {/* Departure dot — RIGHT — orange with ink border */}
-          <circle cx="98" cy="6" r="3" fill={T.accent} stroke={T.text} strokeWidth="1"/>
+          <path d="M2 11 Q50 3 98 11" stroke={T.text} strokeWidth="1.5" fill="none" strokeLinecap="round"/>
         </svg>
+        <div style={{ position:'absolute', left:0, top:'50%', transform:'translateY(-50%)', width:6, height:6, borderRadius:'50%', background:T.text, marginLeft:1 }}/>
+        <div style={{ position:'absolute', right:0, top:'50%', transform:'translateY(-50%)', width:8, height:8, borderRadius:'50%', background:T.accent, border:`1.5px solid ${T.text}`, marginRight:1 }}/>
       </div>
       {/* Arrival — LEFT — ink */}
       <div style={{ textAlign: 'center', minWidth: 38 }}>
