@@ -6,17 +6,12 @@ import { createClient } from '@/lib/supabase/client'
 import { CITIES, toKurdishNum, formatKurdishDate } from '@/lib/utils'
 import { T } from '@/lib/theme'
 
-const BackArrow = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={T.textMid} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="15 18 9 12 15 6" />
-  </svg>
-)
-
-const PersonIcon = ({ size = 16 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="8" r="4" /><path d="M20 21c0-3.31-3.58-6-8-6s-8 2.69-8 6" />
-  </svg>
-)
+const AVATAR_COLORS = ['#E8470A','#2A7A1A','#4A6FA5','#8B4513','#6B3FA0']
+function nameColor(name: string) {
+  let h = 0
+  for (let i = 0; i < name.length; i++) h = name.charCodeAt(i) + ((h << 5) - h)
+  return AVATAR_COLORS[Math.abs(h) % AVATAR_COLORS.length]
+}
 
 function getTypeIcon(type: string) {
   const colors: Record<string, string> = {
@@ -218,7 +213,9 @@ export default function NotificationsPage() {
     }}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', padding: '24px 20px 20px', gap: 12 }}>
-        <div onClick={() => router.back()} style={{ cursor: 'pointer', padding: 4 }}><BackArrow /></div>
+        <div style={{ width:32, height:32, border:`2px solid ${T.text}`, borderRadius:7, background:T.card, boxShadow:`2px 2px 0 ${T.text}`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, cursor:'pointer' }} onClick={() => router.back()}>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={T.text} strokeWidth="2.5" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
         <h1 style={{ fontSize: 18, fontWeight: 700, color: T.text, margin: 0 }}>ئاگاداری</h1>
       </div>
 
@@ -229,7 +226,7 @@ export default function NotificationsPage() {
           {unseen.length > 0 && (
             <>
               <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '0 20px 8px' }}>نوێ</div>
-              <div style={{ background: T.card, margin: '0 16px 16px', borderRadius: 12, padding: '0 16px', border: '1px solid rgba(223,101,48,0.15)' }}>
+              <div style={{ background: T.card, margin: '0 16px 16px', borderRadius: 12, padding: '0 16px', border: `2px solid ${T.text}`, boxShadow: `3px 3px 0 ${T.text}` }}>
                 {unseen.map((n, i) => (
                   <NotifRow key={n.id} n={n} isLast={i === unseen.length - 1} onApprove={handleApprove} onDecline={handleDecline} processing={processing} router={router} />
                 ))}
@@ -240,7 +237,7 @@ export default function NotificationsPage() {
           {seen.length > 0 && (
             <>
               <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '0 20px 8px' }}>پێشوو</div>
-              <div style={{ background: T.card, margin: '0 16px', borderRadius: 12, padding: '0 16px', border: `1px solid ${T.border}` }}>
+              <div style={{ background: T.card, margin: '0 16px', borderRadius: 12, padding: '0 16px', border: `2px solid ${T.text}`, boxShadow: `3px 3px 0 ${T.text}` }}>
                 {seen.map((n, i) => (
                   <NotifRow key={n.id} n={n} isLast={i === seen.length - 1} onApprove={handleApprove} onDecline={handleDecline} processing={processing} router={router} />
                 ))}
@@ -260,7 +257,7 @@ export default function NotificationsPage() {
         </>
       )}
 
-      <BottomNav />
+      <BottomNav active="home" />
     </div>
   )
 }
@@ -273,17 +270,13 @@ function NotifRow({ n, isLast, onApprove, onDecline, processing, router }: {
   const st = statusText[n.type] || { text: '', color: T.textDim }
 
   return (
-    <div style={{ borderBottom: isLast ? 'none' : `1px solid ${T.borderDim}` }}>
+    <div style={{ borderBottom: isLast ? 'none' : `1.5px dashed ${T.textDim}` }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 0' }}>
         {/* Avatar + name */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0, cursor: 'pointer' }}>
           <div style={{ position: 'relative', flexShrink: 0 }}>
-            <div style={{ width: 36, height: 36, borderRadius: 10, background: T.cardInner, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-              {n.personAvatar ? (
-                <img src={n.personAvatar} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} referrerPolicy="no-referrer" />
-              ) : (
-                <PersonIcon size={18} />
-              )}
+            <div style={{ width: 36, height: 36, borderRadius: '50%', border: `2px solid ${T.text}`, background: nameColor(n.personName), display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 800, color: '#fff' }}>
+              {n.personName.charAt(0)}
             </div>
             <div style={{ position: 'absolute', bottom: -3, left: -3, width: 16, height: 16, borderRadius: '50%', background: T.card, display: 'flex', alignItems: 'center', justifyContent: 'center', border: `1.5px solid ${T.card}` }}>
               {getTypeIcon(n.type)}
@@ -301,7 +294,7 @@ function NotifRow({ n, isLast, onApprove, onDecline, processing, router }: {
           style={{ flex: 1, minWidth: 0, cursor: isActionable ? 'default' : 'pointer', textAlign: 'left' }}
           onClick={() => { if (!isActionable) router.push(`/rides/${n.rideId}`) }}
         >
-          <div style={{ fontSize: 11, color: st.color, fontWeight: 500 }}>{st.text}</div>
+          <span style={{ fontSize: 10, color: st.color, fontWeight: 700, border: `2px solid currentColor`, borderRadius: 6, padding: '2px 7px', boxShadow: `2px 2px 0 ${T.text}`, display: 'inline-block' }}>{st.text}</span>
           {(n.pickup || n.dropoff) && (
             <div style={{ fontSize: 10, color: T.iconDim, marginTop: 2 }}>
               {n.pickup || '—'}{n.dropoff ? ` ← ${n.dropoff}` : ''}
@@ -325,7 +318,7 @@ function NotifRow({ n, isLast, onApprove, onDecline, processing, router }: {
             </button>
           </div>
         ) : (
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ transform: 'scaleX(-1)', flexShrink: 0, cursor: 'pointer' }} onClick={() => router.push(`/rides/${n.rideId}`)}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, cursor: 'pointer' }} onClick={() => router.push(`/rides/${n.rideId}`)}>
             <polyline points="9 18 15 12 9 6" />
           </svg>
         )}
