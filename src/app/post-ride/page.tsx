@@ -310,7 +310,7 @@ export default function PostRidePage() {
           background: activeTab === 'post' ? T.accent : T.card,
           color: activeTab === 'post' ? '#fff' : T.text,
           border: `2px solid ${T.text}`,
-          boxShadow: `3px 3px 0 ${T.text}`,
+          boxShadow: activeTab === 'post' ? `3px 3px 0 ${T.text}` : `2px 2px 0 ${T.textDim}`,
         }}>گەشتێکی نوێ</div>
         <div onClick={() => setActiveTab('manage')} style={{
           flex: 1, padding: '9px 0', textAlign: 'center', borderRadius: 9,
@@ -318,7 +318,7 @@ export default function PostRidePage() {
           background: activeTab === 'manage' ? T.accent : T.card,
           color: activeTab === 'manage' ? '#fff' : T.text,
           border: `2px solid ${T.text}`,
-          boxShadow: `3px 3px 0 ${T.text}`,
+          boxShadow: activeTab === 'manage' ? `3px 3px 0 ${T.text}` : `2px 2px 0 ${T.textDim}`,
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
         }}>
           گەشتەکانم
@@ -327,7 +327,7 @@ export default function PostRidePage() {
 
       {/* ═══ POST TAB ═══ */}
       {activeTab === 'post' && (
-        <div style={{ paddingBottom: 90 }}>
+        <div style={{ paddingBottom: 100 }}>
           {/* SketchCar */}
           <div style={{ display: 'flex', justifyContent: 'center', padding: '0 0 14px' }}>
             <svg width="110" height={110 * 0.55} viewBox="0 0 80 44" fill="none"
@@ -405,20 +405,21 @@ export default function PostRidePage() {
 
           {/* Price card */}
           <div style={{ background: T.card, borderRadius: 10, marginBottom: 14, boxShadow: `3px 3px 0 ${T.text}`, overflow: 'hidden', border: `2px solid ${T.text}`, padding: '12px 16px' }}>
-            <div style={{ fontSize: 9, color: T.textFaint, marginBottom: 8, fontWeight: 600 }}>نرخ</div>
+            <div style={{ fontSize: 9, color: T.textFaint, marginBottom: 0, fontWeight: 600 }}>نرخ</div>
+            <div style={{ borderTop: `1.5px dashed ${T.textDim}`, margin: '6px 0', opacity: 0.4 }} />
             <div style={{ display: 'flex', gap: 8 }}>
               <div onClick={() => setPriceType('coffee')} style={{
                 flex: 1, padding: '10px 0', textAlign: 'center', borderRadius: 9, cursor: 'pointer',
                 background: priceType === 'coffee' ? T.accent : T.card,
                 border: `2px solid ${T.text}`,
-                boxShadow: `3px 3px 0 ${T.text}`,
+                boxShadow: priceType === 'coffee' ? `3px 3px 0 ${T.text}` : `2px 2px 0 ${T.textDim}`,
                 color: priceType === 'coffee' ? '#fff' : T.text, fontSize: 12, fontWeight: 500,
               }}>قاوەیەک</div>
               <div onClick={() => setPriceType('iqd')} style={{
                 flex: 1, padding: '10px 0', textAlign: 'center', borderRadius: 9, cursor: 'pointer',
                 background: priceType === 'iqd' ? T.accent : T.card,
                 border: `2px solid ${T.text}`,
-                boxShadow: `3px 3px 0 ${T.text}`,
+                boxShadow: priceType === 'iqd' ? `3px 3px 0 ${T.text}` : `2px 2px 0 ${T.textDim}`,
                 color: priceType === 'iqd' ? '#fff' : T.text, fontSize: 12, fontWeight: 500,
               }}>پارە</div>
             </div>
@@ -432,7 +433,8 @@ export default function PostRidePage() {
 
           {/* Car + Notes card */}
           <div style={{ background: T.card, borderRadius: 10, marginBottom: 14, boxShadow: `3px 3px 0 ${T.text}`, overflow: 'hidden', border: `2px solid ${T.text}`, padding: '12px 16px' }}>
-            <div style={{ fontSize: 9, color: T.textFaint, marginBottom: 10, fontWeight: 600 }}>زانیاری ئۆتۆمبێل</div>
+            <div style={{ fontSize: 9, color: T.textFaint, marginBottom: 0, fontWeight: 600 }}>زانیاری ئۆتۆمبێل</div>
+            <div style={{ borderTop: `1.5px dashed ${T.textDim}`, margin: '6px 0', opacity: 0.4 }} />
             <div style={{ display: 'flex', gap: 8, marginBottom: 0 }}>
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 9, color: T.textDim, marginBottom: 4 }}>جۆر</div>
@@ -449,7 +451,8 @@ export default function PostRidePage() {
               <input value={carColor} onChange={e => setCarColor(e.target.value)} placeholder="White" className="car-input" style={{ background: T.cardInner, border: `1.5px solid ${T.textDim}`, borderRadius: 8, padding: '10px 12px', width: '100%', fontSize: 12, color: T.text, WebkitTextFillColor: T.text, outline: 'none', fontFamily: "'Noto Sans Arabic', sans-serif" }} />
             </div>
             <div style={{ borderTop: `1.5px dashed ${T.textDim}`, margin: '10px 4px', opacity: 0.4 }} />
-            <div style={{ fontSize: 9, color: T.textFaint, marginBottom: 6, fontWeight: 600 }}>تێبینی</div>
+            <div style={{ fontSize: 9, color: T.textFaint, marginBottom: 0, fontWeight: 600 }}>تێبینی</div>
+            <div style={{ borderTop: `1.5px dashed ${T.textDim}`, margin: '6px 0', opacity: 0.4 }} />
             <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="هەر شتێک دەربارەی گەشتەکەت..." rows={2} className="note-input" style={{ background: T.cardInner, border: `1.5px solid ${T.textDim}`, borderRadius: 8, padding: '10px 12px', width: '100%', fontSize: 12, color: T.text, WebkitTextFillColor: T.text, outline: 'none', resize: 'none', fontFamily: "'Noto Sans Arabic', sans-serif", lineHeight: 1.8 }} />
           </div>
 
