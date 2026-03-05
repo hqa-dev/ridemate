@@ -51,7 +51,7 @@ export default function LandingPage() {
           fontFamily: "'Noto Sans Arabic', sans-serif",
         }}>لیمۆ</h1>
         <p style={{ color: T.textDim, fontSize: 13, margin: 0, textAlign: 'center' }}>
-          گەشتی بەشداری — هەولێر · سلێمانی · دهۆک
+          تەنها بۆ هەولێر و سلێمانی و دهۆک
         </p>
       </div>
 
