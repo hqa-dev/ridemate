@@ -391,7 +391,9 @@ export default function RideDetailPage() {
 
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', padding: '24px 20px 20px', gap: 12 }}>
-        <div onClick={() => router.back()} style={{ cursor: 'pointer', padding: 4 }}><BackArrow /></div>
+        <div style={{ width:32, height:32, border:`2px solid ${T.text}`, borderRadius:7, background:T.card, boxShadow:`2px 2px 0 ${T.text}`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, cursor:'pointer' }} onClick={() => router.back()}>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={T.text} strokeWidth="2.5" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
         <h1 style={{ fontSize: 18, fontWeight: 700, color: T.text, margin: 0 }}>
           {CITIES[ride.from_city]} ← {CITIES[ride.to_city]}
         </h1>
