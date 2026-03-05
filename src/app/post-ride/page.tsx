@@ -377,7 +377,7 @@ export default function PostRidePage() {
                 </div>
                 <input ref={dateRef} type="date" value={date} onChange={e => setDate(e.target.value)} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0 }} />
               </div>
-              <div style={{ width: 1, height: 28, background: T.border }} />
+              <div style={{ width: 0, height: 28, borderRight: `1.5px dashed ${T.textDim}` }} />
               <div onClick={() => timeRef.current?.showPicker()} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer', position: 'relative' }}>
                 <div style={{ fontSize: 9, color: T.textMid, marginBottom: 3 }}>کات</div>
                 <div style={{ fontSize: 13, color: time ? T.text : T.textDim, fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -387,7 +387,7 @@ export default function PostRidePage() {
                 </div>
                 <input ref={timeRef} type="time" value={time} onChange={e => setTime(e.target.value)} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0 }} />
               </div>
-              <div style={{ width: 1, height: 28, background: T.border }} />
+              <div style={{ width: 0, height: 28, borderRight: `1.5px dashed ${T.textDim}` }} />
               <div onClick={cycleSeats} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer' }}>
                 <div style={{ fontSize: 9, color: T.textMid, marginBottom: 3 }}>جێگا</div>
                 <div style={{ fontSize: 13, color: T.text, fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
