@@ -6,17 +6,23 @@ import { T } from '@/lib/theme'
 import { ku } from '@/lib/translations'
 import { createClient } from '@/lib/supabase/client'
 
-const BackArrow = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={T.textMid} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+const Arrow = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
     <polyline points="15 18 9 12 15 6" />
   </svg>
 )
 
-const Arrow = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ transform: 'scaleX(-1)', flexShrink: 0 }}>
-    <polyline points="9 18 15 12 9 6" />
-  </svg>
-)
+function SketchPerson({ size = 14, hat = false }: { size?: number; hat?: boolean }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+      stroke={T.text} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="7" r="3.5"/>
+      <path d="M6 21 Q7 14 12 13 Q17 14 18 21"/>
+      <path d="M9 16 Q12 18 15 16"/>
+      {hat && <path d="M7 5 Q12 1 17 5" strokeWidth="1.5"/>}
+    </svg>
+  )
+}
 
 const DownArrow = ({ open }: { open: boolean }) => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ transform: open ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s ease', flexShrink: 0 }}>
@@ -66,7 +72,7 @@ function MenuItem({ icon, label, value, isLast, danger, onClick }: {
   icon: React.ReactNode; label: string; value?: string; isLast?: boolean; danger?: boolean; onClick?: () => void
 }) {
   return (
-    <div onClick={onClick} style={{ display: 'flex', alignItems: 'center', padding: '13px 0', borderBottom: isLast ? 'none' : `1px solid ${T.borderDim}`, cursor: onClick ? 'pointer' : 'default' }}>
+    <div onClick={onClick} style={{ display: 'flex', alignItems: 'center', padding: '13px 0', borderBottom: isLast ? 'none' : `1.5px dashed ${T.textDim}`, cursor: onClick ? 'pointer' : 'default' }}>
       <div style={{ width: 24, display: 'flex', justifyContent: 'center', marginLeft: 12 }}>{icon}</div>
       <span style={{ flex: 1, fontSize: 14, color: danger ? T.destructive : T.textMid, fontWeight: danger ? 500 : 400 }}>{label}</span>
       {value && <span style={{ fontSize: 12, color: T.textDim, marginLeft: 6 }}>{value}</span>}
@@ -198,7 +204,7 @@ export default function ProfilePage() {
   }
 
   if (loading) {
-    return <div style={{ direction: 'rtl', minHeight: '100vh', background: T.bg, maxWidth: 480, margin: '0 auto' }}><BottomNav /></div>
+    return <div style={{ direction: 'rtl', minHeight: '100vh', background: T.bg, maxWidth: 480, margin: '0 auto' }}><BottomNav active="account" /></div>
   }
 
   const displayName = profile?.full_name || user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email?.split('@')[0] || ''
@@ -219,24 +225,26 @@ export default function ProfilePage() {
 
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', padding: '24px 20px 20px', gap: 12 }}>
-        <div onClick={() => router.push('/account')} style={{ cursor: 'pointer', padding: 4 }}><BackArrow /></div>
+        <div style={{ width:32, height:32, border:`2px solid ${T.text}`, borderRadius:7, background:T.card, boxShadow:`2px 2px 0 ${T.text}`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, cursor:'pointer' }} onClick={() => router.push('/account')}>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={T.text} strokeWidth="2.5" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
         <h1 style={{ fontSize: 18, fontWeight: 700, color: T.text, margin: 0 }}>پرۆفایل</h1>
       </div>
 
       {/* Profile card — avatar right, divider, details left */}
       <input type="file" accept="image/*" ref={avatarInputRef} style={{ display: 'none' }} onChange={e => { const f = e.target.files?.[0]; if (f) handleAvatarUpload(f) }} />
-      <div style={{ margin: '0 12px 8px', padding: '20px 16px', background: T.card, borderRadius: 12, border: `1px solid ${T.borderDim}`, display: 'flex', alignItems: 'center' }}>
+      <div style={{ margin: '0 12px 8px', padding: '20px 16px', background: T.card, borderRadius: 10, border: `2px solid ${T.text}`, boxShadow: `3px 3px 0 ${T.text}`, display: 'flex', alignItems: 'center' }}>
         <div style={{ position: 'relative', flexShrink: 0, cursor: 'pointer' }} onClick={() => avatarInputRef.current?.click()}>
-          <div style={{ width: 64, height: 72, borderRadius: 10, background: T.cardInner, border: `1px solid ${T.cardBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', opacity: uploadingAvatar ? 0.5 : 1 }}>
+          <div style={{ width: 64, height: 64, borderRadius: 10, background: T.cardInner, border: `2px solid ${T.text}`, boxShadow: `3px 3px 0 ${T.text}`, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', opacity: uploadingAvatar ? 0.5 : 1 }}>
             {avatarUrl ? (
               <img src={avatarUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} referrerPolicy="no-referrer" />
-            ) : Icons.personFallback}
+            ) : <SketchPerson size={32} hat />}
           </div>
-          <div style={{ position: 'absolute', bottom: -4, left: -4, width: 20, height: 20, borderRadius: '50%', background: T.card, border: `2px solid ${T.bg}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ position: 'absolute', bottom: -4, left: -4, width: 20, height: 20, borderRadius: '50%', background: T.card, border: `2px solid ${T.text}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             {Icons.camera}
           </div>
         </div>
-        <div style={{ width: 1, height: 48, background: T.border, margin: '0 16px', flexShrink: 0 }} />
+        <div style={{ width: 1, height: 48, borderRight: `1.5px dashed ${T.textDim}`, margin: '0 16px', flexShrink: 0 }} />
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontSize: 16, fontWeight: 700, color: T.text, marginBottom: 8 }}>{displayName}</div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
@@ -252,18 +260,18 @@ export default function ProfilePage() {
 
         {/* Info section */}
         <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '16px 16px 8px' }}>زانیاری</div>
-        <div style={{ background: T.card, margin: '0 12px', borderRadius: 12, padding: '0 14px', border: `1px solid ${T.borderDim}` }}>
+        <div style={{ background: T.card, margin: '0 12px', borderRadius: 10, padding: '0 14px', border: `2px solid ${T.text}`, boxShadow: `3px 3px 0 ${T.text}` }}>
 
           {/* Name */}
           <div>
-            <div onClick={toggleName} style={{ display: 'flex', alignItems: 'center', padding: '13px 0', borderBottom: `1px solid ${T.borderDim}`, cursor: 'pointer' }}>
+            <div onClick={toggleName} style={{ display: 'flex', alignItems: 'center', padding: '13px 0', borderBottom: `1.5px dashed ${T.textDim}`, cursor: 'pointer' }}>
               <div style={{ width: 24, display: 'flex', justifyContent: 'center', marginLeft: 12 }}>{Icons.user}</div>
               <span style={{ flex: 1, fontSize: 14, color: T.textMid }}>ناو</span>
               <span style={{ fontSize: 12, color: T.textDim, marginLeft: 6 }}>{displayName}</span>
               <DownArrow open={editingName} />
             </div>
             {editingName && (
-              <div style={{ padding: '12px 0 14px', borderBottom: `1px solid ${T.borderDim}` }}>
+              <div style={{ padding: '12px 0 14px', borderBottom: `1.5px dashed ${T.textDim}` }}>
                 <input value={editName} onChange={e => setEditName(e.target.value)} style={{ ...inputStyle, direction: 'rtl' }} />
                 <div style={{ fontSize: 10, color: T.iconDim, marginTop: 6, paddingRight: 2 }}>تەنها یەک جار دەتوانی ناوەکەت بگۆڕی</div>
                 <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
@@ -276,14 +284,14 @@ export default function ProfilePage() {
 
           {/* Phone */}
           <div>
-            <div onClick={togglePhone} style={{ display: 'flex', alignItems: 'center', padding: '13px 0', borderBottom: `1px solid ${T.borderDim}`, cursor: 'pointer' }}>
+            <div onClick={togglePhone} style={{ display: 'flex', alignItems: 'center', padding: '13px 0', borderBottom: `1.5px dashed ${T.textDim}`, cursor: 'pointer' }}>
               <div style={{ width: 24, display: 'flex', justifyContent: 'center', marginLeft: 12 }}>{Icons.phone}</div>
               <span style={{ flex: 1, fontSize: 14, color: T.textMid }}>ژمارەی مۆبایل</span>
               <span style={{ fontSize: 12, color: T.textDim, marginLeft: 6 }}>{profile?.phone || 'زیاد نەکراوە'}</span>
               <DownArrow open={editingPhone} />
             </div>
             {editingPhone && (
-              <div style={{ padding: '12px 0 14px', borderBottom: `1px solid ${T.borderDim}` }}>
+              <div style={{ padding: '12px 0 14px', borderBottom: `1.5px dashed ${T.textDim}` }}>
                 <input value={editPhone} onChange={e => setEditPhone(e.target.value)} dir="ltr" type="tel" placeholder="07501234567" style={inputStyle} />
                 <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
                   <button onClick={handleSavePhone} disabled={saving} style={{ flex: 1, background: 'rgba(74,222,128,0.12)', color: T.green, border: 'none', borderRadius: 10, padding: '10px 16px', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: "'Noto Sans Arabic', sans-serif", opacity: saving ? 0.5 : 1 }}>{saving ? '...' : 'پاشەکەوتکردن'}</button>
@@ -316,7 +324,7 @@ export default function ProfilePage() {
 
         {/* Role section */}
         <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '16px 16px 8px' }}>ڕۆڵ</div>
-        <div style={{ background: T.card, margin: '0 12px', borderRadius: 12, padding: '0 14px', border: `1px solid ${T.borderDim}` }}>
+        <div style={{ background: T.card, margin: '0 12px', borderRadius: 10, padding: '0 14px', border: `2px solid ${T.text}`, boxShadow: `3px 3px 0 ${T.text}` }}>
           <MenuItem icon={Icons.shield} label="جۆری هەژمار" value={roleText} />
           <div style={{ display: 'flex', alignItems: 'center', padding: '13px 0' }}>
             <div style={{ width: 24, display: 'flex', justifyContent: 'center', marginLeft: 12 }}>
@@ -332,7 +340,7 @@ export default function ProfilePage() {
 
         {/* Danger */}
         <div style={{ fontSize: 11, fontWeight: 600, color: T.iconDim, padding: '16px 16px 8px' }}>مەترسی</div>
-        <div style={{ background: T.card, margin: '0 12px', borderRadius: 12, padding: '0 14px', border: `1px solid ${T.borderDim}` }}>
+        <div style={{ background: T.card, margin: '0 12px', borderRadius: 10, padding: '0 14px', border: `2px solid ${T.red}`, boxShadow: `3px 3px 0 ${T.red}` }}>
           {!showDeleteConfirm ? (
             <div onClick={() => setShowDeleteConfirm(true)} style={{ display: 'flex', alignItems: 'center', padding: '13px 0', cursor: 'pointer' }}>
               <div style={{ width: 24, display: 'flex', justifyContent: 'center', marginLeft: 12 }}>{Icons.trash}</div>
@@ -363,7 +371,7 @@ export default function ProfilePage() {
         </div>
       )}
 
-      <BottomNav />
+      <BottomNav active="account" />
     </div>
   )
 }
