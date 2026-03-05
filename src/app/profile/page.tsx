@@ -5,24 +5,13 @@ import { BottomNav } from '@/components/layout/BottomNav'
 import { T } from '@/lib/theme'
 import { ku } from '@/lib/translations'
 import { createClient } from '@/lib/supabase/client'
+import SketchPerson from '@/components/ui/icons/SketchPerson'
 
 const Arrow = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
     <polyline points="15 18 9 12 15 6" />
   </svg>
 )
-
-function SketchPerson({ size = 14, hat = false }: { size?: number; hat?: boolean }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
-      stroke={T.text} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="7" r="3.5"/>
-      <path d="M6 21 Q7 14 12 13 Q17 14 18 21"/>
-      <path d="M9 16 Q12 18 15 16"/>
-      {hat && <path d="M7 5 Q12 1 17 5" strokeWidth="1.5"/>}
-    </svg>
-  )
-}
 
 const DownArrow = ({ open }: { open: boolean }) => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ transform: open ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s ease', flexShrink: 0 }}>

@@ -8,48 +8,15 @@ import { createClient } from '@/lib/supabase/client'
 import { CITIES, ROUTE_INFO, COLOR_KU, formatWhatsApp, formatTime, estimateArrival, toKurdishNum } from '@/lib/utils'
 import { T } from '@/lib/theme'
 import { ConfirmModal } from '@/components/ui/ConfirmModal'
-
-const BackArrow = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={T.textMid} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="15 18 9 12 15 6" />
-  </svg>
-)
+import SketchCar from '@/components/ui/icons/SketchCar'
+import SketchPerson from '@/components/ui/icons/SketchPerson'
+import RouteLine from '@/components/ui/icons/RouteLine'
 
 const PersonIcon = ({ size = 16 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="8" r="4" /><path d="M20 21c0-3.31-3.58-6-8-6s-8 2.69-8 6" />
   </svg>
 )
-
-function SketchPerson({ size = 14, hat = false }: { size?: number; hat?: boolean }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
-      stroke={T.text} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="7" r="3.5"/>
-      <path d="M6 21 Q7 14 12 13 Q17 14 18 21"/>
-      <path d="M9 16 Q12 18 15 16"/>
-      {hat && <path d="M7 5 Q12 1 17 5" strokeWidth="1.5"/>}
-    </svg>
-  )
-}
-
-function SketchCar({ size = 48, color = '#1A1208' }: { size?: number; color?: string }) {
-  return (
-    <svg width={size} height={size * 0.55} viewBox="0 0 80 44" fill="none"
-      stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M6 28 Q8 18 16 14 Q28 10 42 10 Q54 10 62 14 Q70 18 72 28 L74 34 Q74 38 70 38 L10 38 Q6 38 6 34 Z"/>
-      <path d="M22 28 L26 14 Q34 11 46 14 L52 28 Z"/>
-      <path d="M27 27 L30 16 Q36 13 44 15 L48 27"/>
-      <line x1="38" y1="13" x2="38" y2="27"/>
-      <circle cx="20" cy="38" r="6" fill={T.bg}/><circle cx="20" cy="38" r="3" fill={color}/>
-      <circle cx="58" cy="38" r="6" fill={T.bg}/><circle cx="58" cy="38" r="3" fill={color}/>
-      <path d="M36 26 Q40 24 44 26"/>
-      <ellipse cx="70" cy="26" rx="3" ry="2" fill="#F5C800" stroke={color} strokeWidth="1.5"/>
-      <line x1="2" y1="24" x2="8" y2="24" strokeDasharray="2,2" opacity="0.4"/>
-      <line x1="1" y1="28" x2="6" y2="28" strokeDasharray="2,2" opacity="0.3"/>
-    </svg>
-  )
-}
 
 function StarSelector({ value, onChange }: { value: number; onChange: (v: number) => void }) {
   return (
@@ -452,23 +419,12 @@ export default function RideDetailPage() {
       <div style={{ background: T.card, margin: '0 16px', borderRadius: 12, border: `2px solid ${T.border}`, boxShadow: T.cardShadow, overflow: 'hidden' }}>
         {/* RouteLine */}
         <div style={{ padding: '14px 16px 0' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }} dir="rtl">
-            <div style={{ textAlign: 'center', minWidth: 38 }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: T.accent, fontFamily: "'Noto Sans Arabic', sans-serif" }}>{toKurdishNum(depTime)}</div>
-              <div style={{ fontSize: 9, color: T.textDim, fontFamily: "'Noto Sans Arabic', sans-serif" }}>{CITIES[ride.from_city]}</div>
-            </div>
-            <div style={{ flex: 1, position: 'relative', height: 20 }}>
-              <svg width="100%" height="20" viewBox="0 0 300 20" preserveAspectRatio="none">
-                <path d="M8 13 Q60 7 100 13 Q140 19 180 13 Q220 7 260 13 Q276 16 292 13" stroke={T.text} strokeWidth="1.5" fill="none" strokeLinecap="round"/>
-                <path d="M8 9 a4,4 0 0,0 0,8" fill={T.text}/>
-                <path d="M292 9 a4,4 0 0,1 0,8" fill={T.accent} stroke={T.text} strokeWidth="1"/>
-              </svg>
-            </div>
-            <div style={{ textAlign: 'center', minWidth: 38 }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: T.text, fontFamily: "'Noto Sans Arabic', sans-serif" }}>{toKurdishNum(arrTime)}</div>
-              <div style={{ fontSize: 9, color: T.textDim, fontFamily: "'Noto Sans Arabic', sans-serif" }}>{CITIES[ride.to_city]}</div>
-            </div>
-          </div>
+          <RouteLine
+            from={CITIES[ride.from_city]}
+            to={CITIES[ride.to_city]}
+            dep={toKurdishNum(depTime)}
+            arr={toKurdishNum(arrTime)}
+          />
         </div>
 
         {/* Completed badge */}

@@ -4,7 +4,8 @@ import { useRouter } from 'next/navigation'
 import { BottomNav } from '@/components/layout/BottomNav'
 import { createClient } from '@/lib/supabase/client'
 import { T } from '@/lib/theme'
-import { RideCard, REQUEST_STATUS, RIDE_CANCELLED_STATUS } from '@/components/ui/RideCard'
+import { RideCard } from '@/components/ui/RideCard'
+import { REQUEST_STATUS, RIDE_CANCELLED_STATUS } from '@/lib/constants'
 
 
 export default function MyRidesPage() {
