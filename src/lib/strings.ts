@@ -214,7 +214,7 @@ export const kurdishStrings = {
   infoSection: 'زانیاری',
   name: 'ناو',
   nameChangeNote: 'تەنها یەک جار دەتوانی ناوەکەت بگۆڕی',
-  save: 'پاشەکەوتکردن',
+  save: 'بەڵێ',
   mobileNumber: 'ژمارەی مۆبایل',
   notAdded: 'زیاد نەکراوە',
   emailLabel: 'ئیمەیل',
