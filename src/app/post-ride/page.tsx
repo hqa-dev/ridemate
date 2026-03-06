@@ -4,7 +4,7 @@ import { BottomNav } from '@/components/layout/BottomNav'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { CITIES, toKurdishNum } from '@/lib/utils'
-import { ku } from '@/lib/translations'
+import { kurdishStrings } from '@/lib/strings'
 import { RideCard } from '@/components/ui/RideCard'
 import SketchCar from '@/components/ui/icons/SketchCar'
 import Card from '@/components/ui/Card'
@@ -92,8 +92,8 @@ export default function PostRidePage() {
   async function handleVerifySubmit() {
     setUploadError('')
     const { data: { user } } = await supabase.auth.getUser()
-    if (!user) { setUploadError('تکایە سەرەتا چوونەژوورەوە بکە'); return }
-    if (!licenseFile || !selfieFile) { setUploadError('تکایە مۆڵەتنامە و سێلفی بنێرە'); return }
+    if (!user) { setUploadError(kurdishStrings.errorSignInFirst); return }
+    if (!licenseFile || !selfieFile) { setUploadError(kurdishStrings.errorUploadBoth); return }
     setUploading(true)
     const licExt = licenseFile.name.split('.').pop()
     const { error: licErr } = await supabase.storage.from('documents').upload(`${user.id}/license.${licExt}`, licenseFile, { upsert: true })
@@ -136,21 +136,21 @@ export default function PostRidePage() {
     setSeats(String(n >= 4 ? 1 : n + 1))
   }
   function formatDate(d: string) {
-    if (!d) return 'بەروار'
+    if (!d) return kurdishStrings.date
     const [, m, day] = d.split('-')
     return `${toKurdishNum(parseInt(day))}/${toKurdishNum(parseInt(m))}`
   }
 
   async function handleSubmit() {
-    if (!fromCity) { setError('تکایە شاری دەستپێکردن دیاری بکە'); return }
-    if (!toCity) { setError('تکایە شاری مەبەست دیاری بکە'); return }
-    if (!date) { setError('تکایە بەرواری گەشت دیاری بکە'); return }
-    if (!time) { setError('تکایە کاتی گەشت دیاری بکە'); return }
-    if (!carMake) { setError('تکایە جۆری ئۆتۆمبێل دیاری بکە'); return }
-    if (!carModel) { setError('تکایە مۆدێلی ئۆتۆمبێل دیاری بکە'); return }
-    if (!carColor) { setError('تکایە ڕەنگی ئۆتۆمبێل دیاری بکە'); return }
+    if (!fromCity) { setError(kurdishStrings.errorSelectFromCity); return }
+    if (!toCity) { setError(kurdishStrings.errorSelectToCity); return }
+    if (!date) { setError(kurdishStrings.errorSelectDate); return }
+    if (!time) { setError(kurdishStrings.errorSelectTime); return }
+    if (!carMake) { setError(kurdishStrings.errorSelectCarMake); return }
+    if (!carModel) { setError(kurdishStrings.errorSelectCarModel); return }
+    if (!carColor) { setError(kurdishStrings.errorSelectCarColor); return }
     if (fromCity === toCity) {
-      setError('شوێنی چوون و هاتن ناتوانن هاوشێوە بن'); return
+      setError(kurdishStrings.errorSameCities); return
     }
     setLoading(true); setError('')
     const { data: { user } } = await supabase.auth.getUser()
@@ -178,7 +178,7 @@ export default function PostRidePage() {
             type: 'ride_updated',
             ride_id: editingRideId,
             from_user_id: user.id,
-            metadata: { changes: ['وردەکاری گەشتەکە گۆڕدرا'] },
+            metadata: { changes: [kurdishStrings.rideDetailsChanged] },
           }))
           await supabase.from('notifications').insert(notifs)
         }
@@ -215,14 +215,14 @@ export default function PostRidePage() {
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-status-success)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: 'var(--space-5)' }}>
           <circle cx="12" cy="12" r="10" /><polyline points="8 12 11 15 16 9" />
         </svg>
-        <h2 style={{ fontSize: 'var(--font-size-4xl)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)', marginBottom: 'var(--space-2)' }}>ناسنامەکانت نێردران</h2>
+        <h2 style={{ fontSize: 'var(--font-size-4xl)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)', marginBottom: 'var(--space-2)' }}>{kurdishStrings.docsSent}</h2>
         <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-muted)', textAlign: 'center', marginBottom: 'var(--space-8)', lineHeight: 'var(--font-lineHeight-relaxed)' }}>
-          کاتێک پشتڕاست کرایتەوە، دەتوانیت گەشت پۆست بکەیت
+          {kurdishStrings.verifiedCanPost}
         </p>
         <div onClick={() => router.push('/home')} style={{
           background: 'var(--color-bg-surface)', border: 'var(--border-width-thin) solid var(--color-border-strong)', borderRadius: 'var(--radius-2xl)',
           padding: 'var(--space-3) var(--space-6)', fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)', cursor: 'pointer',
-        }}>گەڕانەوە بۆ سەرەکی</div>
+        }}>{kurdishStrings.backToHome}</div>
         <BottomNav />
       </div>
     )
@@ -233,14 +233,14 @@ export default function PostRidePage() {
         maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto', display: 'flex', flexDirection: 'column',
       }}>
         <div style={{ padding: 'var(--space-page-top) var(--space-page-x) 0', flexShrink: 0 }}>
-          <span onClick={() => router.push('/home')} style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-md)', cursor: 'pointer' }}>← گەڕانەوە</span>
+          <span onClick={() => router.push('/home')} style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-md)', cursor: 'pointer' }}>← {kurdishStrings.back}</span>
         </div>
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 var(--space-page-x)' }}>
           <h1 style={{ fontSize: 'var(--font-size-4xl)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number, color: 'var(--color-text-primary)', marginBottom: 10, lineHeight: 'var(--font-lineHeight-tight)' }}>
-            بۆ بوون بە <span style={{ color: 'var(--color-brand-primary)' }}>شۆفێر</span>، پێویستە خۆت ڤێریفای بکەی
+            {kurdishStrings.verifyDriverPrefix}<span style={{ color: 'var(--color-brand-primary)' }}>{kurdishStrings.verifyDriverHighlight}</span>{kurdishStrings.verifyDriverSuffix}
           </h1>
           <p style={{ color: 'var(--color-text-muted)', marginBottom: 'var(--space-7)', fontSize: 'var(--font-size-base)', lineHeight: 'var(--font-lineHeight-relaxed)' }}>
-            مۆڵەتی شۆفێری و سێلفی بنێرە بۆ ئەوەی ببی بە شۆفێڕ
+            {kurdishStrings.verifyDriverDesc}
           </p>
           {uploadError && <p style={{ color: 'var(--color-status-error)', fontSize: 'var(--font-size-base)', marginBottom: 'var(--space-3)' }}>{uploadError}</p>}
 
@@ -250,9 +250,9 @@ export default function PostRidePage() {
             borderRadius: 'var(--radius-4xl)', padding: 'var(--space-5)', marginBottom: 10, cursor: 'pointer',
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-4)' }}>
-              <span style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', letterSpacing: 'var(--font-letterSpacing-wide)' }}>مۆڵەتی شۆفێری</span>
+              <span style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', letterSpacing: 'var(--font-letterSpacing-wide)' }}>{kurdishStrings.uploadLicense}</span>
               <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-1-5)' }}>
-                <span style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', letterSpacing: 'var(--font-letterSpacing-wider)' }}>کوردستان</span>
+                <span style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', letterSpacing: 'var(--font-letterSpacing-wider)' }}>{kurdishStrings.kurdistan}</span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M2 12h20" /><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20" /></svg>
               </div>
             </div>
@@ -268,7 +268,7 @@ export default function PostRidePage() {
             </div>
             <div style={{ borderTop: 'var(--border-width-thin) solid var(--color-border-strong)', marginTop: 'var(--space-4)', paddingTop: 'var(--space-3)', textAlign: 'center' }}>
               <span style={{ fontSize: 'var(--font-size-base)', color: licenseFile ? 'var(--color-status-success)' : 'var(--color-text-muted)', fontWeight: 'var(--font-weight-medium)' as unknown as number }}>
-                {licenseFile ? 'ناردنمان! چاوەڕێی وەڵامبە' : 'وێنەی مۆڵەتنامەکەت ئەپلۆد بکە'}
+                {licenseFile ? kurdishStrings.licenseSent : kurdishStrings.uploadLicensePhoto}
               </span>
             </div>
           </div>
@@ -283,8 +283,8 @@ export default function PostRidePage() {
                 {selfieFile ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-status-success)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="8 12 11 15 16 9" /></svg> : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-icon-muted)" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" /><circle cx="12" cy="13" r="4" /></svg>}
               </div>
               <div>
-                <div style={{ fontWeight: 'var(--font-weight-semibold)' as unknown as number, color: selfieFile ? 'var(--color-status-success)' : 'var(--color-text-secondary)', fontSize: 'var(--font-size-md)', marginBottom: 'var(--space-1)' }}>{selfieFile ? 'سێلفییەکەت سەرکەوتوو بوو' : 'سێلفی بگرە'}</div>
-                <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>وێنەیەکی ڕوونی ڕووخسارت</div>
+                <div style={{ fontWeight: 'var(--font-weight-semibold)' as unknown as number, color: selfieFile ? 'var(--color-status-success)' : 'var(--color-text-secondary)', fontSize: 'var(--font-size-md)', marginBottom: 'var(--space-1)' }}>{selfieFile ? kurdishStrings.selfieSuccess : kurdishStrings.takeSelfieShort}</div>
+                <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>{kurdishStrings.selfieDesc}</div>
               </div>
             </div>
           </div>
@@ -295,7 +295,7 @@ export default function PostRidePage() {
             borderRadius: 'var(--radius-4xl)', padding: 'var(--space-4)', fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-semibold)' as unknown as number,
             cursor: uploading ? 'default' : 'pointer', width: '100%',
             opacity: uploading ? 'var(--opacity-disabled)' as unknown as number : 1, fontFamily: 'var(--font-family-body)',
-          }}>{uploading ? '...چاوەڕوان بە' : 'بنێرە'}</button>
+          }}>{uploading ? kurdishStrings.pleaseWait : kurdishStrings.send}</button>
         </div>
         <BottomNav />
       </div>
@@ -309,7 +309,7 @@ export default function PostRidePage() {
     <div style={{ direction: 'rtl', minHeight: '100vh', background: 'var(--color-bg-canvas)', maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto', padding: 'var(--space-page-top) var(--space-page-x) var(--space-navClearance)', position: 'relative' }}>
 
       <div style={{ marginBottom: 'var(--space-5)' }}>
-        <h1 style={{ fontSize: 'var(--font-size-4xl)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)' }}><span style={{ color: 'var(--color-brand-primary)' }}>ڕێ</span> گەشت پۆستکە</h1>
+        <h1 style={{ fontSize: 'var(--font-size-4xl)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)' }}><span style={{ color: 'var(--color-brand-primary)' }}>{kurdishStrings.appShortName}</span> {kurdishStrings.postRideTitle}</h1>
       </div>
 
       {/* Tab switcher */}
@@ -321,7 +321,7 @@ export default function PostRidePage() {
           color: activeTab === 'post' ? 'var(--color-text-onAccent)' : 'var(--color-text-primary)',
           border: 'var(--border-width-thick) solid var(--color-text-primary)',
           boxShadow: activeTab === 'post' ? 'var(--shadow-card)' : 'var(--shadow-muted)',
-        }}>گەشتێکی نوێ</div>
+        }}>{kurdishStrings.newRide}</div>
         <div onClick={() => setActiveTab('manage')} style={{
           flex: 1, padding: '9px 0', textAlign: 'center', borderRadius: 'var(--radius-lg)',
           fontSize: 'var(--font-size-base)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, cursor: 'pointer',
@@ -331,7 +331,7 @@ export default function PostRidePage() {
           boxShadow: activeTab === 'manage' ? 'var(--shadow-card)' : 'var(--shadow-muted)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-1-5)',
         }}>
-          {ku.myRidesAsDriver}
+          {kurdishStrings.myRidesAsDriver}
         </div>
       </div>
 
@@ -353,11 +353,11 @@ export default function PostRidePage() {
               </div>
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 0 }}>
                 <div onClick={() => cycleCity(fromCity, setFromCity)} style={{ background: 'var(--color-bg-sunken)', borderRadius: 'var(--radius-xl)', padding: 'var(--input-ride-padding)', fontSize: 'var(--font-size-md)', color: fromCity ? 'var(--color-text-primary)' : 'var(--color-text-muted)', cursor: 'pointer' }}>
-                  {fromCity ? CITIES[fromCity] : 'لە کوێ؟'}
+                  {fromCity ? CITIES[fromCity] : kurdishStrings.fromWhere}
                 </div>
                 <DashedDivider style={{ margin: '0 var(--space-1)' }} />
                 <div onClick={() => cycleCity(toCity, setToCity)} style={{ background: 'var(--color-bg-sunken)', borderRadius: 'var(--radius-xl)', padding: 'var(--input-ride-padding)', fontSize: 'var(--font-size-md)', color: toCity ? 'var(--color-text-primary)' : 'var(--color-text-muted)', cursor: 'pointer' }}>
-                  {toCity ? CITIES[toCity] : 'بۆ کوێ؟'}
+                  {toCity ? CITIES[toCity] : kurdishStrings.toWhere}
                 </div>
               </div>
             </div>
@@ -367,7 +367,7 @@ export default function PostRidePage() {
           <Card style={{ marginBottom: 'var(--space-card-md)', overflow: 'hidden' }}>
             <div style={{ padding: 'var(--space-3) var(--space-card-lg)', display: 'flex', alignItems: 'center' }}>
               <div onClick={() => dateRef.current?.showPicker()} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer', position: 'relative' }}>
-                <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-secondary)', marginBottom: 3 }}>بەروار</div>
+                <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-secondary)', marginBottom: 3 }}>{kurdishStrings.date}</div>
                 <div style={{ fontSize: 'var(--font-size-md)', color: date ? 'var(--color-text-primary)' : 'var(--color-text-muted)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {date ? formatDate(date) : (
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-icon-muted)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
@@ -377,7 +377,7 @@ export default function PostRidePage() {
               </div>
               <div style={{ width: 0, height: 'var(--space-7)', borderRight: 'var(--border-width-medium) dashed var(--color-text-muted)' }} />
               <div onClick={() => timeRef.current?.showPicker()} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer', position: 'relative' }}>
-                <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-secondary)', marginBottom: 3 }}>کات</div>
+                <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-secondary)', marginBottom: 3 }}>{kurdishStrings.time}</div>
                 <div style={{ fontSize: 'var(--font-size-md)', color: time ? 'var(--color-text-primary)' : 'var(--color-text-muted)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {time ? time : (
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-icon-muted)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
@@ -387,7 +387,7 @@ export default function PostRidePage() {
               </div>
               <div style={{ width: 0, height: 'var(--space-7)', borderRight: 'var(--border-width-medium) dashed var(--color-text-muted)' }} />
               <div onClick={cycleSeats} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer' }}>
-                <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-secondary)', marginBottom: 3 }}>جێگا</div>
+                <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-secondary)', marginBottom: 3 }}>{kurdishStrings.seat}</div>
                 <div style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-primary)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={seatsTapped ? 'var(--color-text-primary)' : 'var(--color-icon-muted)'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M6 19v2" /><path d="M18 19v2" />
@@ -403,7 +403,7 @@ export default function PostRidePage() {
 
           {/* Price card */}
           <Card style={{ marginBottom: 'var(--space-card-md)', overflow: 'hidden', padding: 'var(--space-3) var(--space-card-lg)' }}>
-            <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 0, fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>نرخ</div>
+            <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 0, fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>{kurdishStrings.price}</div>
             <DashedDivider style={{ margin: '6px 0' }} />
             <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
               <div onClick={() => setPriceType('coffee')} style={{
@@ -412,14 +412,14 @@ export default function PostRidePage() {
                 border: 'var(--border-width-thick) solid var(--color-text-primary)',
                 boxShadow: priceType === 'coffee' ? 'var(--shadow-card)' : 'var(--shadow-muted)',
                 color: priceType === 'coffee' ? 'var(--color-text-onAccent)' : 'var(--color-text-primary)', fontSize: 'var(--font-size-base)', fontWeight: 'var(--font-weight-medium)' as unknown as number,
-              }}>قاوەیەک</div>
+              }}>{kurdishStrings.aCoffee}</div>
               <div onClick={() => setPriceType('iqd')} style={{
                 flex: 1, padding: '10px 0', textAlign: 'center', borderRadius: 'var(--radius-lg)', cursor: 'pointer',
                 background: priceType === 'iqd' ? 'var(--color-brand-primary)' : 'var(--color-bg-surface)',
                 border: 'var(--border-width-thick) solid var(--color-text-primary)',
                 boxShadow: priceType === 'iqd' ? 'var(--shadow-card)' : 'var(--shadow-muted)',
                 color: priceType === 'iqd' ? 'var(--color-text-onAccent)' : 'var(--color-text-primary)', fontSize: 'var(--font-size-base)', fontWeight: 'var(--font-weight-medium)' as unknown as number,
-              }}>پارە</div>
+              }}>{kurdishStrings.money}</div>
             </div>
             {priceType === 'iqd' && (
               <div style={{ marginTop: 'var(--space-2-5)'}}>
@@ -431,27 +431,27 @@ export default function PostRidePage() {
 
           {/* Car + Notes card */}
           <Card style={{ marginBottom: 'var(--space-card-md)', overflow: 'hidden', padding: 'var(--space-3) var(--space-card-lg)' }}>
-            <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 0, fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>زانیاری ئۆتۆمبێل</div>
+            <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 0, fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>{kurdishStrings.carDetails}</div>
             <DashedDivider style={{ margin: '6px 0' }} />
             <div style={{ display: 'flex', gap: 'var(--space-2)', marginBottom: 0 }}>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>جۆر</div>
+                <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>{kurdishStrings.make}</div>
                 <input value={carMake} onChange={e => setCarMake(e.target.value)} placeholder="Toyota" className="car-input" style={carInputStyle} />
               </div>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>مۆدێل</div>
+                <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>{kurdishStrings.model}</div>
                 <input value={carModel} onChange={e => setCarModel(e.target.value)} placeholder="Camry" className="car-input" style={carInputStyle} />
               </div>
             </div>
             <DashedDivider style={{ margin: '10px var(--space-1)' }} />
             <div style={{ marginBottom: 0 }}>
-              <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>ڕەنگ</div>
+              <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>{kurdishStrings.color}</div>
               <input value={carColor} onChange={e => setCarColor(e.target.value)} placeholder="White" className="car-input" style={carInputStyle} />
             </div>
             <DashedDivider style={{ margin: '10px var(--space-1)' }} />
-            <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 0, fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>تێبینی</div>
+            <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 0, fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>{kurdishStrings.notes}</div>
             <DashedDivider style={{ margin: '6px 0' }} />
-            <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="هەر شتێک دەربارەی گەشتەکەت..." rows={2} className="note-input" style={{ ...carInputStyle, resize: 'var(--input-note-resize)' as React.CSSProperties['resize'], lineHeight: 'var(--input-note-lineHeight)' }} />
+            <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder={kurdishStrings.rideNotesPlaceholder} rows={2} className="note-input" style={{ ...carInputStyle, resize: 'var(--input-note-resize)' as React.CSSProperties['resize'], lineHeight: 'var(--input-note-lineHeight)' }} />
           </Card>
 
           {error && <p style={{ color: 'var(--color-status-error)', fontSize: 'var(--font-size-base)', textAlign: 'center', marginBottom: 'var(--space-3)' }}>{error}</p>}
@@ -462,7 +462,7 @@ export default function PostRidePage() {
             opacity: loading ? 'var(--opacity-disabled)' as unknown as number : 1, width: '100%',
             boxShadow: 'var(--shadow-card)',
           }}>
-            <span style={{ fontSize: 'var(--font-size-xl)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number }}>{loading ? '...' : editingRideId ? 'نوێکردنەوە' : 'بینێرە!'}</span>
+            <span style={{ fontSize: 'var(--font-size-xl)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number }}>{loading ? '...' : editingRideId ? kurdishStrings.update : kurdishStrings.sendExclaim}</span>
           </div>
         </div>
       )}
@@ -472,7 +472,7 @@ export default function PostRidePage() {
         <div>
           {loadingManage ? <div /> : myPostedRides.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '4rem 0' }}>
-              <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-lg)' }}>هێشتا گەشتت پۆست نەکردووە</p>
+              <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-lg)' }}>{kurdishStrings.noPostedRides}</p>
             </div>
           ) : myPostedRides.map(ride => {
             const isCompleted = ride.status === 'completed'
@@ -480,10 +480,10 @@ export default function PostRidePage() {
             const isDimmed = isCompleted || isCancelled
 
             const rideStatusConfig: Record<string, { text: string; color: string; bg: string }> = {
-              active: { text: 'چالاک', color: 'var(--color-status-warning)', bg: 'var(--color-ride-activeStatusBg)' },
-              full: { text: '٠ جێ', color: 'var(--color-text-primary)', bg: 'var(--color-chip-bg)' },
-              completed: { text: 'تەواو بوو', color: 'var(--color-status-success)', bg: 'var(--color-ride-completedStatusBg)' },
-              cancelled: { text: 'هەڵوەشێنرایەوە', color: 'var(--color-status-error)', bg: 'var(--color-ride-cancelledStatusBg)' },
+              active: { text: kurdishStrings.statusActive, color: 'var(--color-status-warning)', bg: 'var(--color-ride-activeStatusBg)' },
+              full: { text: kurdishStrings.statusFull, color: 'var(--color-text-primary)', bg: 'var(--color-chip-bg)' },
+              completed: { text: kurdishStrings.statusCompleted, color: 'var(--color-status-success)', bg: 'var(--color-ride-completedStatusBg)' },
+              cancelled: { text: kurdishStrings.statusCancelled, color: 'var(--color-status-error)', bg: 'var(--color-ride-cancelledStatusBg)' },
             }
             const st = rideStatusConfig[ride.status] || rideStatusConfig.active
 
@@ -497,7 +497,7 @@ export default function PostRidePage() {
                   <span
                     onClick={() => startEdit(ride)}
                     style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', cursor: 'pointer' }}
-                  >دەسکاری</span>
+                  >{kurdishStrings.edit}</span>
                 ) : undefined}
               />
             )
