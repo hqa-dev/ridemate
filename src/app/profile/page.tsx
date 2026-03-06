@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { BottomNav } from '@/components/layout/BottomNav'
-import { ku } from '@/lib/translations'
+import { kurdishStrings } from '@/lib/strings'
 import { createClient } from '@/lib/supabase/client'
 import SketchPerson from '@/components/ui/icons/SketchPerson'
 import PageHeader from '@/components/ui/PageHeader'
@@ -144,13 +144,13 @@ export default function ProfilePage() {
 
   async function handleSaveName() {
     if (!editName.trim() || !user) return
-    if (!canChangeName()) { showToast('هێشتا ناتوانیت ناوەکەت بگۆڕیت'); return }
+    if (!canChangeName()) { showToast(kurdishStrings.errorNameChangeLimit); return }
     setSaving(true)
     await supabase.from('profiles').update({ full_name: editName.trim(), last_name_change: new Date().toISOString() }).eq('id', user.id)
     setProfile((p: any) => ({ ...p, full_name: editName.trim(), last_name_change: new Date().toISOString() }))
     setSaving(false)
     setEditingName(false)
-    showToast('ناو گۆڕدرا')
+    showToast(kurdishStrings.nameChanged)
   }
 
   async function handleSavePhone() {
@@ -160,7 +160,7 @@ export default function ProfilePage() {
     setProfile((p: any) => ({ ...p, phone: editPhone.trim() }))
     setSaving(false)
     setEditingPhone(false)
-    showToast('ژمارە گۆڕدرا')
+    showToast(kurdishStrings.phoneChanged)
   }
 
   async function handleSaveEmail() {
@@ -168,9 +168,9 @@ export default function ProfilePage() {
     setSaving(true)
     const { error } = await supabase.auth.updateUser({ email: editEmail.trim() })
     setSaving(false)
-    if (error) { showToast('هەڵە: ' + error.message); return }
+    if (error) { showToast(kurdishStrings.errorPrefix + error.message); return }
     setEditingEmail(false)
-    showToast('لینکی پشتڕاستکردن نێردرا')
+    showToast(kurdishStrings.verificationLinkSent)
   }
 
   async function handleAvatarUpload(file: File) {
@@ -203,7 +203,7 @@ export default function ProfilePage() {
   const avatarUrl = profile?.avatar_url || user?.user_metadata?.avatar_url || ''
   const isDriver = profile?.role === 'driver' || profile?.role === 'both'
   const isVerified = profile?.verification_status === 'verified'
-  const roleText = profile?.role === 'passenger' ? ku.passenger : profile?.role === 'driver' ? ku.driver : 'شۆفێر و سەرنشین'
+  const roleText = profile?.role === 'passenger' ? kurdishStrings.passenger : profile?.role === 'driver' ? kurdishStrings.driver : kurdishStrings.driverAndPassenger
 
   const inputStyle: React.CSSProperties = {
     width: '100%', background: 'var(--color-bg-sunken)', border: 'var(--border-width-thin) solid var(--color-border-strong)',
@@ -214,7 +214,7 @@ export default function ProfilePage() {
   return (
     <div style={{ direction: 'rtl', minHeight: '100vh', background: 'var(--color-bg-canvas)', maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto' }}>
 
-      <PageHeader title="پرۆفایل" back onBack={() => router.push('/account')} />
+      <PageHeader title={kurdishStrings.profilePageTitle} back onBack={() => router.push('/account')} />
 
       {/* Profile card — avatar right, divider, details left */}
       <input type="file" accept="image/*" ref={avatarInputRef} style={{ display: 'none' }} onChange={e => { const f = e.target.files?.[0]; if (f) handleAvatarUpload(f) }} />
@@ -244,24 +244,24 @@ export default function ProfilePage() {
       <div style={{ padding: '0 0 120px' }}>
 
         {/* Info section */}
-        <div style={{ marginTop: 'var(--space-4)' }}><SectionLabel label="زانیاری" /></div>
+        <div style={{ marginTop: 'var(--space-4)' }}><SectionLabel label={kurdishStrings.infoSection} /></div>
         <Card style={{ margin: '0 var(--space-3)', padding: '0 var(--space-card-md)' }}>
 
           {/* Name */}
           <div>
             <div onClick={toggleName} style={{ display: 'flex', alignItems: 'center', padding: '13px 0', borderBottom: 'var(--border-width-medium) dashed var(--color-text-muted)', cursor: 'pointer' }}>
               <div style={{ width: 'var(--space-6)', display: 'flex', justifyContent: 'center', marginLeft: 'var(--space-3)' }}>{Icons.user}</div>
-              <span style={{ flex: 1, fontSize: 'var(--font-size-lg)', color: 'var(--color-text-secondary)' }}>ناو</span>
+              <span style={{ flex: 1, fontSize: 'var(--font-size-lg)', color: 'var(--color-text-secondary)' }}>{kurdishStrings.name}</span>
               <span style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', marginLeft: 6 }}>{displayName}</span>
               <DownArrow open={editingName} />
             </div>
             {editingName && (
               <div style={{ padding: 'var(--space-3) 0 var(--space-card-md)', borderBottom: 'var(--border-width-medium) dashed var(--color-text-muted)' }}>
                 <input value={editName} onChange={e => setEditName(e.target.value)} style={{ ...inputStyle, direction: 'rtl' }} />
-                <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-icon-muted)', marginTop: 'var(--space-1-5)', paddingRight: 2 }}>تەنها یەک جار دەتوانی ناوەکەت بگۆڕی</div>
+                <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-icon-muted)', marginTop: 'var(--space-1-5)', paddingRight: 2 }}>{kurdishStrings.nameChangeNote}</div>
                 <div style={{ display: 'flex', gap: 'var(--space-2)', marginTop: 'var(--space-2-5)'}}>
-                  <button onClick={handleSaveName} disabled={saving} style={{ flex: 1, background: 'var(--button-subtle-bg)', color: 'var(--color-status-success)', border: 'none', borderRadius: 'var(--button-subtle-radius)', padding: 'var(--button-subtle-padding)', fontSize: 'var(--button-subtle-fontSize)', fontWeight: 'var(--button-subtle-fontWeight)' as unknown as number, cursor: 'pointer', fontFamily: 'var(--font-family-body)', opacity: saving ? 'var(--opacity-disabled)' as unknown as number : 1 }}>{saving ? '...' : 'پاشەکەوتکردن'}</button>
-                  <button onClick={() => setEditingName(false)} style={{ background: 'none', border: 'none', color: 'var(--color-icon-muted)', fontSize: 'var(--font-size-sm)', cursor: 'pointer', padding: 'var(--button-subtle-padding)', fontFamily: 'var(--font-family-body)' }}>پاشگەز</button>
+                  <button onClick={handleSaveName} disabled={saving} style={{ flex: 1, background: 'var(--button-subtle-bg)', color: 'var(--color-status-success)', border: 'none', borderRadius: 'var(--button-subtle-radius)', padding: 'var(--button-subtle-padding)', fontSize: 'var(--button-subtle-fontSize)', fontWeight: 'var(--button-subtle-fontWeight)' as unknown as number, cursor: 'pointer', fontFamily: 'var(--font-family-body)', opacity: saving ? 'var(--opacity-disabled)' as unknown as number : 1 }}>{saving ? '...' : kurdishStrings.save}</button>
+                  <button onClick={() => setEditingName(false)} style={{ background: 'none', border: 'none', color: 'var(--color-icon-muted)', fontSize: 'var(--font-size-sm)', cursor: 'pointer', padding: 'var(--button-subtle-padding)', fontFamily: 'var(--font-family-body)' }}>{kurdishStrings.cancel}</button>
                 </div>
               </div>
             )}
@@ -271,16 +271,16 @@ export default function ProfilePage() {
           <div>
             <div onClick={togglePhone} style={{ display: 'flex', alignItems: 'center', padding: '13px 0', borderBottom: 'var(--border-width-medium) dashed var(--color-text-muted)', cursor: 'pointer' }}>
               <div style={{ width: 'var(--space-6)', display: 'flex', justifyContent: 'center', marginLeft: 'var(--space-3)' }}>{Icons.phone}</div>
-              <span style={{ flex: 1, fontSize: 'var(--font-size-lg)', color: 'var(--color-text-secondary)' }}>ژمارەی مۆبایل</span>
-              <span style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', marginLeft: 6 }}>{profile?.phone || 'زیاد نەکراوە'}</span>
+              <span style={{ flex: 1, fontSize: 'var(--font-size-lg)', color: 'var(--color-text-secondary)' }}>{kurdishStrings.mobileNumber}</span>
+              <span style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', marginLeft: 6 }}>{profile?.phone || kurdishStrings.notAdded}</span>
               <DownArrow open={editingPhone} />
             </div>
             {editingPhone && (
               <div style={{ padding: 'var(--space-3) 0 var(--space-card-md)', borderBottom: 'var(--border-width-medium) dashed var(--color-text-muted)' }}>
                 <input value={editPhone} onChange={e => setEditPhone(e.target.value)} dir="ltr" type="tel" placeholder="07501234567" style={inputStyle} />
                 <div style={{ display: 'flex', gap: 'var(--space-2)', marginTop: 'var(--space-2-5)'}}>
-                  <button onClick={handleSavePhone} disabled={saving} style={{ flex: 1, background: 'var(--button-subtle-bg)', color: 'var(--color-status-success)', border: 'none', borderRadius: 'var(--button-subtle-radius)', padding: 'var(--button-subtle-padding)', fontSize: 'var(--button-subtle-fontSize)', fontWeight: 'var(--button-subtle-fontWeight)' as unknown as number, cursor: 'pointer', fontFamily: 'var(--font-family-body)', opacity: saving ? 'var(--opacity-disabled)' as unknown as number : 1 }}>{saving ? '...' : 'پاشەکەوتکردن'}</button>
-                  <button onClick={() => setEditingPhone(false)} style={{ background: 'none', border: 'none', color: 'var(--color-icon-muted)', fontSize: 'var(--font-size-sm)', cursor: 'pointer', padding: 'var(--button-subtle-padding)', fontFamily: 'var(--font-family-body)' }}>پاشگەز</button>
+                  <button onClick={handleSavePhone} disabled={saving} style={{ flex: 1, background: 'var(--button-subtle-bg)', color: 'var(--color-status-success)', border: 'none', borderRadius: 'var(--button-subtle-radius)', padding: 'var(--button-subtle-padding)', fontSize: 'var(--button-subtle-fontSize)', fontWeight: 'var(--button-subtle-fontWeight)' as unknown as number, cursor: 'pointer', fontFamily: 'var(--font-family-body)', opacity: saving ? 'var(--opacity-disabled)' as unknown as number : 1 }}>{saving ? '...' : kurdishStrings.save}</button>
+                  <button onClick={() => setEditingPhone(false)} style={{ background: 'none', border: 'none', color: 'var(--color-icon-muted)', fontSize: 'var(--font-size-sm)', cursor: 'pointer', padding: 'var(--button-subtle-padding)', fontFamily: 'var(--font-family-body)' }}>{kurdishStrings.cancel}</button>
                 </div>
               </div>
             )}
@@ -290,17 +290,17 @@ export default function ProfilePage() {
           <div>
             <div onClick={toggleEmail} style={{ display: 'flex', alignItems: 'center', padding: '13px 0', cursor: 'pointer' }}>
               <div style={{ width: 'var(--space-6)', display: 'flex', justifyContent: 'center', marginLeft: 'var(--space-3)' }}>{Icons.mail}</div>
-              <span style={{ flex: 1, fontSize: 'var(--font-size-lg)', color: 'var(--color-text-secondary)' }}>ئیمەیل</span>
+              <span style={{ flex: 1, fontSize: 'var(--font-size-lg)', color: 'var(--color-text-secondary)' }}>{kurdishStrings.emailLabel}</span>
               <span style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', marginLeft: 6 }}>{displayEmail}</span>
               <DownArrow open={editingEmail} />
             </div>
             {editingEmail && (
               <div style={{ padding: 'var(--space-3) 0 var(--space-card-md)' }}>
                 <input value={editEmail} onChange={e => setEditEmail(e.target.value)} dir="ltr" type="email" style={inputStyle} />
-                <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-icon-muted)', marginTop: 'var(--space-1-5)', paddingRight: 2 }}>لینکی پشتڕاستکردن دەنێردرێت بۆ ئیمەیلە نوێیەکە</div>
+                <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-icon-muted)', marginTop: 'var(--space-1-5)', paddingRight: 2 }}>{kurdishStrings.emailVerificationNote}</div>
                 <div style={{ display: 'flex', gap: 'var(--space-2)', marginTop: 'var(--space-2-5)'}}>
-                  <button onClick={handleSaveEmail} disabled={saving} style={{ flex: 1, background: 'var(--button-subtle-bg)', color: 'var(--color-status-success)', border: 'none', borderRadius: 'var(--button-subtle-radius)', padding: 'var(--button-subtle-padding)', fontSize: 'var(--button-subtle-fontSize)', fontWeight: 'var(--button-subtle-fontWeight)' as unknown as number, cursor: 'pointer', fontFamily: 'var(--font-family-body)', opacity: saving ? 'var(--opacity-disabled)' as unknown as number : 1 }}>{saving ? '...' : 'پاشەکەوتکردن'}</button>
-                  <button onClick={() => setEditingEmail(false)} style={{ background: 'none', border: 'none', color: 'var(--color-icon-muted)', fontSize: 'var(--font-size-sm)', cursor: 'pointer', padding: 'var(--button-subtle-padding)', fontFamily: 'var(--font-family-body)' }}>پاشگەز</button>
+                  <button onClick={handleSaveEmail} disabled={saving} style={{ flex: 1, background: 'var(--button-subtle-bg)', color: 'var(--color-status-success)', border: 'none', borderRadius: 'var(--button-subtle-radius)', padding: 'var(--button-subtle-padding)', fontSize: 'var(--button-subtle-fontSize)', fontWeight: 'var(--button-subtle-fontWeight)' as unknown as number, cursor: 'pointer', fontFamily: 'var(--font-family-body)', opacity: saving ? 'var(--opacity-disabled)' as unknown as number : 1 }}>{saving ? '...' : kurdishStrings.save}</button>
+                  <button onClick={() => setEditingEmail(false)} style={{ background: 'none', border: 'none', color: 'var(--color-icon-muted)', fontSize: 'var(--font-size-sm)', cursor: 'pointer', padding: 'var(--button-subtle-padding)', fontFamily: 'var(--font-family-body)' }}>{kurdishStrings.cancel}</button>
                 </div>
               </div>
             )}
@@ -308,35 +308,35 @@ export default function ProfilePage() {
         </Card>
 
         {/* Role section */}
-        <div style={{ marginTop: 'var(--space-4)' }}><SectionLabel label="ڕۆڵ" /></div>
+        <div style={{ marginTop: 'var(--space-4)' }}><SectionLabel label={kurdishStrings.roleSection} /></div>
         <Card style={{ margin: '0 var(--space-3)', padding: '0 var(--space-card-md)' }}>
-          <MenuItem icon={Icons.shield} label="جۆری هەژمار" value={roleText} />
+          <MenuItem icon={Icons.shield} label={kurdishStrings.accountType} value={roleText} />
           <div style={{ display: 'flex', alignItems: 'center', padding: '13px 0' }}>
             <div style={{ width: 'var(--space-6)', display: 'flex', justifyContent: 'center', marginLeft: 'var(--space-3)' }}>
               <div style={{ width: 'var(--size-statusDot)', height: 'var(--size-statusDot)', borderRadius: '50%', background: isVerified ? 'var(--color-status-success)' : 'var(--color-text-muted)' }} />
             </div>
-            <span style={{ flex: 1, fontSize: 'var(--font-size-lg)', color: 'var(--color-text-secondary)' }}>بارودۆخ</span>
+            <span style={{ flex: 1, fontSize: 'var(--font-size-lg)', color: 'var(--color-text-secondary)' }}>{kurdishStrings.statusLabel}</span>
             <span style={{ fontSize: 'var(--font-size-base)', color: isVerified ? 'var(--color-status-success)' : 'var(--color-text-muted)', fontWeight: 'var(--font-weight-medium)' as unknown as number, marginLeft: 6 }}>
-              {isVerified ? 'پشتڕاستکراوە' : 'پشتڕاستنەکراوە'}
+              {isVerified ? kurdishStrings.verifiedStatus : kurdishStrings.unverifiedStatus}
             </span>
             <Arrow />
           </div>
         </Card>
 
         {/* Danger */}
-        <div style={{ marginTop: 'var(--space-4)' }}><SectionLabel label="مەترسی" /></div>
+        <div style={{ marginTop: 'var(--space-4)' }}><SectionLabel label={kurdishStrings.dangerSection} /></div>
         <Card danger style={{ margin: '0 var(--space-3)', padding: '0 var(--space-card-md)' }}>
           {!showDeleteConfirm ? (
             <div onClick={() => setShowDeleteConfirm(true)} style={{ display: 'flex', alignItems: 'center', padding: '13px 0', cursor: 'pointer' }}>
               <div style={{ width: 'var(--space-6)', display: 'flex', justifyContent: 'center', marginLeft: 'var(--space-3)' }}>{Icons.trash}</div>
-              <span style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-status-error)', fontWeight: 'var(--font-weight-medium)' as unknown as number }}>هەژمارەکەت بسڕەوە</span>
+              <span style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-status-error)', fontWeight: 'var(--font-weight-medium)' as unknown as number }}>{kurdishStrings.deleteAccount}</span>
             </div>
           ) : (
             <div style={{ padding: 'var(--space-card-md) 0' }}>
-              <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-status-error)', margin: '0 0 var(--space-3)', lineHeight: 'var(--font-lineHeight-normal)', textAlign: 'right' }}>دڵنیایت دەتەوێ هەژمارەکەت بسڕیتەوە؟</p>
+              <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-status-error)', margin: '0 0 var(--space-3)', lineHeight: 'var(--font-lineHeight-normal)', textAlign: 'right' }}>{kurdishStrings.confirmDeleteAccount}</p>
               <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
-                <button onClick={handleDeleteAccount} style={{ flex: 1, background: 'var(--color-status-error)', color: 'var(--color-text-onAccent)', border: 'none', borderRadius: 'var(--radius-xl)', padding: 10, fontSize: 'var(--font-size-md)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, cursor: 'pointer' }}>بەڵێ دڵنیام</button>
-                <button onClick={() => setShowDeleteConfirm(false)} style={{ flex: 1, background: 'var(--color-chip-bg)', color: 'var(--color-text-muted)', border: 'none', borderRadius: 'var(--radius-xl)', padding: 10, fontSize: 'var(--font-size-md)', cursor: 'pointer' }}>پاشگەز</button>
+                <button onClick={handleDeleteAccount} style={{ flex: 1, background: 'var(--color-status-error)', color: 'var(--color-text-onAccent)', border: 'none', borderRadius: 'var(--radius-xl)', padding: 10, fontSize: 'var(--font-size-md)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, cursor: 'pointer' }}>{kurdishStrings.yesImSure}</button>
+                <button onClick={() => setShowDeleteConfirm(false)} style={{ flex: 1, background: 'var(--color-chip-bg)', color: 'var(--color-text-muted)', border: 'none', borderRadius: 'var(--radius-xl)', padding: 10, fontSize: 'var(--font-size-md)', cursor: 'pointer' }}>{kurdishStrings.cancel}</button>
               </div>
             </div>
           )}
