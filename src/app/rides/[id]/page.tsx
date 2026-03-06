@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { BottomNav } from '@/components/layout/BottomNav'
 import Link from 'next/link'
-import { ku } from '@/lib/translations'
+import { kurdishStrings } from '@/lib/strings'
 import { createClient } from '@/lib/supabase/client'
 import { CITIES, ROUTE_INFO, COLOR_KU, formatWhatsApp, formatTime, estimateArrival, toKurdishNum } from '@/lib/utils'
 import { ConfirmModal } from '@/components/ui/ConfirmModal'
@@ -181,7 +181,7 @@ export default function RideDetailPage() {
         dropoff: dropoff || null,
         status: 'pending',
       }).select()
-      if (error) { console.error('Send request error:', error); setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); setSending(false); return }
+      if (error) { console.error('Send request error:', error); setActionError(kurdishStrings.errorGeneric); setSending(false); return }
       requestId = inserted?.[0]?.id
     }
     // Notify driver
@@ -206,7 +206,7 @@ export default function RideDetailPage() {
       .from('rides')
       .update({ status: 'completed', completed_at: new Date().toISOString() })
       .eq('id', rideId)
-    if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); setCompleting(false); return }
+    if (error) { setActionError(kurdishStrings.errorGeneric); setCompleting(false); return }
     // Notify all approved passengers
     const { data: approved } = await supabase.from('ride_requests').select('passenger_id').eq('ride_id', rideId).eq('status', 'approved')
     if (approved && currentUserId) {
@@ -225,12 +225,12 @@ export default function RideDetailPage() {
   function handleCancelRide(e?: React.MouseEvent) {
     if (e) { e.preventDefault(); e.stopPropagation() }
     setConfirmModal({
-      message: 'دڵنیایت لە هەڵوەشاندنەوەی ئەم گەشتە؟',
+      message: kurdishStrings.confirmCancelRide,
       action: async () => {
         setConfirmModal(null)
         setActionError('')
         const { error: rideErr } = await supabase.from('rides').update({ status: 'cancelled' }).eq('id', rideId)
-        if (rideErr) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        if (rideErr) { setActionError(kurdishStrings.errorGeneric); return }
         // Get affected passengers before updating requests
         const { data: affected } = await supabase.from('ride_requests').select('passenger_id').eq('ride_id', rideId).in('status', ['approved', 'pending'])
         await supabase.from('ride_requests')
@@ -254,26 +254,26 @@ export default function RideDetailPage() {
 
   function handleCancelRequest() {
     setConfirmModal({
-      message: 'دڵنیایت لە پاشگەزبوونەوە؟',
+      message: kurdishStrings.confirmWithdraw,
       action: async () => {
         setConfirmModal(null)
         setActionError('')
         const { data: { user } } = await supabase.auth.getUser()
-        if (!user) { setActionError('تکایە دووبارە بچۆرەوە ژوورەوە'); return }
+        if (!user) { setActionError(kurdishStrings.errorReLogin); return }
         const { data: activeReq, error: findErr } = await supabase.from('ride_requests')
           .select('id, status')
           .eq('ride_id', rideId)
           .eq('passenger_id', user.id)
           .in('status', ['pending', 'approved'])
           .maybeSingle()
-        if (findErr || !activeReq) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        if (findErr || !activeReq) { setActionError(kurdishStrings.errorGeneric); return }
         const { error } = await supabase.from('ride_requests')
           .update({ status: 'cancelled' })
           .eq('id', activeReq.id)
-        if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        if (error) { setActionError(kurdishStrings.errorGeneric); return }
         if (activeReq.status === 'approved') {
           const { error: rpcErr } = await supabase.rpc('increment_seats', { ride_id_input: rideId })
-          if (rpcErr) { setActionError('هەڵەیەک ڕوویدا لە گەڕاندنەوەی جێگا'); console.error('increment_seats failed:', rpcErr) }
+          if (rpcErr) { setActionError(kurdishStrings.errorSeatRestore); console.error('increment_seats failed:', rpcErr) }
         }
         // Notify driver
         if (ride) {
@@ -292,23 +292,23 @@ export default function RideDetailPage() {
 
   function handleWithdrawRequest() {
     setConfirmModal({
-      message: 'دڵنیایت لە پاشگەزبوونەوە؟',
+      message: kurdishStrings.confirmWithdraw,
       action: async () => {
         setConfirmModal(null)
         setActionError('')
         const { data: { user } } = await supabase.auth.getUser()
-        if (!user) { setActionError('تکایە دووبارە بچۆرەوە ژوورەوە'); return }
+        if (!user) { setActionError(kurdishStrings.errorReLogin); return }
         const { data: activeReq, error: findErr } = await supabase.from('ride_requests')
           .select('id')
           .eq('ride_id', rideId)
           .eq('passenger_id', user.id)
           .in('status', ['pending'])
           .maybeSingle()
-        if (findErr || !activeReq) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        if (findErr || !activeReq) { setActionError(kurdishStrings.errorGeneric); return }
         const { error } = await supabase.from('ride_requests')
           .update({ status: 'cancelled' })
           .eq('id', activeReq.id)
-        if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); return }
+        if (error) { setActionError(kurdishStrings.errorGeneric); return }
         loadRide()
       },
     })
@@ -326,7 +326,7 @@ export default function RideDetailPage() {
       score: selectedRating,
       visible_after: visibleAfter,
     })
-    if (error) { setActionError('هەڵەیەک ڕوویدا، دووبارە هەوڵبدەرەوە'); setSubmittingRating(false); return }
+    if (error) { setActionError(kurdishStrings.errorGeneric); setSubmittingRating(false); return }
     setHasRated(true)
     setSubmittingRating(false)
   }
@@ -359,8 +359,8 @@ export default function RideDetailPage() {
   if (!ride) {
     return (
       <div style={{ ...pageWrap, textAlign: 'center', paddingTop: '3rem' }}>
-        <p style={{ color: 'var(--color-text-secondary)' }}>ئەم گەشتە نەدۆزرایەوە</p>
-        <Link href="/home" style={{ color: 'var(--color-brand-primary)', marginTop: '1rem', display: 'inline-block' }}>{ku.back}</Link>
+        <p style={{ color: 'var(--color-text-secondary)' }}>{kurdishStrings.rideNotFound}</p>
+        <Link href="/home" style={{ color: 'var(--color-brand-primary)', marginTop: '1rem', display: 'inline-block' }}>{kurdishStrings.back}</Link>
         <BottomNav active="home" />
       </div>
     )
@@ -400,7 +400,7 @@ export default function RideDetailPage() {
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-status-error)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
             <circle cx="12" cy="12" r="10" /><path d="M15 9l-6 6M9 9l6 6" />
           </svg>
-          <span style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-status-error)', fontWeight: 'var(--font-weight-medium)' as unknown as number }}>هەڵوەشێنرایەوە</span>
+          <span style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-status-error)', fontWeight: 'var(--font-weight-medium)' as unknown as number }}>{kurdishStrings.statusCancelled}</span>
         </div>
       )}
 
@@ -425,7 +425,7 @@ export default function RideDetailPage() {
         {isCompleted && (
           <div style={{ padding: 'var(--space-2) var(--space-5) 0', display: 'flex' }}>
             <span style={{ fontSize: 'var(--font-size-xs)', padding: '3px 10px', borderRadius: 'var(--radius-5xl)', background: 'var(--color-status-successBg)', color: 'var(--color-status-success)', fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>
-              تەواو بوو ✓
+              {kurdishStrings.statusCompletedBadge}
             </span>
           </div>
         )}
@@ -436,10 +436,10 @@ export default function RideDetailPage() {
         {/* Stats bar */}
         <div style={{ display: 'flex', padding: '0 0 10px' }}>
           {[
-            { l: 'نرخ', v: priceDisplay },
-            { l: 'جێگا', v: `${toKurdishNum(ride.available_seats)}/${toKurdishNum(totalSeats)}` },
-            { l: 'جگەرە', v: ride.smoking ? '🚬' : '🚭' },
-            { l: 'ئۆتۆ', v: ride.car_model || ride.car_make || '-' },
+            { l: kurdishStrings.price, v: priceDisplay },
+            { l: kurdishStrings.seat, v: `${toKurdishNum(ride.available_seats)}/${toKurdishNum(totalSeats)}` },
+            { l: kurdishStrings.smoking, v: ride.smoking ? '🚬' : '🚭' },
+            { l: kurdishStrings.car, v: ride.car_model || ride.car_make || '-' },
           ].map((s, i) => (
             <div key={i} style={{ flex: 1, textAlign: 'center', borderRight: i > 0 ? 'var(--border-width-medium) dashed var(--color-text-muted)' : 'none' }}>
               <div style={{ fontSize: 'var(--font-size-3xs)', color: 'var(--color-text-muted)' }}>{s.l}</div>
@@ -450,7 +450,7 @@ export default function RideDetailPage() {
       </Card>
 
       {/* Driver */}
-      <SectionLabel label="شۆفێر" />
+      <SectionLabel label={kurdishStrings.driverLabel} />
       <Card style={{ margin: '0 var(--space-4)', padding: 'var(--space-card-md) var(--space-card-lg)', display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
         <div style={{ width: 'var(--size-avatar-md)', height: 'var(--size-avatar-md)', borderRadius: 'var(--radius-base)', border: 'var(--border-width-thick) solid var(--color-text-primary)', background: 'var(--color-bg-sunken)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <SketchPerson size={22} hat={true} />
@@ -458,11 +458,11 @@ export default function RideDetailPage() {
         <div style={{ width: 1, height: 32, background: 'var(--color-border-divider)', flexShrink: 0 }} />
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, color: 'var(--color-text-primary)', marginBottom: 2 }}>
-            {driver.full_name || 'شۆفێر'}
+            {driver.full_name || kurdishStrings.driverLabel}
             {driver.verified && <span style={{ color: 'var(--color-status-success)', fontSize: 'var(--font-size-sm)', marginRight: 'var(--space-1)' }}> ✓</span>}
           </div>
           <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
-            {driverAvgRating !== null && `${driverAvgRating} ★ · ${toKurdishNum(driverTripCount)} گەشت`}
+            {driverAvgRating !== null && `${driverAvgRating} ★ · ${toKurdishNum(driverTripCount)} ${kurdishStrings.trip}`}
             {driverAvgRating !== null && carParts && ' · '}
             {carParts && `${carParts}`}
             {carColor && ` ${carColor}`}
@@ -473,7 +473,7 @@ export default function RideDetailPage() {
       {/* Passengers */}
       {(approvedPassengers.length > 0 || isOwnRide) && (
         <>
-          <SectionLabel label="سەرنشینەکان" />
+          <SectionLabel label={kurdishStrings.passengers} />
           <Card style={{ margin: '0 var(--space-4)', padding: '0 var(--space-4)' }}>
             {approvedPassengers.map((p: any, i: number) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', padding: 'var(--space-3) 0', gap: 10, borderBottom: i < approvedPassengers.length - 1 ? 'var(--border-width-medium) dashed var(--color-border-divider)' : 'none' }}>
@@ -484,7 +484,7 @@ export default function RideDetailPage() {
                     <PersonIcon size={14} />
                   )}
                 </div>
-                <span style={{ flex: 1, fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)' }}>{p.passenger?.full_name || 'سەرنشین'}</span>
+                <span style={{ flex: 1, fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)' }}>{p.passenger?.full_name || kurdishStrings.passengerFallback}</span>
                 {(p.pickup || p.dropoff) && (
                   <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
                     {p.pickup || '—'} ← {p.dropoff || '—'}
@@ -497,7 +497,7 @@ export default function RideDetailPage() {
                 <div style={{ width: 'var(--size-avatar-sm)', height: 'var(--size-avatar-sm)', borderRadius: 'var(--radius-base)', border: 'var(--border-width-thin) dashed var(--color-border-divider)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <span style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)' }}>+</span>
                 </div>
-                <span style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)' }}>{toKurdishNum(ride.available_seats)} جێگای بەردەست</span>
+                <span style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)' }}>{toKurdishNum(ride.available_seats)} {kurdishStrings.seatsAvailableCount}</span>
               </div>
             )}
           </Card>
@@ -507,7 +507,7 @@ export default function RideDetailPage() {
       {/* Notes */}
       {ride.notes && (
         <Card style={{ margin: 'var(--space-4) var(--space-4) 0', padding: 'var(--space-3) var(--space-4)' }}>
-          <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)', fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>تێبینی</div>
+          <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)', fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>{kurdishStrings.notes}</div>
           <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', lineHeight: 'var(--font-lineHeight-relaxed)' as unknown as number }}>{ride.notes}</div>
         </Card>
       )}
@@ -531,7 +531,7 @@ export default function RideDetailPage() {
                 fontFamily: 'var(--font-family-body)',
               }}
             >
-              {completing ? '...' : 'گەشتەکە تەواو بوو'}
+              {completing ? '...' : kurdishStrings.rideCompleted}
             </button>
           ) : isCompleted ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-card-md)', padding: 'var(--space-card-md) 0' }}>
@@ -546,13 +546,13 @@ export default function RideDetailPage() {
               </div>
               <div style={{ width: 1, height: 32, background: 'var(--color-border-divider)', flexShrink: 0, margin: '0 5px' }} />
               <div>
-                <p style={{ fontWeight: 'var(--font-weight-medium)' as unknown as number, color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-md)', margin: '0 0 3px' }}>گەشتەکە تەواو بوو</p>
-                <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', margin: 0 }}>ڕێکەوت: {new Date(ride.completed_at).toLocaleDateString('en-GB')}</p>
+                <p style={{ fontWeight: 'var(--font-weight-medium)' as unknown as number, color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-md)', margin: '0 0 3px' }}>{kurdishStrings.rideCompleted}</p>
+                <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', margin: 0 }}>{kurdishStrings.completedDate} {new Date(ride.completed_at).toLocaleDateString('en-GB')}</p>
               </div>
             </div>
           ) : isCancelled ? (
             <div style={{ textAlign: 'center', padding: 'var(--space-2) 0' }}>
-              <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', margin: 0 }}>هەڵوەشێنرایەوە</p>
+              <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', margin: 0 }}>{kurdishStrings.statusCancelled}</p>
             </div>
           ) : (
             <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
@@ -561,14 +561,14 @@ export default function RideDetailPage() {
                 border: 'var(--button-primary-border)', borderRadius: 'var(--button-primary-radius)', padding: 'var(--button-primary-padding)',
                 fontSize: 'var(--button-primary-fontSize)', fontWeight: 'var(--button-primary-fontWeight)' as unknown as number, textAlign: 'center', textDecoration: 'none',
                 boxShadow: 'var(--button-primary-shadow)',
-              }}>بەڕێوەبردن</Link>
+              }}>{kurdishStrings.manage}</Link>
               <button onClick={(e) => handleCancelRide(e)} style={{
                 flex: 1, background: 'var(--button-secondary-bg)', color: 'var(--button-secondary-text)',
                 border: 'var(--button-secondary-border)', borderRadius: 'var(--button-secondary-radius)', padding: 'var(--button-secondary-padding)',
                 fontSize: 'var(--button-secondary-fontSize)', fontWeight: 'var(--button-secondary-fontWeight)' as unknown as number, textAlign: 'center', cursor: 'pointer',
                 boxShadow: 'var(--button-secondary-shadow)',
                 fontFamily: 'var(--font-family-body)',
-              }}>هەڵوەشاندنەوە</button>
+              }}>{kurdishStrings.cancelRide}</button>
             </div>
           )
         )}
@@ -577,14 +577,14 @@ export default function RideDetailPage() {
         {!isOwnRide && (
           isCancelled ? (
             <div style={{ textAlign: 'center', padding: 'var(--space-2) 0' }}>
-              <p style={{ fontWeight: 'var(--font-weight-medium)' as unknown as number, color: 'var(--color-text-muted)', fontSize: 'var(--font-size-md)', margin: 0 }}>هەڵوەشێنرایەوە</p>
+              <p style={{ fontWeight: 'var(--font-weight-medium)' as unknown as number, color: 'var(--color-text-muted)', fontSize: 'var(--font-size-md)', margin: 0 }}>{kurdishStrings.statusCancelled}</p>
             </div>
           ) :
           isCompleted && requestStatus === 'approved' ? (
             !hasRated ? (
               <div style={{ textAlign: 'center' }}>
-                <p style={{ fontWeight: 'var(--font-weight-bold)' as unknown as number, fontSize: 'var(--font-size-lg)', color: 'var(--color-text-primary)', marginBottom: 'var(--space-1)' }}>گەشتەکە چۆن بوو بە لاتەوە؟</p>
-                <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-3)' }}>هەڵسەنگاندنەکەت دوای ٧٢ کاتژمێر دەردەکەوێ</p>
+                <p style={{ fontWeight: 'var(--font-weight-bold)' as unknown as number, fontSize: 'var(--font-size-lg)', color: 'var(--color-text-primary)', marginBottom: 'var(--space-1)' }}>{kurdishStrings.rateRideQuestion}</p>
+                <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-3)' }}>{kurdishStrings.ratingDelayNote}</p>
                 <StarSelector value={selectedRating} onChange={setSelectedRating} />
                 {selectedRating > 0 && (
                   <button
@@ -597,7 +597,7 @@ export default function RideDetailPage() {
                       opacity: submittingRating ? 'var(--opacity-disabled)' as unknown as number : 1,
                     }}
                   >
-                    {submittingRating ? '...' : 'ناردن'}
+                    {submittingRating ? '...' : kurdishStrings.submitRating}
                   </button>
                 )}
               </div>
@@ -614,8 +614,8 @@ export default function RideDetailPage() {
                 </div>
                 <div style={{ width: 1, height: 32, background: 'var(--color-border-divider)', flexShrink: 0, margin: '0 5px' }} />
                 <div>
-                  <p style={{ fontWeight: 'var(--font-weight-medium)' as unknown as number, color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-md)', margin: '0 0 3px' }}>سوپاس بۆ هەڵسەنگاندنەکەت!</p>
-                  <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', margin: 0 }}>هەڵسەنگاندنەکەت دوای ٧٢ کاتژمێر دەردەکەوێ</p>
+                  <p style={{ fontWeight: 'var(--font-weight-medium)' as unknown as number, color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-md)', margin: '0 0 3px' }}>{kurdishStrings.thanksForRating}</p>
+                  <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', margin: 0 }}>{kurdishStrings.ratingDelayNote}</p>
                 </div>
               </div>
             )
@@ -623,7 +623,7 @@ export default function RideDetailPage() {
           !requested ? (
             ride.available_seats <= 0 ? (
               <div style={{ textAlign: 'center', padding: 'var(--space-2) 0' }}>
-                <p style={{ fontWeight: 'var(--font-weight-semibold)' as unknown as number, color: 'var(--color-text-muted)', fontSize: 'var(--font-size-md)', margin: 0 }}>جێ بەردەست نییە</p>
+                <p style={{ fontWeight: 'var(--font-weight-semibold)' as unknown as number, color: 'var(--color-text-muted)', fontSize: 'var(--font-size-md)', margin: 0 }}>{kurdishStrings.noSeatsAvailable}</p>
               </div>
             ) : (
             <button
@@ -636,7 +636,7 @@ export default function RideDetailPage() {
                 fontFamily: 'var(--font-family-body)',
               }}
             >
-              بەڵێ، بینێرە!
+              {kurdishStrings.yesSendIt}
             </button>
             )
           ) : requestStatus === 'approved' ? (
@@ -645,7 +645,7 @@ export default function RideDetailPage() {
                 <circle cx="12" cy="12" r="10" />
                 <polyline points="8 12 11 15 16 9" />
               </svg>
-              <p style={{ fontWeight: 'var(--font-weight-semibold)' as unknown as number, color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-md)', margin: '0 0 var(--space-3)' }}>قبوڵ کرا!</p>
+              <p style={{ fontWeight: 'var(--font-weight-semibold)' as unknown as number, color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-md)', margin: '0 0 var(--space-3)' }}>{kurdishStrings.requestAccepted}</p>
               {waLink ? (
                 <a href={waLink} target="_blank" rel="noopener noreferrer" style={{
                   background: 'var(--button-whatsapp-bg)', color: 'var(--button-whatsapp-text)',
@@ -654,13 +654,13 @@ export default function RideDetailPage() {
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-2)',
                   direction: 'rtl',
                 }}>
-                  پەیامێک بنێرە بۆ شۆفێر
+                  {kurdishStrings.messageDriver}
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--color-external-whatsapp)" style={{ flexShrink: 0 }}>
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                   </svg>
                 </a>
               ) : (
-                <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-base)' }}>شۆفێر ژمارەی مۆبایلی زیاد نەکردووە</p>
+                <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-base)' }}>{kurdishStrings.driverNoPhone}</p>
               )}
               <button
                 onClick={() => handleCancelRequest()}
@@ -672,7 +672,7 @@ export default function RideDetailPage() {
                   fontFamily: 'var(--font-family-body)',
                 }}
               >
-                پاشگەزبوونەوە
+                {kurdishStrings.withdraw}
               </button>
             </div>
           ) : requestStatus === 'declined' ? (
@@ -683,8 +683,8 @@ export default function RideDetailPage() {
               </svg>
               <div style={{ width: 1, height: 32, background: 'var(--color-border-divider)', flexShrink: 0, margin: '0 5px' }} />
               <div>
-                <p style={{ fontWeight: 'var(--font-weight-medium)' as unknown as number, color: 'var(--color-status-error)', fontSize: 'var(--font-size-md)', margin: '0 0 3px' }}>داواکاریەکت ڕەت کرایەوە</p>
-                <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', margin: 0, lineHeight: 'var(--font-lineHeight-tight)' as unknown as number }}>شۆفێر داواکاریەکەتی قبوڵ نەکرد</p>
+                <p style={{ fontWeight: 'var(--font-weight-medium)' as unknown as number, color: 'var(--color-status-error)', fontSize: 'var(--font-size-md)', margin: '0 0 3px' }}>{kurdishStrings.requestDeclined}</p>
+                <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', margin: 0, lineHeight: 'var(--font-lineHeight-tight)' as unknown as number }}>{kurdishStrings.driverDeclinedNote}</p>
               </div>
             </div>
           ) : (
@@ -696,8 +696,8 @@ export default function RideDetailPage() {
                 </svg>
                 <div style={{ width: 1, height: 32, background: 'var(--color-border-divider)', flexShrink: 0, margin: '0 5px' }} />
                 <div>
-                  <p style={{ fontWeight: 'var(--font-weight-medium)' as unknown as number, color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-md)', margin: '0 0 3px' }}>داواکاریەکت نێردرا</p>
-                  <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', margin: 0, lineHeight: 'var(--font-lineHeight-tight)' as unknown as number }}>کە داواکرییەکەت قبوڵ کرا، ژمارە مۆبایلی شۆفێر لێرە دەردەکەوێ</p>
+                  <p style={{ fontWeight: 'var(--font-weight-medium)' as unknown as number, color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-md)', margin: '0 0 3px' }}>{kurdishStrings.requestSentDetail}</p>
+                  <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', margin: 0, lineHeight: 'var(--font-lineHeight-tight)' as unknown as number }}>{kurdishStrings.approvedContactNote}</p>
                 </div>
               </div>
               <button
@@ -710,7 +710,7 @@ export default function RideDetailPage() {
                   fontFamily: 'var(--font-family-body)',
                 }}
               >
-                پاشگەزبوونەوە
+                {kurdishStrings.withdraw}
               </button>
             </div>
           )
@@ -727,32 +727,32 @@ export default function RideDetailPage() {
             style={{ background: 'var(--card-requestModal-bg)', width: '100%', maxWidth: 'var(--card-requestModal-maxWidth)', borderRadius: 'var(--card-requestModal-radius)', padding: 'var(--space-modal-y) var(--space-modal-x)', direction: 'rtl', border: 'var(--card-requestModal-border)', boxShadow: 'var(--card-requestModal-shadow)' }}
             onClick={e => e.stopPropagation()}
           >
-            <h2 style={{ fontWeight: 'var(--font-weight-bold)' as unknown as number, fontSize: 'var(--font-size-2xl)', marginBottom: 'var(--space-3)', color: 'var(--color-text-primary)' }}>دەمەوێ!</h2>
+            <h2 style={{ fontWeight: 'var(--font-weight-bold)' as unknown as number, fontSize: 'var(--font-size-2xl)', marginBottom: 'var(--space-3)', color: 'var(--color-text-primary)' }}>{kurdishStrings.iWantIt}</h2>
             <div style={{ display: 'flex', gap: 'var(--space-2)', marginBottom: 'var(--space-4)' }}>
               <div style={{ flex: 1 }}>
-                <label style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)', display: 'block', marginBottom: 'var(--space-1)', textAlign: 'right', paddingRight: 'var(--space-1)' }}>سواربوون</label>
-                <input value={pickup} onChange={e => setPickup(e.target.value)} style={inp} placeholder="لە کوێ سوار دەبی؟" />
+                <label style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)', display: 'block', marginBottom: 'var(--space-1)', textAlign: 'right', paddingRight: 'var(--space-1)' }}>{kurdishStrings.pickup}</label>
+                <input value={pickup} onChange={e => setPickup(e.target.value)} style={inp} placeholder={kurdishStrings.pickupPlaceholder} />
               </div>
               <div style={{ flex: 1 }}>
-                <label style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)', display: 'block', marginBottom: 'var(--space-1)', textAlign: 'right', paddingRight: 'var(--space-1)' }}>دابەزین</label>
-                <input value={dropoff} onChange={e => setDropoff(e.target.value)} style={inp} placeholder="لە کوێ دادەبەزی؟" />
+                <label style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)', display: 'block', marginBottom: 'var(--space-1)', textAlign: 'right', paddingRight: 'var(--space-1)' }}>{kurdishStrings.dropoff}</label>
+                <input value={dropoff} onChange={e => setDropoff(e.target.value)} style={inp} placeholder={kurdishStrings.dropoffPlaceholder} />
               </div>
             </div>
             <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', textAlign: 'center', marginBottom: 'var(--space-3)', lineHeight: 'var(--font-lineHeight-tight)' as unknown as number }}>
-              دوای ئەوەی داواکارییەکت پەسەند کرا، ژمارەی مۆبایلەکەت لەگەڵ شۆفێر شێر دەکرێ
+              {kurdishStrings.phoneShareNote}
             </p>
             <button
               style={{ width: '100%', background: 'var(--color-brand-primary)', color: 'var(--color-text-onAccent)', border: 'var(--border-width-thick) solid var(--color-border-strong)', borderRadius: 'var(--radius-2xl)', padding: 'var(--space-card-md)', fontSize: 'var(--font-size-xl)', fontWeight: 'var(--font-weight-bold)' as unknown as number, cursor: 'pointer', marginBottom: 'var(--space-2)', boxShadow: 'var(--shadow-sm)', opacity: sending ? 'var(--opacity-disabled)' as unknown as number : 1 }}
               disabled={sending}
               onClick={handleSendRequest}
             >
-              {sending ? '...چاوەڕوان بە' : ku.sendRequest}
+              {sending ? kurdishStrings.pleaseWait : kurdishStrings.sendRequest}
             </button>
             <button
               style={{ width: '100%', background: 'var(--button-ghost-bg)', color: 'var(--button-ghost-text)', border: 'var(--button-ghost-border)', borderRadius: 'var(--button-ghost-radius)', padding: 'var(--button-ghost-padding)', fontSize: 'var(--button-ghost-fontSize)', cursor: 'pointer' }}
               onClick={() => setShowModal(false)}
             >
-              {ku.cancel}
+              {kurdishStrings.cancel}
             </button>
           </div>
         </div>
