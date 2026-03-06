@@ -7,6 +7,7 @@
     "float": { "$value": "0 8px 32px rgba(0,0,0,0.6)", "$description": "Toast / floating card shadow (toastShadow)" },
     "nav": { "$value": "0 8px 32px rgba(0,0,0,0.08), inset 0 1px 0 rgba(26,18,8,0.04)", "$description": "Bottom nav bar composite shadow" },
     "viewport": { "$value": "0 0 60px rgba(232,71,10,0.12), 0 0 120px rgba(0,0,0,0.5)", "$description": "Viewport container glow — accent glow + outer shadow" },
-    "profileAvatar": { "$value": "3px 3px 0 #1A1208", "$description": "Profile page avatar — same value as card" }
+    "profileAvatar": { "$value": "3px 3px 0 #1A1208", "$description": "Profile page avatar — same value as card" },
+    "muted": { "$value": "2px 2px 0 #9A8F78", "$description": "Inactive tab shadow — muted ink" }
   }
 }

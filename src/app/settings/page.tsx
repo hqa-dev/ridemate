@@ -3,15 +3,14 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { BottomNav } from '@/components/layout/BottomNav'
 import { createClient } from '@/lib/supabase/client'
-import { T } from '@/lib/theme'
 import { ConfirmModal } from '@/components/ui/ConfirmModal'
 import PageHeader from '@/components/ui/PageHeader'
 import SectionLabel from '@/components/ui/SectionLabel'
 import Card from '@/components/ui/Card'
 
 const Toggle = () => (
-  <div style={{ width: 36, height: 20, borderRadius: 10, border: `1.5px solid ${T.text}`, background: T.accentFill, display: 'flex', alignItems: 'center', padding: '0 3px', justifyContent: 'flex-end' }}>
-    <div style={{ width: 14, height: 14, borderRadius: '50%', background: T.accent }} />
+  <div style={{ width: 36, height: 20, borderRadius: 'var(--radius-xl)', border: 'var(--border-width-medium) solid var(--color-text-primary)', background: 'var(--color-brand-fill)', display: 'flex', alignItems: 'center', padding: '0 3px', justifyContent: 'flex-end' }}>
+    <div style={{ width: 14, height: 14, borderRadius: '50%', background: 'var(--color-brand-primary)' }} />
   </div>
 )
 
@@ -48,46 +47,46 @@ export default function SettingsPage() {
 
   return (
     <div style={{
-      direction: 'rtl', minHeight: '100vh', background: T.bg,
-      maxWidth: 480, margin: '0 auto',
-      paddingBottom: 100,
+      direction: 'rtl', minHeight: '100vh', background: 'var(--color-bg-canvas)',
+      maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto',
+      paddingBottom: 'var(--space-navClearanceLg)',
     }}>
       <PageHeader title="ڕێکخستنەکان" back />
 
-      <div style={{ padding: '0 16px' }}>
+      <div style={{ padding: '0 var(--space-4)' }}>
 
         {/* Language */}
-        <div style={{ marginBottom: 24 }}>
+        <div style={{ marginBottom: 'var(--space-6)' }}>
           <SectionLabel label="زمان" />
           <Card>
             <div style={{
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              padding: '16px 16px', direction: 'rtl',
+              padding: 'var(--space-card-lg)', direction: 'rtl',
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={T.textDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                 </svg>
-                <span style={{ fontSize: 14, color: T.text }}>زمانی کوردی</span>
+                <span style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-text-primary)' }}>زمانی کوردی</span>
               </div>
-              <span style={{ fontSize: 11, color: T.textDim }}>زمانی کوردی</span>
+              <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>زمانی کوردی</span>
             </div>
           </Card>
         </div>
 
         {/* Notifications */}
-        <div style={{ marginBottom: 24 }}>
+        <div style={{ marginBottom: 'var(--space-6)' }}>
           <SectionLabel label="ئاگاداری" />
           <Card>
             <div style={{
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              padding: '16px 16px', direction: 'rtl',
+              padding: 'var(--space-card-lg)', direction: 'rtl',
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={T.textDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" />
                 </svg>
-                <span style={{ fontSize: 14, color: T.text }}>پەیامەکان</span>
+                <span style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-text-primary)' }}>پەیامەکان</span>
               </div>
               <Toggle />
             </div>
@@ -101,17 +100,17 @@ export default function SettingsPage() {
             <div
               onClick={handleDeleteAccount}
               style={{
-                display: 'flex', alignItems: 'center', gap: 12,
-                padding: '16px 16px', direction: 'rtl', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', gap: 'var(--space-3)',
+                padding: 'var(--space-card-lg)', direction: 'rtl', cursor: 'pointer',
                 opacity: deleting ? 0.4 : 1,
               }}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={T.red} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-status-error)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
               </svg>
               <div>
-                <span style={{ fontSize: 14, color: T.red }}>سڕینەوەی هەژمار</span>
-                <p style={{ fontSize: 11, color: T.iconDim, margin: '3px 0 0' }}>هەموو داتاکانت دەسڕێتەوە و ناگەڕێتەوە</p>
+                <span style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-status-error)' }}>سڕینەوەی هەژمار</span>
+                <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-icon-muted)', margin: '3px 0 0' }}>هەموو داتاکانت دەسڕێتەوە و ناگەڕێتەوە</p>
               </div>
             </div>
           </Card>

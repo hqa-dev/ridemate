@@ -86,7 +86,7 @@ export function RideCard({ ride, status, dimmed, editButton }: RideCardProps) {
         {/* Footer — driver · seats · price */}
         <div style={{ padding: '0 12px 10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', direction: 'rtl' }}>
           {/* Driver with sketch person icon */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-1-5)'}}>
             <div style={{
               width: 22, height: 22, borderRadius: 5,
               border: `1.5px solid ${T.border}`,

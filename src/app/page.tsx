@@ -1,7 +1,6 @@
 'use client'
 import { useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { T } from '@/lib/theme'
 
 export default function LandingPage() {
   const supabase = createClient()
@@ -25,31 +24,31 @@ export default function LandingPage() {
 
   return (
     <div style={{
-      direction: 'rtl', minHeight: '100vh', background: T.bg,
-      maxWidth: 480, margin: '0 auto',
+      direction: 'rtl', minHeight: '100vh', background: 'var(--color-bg-canvas)',
+      maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto',
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-      padding: '2rem 1.25rem',
+      padding: 'var(--space-8) var(--space-page-x)',
     }}>
 
       {/* Logo */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 32 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 'var(--space-8)' }}>
         <div style={{
-          background: T.yellow,
-          border: `3px solid ${T.border}`,
+          background: 'var(--color-status-warning)',
+          border: '3px solid var(--color-border-strong)',
           borderRadius: '50%',
           width: 64, height: 48,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          boxShadow: T.cardShadow,
-          marginBottom: 12,
+          boxShadow: 'var(--shadow-card)',
+          marginBottom: 'var(--space-3)',
           transform: 'rotate(-4deg)',
         }}>
           <span style={{ fontSize: 24 }}>🍋</span>
         </div>
         <h1 style={{
-          fontSize: '2.5rem', fontWeight: 800, color: T.text, marginBottom: 8,
-          textShadow: `3px 3px 0 ${T.accent}`,
+          fontSize: '2.5rem', fontWeight: 'var(--font-weight-extrabold)' as unknown as number, color: 'var(--color-text-primary)', marginBottom: 'var(--space-2)',
+          textShadow: 'var(--font-textShadow-brandLg)',
         }}>لیمۆ</h1>
-        <p style={{ color: T.textDim, fontSize: 13, margin: 0, textAlign: 'center' }}>
+        <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-md)', margin: 0, textAlign: 'center' }}>
           تەنها بۆ هەولێر و سلێمانی و دهۆک
         </p>
       </div>
@@ -58,12 +57,12 @@ export default function LandingPage() {
       <div
         onClick={handleGoogleSignIn}
         style={{
-          background: T.card,
-          border: `2px solid ${T.border}`,
-          borderRadius: 12, padding: '14px 24px',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12,
+          background: 'var(--color-bg-surface)',
+          border: 'var(--border-width-thick) solid var(--color-border-strong)',
+          borderRadius: 'var(--radius-2xl)', padding: 'var(--space-card-md) var(--space-6)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-3)',
           cursor: 'pointer', width: '100%', maxWidth: 320,
-          boxShadow: T.cardShadow,
+          boxShadow: 'var(--shadow-card)',
         }}
       >
         <svg width="20" height="20" viewBox="0 0 48 48">
@@ -72,10 +71,10 @@ export default function LandingPage() {
           <path fill="#FBBC05" d="M10.53 28.59a14.5 14.5 0 0 1 0-9.18l-7.98-6.19a24.01 24.01 0 0 0 0 21.56l7.98-6.19z"/>
           <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
         </svg>
-        <span style={{ fontWeight: 600, color: T.text, fontSize: 14 }}>بە گووگڵ بچۆ ژوورەوە</span>
+        <span style={{ fontWeight: 'var(--font-weight-semibold)' as unknown as number, color: 'var(--color-text-primary)', fontSize: 'var(--font-size-lg)' }}>بە گووگڵ بچۆ ژوورەوە</span>
       </div>
 
-      <div style={{ marginTop: 16, fontSize: 10, color: T.textDim, textAlign: 'center', lineHeight: 1.7 }}>
+      <div style={{ marginTop: 'var(--space-4)', fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', textAlign: 'center', lineHeight: 'var(--font-lineHeight-normal)' }}>
         بە چوونەژوورەوە، ڕێکار و مەرجەکانمان قبوڵ دەکەیت
       </div>
 

@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { T } from '@/lib/theme'
 import './globals.css'
 
 export const viewport = {
@@ -19,8 +18,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
       </head>
-      <body style={{ fontFamily: "'Noto Sans Arabic', sans-serif", margin: 0, background: T.bg }}>
-        <div style={{ maxWidth: 480, margin: '0 auto', minHeight: '100vh', background: T.bg, border: `1px solid ${T.cardBorder}`, borderRadius: 24, boxShadow: `0 0 60px ${T.accentGlow}, 0 0 120px rgba(0,0,0,0.5)`, overflow: 'hidden' }}>
+      <body style={{ fontFamily: 'var(--font-family-body)', margin: 0, background: 'var(--color-bg-canvas)' }}>
+        <div style={{ maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto', minHeight: '100vh', background: 'var(--color-bg-canvas)', border: 'var(--border-width-thin) solid var(--color-border-strong)', borderRadius: 'var(--radius-6xl)', boxShadow: 'var(--shadow-viewport)', overflow: 'hidden' }}>
           {children}
         </div>
       </body>

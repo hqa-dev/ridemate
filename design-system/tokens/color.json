@@ -52,27 +52,30 @@
       "whatsapp": { "$value": "#25D366", "$description": "WhatsApp green — never changes" },
       "google": { "$value": "#4285F4", "$description": "Google sign-in blue" }
     },
-    "avatar": {
-      "palette": {
-        "$value": ["#E8470A", "#2A7A1A", "#4A6FA5", "#8B4513", "#6B3FA0"],
-        "$description": "5-color palette for notification avatars — hardcoded in notifications/page.tsx"
-      }
+    "green": {
+      "$description": "Green primitive scale — used by upload states, ride completion, save buttons",
+      "50": { "$value": "rgba(74,222,128,0.08)", "$description": "Lightest green tint" },
+      "100": { "$value": "rgba(74,222,128,0.12)", "$description": "Light green tint" },
+      "200": { "$value": "rgba(74,222,128,0.15)", "$description": "Medium-light green tint" },
+      "300": { "$value": "rgba(74,222,128,0.20)", "$description": "Medium green tint" },
+      "400": { "$value": "rgba(74,222,128,0.30)", "$description": "Stronger green tint" },
+      "solid": { "$value": "#4ade80", "$description": "Solid green — base hue for the scale" }
     },
     "ride": {
-      "completedIconBg": { "$value": "rgba(74,222,128,0.08)", "$description": "Completed ride icon box background — hardcoded in rides/[id]" },
-      "completedIconBorder": { "$value": "rgba(74,222,128,0.15)", "$description": "Completed ride icon box border — hardcoded in rides/[id]" },
+      "completedIconBg": { "$value": "{color.green.50}", "$description": "Completed ride icon box background — hardcoded in rides/[id]" },
+      "completedIconBorder": { "$value": "{color.green.200}", "$description": "Completed ride icon box border — hardcoded in rides/[id]" },
       "ratedIconBg": { "$value": "rgba(223,101,48,0.08)", "$description": "Rated confirmation icon box background — hardcoded in rides/[id]" },
       "ratedIconBorder": { "$value": "rgba(223,101,48,0.15)", "$description": "Rated confirmation icon box border — hardcoded in rides/[id]" },
       "activeStatusBg": { "$value": "rgba(251,191,36,0.1)", "$description": "Active ride status in manage tab — hardcoded in post-ride" },
-      "completedStatusBg": { "$value": "rgba(74,222,128,0.1)", "$description": "Completed ride status in manage tab — hardcoded in post-ride" },
+      "completedStatusBg": { "$value": "{color.green.50}", "$description": "Completed ride status in manage tab — hardcoded in post-ride" },
       "cancelledStatusBg": { "$value": "rgba(248,113,113,0.1)", "$description": "Cancelled ride status in manage tab — hardcoded in post-ride" }
     },
-    "save": {
-      "bg": { "$value": "rgba(74,222,128,0.12)", "$description": "Save button background — profile page" },
-      "uploadFilled": { "$value": "rgba(74,222,128,0.08)", "$description": "Upload card filled state background — post-ride verification" },
-      "uploadBorder": { "$value": "rgba(74,222,128,0.15)", "$description": "Upload card filled state border — post-ride verification" },
-      "uploadDashedBorder": { "$value": "rgba(74,222,128,0.2)", "$description": "Upload inner dashed border — post-ride verification" },
-      "uploadSelfie": { "$value": "rgba(74,222,128,0.3)", "$description": "Selfie upload dashed border — post-ride verification" }
+    "upload": {
+      "bg": { "$value": "{color.green.100}", "$description": "Save button background — profile page" },
+      "filled": { "$value": "{color.green.50}", "$description": "Upload card filled state background — post-ride verification" },
+      "border": { "$value": "{color.green.200}", "$description": "Upload card filled state border — post-ride verification" },
+      "dashedBorder": { "$value": "{color.green.300}", "$description": "Upload inner dashed border — post-ride verification" },
+      "selfieBorder": { "$value": "{color.green.400}", "$description": "Selfie upload dashed border — post-ride verification" }
     }
   }
 }

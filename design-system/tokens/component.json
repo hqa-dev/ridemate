@@ -7,7 +7,7 @@
       "border": { "$value": "{border.width.thick} solid {color.border.strong}", "$type": "border" },
       "shadow": { "$value": "{shadow.card}", "$type": "shadow" },
       "radius": { "$value": "{radius.lg}", "$type": "dimension" },
-      "padding": { "$value": "12px 0", "$type": "dimension" },
+      "padding": { "$value": "12px 0", "$type": "string" },
       "fontSize": { "$value": "{font.size.md}", "$type": "dimension" },
       "fontWeight": { "$value": "{font.weight.extrabold}", "$type": "fontWeight" }
     },
@@ -18,7 +18,7 @@
       "border": { "$value": "{border.width.thick} solid {color.border.strong}", "$type": "border" },
       "shadow": { "$value": "{shadow.card}", "$type": "shadow" },
       "radius": { "$value": "{radius.lg}", "$type": "dimension" },
-      "padding": { "$value": "12px 0", "$type": "dimension" },
+      "padding": { "$value": "12px 0", "$type": "string" },
       "fontSize": { "$value": "{font.size.md}", "$type": "dimension" },
       "fontWeight": { "$value": "{font.weight.extrabold}", "$type": "fontWeight" }
     },
@@ -29,7 +29,7 @@
       "border": { "$value": "{border.width.thick} solid {color.border.strong}", "$type": "border" },
       "shadow": { "$value": "{shadow.card}", "$type": "shadow" },
       "radius": { "$value": "{radius.lg}", "$type": "dimension" },
-      "padding": { "$value": "12px 0", "$type": "dimension" },
+      "padding": { "$value": "12px 0", "$type": "string" },
       "fontSize": { "$value": "{font.size.md}", "$type": "dimension" },
       "fontWeight": { "$value": "{font.weight.extrabold}", "$type": "fontWeight" }
     },
@@ -47,16 +47,16 @@
       "text": { "$value": "{color.text.muted}", "$type": "color" },
       "border": { "$value": "none", "$type": "border" },
       "radius": { "$value": "{radius.2xl}", "$type": "dimension" },
-      "padding": { "$value": "12px", "$type": "dimension" },
+      "padding": { "$value": "12px", "$type": "string" },
       "fontSize": { "$value": "{font.size.lg}", "$type": "dimension" }
     },
     "subtle": {
       "$description": "Save button — light green bg, green text (profile page)",
-      "bg": { "$value": "{color.save.bg}", "$type": "color" },
+      "bg": { "$value": "{color.upload.bg}", "$type": "color" },
       "text": { "$value": "{color.status.success}", "$type": "color" },
       "border": { "$value": "none", "$type": "border" },
       "radius": { "$value": "{radius.xl}", "$type": "dimension" },
-      "padding": { "$value": "10px 16px", "$type": "dimension" },
+      "padding": { "$value": "10px 16px", "$type": "string" },
       "fontSize": { "$value": "{font.size.base}", "$type": "dimension" },
       "fontWeight": { "$value": "{font.weight.semibold}", "$type": "fontWeight" }
     },
@@ -66,7 +66,7 @@
       "text": { "$value": "{color.text.secondary}", "$type": "color" },
       "border": { "$value": "none", "$type": "border" },
       "radius": { "$value": "{radius.2xl}", "$type": "dimension" },
-      "padding": { "$value": "12px", "$type": "dimension" },
+      "padding": { "$value": "12px", "$type": "string" },
       "fontSize": { "$value": "{font.size.md}", "$type": "dimension" },
       "fontWeight": { "$value": "{font.weight.medium}", "$type": "fontWeight" }
     },
@@ -76,7 +76,7 @@
       "text": { "$value": "{color.status.error}", "$type": "color" },
       "border": { "$value": "{border.width.medium} solid {color.status.error}", "$type": "border" },
       "radius": { "$value": "{radius.xl}", "$type": "dimension" },
-      "padding": { "$value": "10px", "$type": "dimension" },
+      "padding": { "$value": "10px", "$type": "string" },
       "fontSize": { "$value": "{font.size.base}", "$type": "dimension" },
       "fontWeight": { "$value": "{font.weight.semibold}", "$type": "fontWeight" }
     }
@@ -115,7 +115,7 @@
       "bg": { "$value": "{color.bg.sunken}", "$type": "color" },
       "border": { "$value": "{border.width.medium} solid {color.text.muted}", "$type": "border" },
       "radius": { "$value": "{radius.base}", "$type": "dimension" },
-      "padding": { "$value": "10px 12px", "$type": "dimension" },
+      "padding": { "$value": "10px 12px", "$type": "string" },
       "fontSize": { "$value": "{font.size.base}", "$type": "dimension" },
       "color": { "$value": "{color.text.primary}", "$type": "color" }
     },
@@ -127,14 +127,14 @@
     "search": {
       "$description": "Search bar input on home page",
       "radius": { "$value": "{radius.full}", "$type": "dimension" },
-      "padding": { "$value": "14px 20px", "$type": "dimension" }
+      "padding": { "$value": "14px 20px", "$type": "string" }
     },
     "ride": {
       "$description": "Ride detail page input (pickup/dropoff)",
       "bg": { "$value": "{color.bg.sunken}", "$type": "color" },
       "border": { "$value": "1px solid {color.border.divider}", "$type": "border" },
       "radius": { "$value": "{radius.2xl}", "$type": "dimension" },
-      "padding": { "$value": "10px 14px", "$type": "dimension" },
+      "padding": { "$value": "10px 14px", "$type": "string" },
       "lineHeight": { "$value": "{font.lineHeight.loose}", "$type": "number" }
     }
   },

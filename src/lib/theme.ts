@@ -1,67 +1,67 @@
 // لیمۆ Theme Tokens — Bobby
-// Inspired by Bobby gum packaging: ink on white, orange-red + yellow accents
+// Wired to design-system CSS custom properties (dist/web/variables.css)
 export const T = {
   // Backgrounds
-  bg:        '#FAFAF7',          // aged paper white
-  card:      '#FFFFFF',          // pure white card
-  cardInner: '#F5F3EC',          // warm inner surfaces
-  modal:     '#FAFAF7',          // modal background
+  bg:        'var(--color-bg-canvas)',
+  card:      'var(--color-bg-surface)',
+  cardInner: 'var(--color-bg-sunken)',
+  modal:     'var(--color-bg-modal)',
 
   // Text
-  text:       '#1A1208',         // near-black ink
-  textBright: '#1A1208',         // same — no need to brighten on light bg
-  textMid:    '#4A3F2A',         // mid ink
-  textDim:    '#9A8F78',         // faded ink
-  textFaint:  '#9A8F78',         // same as dim on light bg
+  text:       'var(--color-text-primary)',
+  textBright: 'var(--color-text-primary)',
+  textMid:    'var(--color-text-secondary)',
+  textDim:    'var(--color-text-muted)',
+  textFaint:  'var(--color-text-muted)',
 
   // Brand accent
-  orange:     '#E8470A',         // Bobby box orange
-  accent:     '#E8470A',         // alias
-  accentFill: 'rgba(232,71,10,0.08)',
-  accentGlow: 'rgba(232,71,10,0.12)',
+  orange:     'var(--color-brand-primary)',
+  accent:     'var(--color-brand-primary)',
+  accentFill: 'var(--color-brand-fill)',
+  accentGlow: 'var(--color-brand-glow)',
 
   // Borders & dividers
-  border:     '#1A1208',         // thick ink border
-  cardBorder: '#1A1208',         // card outlines
-  borderDim:  'rgba(26,18,8,0.15)', // subtle inner borders
-  divider:    'rgba(26,18,8,0.25)', // dashed row dividers
+  border:     'var(--color-border-strong)',
+  cardBorder: 'var(--color-border-strong)',
+  borderDim:  'var(--color-border-subtle)',
+  divider:    'var(--color-border-divider)',
 
   // Status colors
-  green:      '#2A7A1A',         // approve / verified
-  greenBg:    'rgba(42,122,26,0.08)',
-  red:        '#C8001A',         // decline / full / destructive
-  redBg:      'rgba(200,0,26,0.07)',
-  yellow:     '#F5C800',         // warm gum yellow
-  yellowBg:   'rgba(245,200,0,0.12)',
-  amber:      '#F5C800',         // pending — same as yellow
-  amberBg:    'rgba(245,200,0,0.12)',
-  destructive: '#C8001A',        // logout / delete — same as red
-  verified:   '#2A7A1A',         // ✓ badge — same as green
-  whatsapp:   '#25D366',         // never changes
+  green:      'var(--color-status-success)',
+  greenBg:    'var(--color-status-successBg)',
+  red:        'var(--color-status-error)',
+  redBg:      'var(--color-status-errorBg)',
+  yellow:     'var(--color-status-warning)',
+  yellowBg:   'var(--color-status-warningBg)',
+  amber:      'var(--color-status-warning)',
+  amberBg:    'var(--color-status-warningBg)',
+  destructive: 'var(--color-status-error)',
+  verified:   'var(--color-status-success)',
+  whatsapp:   'var(--color-external-whatsapp)',
 
   // Navigation
-  navBg:            '#FFFFFF',
-  navBorder:        '#1A1208',
-  activePill:       '#E8470A',
-  activePillBorder: '#1A1208',
-  activePillShadow: '3px 3px 0 #1A1208',
-  navGlow:          'transparent',  // no glow in Bobby
+  navBg:            'var(--color-nav-bg)',
+  navBorder:        'var(--color-nav-border)',
+  activePill:       'var(--color-nav-activePill)',
+  activePillBorder: 'var(--color-nav-border)',
+  activePillShadow: 'var(--shadow-pill)',
+  navGlow:          'var(--color-nav-glow)',
 
   // Icons
-  iconDim: '#9A8F78',            // inactive nav icons
-  iconMid: '#4A3F2A',            // mid-prominence icons
+  iconDim: 'var(--color-icon-muted)',
+  iconMid: 'var(--color-icon-default)',
 
   // On-accent
-  onAccent:   '#FFFFFF',             // white text/icon on accent bg
+  onAccent:   'var(--color-text-onAccent)',
 
   // Overlays
-  backdrop:    'rgba(0,0,0,0.7)',    // modal backdrop
-  toastShadow: '0 8px 32px rgba(0,0,0,0.6)', // toast / floating card shadow
+  backdrop:    'var(--color-overlay-backdrop)',
+  toastShadow: 'var(--shadow-float)',
 
   // Misc
-  chipBg:     'rgba(26,18,8,0.06)',
-  cardShadow: '3px 3px 0 #1A1208',  // hard comic drop shadow
-  shadow:     '2px 2px 0 #1A1208',  // smaller elements
-  radius:     12,
+  chipBg:     'var(--color-chip-bg)',
+  cardShadow: 'var(--shadow-card)',
+  shadow:     'var(--shadow-sm)',
+  radius:     'var(--radius-2xl)',
 } as const
 export type Theme = typeof T

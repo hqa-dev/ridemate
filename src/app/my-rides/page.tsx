@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react'
 import { BottomNav } from '@/components/layout/BottomNav'
 import { createClient } from '@/lib/supabase/client'
-import { T } from '@/lib/theme'
 import { RideCard } from '@/components/ui/RideCard'
 import { REQUEST_STATUS, RIDE_CANCELLED_STATUS } from '@/lib/constants'
 import PageHeader from '@/components/ui/PageHeader'
@@ -32,16 +31,16 @@ export default function MyRidesPage() {
 
   return (
     <div style={{
-      direction: 'rtl', minHeight: '100vh', background: T.bg,
-      maxWidth: 480, margin: '0 auto',
-      paddingBottom: 100,
+      direction: 'rtl', minHeight: '100vh', background: 'var(--color-bg-canvas)',
+      maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto',
+      paddingBottom: 'var(--space-navClearanceLg)',
     }}>
       <PageHeader title="گەشتەکانم" back />
 
-      <div style={{ padding: '0 20px' }}>
+      <div style={{ padding: '0 var(--space-page-x)' }}>
         {loading ? <div /> : rides.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-            <p style={{ fontSize: 13, color: T.textDim }}>هێشتا داوای هیچ گەشتێکت نەکردووە</p>
+          <div style={{ textAlign: 'center', padding: '60px var(--space-page-x)' }}>
+            <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-muted)' }}>هێشتا داوای هیچ گەشتێکت نەکردووە</p>
           </div>
         ) : rides.map(req => {
           const ride = req.ride

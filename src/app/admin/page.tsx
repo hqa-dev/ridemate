@@ -1,7 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { T } from '@/lib/theme'
 
 const ADMIN_EMAILS = ['hawiefr@gmail.com', 'hawkarakrd@gmail.com']
 
@@ -68,78 +67,78 @@ export default function AdminPage() {
     setExpanded(null)
   }
 
-  if (loading) return <div style={{ padding: '2rem', textAlign: 'center' }}>Loading...</div>
-  if (!authorized) return <div style={{ padding: '2rem', textAlign: 'center', color: T.red }}>Access denied</div>
+  if (loading) return <div style={{ padding: 'var(--space-8)', textAlign: 'center' }}>Loading...</div>
+  if (!authorized) return <div style={{ padding: 'var(--space-8)', textAlign: 'center', color: 'var(--color-status-error)' }}>Access denied</div>
 
-  const imgStyle = { width: '100%', maxWidth: '300px', borderRadius: '0.5rem', cursor: 'pointer' } as React.CSSProperties
+  const imgStyle = { width: '100%', maxWidth: '300px', borderRadius: 'var(--radius-base)', cursor: 'pointer' } as React.CSSProperties
 
   return (
-    <div style={{ maxWidth: '600px', margin: '0 auto', padding: '2rem 1.25rem' }}>
-      <h1 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.5rem', color: T.text }}>Admin</h1>
-      <p style={{ color: T.textDim, marginBottom: '2rem' }}>{pending.length} pending</p>
+    <div style={{ maxWidth: '600px', margin: '0 auto', padding: 'var(--space-8) var(--space-5)' }}>
+      <h1 style={{ fontSize: '1.5rem', fontWeight: 'var(--font-weight-bold)' as unknown as number, marginBottom: 'var(--space-2)', color: 'var(--color-text-primary)' }}>Admin</h1>
+      <p style={{ color: 'var(--color-text-muted)', marginBottom: 'var(--space-8)' }}>{pending.length} pending</p>
 
       {pending.length === 0 && (
-        <div style={{ background: T.card, border: `1px solid ${T.borderDim}`, borderRadius: '1rem', padding: '1.25rem', textAlign: 'center', color: T.iconDim }}>No pending verifications</div>
+        <div style={{ background: 'var(--color-bg-surface)', border: 'var(--border-width-thin) solid var(--color-border-subtle)', borderRadius: 'var(--radius-4xl)', padding: 'var(--space-5)', textAlign: 'center', color: 'var(--color-icon-muted)' }}>No pending verifications</div>
       )}
 
       {pending.map(p => (
-        <div key={p.id} style={{ background: T.card, border: expanded === p.id ? `2px solid ${T.accent}` : `1px solid ${T.borderDim}`, borderRadius: '1rem', marginBottom: '0.5rem', overflow: 'hidden' }}>
+        <div key={p.id} style={{ background: 'var(--color-bg-surface)', border: expanded === p.id ? 'var(--border-width-thick) solid var(--color-brand-primary)' : 'var(--border-width-thin) solid var(--color-border-subtle)', borderRadius: 'var(--radius-4xl)', marginBottom: 'var(--space-2)', overflow: 'hidden' }}>
           <div
             onClick={() => handleExpand(p.id)}
-            style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem 1.25rem', cursor: 'pointer' }}
+            style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 'var(--space-4) var(--space-5)', cursor: 'pointer' }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <div style={{ width: 40, height: 40, borderRadius: 10, background: T.accentFill, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', fontWeight: 700, color: T.accent }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+              <div style={{ width: 'var(--size-avatar-lg)', height: 'var(--size-avatar-lg)', borderRadius: 'var(--radius-xl)', background: 'var(--color-brand-fill)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-brand-primary)' }}>
                 {(p.full_name || '?').charAt(0)}
               </div>
               <div>
-                <div style={{ fontWeight: 600, fontSize: '0.95rem', color: T.text }}>{p.full_name || 'No name'}</div>
-                <div style={{ fontSize: '0.75rem', color: T.iconDim }}>{p.email} &middot; {p.role}</div>
+                <div style={{ fontWeight: 'var(--font-weight-semibold)' as unknown as number, fontSize: '0.95rem', color: 'var(--color-text-primary)' }}>{p.full_name || 'No name'}</div>
+                <div style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-icon-muted)' }}>{p.email} &middot; {p.role}</div>
               </div>
             </div>
-            <span style={{ fontSize: '1.2rem', color: T.iconDim, transition: 'transform 0.2s', transform: expanded === p.id ? 'rotate(180deg)' : 'rotate(0deg)' }}>&#9660;</span>
+            <span style={{ fontSize: '1.2rem', color: 'var(--color-icon-muted)', transition: 'transform var(--motion-duration-normal)', transform: expanded === p.id ? 'rotate(180deg)' : 'rotate(0deg)' }}>&#9660;</span>
           </div>
 
           {expanded === p.id && (
-            <div style={{ padding: '0 1.25rem 1.25rem', borderTop: `1px solid ${T.borderDim}` }}>
+            <div style={{ padding: '0 var(--space-5) var(--space-5)', borderTop: 'var(--border-width-thin) solid var(--color-border-subtle)' }}>
               {loadingDocs === p.id ? (
-                <p style={{ color: T.iconDim, fontSize: '0.85rem', padding: '1rem 0' }}>Loading documents...</p>
+                <p style={{ color: 'var(--color-icon-muted)', fontSize: '0.85rem', padding: 'var(--space-4) 0' }}>Loading documents...</p>
               ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)', marginTop: 'var(--space-4)' }}>
                   {docUrls[p.id]?.id && (
                     <div>
-                      <div style={{ fontSize: '0.75rem', color: T.textDim, marginBottom: '0.25rem', fontWeight: 600 }}>ID</div>
+                      <div style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)', fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>ID</div>
                       <a href={docUrls[p.id].id} target="_blank" rel="noopener noreferrer"><img src={docUrls[p.id].id} alt="ID" style={imgStyle} /></a>
                     </div>
                   )}
                   {docUrls[p.id]?.selfie && (
                     <div>
-                      <div style={{ fontSize: '0.75rem', color: T.textDim, marginBottom: '0.25rem', fontWeight: 600 }}>Selfie</div>
+                      <div style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)', fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>Selfie</div>
                       <a href={docUrls[p.id].selfie} target="_blank" rel="noopener noreferrer"><img src={docUrls[p.id].selfie} alt="Selfie" style={imgStyle} /></a>
                     </div>
                   )}
                   {docUrls[p.id]?.license && (
                     <div>
-                      <div style={{ fontSize: '0.75rem', color: T.textDim, marginBottom: '0.25rem', fontWeight: 600 }}>License</div>
+                      <div style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)', fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>License</div>
                       <a href={docUrls[p.id].license} target="_blank" rel="noopener noreferrer"><img src={docUrls[p.id].license} alt="License" style={imgStyle} /></a>
                     </div>
                   )}
                   {!docUrls[p.id]?.id && !docUrls[p.id]?.selfie && !docUrls[p.id]?.license && (
-                    <p style={{ color: T.iconDim, fontSize: '0.85rem' }}>No documents uploaded</p>
+                    <p style={{ color: 'var(--color-icon-muted)', fontSize: '0.85rem' }}>No documents uploaded</p>
                   )}
                 </div>
               )}
 
-              <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1.25rem' }}>
+              <div style={{ display: 'flex', gap: 'var(--space-2)', marginTop: 'var(--space-5)' }}>
                 <button
                   onClick={() => handleApprove(p.id)}
-                  style={{ flex: 1, background: T.green, color: T.onAccent, border: 'none', borderRadius: '0.75rem', padding: '0.7rem', fontSize: '0.9rem', fontWeight: 600, cursor: 'pointer' }}
+                  style={{ flex: 1, background: 'var(--color-status-success)', color: 'var(--color-text-onAccent)', border: 'none', borderRadius: 'var(--radius-2xl)', padding: '0.7rem', fontSize: '0.9rem', fontWeight: 'var(--font-weight-semibold)' as unknown as number, cursor: 'pointer' }}
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => handleDecline(p.id)}
-                  style={{ flex: 1, background: T.red, color: T.onAccent, border: 'none', borderRadius: '0.75rem', padding: '0.7rem', fontSize: '0.9rem', fontWeight: 600, cursor: 'pointer' }}
+                  style={{ flex: 1, background: 'var(--color-status-error)', color: 'var(--color-text-onAccent)', border: 'none', borderRadius: 'var(--radius-2xl)', padding: '0.7rem', fontSize: '0.9rem', fontWeight: 'var(--font-weight-semibold)' as unknown as number, cursor: 'pointer' }}
                 >
                   Decline
                 </button>

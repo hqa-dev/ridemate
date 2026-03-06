@@ -1,6 +1,6 @@
 'use client'
 
-import { T } from '@/lib/theme'
+import { cssVar } from '@/lib/css-vars'
 
 interface ButtonProps {
   label: string
@@ -10,24 +10,36 @@ interface ButtonProps {
   disabled?: boolean
 }
 
-const variants = {
+const variants: Record<string, React.CSSProperties> = {
   primary: {
-    background: T.accent,
-    color: T.onAccent,
-    border: `2px solid ${T.text}`,
-    boxShadow: `3px 3px 0 ${T.text}`,
+    background: 'var(--button-primary-bg)',
+    color: 'var(--button-primary-text)',
+    border: 'var(--button-primary-border)',
+    boxShadow: 'var(--button-primary-shadow)',
+    borderRadius: 'var(--button-primary-radius)',
+    padding: 'var(--button-primary-padding)',
+    fontSize: 'var(--button-primary-fontSize)',
+    fontWeight: cssVar('--button-primary-fontWeight'),
   },
   secondary: {
-    background: T.card,
-    color: T.text,
-    border: `2px solid ${T.text}`,
-    boxShadow: `3px 3px 0 ${T.text}`,
+    background: 'var(--button-secondary-bg)',
+    color: 'var(--button-secondary-text)',
+    border: 'var(--button-secondary-border)',
+    boxShadow: 'var(--button-secondary-shadow)',
+    borderRadius: 'var(--button-secondary-radius)',
+    padding: 'var(--button-secondary-padding)',
+    fontSize: 'var(--button-secondary-fontSize)',
+    fontWeight: cssVar('--button-secondary-fontWeight'),
   },
   danger: {
-    background: T.red,
-    color: T.onAccent,
-    border: `2px solid ${T.text}`,
-    boxShadow: `3px 3px 0 ${T.text}`,
+    background: 'var(--button-danger-bg)',
+    color: 'var(--button-danger-text)',
+    border: 'var(--button-danger-border)',
+    boxShadow: 'var(--button-danger-shadow)',
+    borderRadius: 'var(--button-danger-radius)',
+    padding: 'var(--button-danger-padding)',
+    fontSize: 'var(--button-danger-fontSize)',
+    fontWeight: cssVar('--button-danger-fontWeight'),
   },
 }
 
@@ -39,13 +51,9 @@ export default function Button({ label, onClick, variant = 'primary', style, dis
       disabled={disabled}
       style={{
         width: '100%',
-        borderRadius: 9,
-        padding: '12px 0',
-        fontSize: 13,
-        fontWeight: 800,
         textAlign: 'center',
         cursor: disabled ? 'default' : 'pointer',
-        opacity: disabled ? 0.5 : 1,
+        opacity: disabled ? cssVar('--opacity-disabled') : 1,
         ...v,
         ...style,
       }}

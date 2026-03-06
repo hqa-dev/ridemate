@@ -2,7 +2,7 @@ import { T } from '@/lib/theme'
 
 export default function RouteLine({ from, to, dep, arr }: { from: string; to: string; dep: string; arr: string }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }} dir="rtl">
+    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-1-5)'}} dir="rtl">
       {/* Departure — RIGHT — orange */}
       <div style={{ textAlign: 'center', minWidth: 38 }}>
         <div style={{ fontSize: 13, fontWeight: 700, color: T.accent }}>{dep}</div>

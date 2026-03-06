@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation'
 import { BottomNav } from '@/components/layout/BottomNav'
 import { createClient } from '@/lib/supabase/client'
 import { CITIES, toKurdishNum, formatKurdishDate } from '@/lib/utils'
-import { T } from '@/lib/theme'
 import PageHeader from '@/components/ui/PageHeader'
 import SectionLabel from '@/components/ui/SectionLabel'
 import Card from '@/components/ui/Card'
@@ -18,15 +17,15 @@ function nameColor(name: string) {
 
 function getTypeIcon(type: string) {
   const colors: Record<string, string> = {
-    request_received: T.orange,
-    request_approved: T.green,
-    request_declined: T.red,
-    passenger_cancelled: T.red,
-    ride_completed: T.green,
-    ride_cancelled: T.red,
-    ride_updated: T.amber,
+    request_received: 'var(--color-brand-primary)',
+    request_approved: 'var(--color-status-success)',
+    request_declined: 'var(--color-status-error)',
+    passenger_cancelled: 'var(--color-status-error)',
+    ride_completed: 'var(--color-status-success)',
+    ride_cancelled: 'var(--color-status-error)',
+    ride_updated: 'var(--color-status-warning)',
   }
-  const c = colors[type] || T.textMid
+  const c = colors[type] || 'var(--color-text-secondary)'
   switch (type) {
     case 'request_received':
       return <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
@@ -47,13 +46,13 @@ function getTypeIcon(type: string) {
 }
 
 const statusText: Record<string, { text: string; color: string }> = {
-  request_received: { text: 'دەیەوێ بێ', color: T.orange },
-  request_approved: { text: 'قبوڵ کرا', color: T.green },
-  request_declined: { text: 'ڕەت کرایەوە', color: T.red },
-  passenger_cancelled: { text: 'پاشگەزبووەوە', color: T.red },
-  ride_completed: { text: 'هەڵیسەنگێنە', color: T.green },
-  ride_cancelled: { text: 'هەڵوەشێنرایەوە', color: T.red },
-  ride_updated: { text: 'گۆڕانکاری', color: T.amber },
+  request_received: { text: 'دەیەوێ بێ', color: 'var(--color-brand-primary)' },
+  request_approved: { text: 'قبوڵ کرا', color: 'var(--color-status-success)' },
+  request_declined: { text: 'ڕەت کرایەوە', color: 'var(--color-status-error)' },
+  passenger_cancelled: { text: 'پاشگەزبووەوە', color: 'var(--color-status-error)' },
+  ride_completed: { text: 'هەڵیسەنگێنە', color: 'var(--color-status-success)' },
+  ride_cancelled: { text: 'هەڵوەشێنرایەوە', color: 'var(--color-status-error)' },
+  ride_updated: { text: 'گۆڕانکاری', color: 'var(--color-status-warning)' },
 }
 
 interface NotifItem {
@@ -218,20 +217,20 @@ export default function NotificationsPage() {
 
   return (
     <div style={{
-      direction: 'rtl', minHeight: '100vh', background: T.bg,
-      maxWidth: 480, margin: '0 auto',
-      paddingBottom: 100,
+      direction: 'rtl', minHeight: '100vh', background: 'var(--color-bg-canvas)',
+      maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto',
+      paddingBottom: 'var(--space-navClearanceLg)',
     }}>
       <PageHeader title="ئاگاداری" back />
 
-      {error && <p style={{ color: T.red, fontSize: 12, textAlign: 'center', padding: '0 16px 8px' }}>{error}</p>}
+      {error && <p style={{ color: 'var(--color-status-error)', fontSize: 'var(--font-size-base)', textAlign: 'center', padding: '0 var(--space-4) var(--space-2)' }}>{error}</p>}
 
       {loading ? <div /> : (
         <>
           {unseenNotifications.length > 0 && (
             <>
-              <div style={{ padding: '0 4px' }}><SectionLabel label="نوێ" /></div>
-              <Card style={{ margin: '0 16px 16px', borderRadius: 12, padding: '0 16px' }}>
+              <div style={{ padding: '0 var(--space-1)' }}><SectionLabel label="نوێ" /></div>
+              <Card style={{ margin: '0 var(--space-4) var(--space-4)', borderRadius: 'var(--radius-2xl)', padding: '0 var(--space-4)' }}>
                 {unseenNotifications.map((n, i) => (
                   <NotifRow key={n.id} n={n} isLast={i === unseenNotifications.length - 1} onApprove={handleApprove} onDecline={handleDecline} processing={processing} router={router} />
                 ))}
@@ -241,8 +240,8 @@ export default function NotificationsPage() {
 
           {seenNotifications.length > 0 && (
             <>
-              <div style={{ padding: '0 4px' }}><SectionLabel label="پێشوو" /></div>
-              <Card style={{ margin: '0 16px', borderRadius: 12, padding: '0 16px' }}>
+              <div style={{ padding: '0 var(--space-1)' }}><SectionLabel label="پێشوو" /></div>
+              <Card style={{ margin: '0 var(--space-4)', borderRadius: 'var(--radius-2xl)', padding: '0 var(--space-4)' }}>
                 {seenNotifications.map((n, i) => (
                   <NotifRow key={n.id} n={n} isLast={i === seenNotifications.length - 1} onApprove={handleApprove} onDecline={handleDecline} processing={processing} router={router} />
                 ))}
@@ -251,12 +250,12 @@ export default function NotificationsPage() {
           )}
 
           {unseenNotifications.length === 0 && seenNotifications.length === 0 && (
-            <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ margin: '0 auto 12px', display: 'block' }}>
+            <div style={{ textAlign: 'center', padding: '60px var(--space-page-x)' }}>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-icon-muted)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ margin: '0 auto var(--space-3)', display: 'block' }}>
                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
                 <path d="M13.73 21a2 2 0 0 1-3.46 0" />
               </svg>
-              <p style={{ fontSize: 13, color: T.textDim }}>هیچ ئاگادارییەک نییە</p>
+              <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-muted)' }}>هیچ ئاگادارییەک نییە</p>
             </div>
           )}
         </>
@@ -272,20 +271,20 @@ function NotifRow({ n, isLast, onApprove, onDecline, processing, router }: {
 }) {
   const isActionable = n.type === 'request_received' && n.requestStatus === 'pending'
   const isProcessing = processing === n.id
-  const st = statusText[n.type] || { text: '', color: T.textDim }
+  const st = statusText[n.type] || { text: '', color: 'var(--color-text-muted)' }
 
   return (
-    <div style={{ borderBottom: isLast ? 'none' : `1.5px dashed ${T.textDim}` }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 0' }}>
+    <div style={{ borderBottom: isLast ? 'none' : 'var(--border-width-medium) dashed var(--color-text-muted)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', padding: 'var(--space-card-md) 0' }}>
         {/* Avatar + name */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0, cursor: 'pointer' }}>
-          <div style={{ width:36, height:36, borderRadius:8, border:`2px solid ${T.text}`, background:nameColor(n.personName), display:'flex', alignItems:'center', justifyContent:'center', fontSize:14, fontWeight:800, color:T.onAccent, flexShrink:0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', flexShrink: 0, cursor: 'pointer' }}>
+          <div style={{ width: 'var(--size-button-iconLg)', height: 'var(--size-button-iconLg)', borderRadius: 'var(--radius-base)', border: 'var(--border-width-thick) solid var(--color-text-primary)', background: nameColor(n.personName), display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number, color: 'var(--color-text-onAccent)', flexShrink: 0 }}>
             {n.personName.charAt(0)}
           </div>
-          <div style={{ width: 1, height: 28, background: T.borderDim, flexShrink: 0 }} />
+          <div style={{ width: 1, height: 'var(--space-7)', background: 'var(--color-border-subtle)', flexShrink: 0 }} />
           <div>
-            <div style={{ fontSize: 13, fontWeight: !n.seen ? 700 : 500, color: !n.seen ? T.text : T.textDim }}>{n.personName}</div>
-            <div style={{ fontSize: 11, color: T.textDim, marginTop: 2 }}>{[n.route, n.date].filter(Boolean).join(' · ')}</div>
+            <div style={{ fontSize: 'var(--font-size-md)', fontWeight: !n.seen ? 'var(--font-weight-bold)' as unknown as number : 'var(--font-weight-medium)' as unknown as number, color: !n.seen ? 'var(--color-text-primary)' : 'var(--color-text-muted)' }}>{n.personName}</div>
+            <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', marginTop: 2 }}>{[n.route, n.date].filter(Boolean).join(' · ')}</div>
           </div>
         </div>
 
@@ -295,17 +294,17 @@ function NotifRow({ n, isLast, onApprove, onDecline, processing, router }: {
           onClick={() => { if (!isActionable) router.push(`/rides/${n.rideId}`) }}
         >
           {(n.type === 'request_received' || n.type === 'passenger_cancelled') ? (
-            <span style={{ fontSize: 10, color: T.textMid, fontWeight: 600, border: `1.5px solid ${T.textDim}`, borderRadius: 5, padding: '2px 8px', background: T.cardInner, display: 'inline-block' }}>{st.text}</span>
+            <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, border: 'var(--border-width-medium) solid var(--color-text-muted)', borderRadius: 'var(--radius-xs)', padding: '2px var(--space-2)', background: 'var(--color-bg-sunken)', display: 'inline-block' }}>{st.text}</span>
           ) : (
-            <span style={{ fontSize: 10, color: st.color, fontWeight: 700, border: `2px solid currentColor`, borderRadius: 6, padding: '2px 7px', boxShadow: `2px 2px 0 ${T.text}`, display: 'inline-block' }}>{st.text}</span>
+            <span style={{ fontSize: 'var(--font-size-xs)', color: st.color, fontWeight: 'var(--font-weight-bold)' as unknown as number, border: 'var(--border-width-thick) solid currentColor', borderRadius: 'var(--radius-sm)', padding: '2px 7px', boxShadow: 'var(--shadow-sm)', display: 'inline-block' }}>{st.text}</span>
           )}
           {(n.pickup && n.pickup.length > 2 && n.dropoff && n.dropoff.length > 2) && (
-            <div style={{ fontSize: 10, color: T.iconDim, marginTop: 2 }}>
+            <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-icon-muted)', marginTop: 2 }}>
               {n.pickup} ← {n.dropoff}
             </div>
           )}
           {n.type === 'ride_updated' && n.metadata?.changes && (
-            <div style={{ fontSize: 10, color: T.iconDim, marginTop: 2 }}>
+            <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-icon-muted)', marginTop: 2 }}>
               {(n.metadata.changes as string[]).join(' · ')}
             </div>
           )}
@@ -313,16 +312,16 @@ function NotifRow({ n, isLast, onApprove, onDecline, processing, router }: {
 
         {/* Actions or arrow */}
         {isActionable ? (
-          <div style={{ display:'flex', gap:6, flexShrink:0 }}>
-            <button onClick={() => onApprove(n)} disabled={isProcessing} style={{ width:32, height:32, borderRadius:7, background:T.green, border:`2px solid ${T.text}`, boxShadow:`2px 2px 0 ${T.text}`, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer' }}>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={T.onAccent} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          <div style={{ display: 'flex', gap: 'var(--space-1-5)', flexShrink: 0 }}>
+            <button onClick={() => onApprove(n)} disabled={isProcessing} style={{ width: 'var(--size-button-icon)', height: 'var(--size-button-icon)', borderRadius: 'var(--radius-md)', background: 'var(--color-status-success)', border: 'var(--border-width-thick) solid var(--color-text-primary)', boxShadow: 'var(--shadow-sm)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-onAccent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
             </button>
-            <button onClick={() => onDecline(n)} disabled={isProcessing} style={{ width:32, height:32, borderRadius:7, background:T.red, border:`2px solid ${T.text}`, boxShadow:`2px 2px 0 ${T.text}`, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer' }}>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={T.onAccent} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            <button onClick={() => onDecline(n)} disabled={isProcessing} style={{ width: 'var(--size-button-icon)', height: 'var(--size-button-icon)', borderRadius: 'var(--radius-md)', background: 'var(--color-status-error)', border: 'var(--border-width-thick) solid var(--color-text-primary)', boxShadow: 'var(--shadow-sm)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-onAccent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
           </div>
         ) : (
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, cursor: 'pointer' }} onClick={() => router.push(`/rides/${n.rideId}`)}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-icon-muted)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, cursor: 'pointer' }} onClick={() => router.push(`/rides/${n.rideId}`)}>
             <polyline points="9 18 15 12 9 6" />
           </svg>
         )}

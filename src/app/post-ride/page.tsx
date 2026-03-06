@@ -4,7 +4,6 @@ import { BottomNav } from '@/components/layout/BottomNav'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { CITIES, toKurdishNum } from '@/lib/utils'
-import { T } from '@/lib/theme'
 import { RideCard } from '@/components/ui/RideCard'
 import SketchCar from '@/components/ui/icons/SketchCar'
 import Card from '@/components/ui/Card'
@@ -187,9 +186,17 @@ export default function PostRidePage() {
     }
   }
 
+  const carInputStyle: React.CSSProperties = {
+    background: 'var(--input-ride-bg)', border: 'var(--input-standard-border)',
+    borderRadius: 'var(--radius-base)', padding: 'var(--input-standard-padding)',
+    width: '100%', fontSize: 'var(--font-size-base)', color: 'var(--color-text-primary)',
+    WebkitTextFillColor: 'var(--color-text-primary)', outline: 'none',
+    fontFamily: 'var(--font-family-body)',
+  }
+
   // ─── Loading ───
   if (checking) return (
-    <div style={{ direction: 'rtl', minHeight: '100vh', background: T.bg, maxWidth: 480, margin: '0 auto' }}>
+    <div style={{ direction: 'rtl', minHeight: '100vh', background: 'var(--color-bg-canvas)', maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto' }}>
       <BottomNav />
     </div>
   )
@@ -200,20 +207,20 @@ export default function PostRidePage() {
   if (!isVerifiedDriver) {
     if (submitted) return (
       <div style={{
-        direction: 'rtl', minHeight: '100vh', background: T.bg,
-        maxWidth: 480, margin: '0 auto', display: 'flex', flexDirection: 'column',
-        alignItems: 'center', justifyContent: 'center', padding: '24px 20px',
+        direction: 'rtl', minHeight: '100vh', background: 'var(--color-bg-canvas)',
+        maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto', display: 'flex', flexDirection: 'column',
+        alignItems: 'center', justifyContent: 'center', padding: 'var(--space-page-top) var(--space-page-x)',
       }}>
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke={T.green} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: 20 }}>
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-status-success)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: 'var(--space-5)' }}>
           <circle cx="12" cy="12" r="10" /><polyline points="8 12 11 15 16 9" />
         </svg>
-        <h2 style={{ fontSize: 20, fontWeight: 700, color: T.text, marginBottom: 8 }}>ناسنامەکانت نێردران</h2>
-        <p style={{ fontSize: 13, color: T.textDim, textAlign: 'center', marginBottom: 32, lineHeight: 1.8 }}>
+        <h2 style={{ fontSize: 'var(--font-size-4xl)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)', marginBottom: 'var(--space-2)' }}>ناسنامەکانت نێردران</h2>
+        <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-muted)', textAlign: 'center', marginBottom: 'var(--space-8)', lineHeight: 'var(--font-lineHeight-relaxed)' }}>
           کاتێک پشتڕاست کرایتەوە، دەتوانیت گەشت پۆست بکەیت
         </p>
         <div onClick={() => router.push('/home')} style={{
-          background: T.card, border: `1px solid ${T.border}`, borderRadius: 12,
-          padding: '12px 24px', fontSize: 13, color: T.textMid, cursor: 'pointer',
+          background: 'var(--color-bg-surface)', border: 'var(--border-width-thin) solid var(--color-border-strong)', borderRadius: 'var(--radius-2xl)',
+          padding: 'var(--space-3) var(--space-6)', fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)', cursor: 'pointer',
         }}>گەڕانەوە بۆ سەرەکی</div>
         <BottomNav />
       </div>
@@ -221,45 +228,45 @@ export default function PostRidePage() {
 
     return (
       <div style={{
-        direction: 'rtl', height: '100vh', background: T.bg,
-        maxWidth: 480, margin: '0 auto', display: 'flex', flexDirection: 'column',
+        direction: 'rtl', height: '100vh', background: 'var(--color-bg-canvas)',
+        maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto', display: 'flex', flexDirection: 'column',
       }}>
-        <div style={{ padding: '24px 20px 0', flexShrink: 0 }}>
-          <span onClick={() => router.push('/home')} style={{ color: T.textFaint, fontSize: 13, cursor: 'pointer' }}>← گەڕانەوە</span>
+        <div style={{ padding: 'var(--space-page-top) var(--space-page-x) 0', flexShrink: 0 }}>
+          <span onClick={() => router.push('/home')} style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-md)', cursor: 'pointer' }}>← گەڕانەوە</span>
         </div>
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 20px' }}>
-          <h1 style={{ fontSize: 20, fontWeight: 800, color: T.text, marginBottom: 10, lineHeight: 1.6 }}>
-            بۆ بوون بە <span style={{ color: T.orange }}>شۆفێر</span>، پێویستە خۆت ڤێریفای بکەی
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 var(--space-page-x)' }}>
+          <h1 style={{ fontSize: 'var(--font-size-4xl)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number, color: 'var(--color-text-primary)', marginBottom: 10, lineHeight: 'var(--font-lineHeight-tight)' }}>
+            بۆ بوون بە <span style={{ color: 'var(--color-brand-primary)' }}>شۆفێر</span>، پێویستە خۆت ڤێریفای بکەی
           </h1>
-          <p style={{ color: T.textDim, marginBottom: 28, fontSize: 12, lineHeight: 1.8 }}>
+          <p style={{ color: 'var(--color-text-muted)', marginBottom: 'var(--space-7)', fontSize: 'var(--font-size-base)', lineHeight: 'var(--font-lineHeight-relaxed)' }}>
             مۆڵەتی شۆفێری و سێلفی بنێرە بۆ ئەوەی ببی بە شۆفێڕ
           </p>
-          {uploadError && <p style={{ color: T.red, fontSize: 12, marginBottom: 12 }}>{uploadError}</p>}
+          {uploadError && <p style={{ color: 'var(--color-status-error)', fontSize: 'var(--font-size-base)', marginBottom: 'var(--space-3)' }}>{uploadError}</p>}
 
           <input type="file" accept="image/*" ref={licenseRef} style={{ display: 'none' }} onChange={e => setLicenseFile(e.target.files?.[0] || null)} />
           <div onClick={() => licenseRef.current?.click()} style={{
-            background: T.card, border: `1px solid ${licenseFile ? 'rgba(74,222,128,0.15)' : T.border}`,
-            borderRadius: 16, padding: 20, marginBottom: 10, cursor: 'pointer',
+            background: 'var(--color-bg-surface)', border: `var(--border-width-thin) solid ${licenseFile ? 'var(--color-upload-border)' : 'var(--color-border-strong)'}`,
+            borderRadius: 'var(--radius-4xl)', padding: 'var(--space-5)', marginBottom: 10, cursor: 'pointer',
           }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
-              <span style={{ fontSize: 9, color: T.textFaint, letterSpacing: 1 }}>مۆڵەتی شۆفێری</span>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <span style={{ fontSize: 9, color: T.textFaint, letterSpacing: 1.5 }}>کوردستان</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={T.textFaint} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M2 12h20" /><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20" /></svg>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-4)' }}>
+              <span style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', letterSpacing: 'var(--font-letterSpacing-wide)' }}>مۆڵەتی شۆفێری</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-1-5)' }}>
+                <span style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', letterSpacing: 'var(--font-letterSpacing-wider)' }}>کوردستان</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M2 12h20" /><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20" /></svg>
               </div>
             </div>
-            <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
-              <div style={{ width: 56, height: 68, borderRadius: 8, background: licenseFile ? 'rgba(74,222,128,0.08)' : T.cardInner, border: `1px solid ${licenseFile ? 'rgba(74,222,128,0.2)' : T.divider}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {licenseFile ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={T.green} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="8 12 11 15 16 9" /></svg> : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4" /><path d="M20 21c0-3.31-3.58-6-8-6s-8 2.69-8 6" /></svg>}
+            <div style={{ display: 'flex', gap: 'var(--space-card-md)', alignItems: 'center' }}>
+              <div style={{ width: 'var(--size-upload-licenseThumbnail)', height: 'var(--size-upload-licenseThumbnailH)', borderRadius: 'var(--radius-base)', background: licenseFile ? 'var(--color-upload-filled)' : 'var(--color-bg-sunken)', border: `var(--border-width-thin) solid ${licenseFile ? 'var(--color-upload-dashedBorder)' : 'var(--color-border-divider)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {licenseFile ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-status-success)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="8 12 11 15 16 9" /></svg> : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-icon-muted)" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4" /><path d="M20 21c0-3.31-3.58-6-8-6s-8 2.69-8 6" /></svg>}
               </div>
               <div style={{ flex: 1 }}>
-                <div style={{ height: 6, background: T.cardInner, borderRadius: 3, width: '80%', marginBottom: 8 }} />
-                <div style={{ height: 6, background: T.cardInner, borderRadius: 3, width: '60%', marginBottom: 8 }} />
-                <div style={{ height: 6, background: T.cardInner, borderRadius: 3, width: '45%' }} />
+                <div style={{ height: 'var(--size-skeleton)', background: 'var(--color-bg-sunken)', borderRadius: 3, width: '80%', marginBottom: 'var(--space-2)' }} />
+                <div style={{ height: 'var(--size-skeleton)', background: 'var(--color-bg-sunken)', borderRadius: 3, width: '60%', marginBottom: 'var(--space-2)' }} />
+                <div style={{ height: 'var(--size-skeleton)', background: 'var(--color-bg-sunken)', borderRadius: 3, width: '45%' }} />
               </div>
             </div>
-            <div style={{ borderTop: `1px solid ${T.border}`, marginTop: 16, paddingTop: 12, textAlign: 'center' }}>
-              <span style={{ fontSize: 12, color: licenseFile ? T.green : T.textDim, fontWeight: 500 }}>
+            <div style={{ borderTop: 'var(--border-width-thin) solid var(--color-border-strong)', marginTop: 'var(--space-4)', paddingTop: 'var(--space-3)', textAlign: 'center' }}>
+              <span style={{ fontSize: 'var(--font-size-base)', color: licenseFile ? 'var(--color-status-success)' : 'var(--color-text-muted)', fontWeight: 'var(--font-weight-medium)' as unknown as number }}>
                 {licenseFile ? 'ناردنمان! چاوەڕێی وەڵامبە' : 'وێنەی مۆڵەتنامەکەت ئەپلۆد بکە'}
               </span>
             </div>
@@ -267,26 +274,26 @@ export default function PostRidePage() {
 
           <input type="file" accept="image/*" capture="user" ref={selfieRef} style={{ display: 'none' }} onChange={e => setSelfieFile(e.target.files?.[0] || null)} />
           <div onClick={() => selfieRef.current?.click()} style={{
-            background: T.card, border: `1px solid ${selfieFile ? 'rgba(74,222,128,0.15)' : T.border}`,
-            borderRadius: 16, padding: 20, marginBottom: 10, cursor: 'pointer',
+            background: 'var(--color-bg-surface)', border: `var(--border-width-thin) solid ${selfieFile ? 'var(--color-upload-border)' : 'var(--color-border-strong)'}`,
+            borderRadius: 'var(--radius-4xl)', padding: 'var(--space-5)', marginBottom: 10, cursor: 'pointer',
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-              <div style={{ width: 56, height: 56, borderRadius: '50%', background: selfieFile ? 'rgba(74,222,128,0.08)' : T.cardInner, border: `2px dashed ${selfieFile ? 'rgba(74,222,128,0.3)' : T.divider}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                {selfieFile ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={T.green} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="8 12 11 15 16 9" /></svg> : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" /><circle cx="12" cy="13" r="4" /></svg>}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-card-md)' }}>
+              <div style={{ width: 'var(--size-upload-selfieCircle)', height: 'var(--size-upload-selfieCircle)', borderRadius: '50%', background: selfieFile ? 'var(--color-upload-filled)' : 'var(--color-bg-sunken)', border: `2px dashed ${selfieFile ? 'var(--color-upload-selfieBorder)' : 'var(--color-border-divider)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                {selfieFile ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-status-success)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="8 12 11 15 16 9" /></svg> : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-icon-muted)" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" /><circle cx="12" cy="13" r="4" /></svg>}
               </div>
               <div>
-                <div style={{ fontWeight: 600, color: selfieFile ? T.green : T.textMid, fontSize: 13, marginBottom: 4 }}>{selfieFile ? 'سێلفییەکەت سەرکەوتوو بوو' : 'سێلفی بگرە'}</div>
-                <div style={{ fontSize: 11, color: T.textFaint }}>وێنەیەکی ڕوونی ڕووخسارت</div>
+                <div style={{ fontWeight: 'var(--font-weight-semibold)' as unknown as number, color: selfieFile ? 'var(--color-status-success)' : 'var(--color-text-secondary)', fontSize: 'var(--font-size-md)', marginBottom: 'var(--space-1)' }}>{selfieFile ? 'سێلفییەکەت سەرکەوتوو بوو' : 'سێلفی بگرە'}</div>
+                <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>وێنەیەکی ڕوونی ڕووخسارت</div>
               </div>
             </div>
           </div>
         </div>
-        <div style={{ flexShrink: 0, padding: '0 20px 96px' }}>
+        <div style={{ flexShrink: 0, padding: '0 var(--space-page-x) var(--space-navClearance)' }}>
           <button onClick={handleVerifySubmit} disabled={uploading} style={{
-            background: T.card, color: T.orange, border: `1px solid ${T.border}`,
-            borderRadius: 16, padding: 16, fontSize: 14, fontWeight: 600,
+            background: 'var(--color-bg-surface)', color: 'var(--color-brand-primary)', border: 'var(--border-width-thin) solid var(--color-border-strong)',
+            borderRadius: 'var(--radius-4xl)', padding: 'var(--space-4)', fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-semibold)' as unknown as number,
             cursor: uploading ? 'default' : 'pointer', width: '100%',
-            opacity: uploading ? 0.5 : 1, fontFamily: "'Noto Sans Arabic', sans-serif",
+            opacity: uploading ? 'var(--opacity-disabled)' as unknown as number : 1, fontFamily: 'var(--font-family-body)',
           }}>{uploading ? '...چاوەڕوان بە' : 'بنێرە'}</button>
         </div>
         <BottomNav />
@@ -298,30 +305,30 @@ export default function PostRidePage() {
   // VERIFIED DRIVER — POST + MANAGE
   // ═══════════════════════════════════════
   return (
-    <div style={{ direction: 'rtl', minHeight: '100vh', background: T.bg, maxWidth: 480, margin: '0 auto', padding: '24px 20px 96px', position: 'relative' }}>
+    <div style={{ direction: 'rtl', minHeight: '100vh', background: 'var(--color-bg-canvas)', maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto', padding: 'var(--space-page-top) var(--space-page-x) var(--space-navClearance)', position: 'relative' }}>
 
-      <div style={{ marginBottom: 20 }}>
-        <h1 style={{ fontSize: 20, fontWeight: 700, color: T.text }}><span style={{ color: T.orange }}>ڕێ</span> گەشت پۆستکە</h1>
+      <div style={{ marginBottom: 'var(--space-5)' }}>
+        <h1 style={{ fontSize: 'var(--font-size-4xl)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)' }}><span style={{ color: 'var(--color-brand-primary)' }}>ڕێ</span> گەشت پۆستکە</h1>
       </div>
 
       {/* Tab switcher */}
-      <div style={{ display: 'flex', gap: 8, marginBottom: 24 }}>
+      <div style={{ display: 'flex', gap: 'var(--space-2)', marginBottom: 'var(--space-6)' }}>
         <div onClick={() => setActiveTab('post')} style={{
-          flex: 1, padding: '9px 0', textAlign: 'center', borderRadius: 9,
-          fontSize: 12, fontWeight: 600, cursor: 'pointer',
-          background: activeTab === 'post' ? T.accent : T.card,
-          color: activeTab === 'post' ? T.onAccent : T.text,
-          border: `2px solid ${T.text}`,
-          boxShadow: activeTab === 'post' ? `3px 3px 0 ${T.text}` : `2px 2px 0 ${T.textDim}`,
+          flex: 1, padding: '9px 0', textAlign: 'center', borderRadius: 'var(--radius-lg)',
+          fontSize: 'var(--font-size-base)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, cursor: 'pointer',
+          background: activeTab === 'post' ? 'var(--color-brand-primary)' : 'var(--color-bg-surface)',
+          color: activeTab === 'post' ? 'var(--color-text-onAccent)' : 'var(--color-text-primary)',
+          border: 'var(--border-width-thick) solid var(--color-text-primary)',
+          boxShadow: activeTab === 'post' ? 'var(--shadow-card)' : 'var(--shadow-muted)',
         }}>گەشتێکی نوێ</div>
         <div onClick={() => setActiveTab('manage')} style={{
-          flex: 1, padding: '9px 0', textAlign: 'center', borderRadius: 9,
-          fontSize: 12, fontWeight: 600, cursor: 'pointer',
-          background: activeTab === 'manage' ? T.accent : T.card,
-          color: activeTab === 'manage' ? T.onAccent : T.text,
-          border: `2px solid ${T.text}`,
-          boxShadow: activeTab === 'manage' ? `3px 3px 0 ${T.text}` : `2px 2px 0 ${T.textDim}`,
-          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+          flex: 1, padding: '9px 0', textAlign: 'center', borderRadius: 'var(--radius-lg)',
+          fontSize: 'var(--font-size-base)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, cursor: 'pointer',
+          background: activeTab === 'manage' ? 'var(--color-brand-primary)' : 'var(--color-bg-surface)',
+          color: activeTab === 'manage' ? 'var(--color-text-onAccent)' : 'var(--color-text-primary)',
+          border: 'var(--border-width-thick) solid var(--color-text-primary)',
+          boxShadow: activeTab === 'manage' ? 'var(--shadow-card)' : 'var(--shadow-muted)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-1-5)',
         }}>
           گەشتەکانم
         </div>
@@ -329,26 +336,26 @@ export default function PostRidePage() {
 
       {/* ═══ POST TAB ═══ */}
       {activeTab === 'post' && (
-        <div style={{ paddingBottom: 100 }}>
+        <div style={{ paddingBottom: 'var(--space-navClearanceLg)' }}>
           {/* SketchCar */}
-          <div style={{ display: 'flex', justifyContent: 'center', padding: '0 0 14px' }}>
-            <SketchCar size={110} color={T.accent} />
+          <div style={{ display: 'flex', justifyContent: 'center', padding: '0 0 var(--space-card-md)' }}>
+            <SketchCar size={110} color={'var(--color-brand-primary)'} />
           </div>
 
           {/* Route card */}
-          <Card style={{ marginBottom: 14, overflow: 'hidden' }}>
-            <div style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 10 }}>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, flexShrink: 0 }}>
-                <div style={{ width: 8, height: 8, borderRadius: '50%', border: `2px solid ${T.text}` }} />
-                <div style={{ width: 1, height: 24, background: T.divider }} />
-                <div style={{ width: 8, height: 8, borderRadius: '50%', background: T.text }} />
+          <Card style={{ marginBottom: 'var(--space-card-md)', overflow: 'hidden' }}>
+            <div style={{ padding: 'var(--space-card-md) var(--space-card-lg)', display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-1)', flexShrink: 0 }}>
+                <div style={{ width: 'var(--size-routeDotSm)', height: 'var(--size-routeDotSm)', borderRadius: '50%', border: 'var(--border-width-thick) solid var(--color-text-primary)' }} />
+                <div style={{ width: 1, height: 'var(--space-6)', background: 'var(--color-border-divider)' }} />
+                <div style={{ width: 'var(--size-routeDotSm)', height: 'var(--size-routeDotSm)', borderRadius: '50%', background: 'var(--color-text-primary)' }} />
               </div>
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 0 }}>
-                <div onClick={() => cycleCity(fromCity, setFromCity)} style={{ background: T.cardInner, borderRadius: 10, padding: '10px 14px', fontSize: 13, color: fromCity ? T.text : T.textDim, cursor: 'pointer' }}>
+                <div onClick={() => cycleCity(fromCity, setFromCity)} style={{ background: 'var(--color-bg-sunken)', borderRadius: 'var(--radius-xl)', padding: 'var(--input-ride-padding)', fontSize: 'var(--font-size-md)', color: fromCity ? 'var(--color-text-primary)' : 'var(--color-text-muted)', cursor: 'pointer' }}>
                   {fromCity ? CITIES[fromCity] : 'لە کوێ؟'}
                 </div>
-                <DashedDivider style={{ margin: '0 4px' }} />
-                <div onClick={() => cycleCity(toCity, setToCity)} style={{ background: T.cardInner, borderRadius: 10, padding: '10px 14px', fontSize: 13, color: toCity ? T.text : T.textDim, cursor: 'pointer' }}>
+                <DashedDivider style={{ margin: '0 var(--space-1)' }} />
+                <div onClick={() => cycleCity(toCity, setToCity)} style={{ background: 'var(--color-bg-sunken)', borderRadius: 'var(--radius-xl)', padding: 'var(--input-ride-padding)', fontSize: 'var(--font-size-md)', color: toCity ? 'var(--color-text-primary)' : 'var(--color-text-muted)', cursor: 'pointer' }}>
                   {toCity ? CITIES[toCity] : 'بۆ کوێ؟'}
                 </div>
               </div>
@@ -356,105 +363,105 @@ export default function PostRidePage() {
           </Card>
 
           {/* Date/Time/Seats card */}
-          <Card style={{ marginBottom: 14, overflow: 'hidden' }}>
-            <div style={{ padding: '12px 16px', display: 'flex', alignItems: 'center' }}>
+          <Card style={{ marginBottom: 'var(--space-card-md)', overflow: 'hidden' }}>
+            <div style={{ padding: 'var(--space-3) var(--space-card-lg)', display: 'flex', alignItems: 'center' }}>
               <div onClick={() => dateRef.current?.showPicker()} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer', position: 'relative' }}>
-                <div style={{ fontSize: 9, color: T.textMid, marginBottom: 3 }}>بەروار</div>
-                <div style={{ fontSize: 13, color: date ? T.text : T.textDim, fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-secondary)', marginBottom: 3 }}>بەروار</div>
+                <div style={{ fontSize: 'var(--font-size-md)', color: date ? 'var(--color-text-primary)' : 'var(--color-text-muted)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {date ? formatDate(date) : (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-icon-muted)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
                   )}
                 </div>
                 <input ref={dateRef} type="date" value={date} onChange={e => setDate(e.target.value)} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0 }} />
               </div>
-              <div style={{ width: 0, height: 28, borderRight: `1.5px dashed ${T.textDim}` }} />
+              <div style={{ width: 0, height: 'var(--space-7)', borderRight: 'var(--border-width-medium) dashed var(--color-text-muted)' }} />
               <div onClick={() => timeRef.current?.showPicker()} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer', position: 'relative' }}>
-                <div style={{ fontSize: 9, color: T.textMid, marginBottom: 3 }}>کات</div>
-                <div style={{ fontSize: 13, color: time ? T.text : T.textDim, fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-secondary)', marginBottom: 3 }}>کات</div>
+                <div style={{ fontSize: 'var(--font-size-md)', color: time ? 'var(--color-text-primary)' : 'var(--color-text-muted)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {time ? time : (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-icon-muted)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
                   )}
                 </div>
                 <input ref={timeRef} type="time" value={time} onChange={e => setTime(e.target.value)} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0 }} />
               </div>
-              <div style={{ width: 0, height: 28, borderRight: `1.5px dashed ${T.textDim}` }} />
+              <div style={{ width: 0, height: 'var(--space-7)', borderRight: 'var(--border-width-medium) dashed var(--color-text-muted)' }} />
               <div onClick={cycleSeats} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer' }}>
-                <div style={{ fontSize: 9, color: T.textMid, marginBottom: 3 }}>جێگا</div>
-                <div style={{ fontSize: 13, color: T.text, fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={seatsTapped ? T.text : T.iconDim} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-secondary)', marginBottom: 3 }}>جێگا</div>
+                <div style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-primary)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={seatsTapped ? 'var(--color-text-primary)' : 'var(--color-icon-muted)'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M6 19v2" /><path d="M18 19v2" />
                     <path d="M7 19h10a2 2 0 0 0 2-2v-3a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v3a2 2 0 0 0 2 2z" />
                     <path d="M7 10V7a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v3" />
                     <path d="M9 14h6" />
                   </svg>
-                  {seatsTapped && <span style={{ fontSize: 10, fontWeight: 700, color: T.text, marginRight: 4 }}>{seats}</span>}
+                  {seatsTapped && <span style={{ fontSize: 'var(--font-size-xs)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)', marginRight: 'var(--space-1)' }}>{seats}</span>}
                 </div>
               </div>
             </div>
           </Card>
 
           {/* Price card */}
-          <Card style={{ marginBottom: 14, overflow: 'hidden', padding: '12px 16px' }}>
-            <div style={{ fontSize: 9, color: T.textFaint, marginBottom: 0, fontWeight: 600 }}>نرخ</div>
+          <Card style={{ marginBottom: 'var(--space-card-md)', overflow: 'hidden', padding: 'var(--space-3) var(--space-card-lg)' }}>
+            <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 0, fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>نرخ</div>
             <DashedDivider style={{ margin: '6px 0' }} />
-            <div style={{ display: 'flex', gap: 8 }}>
+            <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
               <div onClick={() => setPriceType('coffee')} style={{
-                flex: 1, padding: '10px 0', textAlign: 'center', borderRadius: 9, cursor: 'pointer',
-                background: priceType === 'coffee' ? T.accent : T.card,
-                border: `2px solid ${T.text}`,
-                boxShadow: priceType === 'coffee' ? `3px 3px 0 ${T.text}` : `2px 2px 0 ${T.textDim}`,
-                color: priceType === 'coffee' ? T.onAccent : T.text, fontSize: 12, fontWeight: 500,
+                flex: 1, padding: '10px 0', textAlign: 'center', borderRadius: 'var(--radius-lg)', cursor: 'pointer',
+                background: priceType === 'coffee' ? 'var(--color-brand-primary)' : 'var(--color-bg-surface)',
+                border: 'var(--border-width-thick) solid var(--color-text-primary)',
+                boxShadow: priceType === 'coffee' ? 'var(--shadow-card)' : 'var(--shadow-muted)',
+                color: priceType === 'coffee' ? 'var(--color-text-onAccent)' : 'var(--color-text-primary)', fontSize: 'var(--font-size-base)', fontWeight: 'var(--font-weight-medium)' as unknown as number,
               }}>قاوەیەک</div>
               <div onClick={() => setPriceType('iqd')} style={{
-                flex: 1, padding: '10px 0', textAlign: 'center', borderRadius: 9, cursor: 'pointer',
-                background: priceType === 'iqd' ? T.accent : T.card,
-                border: `2px solid ${T.text}`,
-                boxShadow: priceType === 'iqd' ? `3px 3px 0 ${T.text}` : `2px 2px 0 ${T.textDim}`,
-                color: priceType === 'iqd' ? T.onAccent : T.text, fontSize: 12, fontWeight: 500,
+                flex: 1, padding: '10px 0', textAlign: 'center', borderRadius: 'var(--radius-lg)', cursor: 'pointer',
+                background: priceType === 'iqd' ? 'var(--color-brand-primary)' : 'var(--color-bg-surface)',
+                border: 'var(--border-width-thick) solid var(--color-text-primary)',
+                boxShadow: priceType === 'iqd' ? 'var(--shadow-card)' : 'var(--shadow-muted)',
+                color: priceType === 'iqd' ? 'var(--color-text-onAccent)' : 'var(--color-text-primary)', fontSize: 'var(--font-size-base)', fontWeight: 'var(--font-weight-medium)' as unknown as number,
               }}>پارە</div>
             </div>
             {priceType === 'iqd' && (
-              <div style={{ marginTop: 10 }}>
+              <div style={{ marginTop: 'var(--space-2-5)'}}>
                 <input className="money-input" type="text" value={price} onChange={e => { const raw = e.target.value.replace(/[^0-9]/g, ''); const v = Number(raw); if (!raw || (v >= 0 && v <= 5000)) setPrice(raw) }} inputMode="numeric" pattern="[0-9]*" placeholder="0"
-                  style={{ background: T.cardInner, border: `1.5px solid ${T.textDim}`, borderRadius: 8, padding: '10px 12px', width: '100%', fontSize: 12, color: T.text, WebkitTextFillColor: T.text, outline: 'none', direction: 'ltr', textAlign: 'left', fontFamily: "'Noto Sans Arabic', sans-serif" }} />
+                  style={{ ...carInputStyle, direction: 'ltr', textAlign: 'left' }} />
               </div>
             )}
           </Card>
 
           {/* Car + Notes card */}
-          <Card style={{ marginBottom: 14, overflow: 'hidden', padding: '12px 16px' }}>
-            <div style={{ fontSize: 9, color: T.textFaint, marginBottom: 0, fontWeight: 600 }}>زانیاری ئۆتۆمبێل</div>
+          <Card style={{ marginBottom: 'var(--space-card-md)', overflow: 'hidden', padding: 'var(--space-3) var(--space-card-lg)' }}>
+            <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 0, fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>زانیاری ئۆتۆمبێل</div>
             <DashedDivider style={{ margin: '6px 0' }} />
-            <div style={{ display: 'flex', gap: 8, marginBottom: 0 }}>
+            <div style={{ display: 'flex', gap: 'var(--space-2)', marginBottom: 0 }}>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 9, color: T.textDim, marginBottom: 4 }}>جۆر</div>
-                <input value={carMake} onChange={e => setCarMake(e.target.value)} placeholder="Toyota" className="car-input" style={{ background: T.cardInner, border: `1.5px solid ${T.textDim}`, borderRadius: 8, padding: '10px 12px', width: '100%', fontSize: 12, color: T.text, WebkitTextFillColor: T.text, outline: 'none', fontFamily: "'Noto Sans Arabic', sans-serif" }} />
+                <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>جۆر</div>
+                <input value={carMake} onChange={e => setCarMake(e.target.value)} placeholder="Toyota" className="car-input" style={carInputStyle} />
               </div>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 9, color: T.textDim, marginBottom: 4 }}>مۆدێل</div>
-                <input value={carModel} onChange={e => setCarModel(e.target.value)} placeholder="Camry" className="car-input" style={{ background: T.cardInner, border: `1.5px solid ${T.textDim}`, borderRadius: 8, padding: '10px 12px', width: '100%', fontSize: 12, color: T.text, WebkitTextFillColor: T.text, outline: 'none', fontFamily: "'Noto Sans Arabic', sans-serif" }} />
+                <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>مۆدێل</div>
+                <input value={carModel} onChange={e => setCarModel(e.target.value)} placeholder="Camry" className="car-input" style={carInputStyle} />
               </div>
             </div>
-            <DashedDivider style={{ margin: '10px 4px' }} />
+            <DashedDivider style={{ margin: '10px var(--space-1)' }} />
             <div style={{ marginBottom: 0 }}>
-              <div style={{ fontSize: 9, color: T.textDim, marginBottom: 4 }}>ڕەنگ</div>
-              <input value={carColor} onChange={e => setCarColor(e.target.value)} placeholder="White" className="car-input" style={{ background: T.cardInner, border: `1.5px solid ${T.textDim}`, borderRadius: 8, padding: '10px 12px', width: '100%', fontSize: 12, color: T.text, WebkitTextFillColor: T.text, outline: 'none', fontFamily: "'Noto Sans Arabic', sans-serif" }} />
+              <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>ڕەنگ</div>
+              <input value={carColor} onChange={e => setCarColor(e.target.value)} placeholder="White" className="car-input" style={carInputStyle} />
             </div>
-            <DashedDivider style={{ margin: '10px 4px' }} />
-            <div style={{ fontSize: 9, color: T.textFaint, marginBottom: 0, fontWeight: 600 }}>تێبینی</div>
+            <DashedDivider style={{ margin: '10px var(--space-1)' }} />
+            <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 0, fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>تێبینی</div>
             <DashedDivider style={{ margin: '6px 0' }} />
-            <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="هەر شتێک دەربارەی گەشتەکەت..." rows={2} className="note-input" style={{ background: T.cardInner, border: `1.5px solid ${T.textDim}`, borderRadius: 8, padding: '10px 12px', width: '100%', fontSize: 12, color: T.text, WebkitTextFillColor: T.text, outline: 'none', resize: 'none', fontFamily: "'Noto Sans Arabic', sans-serif", lineHeight: 1.8 }} />
+            <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="هەر شتێک دەربارەی گەشتەکەت..." rows={2} className="note-input" style={{ ...carInputStyle, resize: 'var(--input-note-resize)' as React.CSSProperties['resize'], lineHeight: 'var(--input-note-lineHeight)' }} />
           </Card>
 
-          {error && <p style={{ color: T.red, fontSize: 12, textAlign: 'center', marginBottom: 12 }}>{error}</p>}
+          {error && <p style={{ color: 'var(--color-status-error)', fontSize: 'var(--font-size-base)', textAlign: 'center', marginBottom: 'var(--space-3)' }}>{error}</p>}
 
           <div onClick={handleSubmit} style={{
-            background: T.accent, color: T.onAccent, border: `2px solid ${T.text}`, borderRadius: 12,
-            padding: '14px 0', textAlign: 'center', cursor: loading ? 'default' : 'pointer',
-            opacity: loading ? 0.5 : 1, width: '100%',
-            boxShadow: `3px 3px 0 ${T.text}`,
+            background: 'var(--color-brand-primary)', color: 'var(--color-text-onAccent)', border: 'var(--border-width-thick) solid var(--color-text-primary)', borderRadius: 'var(--radius-2xl)',
+            padding: 'var(--space-card-md) 0', textAlign: 'center', cursor: loading ? 'default' : 'pointer',
+            opacity: loading ? 'var(--opacity-disabled)' as unknown as number : 1, width: '100%',
+            boxShadow: 'var(--shadow-card)',
           }}>
-            <span style={{ fontSize: 15, fontWeight: 800 }}>{loading ? '...' : editingRideId ? 'نوێکردنەوە' : 'بینێرە!'}</span>
+            <span style={{ fontSize: 'var(--font-size-xl)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number }}>{loading ? '...' : editingRideId ? 'نوێکردنەوە' : 'بینێرە!'}</span>
           </div>
         </div>
       )}
@@ -464,7 +471,7 @@ export default function PostRidePage() {
         <div>
           {loadingManage ? <div /> : myPostedRides.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '4rem 0' }}>
-              <p style={{ color: T.textFaint, fontSize: 14 }}>هێشتا گەشتت پۆست نەکردووە</p>
+              <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-lg)' }}>هێشتا گەشتت پۆست نەکردووە</p>
             </div>
           ) : myPostedRides.map(ride => {
             const isCompleted = ride.status === 'completed'
@@ -472,10 +479,10 @@ export default function PostRidePage() {
             const isDimmed = isCompleted || isCancelled
 
             const rideStatusConfig: Record<string, { text: string; color: string; bg: string }> = {
-              active: { text: 'چالاک', color: T.amber, bg: 'rgba(251,191,36,0.1)' },
-              full: { text: '٠ جێ', color: T.text, bg: T.chipBg },
-              completed: { text: 'تەواو بوو', color: T.green, bg: 'rgba(74,222,128,0.1)' },
-              cancelled: { text: 'هەڵوەشێنرایەوە', color: T.red, bg: 'rgba(248,113,113,0.1)' },
+              active: { text: 'چالاک', color: 'var(--color-status-warning)', bg: 'var(--color-ride-activeStatusBg)' },
+              full: { text: '٠ جێ', color: 'var(--color-text-primary)', bg: 'var(--color-chip-bg)' },
+              completed: { text: 'تەواو بوو', color: 'var(--color-status-success)', bg: 'var(--color-ride-completedStatusBg)' },
+              cancelled: { text: 'هەڵوەشێنرایەوە', color: 'var(--color-status-error)', bg: 'var(--color-ride-cancelledStatusBg)' },
             }
             const st = rideStatusConfig[ride.status] || rideStatusConfig.active
 
@@ -488,7 +495,7 @@ export default function PostRidePage() {
                 editButton={!isCompleted && !isCancelled ? (
                   <span
                     onClick={() => startEdit(ride)}
-                    style={{ fontSize: 12, color: T.textDim, cursor: 'pointer' }}
+                    style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', cursor: 'pointer' }}
                   >دەسکاری</span>
                 ) : undefined}
               />
