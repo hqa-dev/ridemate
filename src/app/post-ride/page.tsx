@@ -4,6 +4,7 @@ import { BottomNav } from '@/components/layout/BottomNav'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { CITIES, toKurdishNum } from '@/lib/utils'
+import { ku } from '@/lib/translations'
 import { RideCard } from '@/components/ui/RideCard'
 import SketchCar from '@/components/ui/icons/SketchCar'
 import Card from '@/components/ui/Card'
@@ -330,7 +331,7 @@ export default function PostRidePage() {
           boxShadow: activeTab === 'manage' ? 'var(--shadow-card)' : 'var(--shadow-muted)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-1-5)',
         }}>
-          گەشتەکانم
+          {ku.myRidesAsDriver}
         </div>
       </div>
 

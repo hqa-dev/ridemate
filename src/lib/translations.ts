@@ -93,6 +93,7 @@ export const ku = {
   postAnother: 'گەشتی دیکە پۆستکە',
 
   myRidesTitle: 'گەشتەکانم',
+  myRidesAsDriver: 'گەشتەکانم (وەک شۆفێر)',
   upcoming: 'تازە گەشت',
   requests: 'داواکاری',
   contactInfo: 'زانیاری پەیوەندی',
