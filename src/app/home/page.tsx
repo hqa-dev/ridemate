@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import { BottomNav } from '@/components/layout/BottomNav'
 import Link from 'next/link'
-import { ku } from '@/lib/translations'
+import { kurdishStrings } from '@/lib/strings'
 import { createClient } from '@/lib/supabase/client'
 import { CITIES } from '@/lib/utils'
 import { getThemeMode, setThemeMode } from '@/lib/theme-mode'
@@ -83,7 +83,7 @@ export default function HomePage() {
             fontSize: 'var(--font-size-5xl)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number, color: 'var(--color-text-primary)', letterSpacing: 'var(--font-letterSpacing-tight)',
             textShadow: 'var(--font-textShadow-brandSm)',
             margin: 0,
-          }}>لیمۆ</h1>
+          }}>{kurdishStrings.appName}</h1>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
             {/* Theme toggle */}
@@ -176,7 +176,7 @@ export default function HomePage() {
               {from && to ? (
                 <>{CITIES[from]} ← {CITIES[to]}</>
               ) : (
-                <>بگەڕێ...</>
+                <>{kurdishStrings.findRidePlaceholder}</>
               )}
             </span>
           </div>
@@ -205,7 +205,7 @@ export default function HomePage() {
                   <path d="M18 6L6 18"/><path d="M6 6l12 12"/>
                 </svg>
               </div>
-              <span style={{ fontSize: 'var(--font-size-xl)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)' }}>بگەڕێ</span>
+              <span style={{ fontSize: 'var(--font-size-xl)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)' }}>{kurdishStrings.findRide}</span>
             </div>
 
             {/* Vertical route */}
@@ -224,7 +224,7 @@ export default function HomePage() {
                     fontSize: 'var(--font-size-lg)', color: from ? 'var(--color-text-primary)' : 'var(--color-text-muted)', cursor: 'pointer',
                   }}
                 >
-                  {from ? CITIES[from] : 'لە کوێ؟'}
+                  {from ? CITIES[from] : kurdishStrings.fromWhere}
                 </div>
                 <div
                   onClick={() => { const keys = ['', 'erbil', 'suli', 'duhok']; const idx = keys.indexOf(to); setTo(keys[(idx + 1) % keys.length]); }}
@@ -234,7 +234,7 @@ export default function HomePage() {
                     fontSize: 'var(--font-size-lg)', color: to ? 'var(--color-text-primary)' : 'var(--color-text-muted)', cursor: 'pointer',
                   }}
                 >
-                  {to ? CITIES[to] : 'بۆ کوێ؟'}
+                  {to ? CITIES[to] : kurdishStrings.toWhere}
                 </div>
               </div>
             </div>
@@ -247,7 +247,7 @@ export default function HomePage() {
         {loading ? (
           <div />
         ) : rides.length === 0 ? (
-          <p style={{ textAlign: 'center', color: 'var(--color-text-secondary)', padding: '3rem 0' }}>{ku.noRidesFound}</p>
+          <p style={{ textAlign: 'center', color: 'var(--color-text-secondary)', padding: '3rem 0' }}>{kurdishStrings.noRidesFound}</p>
         ) : rides.map(ride => (
           <RideCard key={ride.id} ride={ride} />
         ))}

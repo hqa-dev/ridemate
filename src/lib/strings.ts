@@ -55,6 +55,9 @@ export const kurdishStrings = {
   uploadLicense: 'مۆڵەتی شۆفێری',
 
   findRide: 'بگەڕێ',
+  findRidePlaceholder: 'بگەڕێ...',
+  fromWhere: 'لە کوێ؟',
+  toWhere: 'بۆ کوێ؟',
   from: 'لە',
   to: 'بۆ',
   allCities: 'گشت شارەکان',
