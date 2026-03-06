@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { BottomNav } from '@/components/layout/BottomNav'
 import { createClient } from '@/lib/supabase/client'
 import { CITIES, toKurdishNum, formatKurdishDate } from '@/lib/utils'
+import { kurdishStrings } from '@/lib/strings'
 import PageHeader from '@/components/ui/PageHeader'
 import SectionLabel from '@/components/ui/SectionLabel'
 import Card from '@/components/ui/Card'
@@ -46,13 +47,13 @@ function getTypeIcon(type: string) {
 }
 
 const statusText: Record<string, { text: string; color: string }> = {
-  request_received: { text: 'دەیەوێ بێ', color: 'var(--color-brand-primary)' },
-  request_approved: { text: 'قبوڵ کرا', color: 'var(--color-status-success)' },
-  request_declined: { text: 'ڕەت کرایەوە', color: 'var(--color-status-error)' },
-  passenger_cancelled: { text: 'پاشگەزبووەوە', color: 'var(--color-status-error)' },
-  ride_completed: { text: 'هەڵیسەنگێنە', color: 'var(--color-status-success)' },
-  ride_cancelled: { text: 'هەڵوەشێنرایەوە', color: 'var(--color-status-error)' },
-  ride_updated: { text: 'گۆڕانکاری', color: 'var(--color-status-warning)' },
+  request_received: { text: kurdishStrings.notifRequestReceived, color: 'var(--color-brand-primary)' },
+  request_approved: { text: kurdishStrings.notifRequestApproved, color: 'var(--color-status-success)' },
+  request_declined: { text: kurdishStrings.declined, color: 'var(--color-status-error)' },
+  passenger_cancelled: { text: kurdishStrings.notifPassengerCancelled, color: 'var(--color-status-error)' },
+  ride_completed: { text: kurdishStrings.notifRideCompleted, color: 'var(--color-status-success)' },
+  ride_cancelled: { text: kurdishStrings.statusCancelled, color: 'var(--color-status-error)' },
+  ride_updated: { text: kurdishStrings.notifRideUpdated, color: 'var(--color-status-warning)' },
 }
 
 interface NotifItem {
@@ -155,14 +156,14 @@ export default function NotificationsPage() {
 
     // Check seats
     const { data: ride } = await supabase.from('rides').select('available_seats, driver_id').eq('id', n.rideId).single()
-    if (!ride || ride.available_seats <= 0) { setError('جێگا بەردەست نییە'); setProcessing(null); return }
+    if (!ride || ride.available_seats <= 0) { setError(kurdishStrings.errorNoSeats); setProcessing(null); return }
 
     // Approve the request
     const { error: reqErr } = await supabase
       .from('ride_requests')
       .update({ status: 'approved' })
       .eq('id', n.requestId)
-    if (reqErr) { setError('هەڵەیەک ڕوویدا'); setProcessing(null); return }
+    if (reqErr) { setError(kurdishStrings.errorOccurred); setProcessing(null); return }
 
     // Decrement seats
     await supabase.rpc('decrement_seats', { ride_id_input: n.rideId })
@@ -195,7 +196,7 @@ export default function NotificationsPage() {
       .from('ride_requests')
       .update({ status: 'declined' })
       .eq('id', n.requestId)
-    if (reqErr) { setError('هەڵەیەک ڕوویدا'); setProcessing(null); return }
+    if (reqErr) { setError(kurdishStrings.errorOccurred); setProcessing(null); return }
 
     // Get passenger_id and driver_id
     const { data: req } = await supabase.from('ride_requests').select('passenger_id').eq('id', n.requestId).single()
@@ -221,7 +222,7 @@ export default function NotificationsPage() {
       maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto',
       paddingBottom: 'var(--space-navClearanceLg)',
     }}>
-      <PageHeader title="ئاگاداری" back />
+      <PageHeader title={kurdishStrings.notificationsTitle} back />
 
       {error && <p style={{ color: 'var(--color-status-error)', fontSize: 'var(--font-size-base)', textAlign: 'center', padding: '0 var(--space-4) var(--space-2)' }}>{error}</p>}
 
@@ -229,7 +230,7 @@ export default function NotificationsPage() {
         <>
           {unseenNotifications.length > 0 && (
             <>
-              <div style={{ padding: '0 var(--space-1)' }}><SectionLabel label="نوێ" /></div>
+              <div style={{ padding: '0 var(--space-1)' }}><SectionLabel label={kurdishStrings.newLabel} /></div>
               <Card style={{ margin: '0 var(--space-4) var(--space-4)', borderRadius: 'var(--radius-2xl)', padding: '0 var(--space-4)' }}>
                 {unseenNotifications.map((n, i) => (
                   <NotifRow key={n.id} n={n} isLast={i === unseenNotifications.length - 1} onApprove={handleApprove} onDecline={handleDecline} processing={processing} router={router} />
@@ -240,7 +241,7 @@ export default function NotificationsPage() {
 
           {seenNotifications.length > 0 && (
             <>
-              <div style={{ padding: '0 var(--space-1)' }}><SectionLabel label="پێشوو" /></div>
+              <div style={{ padding: '0 var(--space-1)' }}><SectionLabel label={kurdishStrings.previousLabel} /></div>
               <Card style={{ margin: '0 var(--space-4)', borderRadius: 'var(--radius-2xl)', padding: '0 var(--space-4)' }}>
                 {seenNotifications.map((n, i) => (
                   <NotifRow key={n.id} n={n} isLast={i === seenNotifications.length - 1} onApprove={handleApprove} onDecline={handleDecline} processing={processing} router={router} />
@@ -255,7 +256,7 @@ export default function NotificationsPage() {
                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
                 <path d="M13.73 21a2 2 0 0 1-3.46 0" />
               </svg>
-              <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-muted)' }}>هیچ ئاگادارییەک نییە</p>
+              <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-muted)' }}>{kurdishStrings.noNotifications}</p>
             </div>
           )}
         </>

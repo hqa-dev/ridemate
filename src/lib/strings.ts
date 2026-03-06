@@ -197,5 +197,17 @@ export const kurdishStrings = {
   errorSelectCarModel: 'تکایە مۆدێلی ئۆتۆمبێل دیاری بکە',
   errorSelectCarColor: 'تکایە ڕەنگی ئۆتۆمبێل دیاری بکە',
   errorSameCities: 'شوێنی چوون و هاتن ناتوانن هاوشێوە بن',
+  errorNoSeats: 'جێگا بەردەست نییە',
+  errorOccurred: 'هەڵەیەک ڕوویدا',
+
+  notificationsTitle: 'ئاگاداری',
+  newLabel: 'نوێ',
+  previousLabel: 'پێشوو',
+  noNotifications: 'هیچ ئاگادارییەک نییە',
+  notifRequestReceived: 'دەیەوێ بێ',
+  notifRequestApproved: 'قبوڵ کرا',
+  notifPassengerCancelled: 'پاشگەزبووەوە',
+  notifRideCompleted: 'هەڵیسەنگێنە',
+  notifRideUpdated: 'گۆڕانکاری',
 
 }
