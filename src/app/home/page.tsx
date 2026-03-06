@@ -15,8 +15,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true)
   const [searchOpen, setSearchOpen] = useState(false)
   const [hasUnseen, setHasUnseen] = useState(false)
-  const [themeMode2, setThemeMode2] = useState<'light' | 'dark'>('light')
-  const themeMode = themeMode2
+  const [themeMode, setThemeMode2] = useState<'light' | 'dark' | null>(null)
   const supabase = createClient()
 
   useEffect(() => {
@@ -88,7 +87,7 @@ export default function HomePage() {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
             {/* Theme toggle */}
-            <div
+            {themeMode !== null && <div
               onClick={(e) => {
                 e.stopPropagation()
                 e.preventDefault()
@@ -127,7 +126,7 @@ export default function HomePage() {
                   <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
                 </svg>
               )}
-            </div>
+            </div>}
 
             {/* Bell icon — ink bordered box */}
             <Link href="/notifications" style={{ textDecoration: 'none' }}>
