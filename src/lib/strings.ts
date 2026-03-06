@@ -97,6 +97,7 @@ export const kurdishStrings = {
   postAnother: 'گەشتی دیکە پۆستکە',
 
   myRidesTitle: 'گەشتەکانم',
+  noRequestedRides: 'هێشتا داوای هیچ گەشتێکت نەکردووە',
   myRidesAsDriver: 'گەشتەکانم (وەک شۆفێر)',
   upcoming: 'تازە گەشت',
   requests: 'داواکاری',
