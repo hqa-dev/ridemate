@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { BottomNav } from '@/components/layout/BottomNav'
 import { createClient } from '@/lib/supabase/client'
 import { ConfirmModal } from '@/components/ui/ConfirmModal'
+import { kurdishStrings } from '@/lib/strings'
 import PageHeader from '@/components/ui/PageHeader'
 import SectionLabel from '@/components/ui/SectionLabel'
 import Card from '@/components/ui/Card'
@@ -22,7 +23,7 @@ export default function SettingsPage() {
 
   async function handleDeleteAccount() {
     setConfirmModal({
-      message: 'دڵنیایت لە سڕینەوەی هەژمارەکەت؟ ئەم کارە ناگەڕێتەوە.',
+      message: kurdishStrings.confirmDeleteAccountPermanent,
       action: async () => {
         setConfirmModal(null)
         setDeleting(true)
@@ -51,13 +52,13 @@ export default function SettingsPage() {
       maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto',
       paddingBottom: 'var(--space-navClearanceLg)',
     }}>
-      <PageHeader title="ڕێکخستنەکان" back />
+      <PageHeader title={kurdishStrings.settings} back />
 
       <div style={{ padding: '0 var(--space-4)' }}>
 
         {/* Language */}
         <div style={{ marginBottom: 'var(--space-6)' }}>
-          <SectionLabel label="زمان" />
+          <SectionLabel label={kurdishStrings.language} />
           <Card>
             <div style={{
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -67,16 +68,16 @@ export default function SettingsPage() {
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                 </svg>
-                <span style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-text-primary)' }}>زمانی کوردی</span>
+                <span style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-text-primary)' }}>{kurdishStrings.kurdishLanguage}</span>
               </div>
-              <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>زمانی کوردی</span>
+              <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>{kurdishStrings.kurdishLanguage}</span>
             </div>
           </Card>
         </div>
 
         {/* Notifications */}
         <div style={{ marginBottom: 'var(--space-6)' }}>
-          <SectionLabel label="ئاگاداری" />
+          <SectionLabel label={kurdishStrings.notificationsTitle} />
           <Card>
             <div style={{
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -86,7 +87,7 @@ export default function SettingsPage() {
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" />
                 </svg>
-                <span style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-text-primary)' }}>پەیامەکان</span>
+                <span style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-text-primary)' }}>{kurdishStrings.messages}</span>
               </div>
               <Toggle />
             </div>
@@ -95,7 +96,7 @@ export default function SettingsPage() {
 
         {/* Danger zone */}
         <div>
-          <SectionLabel label="مەترسیدار" />
+          <SectionLabel label={kurdishStrings.dangerZone} />
           <Card danger>
             <div
               onClick={handleDeleteAccount}
@@ -109,8 +110,8 @@ export default function SettingsPage() {
                 <polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
               </svg>
               <div>
-                <span style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-status-error)' }}>سڕینەوەی هەژمار</span>
-                <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-icon-muted)', margin: '3px 0 0' }}>هەموو داتاکانت دەسڕێتەوە و ناگەڕێتەوە</p>
+                <span style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-status-error)' }}>{kurdishStrings.deleteAccountLabel}</span>
+                <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-icon-muted)', margin: '3px 0 0' }}>{kurdishStrings.deleteAccountWarning}</p>
               </div>
             </div>
           </Card>

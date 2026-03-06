@@ -1,6 +1,7 @@
 'use client'
 import { useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { kurdishStrings } from '@/lib/strings'
 
 export default function ConfirmPage() {
   const supabase = createClient()
@@ -25,7 +26,7 @@ export default function ConfirmPage() {
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--color-bg-canvas)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-base)' }}>...چاوەڕوان بە</p>
+      <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-base)' }}>{kurdishStrings.pleaseWait}</p>
     </div>
   )
 }

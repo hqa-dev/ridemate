@@ -7,7 +7,7 @@ export const viewport = {
   maximumScale: 1,
 }
 export const metadata: Metadata = {
-  title: 'ڕێ',
+  title: 'لیمۆ',
   description: 'گەشتی ئاسان لە نێوان هەولێر، سلێمانی و دهۆک',
 }
 

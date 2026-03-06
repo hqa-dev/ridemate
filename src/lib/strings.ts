@@ -253,4 +253,12 @@ export const kurdishStrings = {
   yes: 'بەڵێ',
   no: 'نەخێر',
 
+  language: 'زمان',
+  kurdishLanguage: 'زمانی کوردی',
+  messages: 'پەیامەکان',
+  dangerZone: 'مەترسیدار',
+  deleteAccountLabel: 'سڕینەوەی هەژمار',
+  deleteAccountWarning: 'هەموو داتاکانت دەسڕێتەوە و ناگەڕێتەوە',
+  confirmDeleteAccountPermanent: 'دڵنیایت لە سڕینەوەی هەژمارەکەت؟ ئەم کارە ناگەڕێتەوە.',
+
 }
