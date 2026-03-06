@@ -1,0 +1,58 @@
+{
+  "size": {
+    "$type": "dimension",
+    "app": {
+      "maxWidth": { "$value": "480px", "$description": "App container max width — mobile-first constraint" }
+    },
+    "nav": {
+      "tabHeight": { "$value": "50px", "$description": "Bottom nav tab height" },
+      "bottomOffset": { "$value": "12px", "$description": "Bottom nav distance from viewport bottom" },
+      "inset": { "$value": "56px", "$description": "Nav width = calc(100% - 56px), total horizontal margin" },
+      "maxWidth": { "$value": "420px", "$description": "Nav bar max width" }
+    },
+    "button": {
+      "icon": { "$value": "32px", "$description": "Back button, approve/decline action buttons" },
+      "iconLg": { "$value": "36px", "$description": "Bell icon button, notification avatar" },
+      "close": { "$value": "30px", "$description": "Close/X button in search expanded" }
+    },
+    "avatar": {
+      "xs": { "$value": "22px", "$description": "Ride card driver avatar in footer" },
+      "sm": { "$value": "28px", "$description": "Passenger list avatar, completed/rated icon box" },
+      "md": { "$value": "36px", "$description": "Driver section avatar, notification avatar" },
+      "lg": { "$value": "40px", "$description": "Account page profile avatar" },
+      "xl": { "$value": "64px", "$description": "Profile page main avatar" }
+    },
+    "illustration": {
+      "sm": { "$value": "52px", "$description": "SketchCar in ride cards" },
+      "md": { "$value": "110px", "$description": "SketchCar in post-ride form" },
+      "lg": { "$value": "140px", "$description": "SketchCar in ride detail page" }
+    },
+    "badge": {
+      "dot": { "$value": "9px", "$description": "Notification dot on bell icon" }
+    },
+    "icon": {
+      "xs": { "$value": "12px", "$description": "Notification type icons, chevron arrows, camera icon" },
+      "sm": { "$value": "14px", "$description": "SketchPerson in ride card, back arrow, checkmark in icons" },
+      "md": { "$value": "16px", "$description": "Bell icon, arrow icons, nav menu arrows" },
+      "lg": { "$value": "18px", "$description": "Search icon, date/time/seat icons, account menu icons" },
+      "xl": { "$value": "22px", "$description": "Upload card icons, SketchPerson in driver avatar" },
+      "2xl": { "$value": "26px", "$description": "Active nav icons, profile SketchPerson" },
+      "3xl": { "$value": "28px", "$description": "Star rating font size, status icons in ride detail" },
+      "4xl": { "$value": "32px", "$description": "Profile page SketchPerson, empty state bell" },
+      "5xl": { "$value": "48px", "$description": "Verification submitted checkmark" }
+    },
+    "modal": {
+      "sm": { "$value": "340px", "$description": "Confirm modal max width" },
+      "md": { "$value": "420px", "$description": "Request modal max width" }
+    },
+    "upload": {
+      "licenseThumbnail": { "$value": "56px", "$description": "License card thumbnail width" },
+      "licenseThumbnailH": { "$value": "68px", "$description": "License card thumbnail height" },
+      "selfieCircle": { "$value": "56px", "$description": "Selfie upload circle diameter" }
+    },
+    "routeDot": { "$value": "10px", "$description": "Route indicator dot diameter (home search)" },
+    "routeDotSm": { "$value": "8px", "$description": "Route indicator dot diameter (post-ride form)" },
+    "statusDot": { "$value": "8px", "$description": "Profile page verification status dot" },
+    "skeleton": { "$value": "6px", "$description": "Skeleton line height in license card" }
+  }
+}

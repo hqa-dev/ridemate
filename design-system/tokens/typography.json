@@ -1,0 +1,48 @@
+{
+  "font": {
+    "family": {
+      "body": { "$value": "'Noto Sans Arabic', sans-serif", "$type": "fontFamily", "$description": "Primary font — Arabic-first, Google Fonts" }
+    },
+    "size": {
+      "$type": "dimension",
+      "3xs": { "$value": "8px", "$description": "Smallest — stats labels (نرخ, جێگا)" },
+      "2xs": { "$value": "9px", "$description": "Section labels, tiny meta, price labels" },
+      "xs": { "$value": "10px", "$description": "Seats/price footer, notification pills, helper text" },
+      "sm": { "$value": "11px", "$description": "Status pill text, ride card footer, badge text" },
+      "base": { "$value": "12px", "$description": "Default — inputs, buttons, nav labels, form fields" },
+      "md": { "$value": "13px", "$description": "Button labels, route pickers, menu items, toast text" },
+      "lg": { "$value": "14px", "$description": "Menu item labels, confirm modal text, driver name" },
+      "xl": { "$value": "15px", "$description": "Search bar, modal titles, submit buttons" },
+      "2xl": { "$value": "17px", "$description": "Modal headings (rides/[id] request modal)" },
+      "3xl": { "$value": "18px", "$description": "Page header titles" },
+      "4xl": { "$value": "20px", "$description": "Section headings (account, post-ride, verification)" },
+      "5xl": { "$value": "26px", "$description": "App name لیمۆ on home page" }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "regular": { "$value": 400, "$description": "Normal body text, menu items" },
+      "medium": { "$value": 500, "$description": "Secondary buttons, status labels, cancel buttons" },
+      "semibold": { "$value": 600, "$description": "Section labels, save buttons, nav labels" },
+      "bold": { "$value": 700, "$description": "Page headers, driver names, card titles, headings" },
+      "extrabold": { "$value": 800, "$description": "Primary buttons, app name, submit buttons — most common CTA weight" }
+    },
+    "lineHeight": {
+      "$type": "number",
+      "tight": { "$value": 1.6, "$description": "Compact text — declined message" },
+      "normal": { "$value": 1.7, "$description": "Standard body text" },
+      "relaxed": { "$value": 1.8, "$description": "Paragraph text — descriptions, notes, confirm modal" },
+      "loose": { "$value": 2.0, "$description": "Input fields — rides/[id] input lineHeight" }
+    },
+    "letterSpacing": {
+      "$type": "dimension",
+      "tight": { "$value": "-0.5px", "$description": "App name لیمۆ heading" },
+      "normal": { "$value": "0px", "$description": "Default — most text" },
+      "wide": { "$value": "1px", "$description": "License card labels, star ratings" },
+      "wider": { "$value": "1.5px", "$description": "License card region label" }
+    },
+    "textShadow": {
+      "brandSm": { "$value": "2px 2px 0 #E8470A", "$type": "shadow", "$description": "App name text shadow — home page h1" },
+      "brandLg": { "$value": "3px 3px 0 #E8470A", "$type": "shadow", "$description": "Large brand text shadow — reserved" }
+    }
+  }
+}

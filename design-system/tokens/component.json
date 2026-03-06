@@ -1,0 +1,159 @@
+{
+  "button": {
+    "primary": {
+      "$description": "Primary CTA button — orange bg, white text",
+      "bg": { "$value": "{color.brand.primary}", "$type": "color" },
+      "text": { "$value": "{color.text.onAccent}", "$type": "color" },
+      "border": { "$value": "{border.width.thick} solid {color.border.strong}", "$type": "border" },
+      "shadow": { "$value": "{shadow.card}", "$type": "shadow" },
+      "radius": { "$value": "{radius.lg}", "$type": "dimension" },
+      "padding": { "$value": "12px 0", "$type": "dimension" },
+      "fontSize": { "$value": "{font.size.md}", "$type": "dimension" },
+      "fontWeight": { "$value": "{font.weight.extrabold}", "$type": "fontWeight" }
+    },
+    "secondary": {
+      "$description": "Secondary button — white bg, dark text",
+      "bg": { "$value": "{color.bg.surface}", "$type": "color" },
+      "text": { "$value": "{color.text.primary}", "$type": "color" },
+      "border": { "$value": "{border.width.thick} solid {color.border.strong}", "$type": "border" },
+      "shadow": { "$value": "{shadow.card}", "$type": "shadow" },
+      "radius": { "$value": "{radius.lg}", "$type": "dimension" },
+      "padding": { "$value": "12px 0", "$type": "dimension" },
+      "fontSize": { "$value": "{font.size.md}", "$type": "dimension" },
+      "fontWeight": { "$value": "{font.weight.extrabold}", "$type": "fontWeight" }
+    },
+    "danger": {
+      "$description": "Destructive button — red bg, white text",
+      "bg": { "$value": "{color.status.error}", "$type": "color" },
+      "text": { "$value": "{color.text.onAccent}", "$type": "color" },
+      "border": { "$value": "{border.width.thick} solid {color.border.strong}", "$type": "border" },
+      "shadow": { "$value": "{shadow.card}", "$type": "shadow" },
+      "radius": { "$value": "{radius.lg}", "$type": "dimension" },
+      "padding": { "$value": "12px 0", "$type": "dimension" },
+      "fontSize": { "$value": "{font.size.md}", "$type": "dimension" },
+      "fontWeight": { "$value": "{font.weight.extrabold}", "$type": "fontWeight" }
+    },
+    "success": {
+      "$description": "Approve button — green bg, inline in rides/[id]",
+      "bg": { "$value": "{color.status.success}", "$type": "color" },
+      "text": { "$value": "{color.text.onAccent}", "$type": "color" },
+      "border": { "$value": "{border.width.thick} solid {color.border.strong}", "$type": "border" },
+      "shadow": { "$value": "{shadow.sm}", "$type": "shadow" },
+      "radius": { "$value": "{radius.md}", "$type": "dimension" }
+    },
+    "ghost": {
+      "$description": "Ghost/cancel button — transparent bg, dim text",
+      "bg": { "$value": "transparent", "$type": "color" },
+      "text": { "$value": "{color.text.muted}", "$type": "color" },
+      "border": { "$value": "none", "$type": "border" },
+      "radius": { "$value": "{radius.2xl}", "$type": "dimension" },
+      "padding": { "$value": "12px", "$type": "dimension" },
+      "fontSize": { "$value": "{font.size.lg}", "$type": "dimension" }
+    },
+    "subtle": {
+      "$description": "Save button — light green bg, green text (profile page)",
+      "bg": { "$value": "{color.save.bg}", "$type": "color" },
+      "text": { "$value": "{color.status.success}", "$type": "color" },
+      "border": { "$value": "none", "$type": "border" },
+      "radius": { "$value": "{radius.xl}", "$type": "dimension" },
+      "padding": { "$value": "10px 16px", "$type": "dimension" },
+      "fontSize": { "$value": "{font.size.base}", "$type": "dimension" },
+      "fontWeight": { "$value": "{font.weight.semibold}", "$type": "fontWeight" }
+    },
+    "whatsapp": {
+      "$description": "WhatsApp contact button — dark bg, green icon",
+      "bg": { "$value": "{color.border.strong}", "$type": "color" },
+      "text": { "$value": "{color.text.secondary}", "$type": "color" },
+      "border": { "$value": "none", "$type": "border" },
+      "radius": { "$value": "{radius.2xl}", "$type": "dimension" },
+      "padding": { "$value": "12px", "$type": "dimension" },
+      "fontSize": { "$value": "{font.size.md}", "$type": "dimension" },
+      "fontWeight": { "$value": "{font.weight.medium}", "$type": "fontWeight" }
+    },
+    "withdraw": {
+      "$description": "Withdraw/cancel request button — red tint bg, red text",
+      "bg": { "$value": "{color.status.errorBg}", "$type": "color" },
+      "text": { "$value": "{color.status.error}", "$type": "color" },
+      "border": { "$value": "{border.width.medium} solid {color.status.error}", "$type": "border" },
+      "radius": { "$value": "{radius.xl}", "$type": "dimension" },
+      "padding": { "$value": "10px", "$type": "dimension" },
+      "fontSize": { "$value": "{font.size.base}", "$type": "dimension" },
+      "fontWeight": { "$value": "{font.weight.semibold}", "$type": "fontWeight" }
+    }
+  },
+  "card": {
+    "standard": {
+      "$description": "Standard Card component",
+      "bg": { "$value": "{color.bg.surface}", "$type": "color" },
+      "border": { "$value": "{border.width.thick} solid {color.border.strong}", "$type": "border" },
+      "radius": { "$value": "{radius.xl}", "$type": "dimension" },
+      "shadow": { "$value": "{shadow.card}", "$type": "shadow" }
+    },
+    "danger": {
+      "$description": "Danger Card variant — red border",
+      "border": { "$value": "{border.width.thick} solid {color.status.error}", "$type": "border" },
+      "shadow": { "$value": "3px 3px 0 {color.status.error}", "$type": "shadow" }
+    },
+    "modal": {
+      "$description": "Confirm modal card — no shadow, smaller",
+      "bg": { "$value": "{color.bg.surface}", "$type": "color" },
+      "radius": { "$value": "{radius.3xl}", "$type": "dimension" },
+      "maxWidth": { "$value": "{size.modal.sm}", "$type": "dimension" }
+    },
+    "requestModal": {
+      "$description": "Request modal card — with shadow and border",
+      "bg": { "$value": "{color.bg.surface}", "$type": "color" },
+      "border": { "$value": "{border.width.thick} solid {color.border.strong}", "$type": "border" },
+      "radius": { "$value": "{radius.4xl}", "$type": "dimension" },
+      "shadow": { "$value": "{shadow.card}", "$type": "shadow" },
+      "maxWidth": { "$value": "{size.modal.md}", "$type": "dimension" }
+    }
+  },
+  "input": {
+    "standard": {
+      "$description": "Standard text input",
+      "bg": { "$value": "{color.bg.sunken}", "$type": "color" },
+      "border": { "$value": "{border.width.medium} solid {color.text.muted}", "$type": "border" },
+      "radius": { "$value": "{radius.base}", "$type": "dimension" },
+      "padding": { "$value": "10px 12px", "$type": "dimension" },
+      "fontSize": { "$value": "{font.size.base}", "$type": "dimension" },
+      "color": { "$value": "{color.text.primary}", "$type": "color" }
+    },
+    "note": {
+      "$description": "Note textarea (post-ride)",
+      "lineHeight": { "$value": "{font.lineHeight.relaxed}", "$type": "number" },
+      "resize": { "$value": "none", "$type": "string" }
+    },
+    "search": {
+      "$description": "Search bar input on home page",
+      "radius": { "$value": "{radius.full}", "$type": "dimension" },
+      "padding": { "$value": "14px 20px", "$type": "dimension" }
+    },
+    "ride": {
+      "$description": "Ride detail page input (pickup/dropoff)",
+      "bg": { "$value": "{color.bg.sunken}", "$type": "color" },
+      "border": { "$value": "1px solid {color.border.divider}", "$type": "border" },
+      "radius": { "$value": "{radius.2xl}", "$type": "dimension" },
+      "padding": { "$value": "10px 14px", "$type": "dimension" },
+      "lineHeight": { "$value": "{font.lineHeight.loose}", "$type": "number" }
+    }
+  },
+  "toast": {
+    "$description": "Toast notification popup",
+    "bg": { "$value": "{color.bg.surface}", "$type": "color" },
+    "border": { "$value": "1px solid {color.border.strong}", "$type": "border" },
+    "radius": { "$value": "{radius.2xl}", "$type": "dimension" },
+    "shadow": { "$value": "{shadow.float}", "$type": "shadow" },
+    "blur": { "$value": "blur(12px)", "$type": "string" },
+    "fontSize": { "$value": "{font.size.md}", "$type": "dimension" },
+    "fontWeight": { "$value": "{font.weight.semibold}", "$type": "fontWeight" }
+  },
+  "nav": {
+    "$description": "Bottom navigation bar",
+    "bg": { "$value": "{color.nav.bg}", "$type": "color" },
+    "border": { "$value": "1px solid {color.nav.border}", "$type": "border" },
+    "blur": { "$value": "blur(20px)", "$type": "string" },
+    "shadow": { "$value": "{shadow.nav}", "$type": "shadow" },
+    "radius": { "$value": "{radius.full}", "$type": "dimension" }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "border": {
+    "width": {
+      "$type": "dimension",
+      "thin": { "$value": "1px", "$description": "Subtle borders — nav border, upload borders, inner borders" },
+      "medium": { "$value": "1.5px", "$description": "Dashed dividers, status pills, inner card borders" },
+      "thick": { "$value": "2px", "$description": "Card borders, button borders, avatar borders, primary UI elements" }
+    },
+    "style": {
+      "solid": { "$value": "solid", "$description": "Standard borders" },
+      "dashed": { "$value": "dashed", "$description": "Dividers, upload card borders, row separators" }
+    }
+  },
+  "radius": {
+    "$type": "dimension",
+    "xs": { "$value": "5px", "$description": "Notification avatar small radius, tiny elements" },
+    "sm": { "$value": "6px", "$description": "Status pill, passenger avatar radius" },
+    "md": { "$value": "7px", "$description": "Back button, close button, nav action buttons" },
+    "base": { "$value": "8px", "$description": "Input fields, driver avatar, skeleton placeholders" },
+    "lg": { "$value": "9px", "$description": "Buttons, bell icon, nav tabs, profile avatar" },
+    "xl": { "$value": "10px", "$description": "Card component default, confirm modal button" },
+    "2xl": { "$value": "12px", "$description": "Ride card, route pickers, toast, main CTA buttons" },
+    "3xl": { "$value": "14px", "$description": "Confirm modal container" },
+    "4xl": { "$value": "16px", "$description": "Request modal, search expanded, upload cards" },
+    "5xl": { "$value": "20px", "$description": "Completed badge pill" },
+    "6xl": { "$value": "24px", "$description": "Viewport container border radius" },
+    "full": { "$value": "50px", "$description": "Search bar collapsed, nav bar, nav pills, avatar circle" }
+  }
+}

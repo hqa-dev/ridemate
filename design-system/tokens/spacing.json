@@ -1,0 +1,33 @@
+{
+  "space": {
+    "$type": "dimension",
+    "0": { "$value": "0px", "$description": "Zero spacing" },
+    "0.5": { "$value": "2px", "$description": "Tiny gaps — notification status margin" },
+    "1": { "$value": "4px", "$description": "Minimal gaps — between route dots, label margins" },
+    "1.5": { "$value": "6px", "$description": "Small gaps — button gaps, star gaps, icon-text spacing" },
+    "2": { "$value": "8px", "$description": "Standard small — card padding, section gaps, button gaps" },
+    "2.5": { "$value": "10px", "$description": "Input padding, card padding, ride card margins, footer padding" },
+    "3": { "$value": "12px", "$description": "Component gaps — card padding, nav tab gaps, section margins" },
+    "3.5": { "$value": "14px", "$description": "Card padding (driver section), notification row padding" },
+    "4": { "$value": "16px", "$description": "Standard — card padding, page margins, modal margins" },
+    "5": { "$value": "20px", "$description": "Page horizontal padding, modal padding, search bar padding" },
+    "6": { "$value": "24px", "$description": "Page top padding, modal top padding, section spacing" },
+    "7": { "$value": "28px", "$description": "Verification description bottom margin" },
+    "8": { "$value": "32px", "$description": "Verification submitted bottom margin" },
+    "page": {
+      "x": { "$value": "20px", "$description": "Page horizontal padding — consistent across all pages" },
+      "top": { "$value": "24px", "$description": "Page top padding — header area" }
+    },
+    "card": {
+      "sm": { "$value": "12px", "$description": "Compact card padding — stats, price sections" },
+      "md": { "$value": "14px", "$description": "Standard card padding — driver section, notifications" },
+      "lg": { "$value": "16px", "$description": "Generous card padding — route cards, car details" }
+    },
+    "modal": {
+      "x": { "$value": "20px", "$description": "Modal horizontal padding" },
+      "y": { "$value": "24px", "$description": "Modal vertical padding" }
+    },
+    "navClearance": { "$value": "96px", "$description": "Bottom scroll padding to clear fixed nav" },
+    "navClearanceLg": { "$value": "100px", "$description": "Larger bottom clearance — post-ride, profile" }
+  }
+}

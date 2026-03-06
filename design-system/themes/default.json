@@ -1,0 +1,48 @@
+{
+  "$description": "Bobby theme — Inspired by Bobby gum packaging: ink on white, orange-red + yellow accents. This is the default لیمۆ (Limo) theme.",
+  "semantic": {
+    "brand": {
+      "primary": { "$value": "{color.brand.primary}", "$description": "Bobby box orange — main accent color" },
+      "fill": { "$value": "{color.brand.fill}", "$description": "Orange tint for accent backgrounds" },
+      "glow": { "$value": "{color.brand.glow}", "$description": "Orange glow for viewport container" }
+    },
+    "surface": {
+      "page": { "$value": "{color.bg.canvas}", "$description": "Aged paper white page background" },
+      "card": { "$value": "{color.bg.surface}", "$description": "Pure white card surface" },
+      "inner": { "$value": "{color.bg.sunken}", "$description": "Warm inset surfaces" },
+      "modal": { "$value": "{color.bg.modal}", "$description": "Modal background" }
+    },
+    "text": {
+      "heading": { "$value": "{color.text.primary}", "$description": "Near-black ink for headings" },
+      "body": { "$value": "{color.text.secondary}", "$description": "Mid ink for body text" },
+      "caption": { "$value": "{color.text.muted}", "$description": "Faded ink for captions" },
+      "onBrand": { "$value": "{color.text.onAccent}", "$description": "White text on accent surfaces" }
+    },
+    "border": {
+      "default": { "$value": "{color.border.strong}", "$description": "Thick ink outlines" },
+      "muted": { "$value": "{color.border.subtle}", "$description": "Subtle inner borders" },
+      "separator": { "$value": "{color.border.divider}", "$description": "Dashed divider lines" }
+    },
+    "status": {
+      "positive": { "$value": "{color.status.success}", "$description": "Success/approved green" },
+      "positiveBg": { "$value": "{color.status.successBg}", "$description": "Green tint" },
+      "negative": { "$value": "{color.status.error}", "$description": "Error/decline red" },
+      "negativeBg": { "$value": "{color.status.errorBg}", "$description": "Red tint" },
+      "pending": { "$value": "{color.status.warning}", "$description": "Pending/warning yellow" },
+      "pendingBg": { "$value": "{color.status.warningBg}", "$description": "Yellow tint" }
+    },
+    "nav": {
+      "background": { "$value": "{color.nav.bg}", "$description": "White nav background" },
+      "activePill": { "$value": "{color.nav.activePill}", "$description": "Orange active tab" },
+      "glow": { "$value": "{color.nav.glow}", "$description": "No glow in Bobby theme" }
+    },
+    "viewport": {
+      "shadow": { "$value": "{shadow.viewport}", "$description": "Viewport glow — orange accent + dark outer" },
+      "radius": { "$value": "{radius.6xl}", "$description": "24px viewport corners" }
+    },
+    "shadow": {
+      "element": { "$value": "{shadow.sm}", "$description": "Small UI element shadow" },
+      "card": { "$value": "{shadow.card}", "$description": "Card shadow" }
+    }
+  }
+}

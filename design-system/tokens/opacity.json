@@ -1,0 +1,17 @@
+{
+  "opacity": {
+    "$type": "number",
+    "tint": { "$value": 0.06, "$description": "chipBg opacity level" },
+    "statusBg": { "$value": 0.07, "$description": "Red status background opacity" },
+    "fill": { "$value": 0.08, "$description": "Accent fill, success tint background" },
+    "glow": { "$value": 0.12, "$description": "Accent glow, save button background" },
+    "uploadBorder": { "$value": 0.15, "$description": "Upload card filled border, completed icon border" },
+    "ghost": { "$value": 0.25, "$description": "Empty seat slots, picker calendar indicator" },
+    "divider": { "$value": 0.3, "$description": "Dashed divider line in ride card (lower)" },
+    "dividerStrong": { "$value": 0.4, "$description": "Dashed divider line in ride card (upper), DashedDivider component" },
+    "disabled": { "$value": 0.5, "$description": "Disabled buttons, dimmed ride cards (completed/cancelled)" },
+    "dimmed": { "$value": 0.6, "$description": "Full ride cards with no available seats" },
+    "starMuted": { "$value": 0.7, "$description": "Star display muted opacity" },
+    "backdrop": { "$value": 0.7, "$description": "Modal backdrop overlay" }
+  }
+}

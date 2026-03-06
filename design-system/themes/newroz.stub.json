@@ -1,0 +1,26 @@
+{
+  "$description": "Newroz (Kurdish New Year) theme stub — only tokens that change from default. Swaps orange brand to green/red/white Kurdish flag palette. Viewport glow becomes multi-color festive.",
+  "semantic": {
+    "brand": {
+      "primary": { "$value": "#2E8B57", "$description": "Newroz green — Kurdish flag green, replaces Bobby orange" },
+      "fill": { "$value": "rgba(46,139,87,0.08)", "$description": "Green tint fill" },
+      "glow": { "$value": "rgba(46,139,87,0.15)", "$description": "Green glow for viewport" }
+    },
+    "nav": {
+      "activePill": { "$value": "#2E8B57", "$description": "Green active tab for Newroz" },
+      "glow": { "$value": "rgba(46,139,87,0.3)", "$description": "Subtle green nav glow" }
+    },
+    "viewport": {
+      "shadow": { "$value": "0 0 60px rgba(46,139,87,0.2), 0 0 120px rgba(220,20,60,0.1), 0 0 180px rgba(255,215,0,0.08)", "$description": "Multi-color Newroz glow — green (primary), red (fire), gold (sun)" }
+    }
+  },
+  "_notes": {
+    "status_colors": "Status colors (success/error/warning) remain unchanged — they are functional, not brand.",
+    "how_to_activate": "Copy this file as the active theme, rebuild tokens. Components never change.",
+    "additional_ideas": [
+      "Add Newroz fire animation to viewport glow",
+      "Swap app greeting to 'نەورۆزتان پیرۆز بێ'",
+      "Consider red/gold secondary accents for CTAs"
+    ]
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "color": {
+    "$type": "color",
+    "bg": {
+      "canvas": { "$value": "#FAFAF7", "$description": "Aged paper white — main page background" },
+      "surface": { "$value": "#FFFFFF", "$description": "Pure white card surfaces" },
+      "sunken": { "$value": "#F5F3EC", "$description": "Warm inner surfaces (cardInner)" },
+      "modal": { "$value": "#FAFAF7", "$description": "Modal background — same as canvas, semantically distinct" }
+    },
+    "text": {
+      "primary": { "$value": "#1A1208", "$description": "Near-black ink — main text" },
+      "secondary": { "$value": "#4A3F2A", "$description": "Mid ink — secondary text" },
+      "muted": { "$value": "#9A8F78", "$description": "Faded ink — dim/faint text" },
+      "onAccent": { "$value": "#FFFFFF", "$description": "White text/icon on accent backgrounds" }
+    },
+    "brand": {
+      "primary": { "$value": "#E8470A", "$description": "Bobby box orange — main accent" },
+      "fill": { "$value": "rgba(232,71,10,0.08)", "$description": "Accent tint fill" },
+      "glow": { "$value": "rgba(232,71,10,0.12)", "$description": "Accent glow for viewport shadow" }
+    },
+    "status": {
+      "success": { "$value": "#2A7A1A", "$description": "Approve / verified green" },
+      "successBg": { "$value": "rgba(42,122,26,0.08)", "$description": "Green tint background" },
+      "error": { "$value": "#C8001A", "$description": "Decline / full / destructive red" },
+      "errorBg": { "$value": "rgba(200,0,26,0.07)", "$description": "Red tint background" },
+      "warning": { "$value": "#F5C800", "$description": "Warm gum yellow — pending/amber" },
+      "warningBg": { "$value": "rgba(245,200,0,0.12)", "$description": "Yellow/amber tint background" }
+    },
+    "border": {
+      "strong": { "$value": "#1A1208", "$description": "Thick ink border — cards, buttons" },
+      "subtle": { "$value": "rgba(26,18,8,0.15)", "$description": "Dim inner borders (borderDim)" },
+      "divider": { "$value": "rgba(26,18,8,0.25)", "$description": "Dashed row dividers" }
+    },
+    "nav": {
+      "bg": { "$value": "#FFFFFF", "$description": "Bottom nav background" },
+      "border": { "$value": "#1A1208", "$description": "Bottom nav border" },
+      "activePill": { "$value": "#E8470A", "$description": "Active tab pill background" },
+      "glow": { "$value": "transparent", "$description": "Nav glow — transparent in Bobby theme" }
+    },
+    "icon": {
+      "muted": { "$value": "#9A8F78", "$description": "Inactive nav icons, dim icons" },
+      "default": { "$value": "#4A3F2A", "$description": "Mid-prominence icons" }
+    },
+    "overlay": {
+      "backdrop": { "$value": "rgba(0,0,0,0.7)", "$description": "Modal backdrop" },
+      "viewportOuter": { "$value": "rgba(0,0,0,0.5)", "$description": "Outer viewport shadow — hardcoded in layout.tsx" }
+    },
+    "chip": {
+      "bg": { "$value": "rgba(26,18,8,0.06)", "$description": "Cancelled status chip background" }
+    },
+    "external": {
+      "whatsapp": { "$value": "#25D366", "$description": "WhatsApp green — never changes" },
+      "google": { "$value": "#4285F4", "$description": "Google sign-in blue" }
+    },
+    "avatar": {
+      "palette": {
+        "$value": ["#E8470A", "#2A7A1A", "#4A6FA5", "#8B4513", "#6B3FA0"],
+        "$description": "5-color palette for notification avatars — hardcoded in notifications/page.tsx"
+      }
+    },
+    "ride": {
+      "completedIconBg": { "$value": "rgba(74,222,128,0.08)", "$description": "Completed ride icon box background — hardcoded in rides/[id]" },
+      "completedIconBorder": { "$value": "rgba(74,222,128,0.15)", "$description": "Completed ride icon box border — hardcoded in rides/[id]" },
+      "ratedIconBg": { "$value": "rgba(223,101,48,0.08)", "$description": "Rated confirmation icon box background — hardcoded in rides/[id]" },
+      "ratedIconBorder": { "$value": "rgba(223,101,48,0.15)", "$description": "Rated confirmation icon box border — hardcoded in rides/[id]" },
+      "activeStatusBg": { "$value": "rgba(251,191,36,0.1)", "$description": "Active ride status in manage tab — hardcoded in post-ride" },
+      "completedStatusBg": { "$value": "rgba(74,222,128,0.1)", "$description": "Completed ride status in manage tab — hardcoded in post-ride" },
+      "cancelledStatusBg": { "$value": "rgba(248,113,113,0.1)", "$description": "Cancelled ride status in manage tab — hardcoded in post-ride" }
+    },
+    "save": {
+      "bg": { "$value": "rgba(74,222,128,0.12)", "$description": "Save button background — profile page" },
+      "uploadFilled": { "$value": "rgba(74,222,128,0.08)", "$description": "Upload card filled state background — post-ride verification" },
+      "uploadBorder": { "$value": "rgba(74,222,128,0.15)", "$description": "Upload card filled state border — post-ride verification" },
+      "uploadDashedBorder": { "$value": "rgba(74,222,128,0.2)", "$description": "Upload inner dashed border — post-ride verification" },
+      "uploadSelfie": { "$value": "rgba(74,222,128,0.3)", "$description": "Selfie upload dashed border — post-ride verification" }
+    }
+  }
+}

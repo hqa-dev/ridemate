@@ -1,0 +1,9 @@
+{
+  "z": {
+    "$type": "number",
+    "dropdown": { "$value": 10, "$description": "Date overlay in globals.css (.date-overlay z-index)" },
+    "nav": { "$value": 100, "$description": "Bottom navigation bar" },
+    "overlay": { "$value": 200, "$description": "Request modal, toast messages" },
+    "modal": { "$value": 300, "$description": "Confirm modal — highest layer" }
+  }
+}

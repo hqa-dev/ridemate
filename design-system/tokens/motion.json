@@ -1,0 +1,26 @@
+{
+  "motion": {
+    "duration": {
+      "$type": "duration",
+      "fast": { "$value": "150ms", "$description": "Star scale transition, quick interactions" },
+      "normal": { "$value": "200ms", "$description": "Nav label opacity fade, down-arrow rotation, generic ease" },
+      "slow": { "$value": "300ms", "$description": "Nav tab background/border transition" },
+      "navExpand": { "$value": "400ms", "$description": "Nav label max-width expand" },
+      "navPill": { "$value": "450ms", "$description": "Nav tab flex expand/collapse" }
+    },
+    "easing": {
+      "standard": { "$value": "ease", "$description": "Default easing — generic transitions" },
+      "bounce": { "$value": "cubic-bezier(0.34, 1.56, 0.64, 1)", "$description": "Bouncy overshoot — nav pill expand, nav label width" }
+    },
+    "delay": {
+      "navLabel": { "$value": "150ms", "$description": "Nav label fade-in delay after pill expands" }
+    },
+    "nav": {
+      "tabTransition": { "$value": "flex 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s, border 0.3s, transform 0.3s", "$description": "BottomNav .nav-tab composite transition — from inline <style> tag" },
+      "labelTransition": { "$value": "opacity 0.2s ease 0.15s, max-width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)", "$description": "BottomNav .nav-label composite transition — from inline <style> tag" }
+    },
+    "press": {
+      "scale": { "$value": "scale(0.95)", "$description": "Active press transform on nav tabs" }
+    }
+  }
+}

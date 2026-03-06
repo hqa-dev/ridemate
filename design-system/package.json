@@ -1,0 +1,14 @@
+{
+  "name": "limo-design-system",
+  "version": "1.0.0",
+  "description": "لیمۆ (Limo) Design System — Style Dictionary tokens, multi-platform output",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.config.mjs",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "style-dictionary": "^4.0.0"
+  }
+}

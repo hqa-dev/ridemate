@@ -1,0 +1,26 @@
+{
+  "$description": "Christmas theme stub — only tokens that change from default. Warm red/gold festive palette. Viewport glow becomes warm and inviting.",
+  "semantic": {
+    "brand": {
+      "primary": { "$value": "#B22222", "$description": "Christmas red — replaces Bobby orange" },
+      "fill": { "$value": "rgba(178,34,34,0.08)", "$description": "Red tint fill" },
+      "glow": { "$value": "rgba(178,34,34,0.12)", "$description": "Red glow for viewport" }
+    },
+    "nav": {
+      "activePill": { "$value": "#B22222", "$description": "Christmas red active tab" },
+      "glow": { "$value": "rgba(255,215,0,0.2)", "$description": "Warm gold nav glow" }
+    },
+    "viewport": {
+      "shadow": { "$value": "0 0 60px rgba(178,34,34,0.2), 0 0 120px rgba(255,215,0,0.15)", "$description": "Warm festive glow — red + gold" }
+    }
+  },
+  "_notes": {
+    "status_colors": "Status colors remain unchanged — functional, not brand.",
+    "how_to_activate": "Copy this file as the active theme, rebuild tokens. Components never change.",
+    "additional_ideas": [
+      "Add snowflake or star accents to viewport border",
+      "Gold accent for secondary elements",
+      "Swap greeting to a festive message"
+    ]
+  }
+}
