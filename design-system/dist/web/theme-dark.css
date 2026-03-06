@@ -1,0 +1,19 @@
+/* لیمۆ Theme Override: dark — Auto-generated, do not edit */
+:root[data-theme="dark"] {
+  --color-bg-canvas: #1C1813;
+  --color-bg-surface: #2A2318;
+  --color-bg-sunken: #332B20;
+  --color-bg-modal: #252018;
+  --color-text-primary: #F5EDD8;
+  --color-text-secondary: #C4B49A;
+  --color-text-muted: #7A6E5E;
+  --color-border-strong: #F5EDD8;
+  --color-border-subtle: rgba(245,237,216,0.12);
+  --color-border-divider: rgba(245,237,216,0.20);
+  --color-nav-bg: #1C1813;
+  --color-nav-border: #F5EDD8;
+  --color-icon-muted: #7A6E5E;
+  --color-icon-default: #C4B49A;
+  --color-overlay-viewportOuter: rgba(0,0,0,0.8);
+  --color-chip-bg: rgba(245,237,216,0.08);
+}

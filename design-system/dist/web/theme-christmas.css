@@ -1,0 +1,9 @@
+/* لیمۆ Theme Override: christmas — Auto-generated, do not edit */
+:root[data-theme="christmas"] {
+  --color-brand-primary: #B22222;
+  --color-brand-fill: rgba(178,34,34,0.08);
+  --color-brand-glow: rgba(178,34,34,0.12);
+  --color-nav-activePill: #B22222;
+  --color-nav-glow: rgba(255,215,0,0.2);
+  --shadow-viewport: 0 0 60px rgba(178,34,34,0.2), 0 0 120px rgba(255,215,0,0.15);
+}

@@ -1,0 +1,35 @@
+{
+  "$description": "Bobby Dark — warm dark mode. Only tokens that differ from the default light theme.",
+  "color": {
+    "bg": {
+      "canvas":  { "$value": "#1C1813" },
+      "surface": { "$value": "#2A2318" },
+      "sunken":  { "$value": "#332B20" },
+      "modal":   { "$value": "#252018" }
+    },
+    "text": {
+      "primary":   { "$value": "#F5EDD8" },
+      "secondary": { "$value": "#C4B49A" },
+      "muted":     { "$value": "#7A6E5E" }
+    },
+    "border": {
+      "strong":  { "$value": "#F5EDD8" },
+      "subtle":  { "$value": "rgba(245,237,216,0.12)" },
+      "divider": { "$value": "rgba(245,237,216,0.20)" }
+    },
+    "nav": {
+      "bg":     { "$value": "#1C1813" },
+      "border": { "$value": "#F5EDD8" }
+    },
+    "icon": {
+      "muted":   { "$value": "#7A6E5E" },
+      "default": { "$value": "#C4B49A" }
+    },
+    "overlay": {
+      "viewportOuter": { "$value": "rgba(0,0,0,0.8)" }
+    },
+    "chip": {
+      "bg": { "$value": "rgba(245,237,216,0.08)" }
+    }
+  }
+}

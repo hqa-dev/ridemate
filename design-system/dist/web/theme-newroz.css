@@ -1,0 +1,9 @@
+/* لیمۆ Theme Override: newroz — Auto-generated, do not edit */
+:root[data-theme="newroz"] {
+  --color-brand-primary: #2E8B57;
+  --color-brand-fill: rgba(46,139,87,0.08);
+  --color-brand-glow: rgba(46,139,87,0.15);
+  --color-nav-activePill: #2E8B57;
+  --color-nav-glow: rgba(46,139,87,0.3);
+  --shadow-viewport: 0 0 60px rgba(46,139,87,0.2), 0 0 120px rgba(220,20,60,0.1), 0 0 180px rgba(255,215,0,0.08);
+}

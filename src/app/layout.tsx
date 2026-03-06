@@ -15,6 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ckb" dir="rtl">
       <head>
+        <script dangerouslySetInnerHTML={{ __html: `(function(){var m=localStorage.getItem('limo-theme');if(m==='dark')document.documentElement.setAttribute('data-theme','dark')})()` }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
       </head>

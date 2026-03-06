@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { ku } from '@/lib/translations'
 import { createClient } from '@/lib/supabase/client'
 import { CITIES } from '@/lib/utils'
+import { getThemeMode, setThemeMode } from '@/lib/theme-mode'
 import { RideCard } from '@/components/ui/RideCard'
 
 export default function HomePage() {
@@ -14,7 +15,13 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true)
   const [searchOpen, setSearchOpen] = useState(false)
   const [hasUnseen, setHasUnseen] = useState(false)
+  const [themeMode2, setThemeMode2] = useState<'light' | 'dark'>('light')
+  const themeMode = themeMode2
   const supabase = createClient()
+
+  useEffect(() => {
+    setThemeMode2(getThemeMode())
+  }, [])
 
   useEffect(() => {
     loadRides()
@@ -79,27 +86,71 @@ export default function HomePage() {
             margin: 0,
           }}>لیمۆ</h1>
 
-          {/* Bell icon — ink bordered box */}
-          <Link href="/notifications" style={{ textDecoration: 'none' }}>
-            <div style={{
-              position: 'relative', width: 'var(--size-button-iconLg)', height: 'var(--size-button-iconLg)',
-              border: 'var(--border-width-thick) solid var(--color-border-strong)', borderRadius: 'var(--radius-lg)',
-              background: 'var(--color-bg-surface)', boxShadow: 'var(--shadow-sm)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-            }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-              </svg>
-              {hasUnseen && (
-                <div style={{
-                  position: 'absolute', top: -3, right: -3,
-                  width: 'var(--size-badge-dot)', height: 'var(--size-badge-dot)', borderRadius: '50%',
-                  background: 'var(--color-brand-primary)', border: 'var(--border-width-thick) solid var(--color-bg-canvas)',
-                }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+            {/* Theme toggle */}
+            <div
+              onClick={(e) => {
+                e.stopPropagation()
+                e.preventDefault()
+                const next = themeMode === 'dark' ? 'light' : 'dark'
+                setThemeMode(next)
+                setThemeMode2(next)
+              }}
+              style={{
+                cursor: 'pointer',
+                width: 'var(--size-button-iconLg)',
+                height: 'var(--size-button-iconLg)',
+                border: 'var(--border-width-thick) solid var(--color-border-strong)',
+                borderRadius: 'var(--radius-lg)',
+                background: 'var(--color-bg-surface)',
+                boxShadow: 'var(--shadow-sm)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 16,
+              }}
+            >
+              {themeMode === 'dark' ? (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="5" />
+                  <line x1="12" y1="1" x2="12" y2="3" />
+                  <line x1="12" y1="21" x2="12" y2="23" />
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                  <line x1="1" y1="12" x2="3" y2="12" />
+                  <line x1="21" y1="12" x2="23" y2="12" />
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                </svg>
+              ) : (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                </svg>
               )}
             </div>
-          </Link>
+
+            {/* Bell icon — ink bordered box */}
+            <Link href="/notifications" style={{ textDecoration: 'none' }}>
+              <div style={{
+                position: 'relative', width: 'var(--size-button-iconLg)', height: 'var(--size-button-iconLg)',
+                border: 'var(--border-width-thick) solid var(--color-border-strong)', borderRadius: 'var(--radius-lg)',
+                background: 'var(--color-bg-surface)', boxShadow: 'var(--shadow-sm)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                </svg>
+                {hasUnseen && (
+                  <div style={{
+                    position: 'absolute', top: -3, right: -3,
+                    width: 'var(--size-badge-dot)', height: 'var(--size-badge-dot)', borderRadius: '50%',
+                    background: 'var(--color-brand-primary)', border: 'var(--border-width-thick) solid var(--color-bg-canvas)',
+                  }} />
+                )}
+              </div>
+            </Link>
+          </div>
         </div>
 
         {/* Search bar — collapsed */}

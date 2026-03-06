@@ -96,6 +96,19 @@ const semanticToVar = {
   'viewport-radius': 'radius-6xl',
 };
 
+// ── Build dark theme (direct token overrides) ──
+{
+  const raw = JSON.parse(readFileSync('themes/dark.json', 'utf8'));
+  const overrides = flattenOverrides(raw);
+  const lines = Object.entries(overrides).map(([path, value]) => {
+    return `  --${path}: ${value};`;
+  });
+  const css = `/* لیمۆ Theme Override: dark — Auto-generated, do not edit */\n:root[data-theme="dark"] {\n${lines.join('\n')}\n}\n`;
+  const { writeFileSync } = await import('fs');
+  writeFileSync('dist/web/theme-dark.css', css);
+  console.log('✓ theme-dark.css built');
+}
+
 const themes = [
   { name: 'newroz', file: 'themes/newroz.stub.json' },
   { name: 'christmas', file: 'themes/christmas.stub.json' },
