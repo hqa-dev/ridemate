@@ -235,4 +235,19 @@ export const kurdishStrings = {
   verificationLinkSent: 'لینکی پشتڕاستکردن نێردرا',
   errorNameChangeLimit: 'هێشتا ناتوانیت ناوەکەت بگۆڕیت',
 
+  comingSoon: 'بەم زووانە',
+  userFallback: 'بەکارهێنەر',
+  person: 'نەفەر',
+  verifiedBadgeInline: ' · پشتڕاستکراوە ✓',
+  postARide: 'گەشتێک پۆستکە',
+  activated: 'چالاککراوە',
+  notActivated: 'چالاکنەکراوە',
+  settings: 'ڕێکخستنەکان',
+  notifications: 'ئاگاداریەکان',
+  notifOn: 'کراوە',
+  supportSection: 'یارمەتی',
+  contactUs: 'پەیوەندی',
+  aboutApp: 'دەربارەی ڕێ',
+  logOut: 'چوونەدەرەوە',
+
 }

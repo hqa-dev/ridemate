@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { BottomNav } from '@/components/layout/BottomNav'
+import { kurdishStrings } from '@/lib/strings'
 import { createClient } from '@/lib/supabase/client'
 import SketchPerson from '@/components/ui/icons/SketchPerson'
 import SectionLabel from '@/components/ui/SectionLabel'
@@ -128,7 +129,7 @@ export default function AccountPage() {
   const [toast, setToast] = useState('')
 
   function comingSoon() {
-    setToast('بەم زووانە')
+    setToast(kurdishStrings.comingSoon)
     setTimeout(() => setToast(''), 2000)
   }
 
@@ -140,7 +141,7 @@ export default function AccountPage() {
 
       {/* Header */}
       <div style={{ padding: 'var(--space-page-top) var(--space-page-x) 0' }}>
-        <h1 style={{ fontSize: 'var(--font-size-4xl)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number, color: 'var(--color-text-primary)', margin: '0 0 var(--space-5)' }}>هەژمار</h1>
+        <h1 style={{ fontSize: 'var(--font-size-4xl)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number, color: 'var(--color-text-primary)', margin: '0 0 var(--space-5)' }}>{kurdishStrings.navAccount}</h1>
       </div>
 
       {/* Profile row */}
@@ -159,48 +160,48 @@ export default function AccountPage() {
         </div>
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 'var(--font-size-xl)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)' }}>
-            {profile?.full_name || user?.user_metadata?.full_name || 'بەکارهێنەر'}
+            {profile?.full_name || user?.user_metadata?.full_name || kurdishStrings.userFallback}
           </div>
           <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>
-            {isDriver ? 'شۆفێر' : 'نەفەر'}
-            {isVerified && ' · پشتڕاستکراوە ✓'}
+            {isDriver ? kurdishStrings.driverLabel : kurdishStrings.person}
+            {isVerified && kurdishStrings.verifiedBadgeInline}
           </div>
         </div>
       </div>
       </Card>
 
       {/* Account section */}
-      <SectionLabel label="هەژمار" />
+      <SectionLabel label={kurdishStrings.navAccount} />
       <Card style={{ margin: '0 var(--space-3)', padding: '0 var(--space-card-md)' }}>
         <div style={{ overflow: 'hidden' }}>
-          <MenuItem icon={Icons.profile} label="پرۆفایل" onClick={() => router.push('/profile')} />
-          <MenuItem icon={Icons.myRides} label="گەشتەکانم" onClick={() => router.push('/my-rides')} />
-          <MenuItem icon={Icons.postRide} label="گەشتێک پۆستکە" onClick={() => router.push('/post-ride')} />
-          <MenuItem icon={Icons.car} label="شۆفێر" value={isDriver ? 'چالاککراوە' : 'چالاکنەکراوە'} onClick={() => router.push('/post-ride')} />
-          <MenuItem icon={Icons.settings} label="ڕێکخستنەکان" onClick={() => router.push('/settings')} />
-          <MenuItem icon={Icons.bell} label="ئاگاداریەکان" value="کراوە" isLast onClick={comingSoon} />
+          <MenuItem icon={Icons.profile} label={kurdishStrings.profilePageTitle} onClick={() => router.push('/profile')} />
+          <MenuItem icon={Icons.myRides} label={kurdishStrings.myRidesTitle} onClick={() => router.push('/my-rides')} />
+          <MenuItem icon={Icons.postRide} label={kurdishStrings.postARide} onClick={() => router.push('/post-ride')} />
+          <MenuItem icon={Icons.car} label={kurdishStrings.driverLabel} value={isDriver ? kurdishStrings.activated : kurdishStrings.notActivated} onClick={() => router.push('/post-ride')} />
+          <MenuItem icon={Icons.settings} label={kurdishStrings.settings} onClick={() => router.push('/settings')} />
+          <MenuItem icon={Icons.bell} label={kurdishStrings.notifications} value={kurdishStrings.notifOn} isLast onClick={comingSoon} />
         </div>
       </Card>
 
       {/* Support section */}
-      <SectionLabel label="یارمەتی" />
+      <SectionLabel label={kurdishStrings.supportSection} />
       <Card style={{ margin: '0 var(--space-3)', padding: '0 var(--space-card-md)' }}>
         <div style={{ overflow: 'hidden' }}>
-          <MenuItem icon={Icons.chat} label="پەیوەندی" onClick={comingSoon} />
-          <MenuItem icon={Icons.info} label="دەربارەی ڕێ" value="v1.0.0" isLast onClick={comingSoon} />
+          <MenuItem icon={Icons.chat} label={kurdishStrings.contactUs} onClick={comingSoon} />
+          <MenuItem icon={Icons.info} label={kurdishStrings.aboutApp} value="v1.0.0" isLast onClick={comingSoon} />
         </div>
       </Card>
 
       {/* Sign out */}
       <div style={{ marginTop: 'var(--space-4)' }}>
         <Card danger style={{ margin: '0 var(--space-3)', padding: '0 var(--space-card-md)' }}>
-          <MenuItem icon={Icons.logout} label="چوونەدەرەوە" danger isLast onClick={handleSignOut} />
+          <MenuItem icon={Icons.logout} label={kurdishStrings.logOut} danger isLast onClick={handleSignOut} />
         </Card>
       </div>
 
       {/* Version */}
       <div style={{ textAlign: 'center', padding: 'var(--space-6) 0 var(--space-navClearanceLg)' }}>
-        <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>ڕێ v1.0.0</span>
+        <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>{kurdishStrings.appShortName} v1.0.0</span>
       </div>
 
       {/* Toast */}
