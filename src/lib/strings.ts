@@ -250,4 +250,7 @@ export const kurdishStrings = {
   aboutApp: 'دەربارەی ڕێ',
   logOut: 'چوونەدەرەوە',
 
+  yes: 'بەڵێ',
+  no: 'نەخێر',
+
 }

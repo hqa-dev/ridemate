@@ -1,6 +1,7 @@
 'use client'
 
 import { T } from '@/lib/theme'
+import { kurdishStrings } from '@/lib/strings'
 
 interface ConfirmModalProps {
   isOpen: boolean
@@ -42,7 +43,7 @@ export function ConfirmModal({ isOpen, message, onConfirm, onCancel }: ConfirmMo
               fontFamily: "'Noto Sans Arabic', sans-serif",
             }}
           >
-            بەڵێ
+            {kurdishStrings.yes}
           </button>
           <button
             onClick={onCancel}
@@ -53,7 +54,7 @@ export function ConfirmModal({ isOpen, message, onConfirm, onCancel }: ConfirmMo
               fontFamily: "'Noto Sans Arabic', sans-serif",
             }}
           >
-            نەخێر
+            {kurdishStrings.no}
           </button>
         </div>
       </div>

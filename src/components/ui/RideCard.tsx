@@ -5,6 +5,7 @@ import SketchCar from '@/components/ui/icons/SketchCar'
 import SketchPerson from '@/components/ui/icons/SketchPerson'
 import RouteLine from '@/components/ui/icons/RouteLine'
 import { REQUEST_STATUS, RIDE_CANCELLED_STATUS } from '@/lib/constants'
+import { kurdishStrings } from '@/lib/strings'
 
 interface RideCardProps {
   ride: {
@@ -30,9 +31,9 @@ export function RideCard({ ride, status, dimmed, editButton }: RideCardProps) {
   const distance = ROUTE_DISTANCE[routeKey] || ''
   const priceDisplay = ride.price_type === 'coffee'
     ? '☕'
-    : `${toKurdishNum(Number(ride.price_iqd || 0).toLocaleString('en'))} دینار`
+    : `${toKurdishNum(Number(ride.price_iqd || 0).toLocaleString('en'))} ${kurdishStrings.iqdAmount}`
   const isFull = ride.available_seats <= 0
-  const seatsDisplay = `${toKurdishNum(ride.available_seats)} جێگا`
+  const seatsDisplay = `${toKurdishNum(ride.available_seats)} ${kurdishStrings.seat}`
 
   return (
     <Link href={`/rides/${ride.id}`} style={{ textDecoration: 'none', display: 'block' }}>
@@ -95,11 +96,11 @@ export function RideCard({ ride, status, dimmed, editButton }: RideCardProps) {
             }}>
               <SketchPerson size={14} />
             </div>
-            <span style={{ fontSize: 11, fontWeight: 700, color: T.text }}>{driver.full_name || 'شۆفێر'}</span>
+            <span style={{ fontSize: 11, fontWeight: 700, color: T.text }}>{driver.full_name || kurdishStrings.driverLabel}</span>
           </div>
           {/* Seats · price */}
           <span style={{ fontSize: 10, color: T.textDim }}>
-            {isFull ? '٠ جێگا' : seatsDisplay} · {priceDisplay}
+            {isFull ? kurdishStrings.statusFull : seatsDisplay} · {priceDisplay}
           </span>
         </div>
 
