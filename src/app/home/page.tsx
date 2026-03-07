@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { BottomNav } from '@/components/layout/BottomNav'
 import Link from 'next/link'
@@ -20,6 +20,7 @@ export default function HomePage() {
   const [themeMode, setThemeMode2] = useState<'light' | 'dark' | null>(null)
   const [toast, setToast] = useState('')
   const [isRefreshing, setIsRefreshing] = useState(false)
+  const fetchDoneRef = useRef(false)
   const { user, loading: profileLoading } = useProfile()
   const router = useRouter()
   const supabase = createClient()
@@ -99,7 +100,7 @@ export default function HomePage() {
             {/* Refresh button */}
             <style>{`@keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }`}</style>
             <div
-              onClick={async () => { setIsRefreshing(true); await Promise.all([loadRides(), checkBell(), new Promise(r => setTimeout(r, 1500))]); setIsRefreshing(false) }}
+              onClick={async () => { fetchDoneRef.current = false; setIsRefreshing(true); await Promise.all([loadRides(), checkBell()]); fetchDoneRef.current = true }}
               style={{
                 cursor: 'pointer',
                 width: 'var(--size-button-iconLg)',
@@ -113,7 +114,7 @@ export default function HomePage() {
                 justifyContent: 'center',
               }}
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={isRefreshing ? { animation: 'spin 1.5s linear infinite' } : undefined}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={isRefreshing ? { animation: 'spin 1.5s linear infinite' } : undefined} onAnimationIteration={() => { if (fetchDoneRef.current) setIsRefreshing(false) }}>
                 <polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" />
                 <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
               </svg>
