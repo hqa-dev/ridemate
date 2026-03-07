@@ -99,7 +99,7 @@ export default function HomePage() {
             {/* Refresh button */}
             <style>{`@keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }`}</style>
             <div
-              onClick={async () => { setIsRefreshing(true); await Promise.all([loadRides(), checkBell()]); setIsRefreshing(false) }}
+              onClick={async () => { setIsRefreshing(true); await Promise.all([loadRides(), checkBell(), new Promise(r => setTimeout(r, 1500))]); setIsRefreshing(false) }}
               style={{
                 cursor: 'pointer',
                 width: 'var(--size-button-iconLg)',
