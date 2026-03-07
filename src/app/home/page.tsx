@@ -79,11 +79,24 @@ export default function HomePage() {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-5)' }}>
 
           {/* App name */}
-          <h1 style={{
-            fontSize: 'var(--font-size-5xl)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number, color: 'var(--color-text-primary)', letterSpacing: 'var(--font-letterSpacing-tight)',
-            textShadow: 'var(--font-textShadow-brandSm)',
-            margin: 0,
-          }}>{kurdishStrings.appName}</h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+            <h1 style={{
+              fontSize: 'var(--font-size-5xl)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number, color: 'var(--color-text-primary)', letterSpacing: 'var(--font-letterSpacing-tight)',
+              textShadow: 'var(--font-textShadow-brandSm)',
+              margin: 0,
+            }}>{kurdishStrings.appName}</h1>
+            <div style={{
+              background: 'var(--color-status-warning)',
+              border: 'var(--border-width-thick) solid var(--color-border-strong)',
+              borderRadius: '50%',
+              width: 32, height: 24,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: 'var(--shadow-sm)',
+              transform: 'rotate(-4deg)',
+            }}>
+              <span style={{ fontSize: 13 }}>🍋</span>
+            </div>
+          </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
             {/* Theme toggle */}
