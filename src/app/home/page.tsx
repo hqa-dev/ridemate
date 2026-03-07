@@ -278,26 +278,7 @@ export default function HomePage() {
 
       {/* Scrollable rides */}
       <div style={{ flex: 1, overflowY: 'auto', padding: '0 var(--space-page-x) var(--space-navClearance)' }}>
-        {loading ? (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', paddingTop: 'var(--space-2)' }}>
-            {[0, 1, 2].map(i => (
-              <div key={i} style={{
-                background: 'var(--color-bg-surface)',
-                border: 'var(--border-width-thick) solid var(--color-border-strong)',
-                borderRadius: 'var(--radius-2xl)',
-                padding: 'var(--space-4)',
-                boxShadow: 'var(--shadow-card)',
-              }}>
-                <div style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'center', marginBottom: 'var(--space-3)' }}>
-                  <div style={{ width: 'var(--space-8)', height: 'var(--space-5)', background: 'var(--color-bg-sunken)', borderRadius: 'var(--radius-base)' }} />
-                  <div style={{ flex: 1, height: 'var(--space-3)', background: 'var(--color-bg-sunken)', borderRadius: 'var(--radius-base)' }} />
-                </div>
-                <div style={{ height: 'var(--space-3)', background: 'var(--color-bg-sunken)', borderRadius: 'var(--radius-base)', width: '60%', marginBottom: 'var(--space-2)' }} />
-                <div style={{ height: 'var(--space-3)', background: 'var(--color-bg-sunken)', borderRadius: 'var(--radius-base)', width: '40%' }} />
-              </div>
-            ))}
-          </div>
-        ) : rides.length === 0 ? (
+        {loading ? null : rides.length === 0 ? (
           <p style={{ textAlign: 'center', color: 'var(--color-text-secondary)', padding: '3rem 0' }}>{kurdishStrings.noRidesFound}</p>
         ) : rides.map(ride => (
           <div key={ride.id} style={{ opacity: blink ? 0.4 : 1, transition: 'opacity 0.3s ease' }}>
