@@ -91,6 +91,26 @@ const Icons = {
       <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
     </svg>
   ),
+  shield: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    </svg>
+  ),
+  verification: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+    </svg>
+  ),
+  gift: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+    </svg>
+  ),
+  coins: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+    </svg>
+  ),
   logout: (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-status-error)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
@@ -182,7 +202,13 @@ export default function AccountPage() {
             <MenuItem icon={Icons.car} label={kurdishStrings.activateDriver} onClick={() => router.push('/post-ride')} />
           )}
           <MenuItem icon={Icons.settings} label={kurdishStrings.settings} onClick={() => router.push('/settings')} />
-          <MenuItem icon={Icons.bell} label={kurdishStrings.messages} value={kurdishStrings.notifOn} isLast onClick={comingSoon} />
+          <MenuItem icon={Icons.bell} label={kurdishStrings.messages} value={kurdishStrings.notifOn} onClick={comingSoon} />
+          <MenuItem icon={Icons.verification} label={kurdishStrings.statusLabel} value={isVerified ? kurdishStrings.verificationApproved : kurdishStrings.verificationPending} onClick={() => router.push('/post-ride')} />
+          <MenuItem icon={Icons.gift} label={kurdishStrings.inviteFriends} onClick={comingSoon} />
+          {isDriver && isVerified && (
+            <MenuItem icon={Icons.coins} label={kurdishStrings.driverEarnings} onClick={comingSoon} />
+          )}
+          <MenuItem icon={Icons.shield} label={kurdishStrings.emergencyContact} isLast onClick={() => router.push('/emergency-contact')} />
         </div>
       </Card>
 
