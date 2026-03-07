@@ -162,7 +162,6 @@ export default function AccountPage() {
       </div>
       </Card>
 
-      {!loading && <>
         {/* Account section */}
         <SectionLabel label={kurdishStrings.navAccount} />
         <Card style={{ margin: '0 var(--space-3)', padding: '0 var(--space-card-md)' }}>
@@ -197,7 +196,6 @@ export default function AccountPage() {
             <MenuItem icon={Icons.logout} label={kurdishStrings.logOut} danger isLast onClick={handleSignOut} />
           </Card>
         </div>
-      </>}
 
       {/* Version */}
       <div style={{ textAlign: 'center', padding: 'var(--space-6) 0 var(--space-navClearanceLg)' }}>
