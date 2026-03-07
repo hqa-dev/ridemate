@@ -23,7 +23,24 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  await supabase.auth.getUser()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  const protectedPrefixes = ['/home', '/account', '/my-rides', '/post-ride', '/notifications', '/settings', '/profile', '/rides']
+  const pathname = request.nextUrl.pathname
+
+  // Redirect unauthenticated users away from protected routes
+  if (!user && protectedPrefixes.some(p => pathname === p || pathname.startsWith(p + '/'))) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/'
+    return NextResponse.redirect(url)
+  }
+
+  // Redirect authenticated users away from landing page
+  if (user && pathname === '/') {
+    const url = request.nextUrl.clone()
+    url.pathname = '/home'
+    return NextResponse.redirect(url)
+  }
 
   return supabaseResponse
 }
