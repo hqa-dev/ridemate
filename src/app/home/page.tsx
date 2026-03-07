@@ -300,7 +300,7 @@ export default function HomePage() {
         ) : rides.length === 0 ? (
           <p style={{ textAlign: 'center', color: 'var(--color-text-secondary)', padding: '3rem 0' }}>{kurdishStrings.noRidesFound}</p>
         ) : rides.map(ride => (
-          <div key={ride.id} style={blink ? { filter: 'brightness(1.15)', transition: 'filter 0.3s ease' } : { transition: 'filter 0.3s ease' }}>
+          <div key={ride.id} style={{ opacity: blink ? 0.4 : 1, transition: 'opacity 0.3s ease' }}>
             <RideCard ride={ride} />
           </div>
         ))}
