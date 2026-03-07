@@ -218,7 +218,7 @@ export const kurdishStrings = {
   mobileNumber: 'ژمارەی مۆبایل',
   notAdded: 'زیاد نەکراوە',
   emailLabel: 'ئیمێل',
-  emailVerificationNote: 'لینکی پشتڕاستکردن دەنێردرێت بۆ ئیمێلە نوێیەکەت',
+  emailVerificationNote: 'لینکی دوپاتکردنەوە دەنێردرێت بۆ ئیمێلە نوێیەکەت',
   roleSection: 'ڕۆڵ',
   accountType: 'جۆری هەژمار',
   statusLabel: 'دۆخ',
