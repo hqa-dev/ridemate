@@ -206,6 +206,7 @@ export default function RideDetailPage() {
       .from('rides')
       .update({ status: 'completed', completed_at: new Date().toISOString() })
       .eq('id', rideId)
+      .eq('driver_id', currentUserId!)
     if (error) { setActionError(kurdishStrings.errorGeneric); setCompleting(false); return }
     // Notify all approved passengers
     const { data: approved } = await supabase.from('ride_requests').select('passenger_id').eq('ride_id', rideId).eq('status', 'approved')
@@ -229,7 +230,7 @@ export default function RideDetailPage() {
       action: async () => {
         setConfirmModal(null)
         setActionError('')
-        const { error: rideErr } = await supabase.from('rides').update({ status: 'cancelled' }).eq('id', rideId)
+        const { error: rideErr } = await supabase.from('rides').update({ status: 'cancelled' }).eq('id', rideId).eq('driver_id', currentUserId!)
         if (rideErr) { setActionError(kurdishStrings.errorGeneric); return }
         // Get affected passengers before updating requests
         const { data: affected } = await supabase.from('ride_requests').select('passenger_id').eq('ride_id', rideId).in('status', ['approved', 'pending'])
