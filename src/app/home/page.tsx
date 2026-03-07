@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { BottomNav } from '@/components/layout/BottomNav'
 import Link from 'next/link'
@@ -19,6 +19,9 @@ export default function HomePage() {
   const [hasUnseen, setHasUnseen] = useState(false)
   const [themeMode, setThemeMode2] = useState<'light' | 'dark' | null>(null)
   const [toast, setToast] = useState('')
+  const [isRefreshing, setIsRefreshing] = useState(false)
+  const [blink, setBlink] = useState(false)
+  const fetchDoneRef = useRef(false)
   const { user, loading: profileLoading } = useProfile()
   const router = useRouter()
   const supabase = createClient()
@@ -96,8 +99,9 @@ export default function HomePage() {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
             {/* Refresh button */}
+            <style>{`@keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }`}</style>
             <div
-              onClick={() => { loadRides(true); checkBell() }}
+              onClick={async () => { fetchDoneRef.current = false; setIsRefreshing(true); await Promise.all([loadRides(true), checkBell()]); fetchDoneRef.current = true }}
               style={{
                 cursor: 'pointer',
                 width: 'var(--size-button-iconLg)',
@@ -111,7 +115,7 @@ export default function HomePage() {
                 justifyContent: 'center',
               }}
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={isRefreshing ? { animation: 'spin 1.5s linear infinite' } : undefined} onAnimationIteration={() => { if (fetchDoneRef.current) { setIsRefreshing(false); setBlink(true); setTimeout(() => setBlink(false), 300) } }}>
                 <polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" />
                 <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
               </svg>
@@ -296,7 +300,9 @@ export default function HomePage() {
         ) : rides.length === 0 ? (
           <p style={{ textAlign: 'center', color: 'var(--color-text-secondary)', padding: '3rem 0' }}>{kurdishStrings.noRidesFound}</p>
         ) : rides.map(ride => (
-          <RideCard key={ride.id} ride={ride} />
+          <div key={ride.id} style={blink ? { filter: 'brightness(1.15)', transition: 'filter 0.3s ease' } : { transition: 'filter 0.3s ease' }}>
+            <RideCard ride={ride} />
+          </div>
         ))}
       </div>
 
