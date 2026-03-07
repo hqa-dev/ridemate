@@ -20,6 +20,7 @@ export default function HomePage() {
   const [themeMode, setThemeMode2] = useState<'light' | 'dark' | null>(null)
   const [toast, setToast] = useState('')
   const [isRefreshing, setIsRefreshing] = useState(false)
+  const [blink, setBlink] = useState(false)
   const fetchDoneRef = useRef(false)
   const { user, loading: profileLoading } = useProfile()
   const router = useRouter()
@@ -48,8 +49,8 @@ export default function HomePage() {
     setHasUnseen((count || 0) > 0)
   }
 
-  async function loadRides() {
-    setLoading(true)
+  async function loadRides(isRefresh = false) {
+    if (!isRefresh) setLoading(true)
     let query = supabase
       .from('rides')
       .select('*, driver:profiles!driver_id(full_name, verified, avatar_url)')
@@ -57,7 +58,7 @@ export default function HomePage() {
       .gte('departure_time', new Date().toISOString())
       .order('departure_time', { ascending: true })
 
-    if (from && to && from === to) { setRides([]); setLoading(false); return }
+    if (from && to && from === to) { setRides([]); if (!isRefresh) setLoading(false); return }
     if (from) query = query.eq('from_city', from)
     if (to) query = query.eq('to_city', to)
 
@@ -69,7 +70,7 @@ export default function HomePage() {
     } else {
       setRides(data || [])
     }
-    setLoading(false)
+    if (!isRefresh) setLoading(false)
   }
 
   function selectCity(field: 'from' | 'to', city: string) {
@@ -98,9 +99,9 @@ export default function HomePage() {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
             {/* Refresh button */}
-            <style>{`@keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }`}</style>
+            <style>{`@keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } } @keyframes blink { 0% { opacity: 1 } 50% { opacity: 0.3 } 100% { opacity: 1 } }`}</style>
             <div
-              onClick={async () => { fetchDoneRef.current = false; setIsRefreshing(true); await Promise.all([loadRides(), checkBell()]); fetchDoneRef.current = true }}
+              onClick={async () => { fetchDoneRef.current = false; setIsRefreshing(true); await Promise.all([loadRides(true), checkBell()]); fetchDoneRef.current = true; setBlink(true); setTimeout(() => setBlink(false), 300) }}
               style={{
                 cursor: 'pointer',
                 width: 'var(--size-button-iconLg)',
@@ -276,7 +277,7 @@ export default function HomePage() {
       </div>
 
       {/* Scrollable rides */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: '0 var(--space-page-x) var(--space-navClearance)' }}>
+      <div style={{ flex: 1, overflowY: 'auto', padding: '0 var(--space-page-x) var(--space-navClearance)', ...(blink ? { animation: 'blink 0.3s ease-in-out' } : {}) }}>
         {loading ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', paddingTop: 'var(--space-2)' }}>
             {[0, 1, 2].map(i => (
