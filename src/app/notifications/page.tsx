@@ -86,7 +86,7 @@ export default function NotificationsPage() {
   async function loadNotifications() {
     setLoading(true)
     const { data: { user } } = await supabase.auth.getUser()
-    if (!user) { setLoading(false); return }
+    if (!user) { router.push('/'); return }
 
     const { data: notifs, error: notifErr } = await supabase
       .from('notifications')

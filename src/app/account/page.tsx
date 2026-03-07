@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { BottomNav } from '@/components/layout/BottomNav'
 import { kurdishStrings } from '@/lib/strings'
@@ -108,6 +108,10 @@ export default function AccountPage() {
   const router = useRouter()
   const { user, profile, loading } = useProfile()
   const supabase = createClient()
+
+  useEffect(() => {
+    if (!loading && !user) router.push('/')
+  }, [loading, user])
 
   async function handleSignOut() {
     await supabase.auth.signOut()

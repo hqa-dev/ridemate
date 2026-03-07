@@ -59,7 +59,7 @@ export default function PostRidePage() {
 
   async function checkVerification() {
     const { data: { user } } = await supabase.auth.getUser()
-    if (!user) { setChecking(false); return }
+    if (!user) { router.push('/'); return }
     const { data: profile } = await supabase.from('profiles').select('role, verification_status').eq('id', user.id).single()
     if (profile && (profile.role === 'driver' || profile.role === 'both') && profile.verification_status === 'verified') {
       setIsVerifiedDriver(true)

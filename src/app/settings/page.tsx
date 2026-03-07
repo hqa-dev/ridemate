@@ -1,8 +1,9 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { BottomNav } from '@/components/layout/BottomNav'
 import { createClient } from '@/lib/supabase/client'
+import { useProfile } from '@/lib/ProfileContext'
 import { ConfirmModal } from '@/components/ui/ConfirmModal'
 import { kurdishStrings } from '@/lib/strings'
 import PageHeader from '@/components/ui/PageHeader'
@@ -12,6 +13,11 @@ import Card from '@/components/ui/Card'
 export default function SettingsPage() {
   const router = useRouter()
   const supabase = createClient()
+  const { user, loading: profileLoading } = useProfile()
+
+  useEffect(() => {
+    if (!profileLoading && !user) router.push('/')
+  }, [profileLoading, user])
   const [confirmModal, setConfirmModal] = useState<{ message: string; action: () => void } | null>(null)
   const [deleting, setDeleting] = useState(false)
 

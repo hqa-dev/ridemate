@@ -189,6 +189,11 @@ export default function ProfilePage() {
 
   async function handleDeleteAccount() {
     if (!user) return
+    // Cancel all active rides posted by this user
+    await supabase.from('rides').update({ status: 'cancelled' }).eq('driver_id', user.id).in('status', ['active', 'full'])
+    // Cancel all pending/approved ride requests by this user
+    await supabase.from('ride_requests').update({ status: 'cancelled' }).eq('passenger_id', user.id).in('status', ['pending', 'approved'])
+    // Delete profile (cascades notifications etc)
     await supabase.from('profiles').delete().eq('id', user.id)
     await supabase.auth.signOut()
     router.push('/')

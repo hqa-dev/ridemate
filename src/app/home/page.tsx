@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { BottomNav } from '@/components/layout/BottomNav'
 import Link from 'next/link'
 import { kurdishStrings } from '@/lib/strings'
@@ -17,12 +18,18 @@ export default function HomePage() {
   const [searchOpen, setSearchOpen] = useState(false)
   const [hasUnseen, setHasUnseen] = useState(false)
   const [themeMode, setThemeMode2] = useState<'light' | 'dark' | null>(null)
-  const { user } = useProfile()
+  const [toast, setToast] = useState('')
+  const { user, loading: profileLoading } = useProfile()
+  const router = useRouter()
   const supabase = createClient()
 
   useEffect(() => {
     setThemeMode2(getThemeMode())
   }, [])
+
+  useEffect(() => {
+    if (!profileLoading && !user) router.push('/')
+  }, [profileLoading, user])
 
   useEffect(() => {
     loadRides()
@@ -54,8 +61,9 @@ export default function HomePage() {
 
     const { data, error } = await query
     if (error) {
-      console.error('Error loading rides:', error.message)
       setRides([])
+      setToast(kurdishStrings.errorOccurred)
+      setTimeout(() => setToast(''), 2000)
     } else {
       setRides(data || [])
     }
@@ -291,6 +299,19 @@ export default function HomePage() {
           <RideCard key={ride.id} ride={ride} />
         ))}
       </div>
+
+      {toast && (
+        <div style={{
+          position: 'fixed', bottom: 'var(--space-navClearance)', left: '50%', transform: 'translateX(-50%)',
+          background: 'var(--toast-bg)', border: 'var(--toast-border)', borderRadius: 'var(--toast-radius)',
+          padding: 'var(--space-2-5) var(--space-5)', fontSize: 'var(--toast-fontSize)',
+          fontWeight: 'var(--toast-fontWeight)' as unknown as number, color: 'var(--color-text-primary)',
+          zIndex: 'var(--z-overlay)' as unknown as number, boxShadow: 'var(--toast-shadow)',
+          backdropFilter: 'var(--toast-blur)', WebkitBackdropFilter: 'var(--toast-blur)', whiteSpace: 'nowrap',
+        }}>
+          {toast}
+        </div>
+      )}
 
       <BottomNav />
     </div>

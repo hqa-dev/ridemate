@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { BottomNav } from '@/components/layout/BottomNav'
 import { createClient } from '@/lib/supabase/client'
 import { RideCard } from '@/components/ui/RideCard'
@@ -9,6 +10,7 @@ import PageHeader from '@/components/ui/PageHeader'
 
 
 export default function MyRidesPage() {
+  const router = useRouter()
   const supabase = createClient()
   const [rides, setRides] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
@@ -18,7 +20,7 @@ export default function MyRidesPage() {
   async function loadData() {
     setLoading(true)
     const { data: { user } } = await supabase.auth.getUser()
-    if (!user) { setLoading(false); return }
+    if (!user) { router.push('/'); return }
 
     const { data } = await supabase
       .from('ride_requests')
