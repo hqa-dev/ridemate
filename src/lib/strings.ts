@@ -235,12 +235,7 @@ export const kurdishStrings = {
   verificationLinkSent: 'لینکی پشتڕاستکردنەوە نێردرا',
   errorNameChangeLimit: 'جارێ ناتوانیت ناوەکەت بگۆڕیت',
 
-  inviteFriends: 'بانگکردنی هاوڕێ',
   driverEarnings: 'داهاتی شۆفێر',
-  emergencyContact: 'پەیوەندی نێگەرانی',
-  emergencyContactName: 'ناوی کەسی نێگەران',
-  emergencyContactPhone: 'ژمارەی کەسی نێگەران',
-  emergencyContactSaved: 'زانیاری نێگەرانی تۆمار کرا',
   comingSoon: 'جارێ بەردەست نییە',
   userFallback: 'بەکارهێنەر',
   person: 'نەفەر',
