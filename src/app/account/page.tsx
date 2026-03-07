@@ -1,9 +1,10 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { BottomNav } from '@/components/layout/BottomNav'
 import { kurdishStrings } from '@/lib/strings'
 import { createClient } from '@/lib/supabase/client'
+import { useProfile } from '@/lib/ProfileContext'
 import SketchPerson from '@/components/ui/icons/SketchPerson'
 import SectionLabel from '@/components/ui/SectionLabel'
 import Card from '@/components/ui/Card'
@@ -105,28 +106,8 @@ const Icons = {
 
 export default function AccountPage() {
   const router = useRouter()
-  const [user, setUser] = useState<any>(null)
-  const [profile, setProfile] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
+  const { user, profile, loading } = useProfile()
   const supabase = createClient()
-
-  useEffect(() => {
-    loadUser()
-  }, [])
-
-  async function loadUser() {
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) { router.push('/'); return }
-    setUser(user)
-
-    const { data } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', user.id)
-      .single()
-    if (data) setProfile(data)
-    setLoading(false)
-  }
 
   async function handleSignOut() {
     await supabase.auth.signOut()

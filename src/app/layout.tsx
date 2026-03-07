@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { ProfileProvider } from '@/lib/ProfileContext'
 
 export const viewport = {
   width: "device-width",
@@ -21,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body style={{ fontFamily: 'var(--font-family-body)', margin: 0, background: 'var(--color-bg-canvas)' }}>
         <div style={{ maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto', minHeight: '100vh', background: 'var(--color-bg-canvas)', border: 'var(--border-width-thin) solid var(--color-border-strong)', borderRadius: 'var(--radius-6xl)', boxShadow: 'var(--shadow-viewport)', overflow: 'hidden' }}>
-          {children}
+          <ProfileProvider>{children}</ProfileProvider>
         </div>
       </body>
     </html>

@@ -4,6 +4,7 @@ import { BottomNav } from '@/components/layout/BottomNav'
 import Link from 'next/link'
 import { kurdishStrings } from '@/lib/strings'
 import { createClient } from '@/lib/supabase/client'
+import { useProfile } from '@/lib/ProfileContext'
 import { CITIES } from '@/lib/utils'
 import { getThemeMode, setThemeMode } from '@/lib/theme-mode'
 import { RideCard } from '@/components/ui/RideCard'
@@ -16,6 +17,7 @@ export default function HomePage() {
   const [searchOpen, setSearchOpen] = useState(false)
   const [hasUnseen, setHasUnseen] = useState(false)
   const [themeMode, setThemeMode2] = useState<'light' | 'dark' | null>(null)
+  const { user } = useProfile()
   const supabase = createClient()
 
   useEffect(() => {
@@ -28,7 +30,6 @@ export default function HomePage() {
   }, [from, to])
 
   async function checkBell() {
-    const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
     const { count } = await supabase
       .from('notifications')
