@@ -99,7 +99,7 @@ export default function HomePage() {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
             {/* Refresh button */}
-            <style>{`@keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } } @keyframes blink { 0% { background: var(--color-bg-surface) } 50% { background: var(--color-bg-sunken) } 100% { background: var(--color-bg-surface) } }`}</style>
+            <style>{`@keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } } @keyframes blink { 0% { opacity: 1 } 50% { opacity: 0.5 } 100% { opacity: 1 } }`}</style>
             <div
               onClick={async () => { fetchDoneRef.current = false; setIsRefreshing(true); await Promise.all([loadRides(true), checkBell()]); fetchDoneRef.current = true }}
               style={{
@@ -300,7 +300,7 @@ export default function HomePage() {
         ) : rides.length === 0 ? (
           <p style={{ textAlign: 'center', color: 'var(--color-text-secondary)', padding: '3rem 0' }}>{kurdishStrings.noRidesFound}</p>
         ) : rides.map(ride => (
-          <div key={ride.id} style={blink ? { animation: 'blink 0.3s ease-in-out', borderRadius: 'var(--radius-2xl)' } : undefined}>
+          <div key={ride.id} style={blink ? { animation: 'blink 0.3s ease-in-out' } : undefined}>
             <RideCard ride={ride} />
           </div>
         ))}
