@@ -99,9 +99,9 @@ export default function HomePage() {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
             {/* Refresh button */}
-            <style>{`@keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } } @keyframes blink { 0% { opacity: 1 } 50% { opacity: 0.3 } 100% { opacity: 1 } }`}</style>
+            <style>{`@keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } } @keyframes blink { 0% { background: var(--color-bg-surface) } 50% { background: var(--color-bg-sunken) } 100% { background: var(--color-bg-surface) } }`}</style>
             <div
-              onClick={async () => { fetchDoneRef.current = false; setIsRefreshing(true); await Promise.all([loadRides(true), checkBell()]); fetchDoneRef.current = true; setBlink(true); setTimeout(() => setBlink(false), 300) }}
+              onClick={async () => { fetchDoneRef.current = false; setIsRefreshing(true); await Promise.all([loadRides(true), checkBell()]); fetchDoneRef.current = true }}
               style={{
                 cursor: 'pointer',
                 width: 'var(--size-button-iconLg)',
@@ -115,7 +115,7 @@ export default function HomePage() {
                 justifyContent: 'center',
               }}
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={isRefreshing ? { animation: 'spin 1.5s linear infinite' } : undefined} onAnimationIteration={() => { if (fetchDoneRef.current) setIsRefreshing(false) }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={isRefreshing ? { animation: 'spin 1.5s linear infinite' } : undefined} onAnimationIteration={() => { if (fetchDoneRef.current) { setIsRefreshing(false); setBlink(true); setTimeout(() => setBlink(false), 300) } }}>
                 <polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" />
                 <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
               </svg>
@@ -277,7 +277,7 @@ export default function HomePage() {
       </div>
 
       {/* Scrollable rides */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: '0 var(--space-page-x) var(--space-navClearance)', ...(blink ? { animation: 'blink 0.3s ease-in-out' } : {}) }}>
+      <div style={{ flex: 1, overflowY: 'auto', padding: '0 var(--space-page-x) var(--space-navClearance)' }}>
         {loading ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', paddingTop: 'var(--space-2)' }}>
             {[0, 1, 2].map(i => (
@@ -300,7 +300,9 @@ export default function HomePage() {
         ) : rides.length === 0 ? (
           <p style={{ textAlign: 'center', color: 'var(--color-text-secondary)', padding: '3rem 0' }}>{kurdishStrings.noRidesFound}</p>
         ) : rides.map(ride => (
-          <RideCard key={ride.id} ride={ride} />
+          <div key={ride.id} style={blink ? { animation: 'blink 0.3s ease-in-out', borderRadius: 'var(--radius-2xl)' } : undefined}>
+            <RideCard ride={ride} />
+          </div>
         ))}
       </div>
 
