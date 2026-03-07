@@ -19,6 +19,7 @@ export default function HomePage() {
   const [hasUnseen, setHasUnseen] = useState(false)
   const [themeMode, setThemeMode2] = useState<'light' | 'dark' | null>(null)
   const [toast, setToast] = useState('')
+  const [isRefreshing, setIsRefreshing] = useState(false)
   const { user, loading: profileLoading } = useProfile()
   const router = useRouter()
   const supabase = createClient()
@@ -96,8 +97,9 @@ export default function HomePage() {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
             {/* Refresh button */}
+            <style>{`@keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }`}</style>
             <div
-              onClick={() => { loadRides(); checkBell() }}
+              onClick={async () => { setIsRefreshing(true); await Promise.all([loadRides(), checkBell()]); setIsRefreshing(false) }}
               style={{
                 cursor: 'pointer',
                 width: 'var(--size-button-iconLg)',
@@ -111,7 +113,7 @@ export default function HomePage() {
                 justifyContent: 'center',
               }}
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={isRefreshing ? { animation: 'spin 0.8s linear infinite' } : undefined}>
                 <polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" />
                 <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
               </svg>
