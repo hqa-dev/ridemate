@@ -46,8 +46,8 @@ export default function HomePage() {
     setHasUnseen((count || 0) > 0)
   }
 
-  async function loadRides() {
-    setLoading(true)
+  async function loadRides(skipLoading = false) {
+    if (!skipLoading) setLoading(true)
     let query = supabase
       .from('rides')
       .select('*, driver:profiles!driver_id(full_name, verified, avatar_url)')
@@ -55,7 +55,7 @@ export default function HomePage() {
       .gte('departure_time', new Date().toISOString())
       .order('departure_time', { ascending: true })
 
-    if (from && to && from === to) { setRides([]); setLoading(false); return }
+    if (from && to && from === to) { setRides([]); if (!skipLoading) setLoading(false); return }
     if (from) query = query.eq('from_city', from)
     if (to) query = query.eq('to_city', to)
 
@@ -67,7 +67,7 @@ export default function HomePage() {
     } else {
       setRides(data || [])
     }
-    setLoading(false)
+    if (!skipLoading) setLoading(false)
   }
 
   function selectCity(field: 'from' | 'to', city: string) {
@@ -97,7 +97,7 @@ export default function HomePage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
             {/* Refresh button */}
             <div
-              onClick={() => { loadRides(); checkBell() }}
+              onClick={() => { loadRides(true); checkBell() }}
               style={{
                 cursor: 'pointer',
                 width: 'var(--size-button-iconLg)',
