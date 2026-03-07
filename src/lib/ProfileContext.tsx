@@ -35,12 +35,15 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
   const supabase = createClient()
 
   async function loadProfile() {
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) { setLoading(false); return }
-    setUser(user)
-    const { data } = await supabase.from('profiles').select('*').eq('id', user.id).single()
-    if (data) setProfile(data as Profile)
-    setLoading(false)
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+      setUser(user)
+      const { data } = await supabase.from('profiles').select('*').eq('id', user.id).single()
+      if (data) setProfile(data as Profile)
+    } finally {
+      setLoading(false)
+    }
   }
 
   async function refreshProfile() {
