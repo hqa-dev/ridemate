@@ -32,14 +32,22 @@ export async function middleware(request: NextRequest) {
   if (!user && protectedPrefixes.some(p => pathname === p || pathname.startsWith(p + '/'))) {
     const url = request.nextUrl.clone()
     url.pathname = '/'
-    return NextResponse.redirect(url)
+    const redirectResponse = NextResponse.redirect(url)
+    supabaseResponse.cookies.getAll().forEach(cookie => {
+      redirectResponse.cookies.set(cookie.name, cookie.value)
+    })
+    return redirectResponse
   }
 
   // Redirect authenticated users away from landing page
   if (user && pathname === '/') {
     const url = request.nextUrl.clone()
     url.pathname = '/home'
-    return NextResponse.redirect(url)
+    const redirectResponse = NextResponse.redirect(url)
+    supabaseResponse.cookies.getAll().forEach(cookie => {
+      redirectResponse.cookies.set(cookie.name, cookie.value)
+    })
+    return redirectResponse
   }
 
   return supabaseResponse
