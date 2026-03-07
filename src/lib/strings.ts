@@ -114,7 +114,7 @@ export const kurdishStrings = {
 
   appShortName: 'ڕێ',
   newRide: 'گەشتێکی نوێ',
-  seat: 'جێگا',
+  seat: 'شوێن',
   aCoffee: 'قاوەیەک',
   money: 'پارە',
   make: 'جۆر',
@@ -154,7 +154,7 @@ export const kurdishStrings = {
   trip: 'گەشت',
   smoking: 'جگەرە',
   car: 'ئۆتۆ',
-  seatsAvailableCount: 'جێگای بەردەست',
+  seatsAvailableCount: 'شوێنی بەردەست',
   statusCompletedBadge: 'تەواو بوو ✓',
   rideNotFound: ' گەشتەکە نەدۆزرایەوە',
   rideCompleted: 'گەشتەکە تەواو بوو',
@@ -198,7 +198,7 @@ export const kurdishStrings = {
   errorSelectCarColor: 'تکایە ڕەنگی ئۆتۆمبێل دیاری بکە',
   errorPastDate: 'ناتوانیت بەروارێکی ڕابردوو هەڵبژێریت',
   errorSameCities: 'شوێنی چوون و هاتن نابێ هاوشێوە بن',
-  errorNoSeats: 'جێگا بەردەست نییە',
+  errorNoSeats: 'شوێن بەردەست نییە',
   errorOccurred: 'هەڵەیەک ڕوویدا',
 
   notificationsTitle: 'ئاگاداری',
