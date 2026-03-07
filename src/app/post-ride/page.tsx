@@ -145,6 +145,8 @@ export default function PostRidePage() {
     if (!fromCity) { setError(kurdishStrings.errorSelectFromCity); return }
     if (!toCity) { setError(kurdishStrings.errorSelectToCity); return }
     if (!date) { setError(kurdishStrings.errorSelectDate); return }
+    const today = new Date().toISOString().split('T')[0]
+    if (date < today) { setError(kurdishStrings.errorPastDate); return }
     if (!time) { setError(kurdishStrings.errorSelectTime); return }
     if (!carMake) { setError(kurdishStrings.errorSelectCarMake); return }
     if (!carModel) { setError(kurdishStrings.errorSelectCarModel); return }
@@ -436,22 +438,22 @@ export default function PostRidePage() {
             <div style={{ display: 'flex', gap: 'var(--space-2)', marginBottom: 0 }}>
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>{kurdishStrings.make}</div>
-                <input value={carMake} onChange={e => setCarMake(e.target.value)} placeholder="Toyota" className="car-input" style={carInputStyle} />
+                <input value={carMake} onChange={e => setCarMake(e.target.value)} placeholder="Toyota" maxLength={30} className="car-input" style={carInputStyle} />
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>{kurdishStrings.model}</div>
-                <input value={carModel} onChange={e => setCarModel(e.target.value)} placeholder="Camry" className="car-input" style={carInputStyle} />
+                <input value={carModel} onChange={e => setCarModel(e.target.value)} placeholder="Camry" maxLength={30} className="car-input" style={carInputStyle} />
               </div>
             </div>
             <DashedDivider style={{ margin: '10px var(--space-1)' }} />
             <div style={{ marginBottom: 0 }}>
               <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>{kurdishStrings.color}</div>
-              <input value={carColor} onChange={e => setCarColor(e.target.value)} placeholder="White" className="car-input" style={carInputStyle} />
+              <input value={carColor} onChange={e => setCarColor(e.target.value)} placeholder="White" maxLength={20} className="car-input" style={carInputStyle} />
             </div>
             <DashedDivider style={{ margin: '10px var(--space-1)' }} />
             <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 0, fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>{kurdishStrings.notes}</div>
             <DashedDivider style={{ margin: '6px 0' }} />
-            <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder={kurdishStrings.rideNotesPlaceholder} rows={2} className="note-input" style={{ ...carInputStyle, resize: 'var(--input-note-resize)' as React.CSSProperties['resize'], lineHeight: 'var(--input-note-lineHeight)' }} />
+            <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder={kurdishStrings.rideNotesPlaceholder} rows={2} maxLength={200} className="note-input" style={{ ...carInputStyle, resize: 'var(--input-note-resize)' as React.CSSProperties['resize'], lineHeight: 'var(--input-note-lineHeight)' }} />
           </Card>
 
           {error && <p style={{ color: 'var(--color-status-error)', fontSize: 'var(--font-size-base)', textAlign: 'center', marginBottom: 'var(--space-3)' }}>{error}</p>}

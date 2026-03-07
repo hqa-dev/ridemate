@@ -196,6 +196,7 @@ export const kurdishStrings = {
   errorSelectCarMake: 'تکایە جۆری ئۆتۆمبێل دیاری بکە',
   errorSelectCarModel: 'تکایە مۆدێلی ئۆتۆمبێل دیاری بکە',
   errorSelectCarColor: 'تکایە ڕەنگی ئۆتۆمبێل دیاری بکە',
+  errorPastDate: 'ناتوانیت بەروارێکی ڕابردوو هەڵبژێریت',
   errorSameCities: 'شوێنی چوون و هاتن نابێ هاوشێوە بن',
   errorNoSeats: 'جێگا بەردەست نییە',
   errorOccurred: 'هەڵەیەک ڕوویدا',

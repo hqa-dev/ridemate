@@ -1,10 +1,22 @@
 'use client'
 import { createContext, useContext, useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import type { User } from '@supabase/supabase-js'
+
+export interface Profile {
+  id: string
+  full_name: string | null
+  phone: string | null
+  avatar_url: string | null
+  role: 'passenger' | 'driver' | 'both'
+  verification_status: 'none' | 'pending' | 'verified'
+  last_name_change: string | null
+  created_at: string
+}
 
 type ProfileContextType = {
-  user: any
-  profile: any
+  user: User | null
+  profile: Profile | null
   loading: boolean
   refreshProfile: () => Promise<void>
 }
@@ -17,8 +29,8 @@ const ProfileContext = createContext<ProfileContextType>({
 })
 
 export function ProfileProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<any>(null)
-  const [profile, setProfile] = useState<any>(null)
+  const [user, setUser] = useState<User | null>(null)
+  const [profile, setProfile] = useState<Profile | null>(null)
   const [loading, setLoading] = useState(true)
   const supabase = createClient()
 
@@ -27,14 +39,14 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
     if (!user) { setLoading(false); return }
     setUser(user)
     const { data } = await supabase.from('profiles').select('*').eq('id', user.id).single()
-    if (data) setProfile(data)
+    if (data) setProfile(data as Profile)
     setLoading(false)
   }
 
   async function refreshProfile() {
     if (!user) return
     const { data } = await supabase.from('profiles').select('*').eq('id', user.id).single()
-    if (data) setProfile(data)
+    if (data) setProfile(data as Profile)
   }
 
   useEffect(() => {

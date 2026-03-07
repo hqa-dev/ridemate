@@ -87,6 +87,27 @@ export default function HomePage() {
           }}>{kurdishStrings.appName}</h1>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+            {/* Refresh button */}
+            <div
+              onClick={() => { loadRides(); checkBell() }}
+              style={{
+                cursor: 'pointer',
+                width: 'var(--size-button-iconLg)',
+                height: 'var(--size-button-iconLg)',
+                border: 'var(--border-width-thick) solid var(--color-border-strong)',
+                borderRadius: 'var(--radius-lg)',
+                background: 'var(--color-bg-surface)',
+                boxShadow: 'var(--shadow-sm)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" />
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+              </svg>
+            </div>
             {/* Theme toggle */}
             {themeMode !== null && <div
               onClick={(e) => {
@@ -246,7 +267,24 @@ export default function HomePage() {
       {/* Scrollable rides */}
       <div style={{ flex: 1, overflowY: 'auto', padding: '0 var(--space-page-x) var(--space-navClearance)' }}>
         {loading ? (
-          <div />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', paddingTop: 'var(--space-2)' }}>
+            {[0, 1, 2].map(i => (
+              <div key={i} style={{
+                background: 'var(--color-bg-surface)',
+                border: 'var(--border-width-thick) solid var(--color-border-strong)',
+                borderRadius: 'var(--radius-2xl)',
+                padding: 'var(--space-4)',
+                boxShadow: 'var(--shadow-card)',
+              }}>
+                <div style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'center', marginBottom: 'var(--space-3)' }}>
+                  <div style={{ width: 'var(--space-8)', height: 'var(--space-5)', background: 'var(--color-bg-sunken)', borderRadius: 'var(--radius-base)' }} />
+                  <div style={{ flex: 1, height: 'var(--space-3)', background: 'var(--color-bg-sunken)', borderRadius: 'var(--radius-base)' }} />
+                </div>
+                <div style={{ height: 'var(--space-3)', background: 'var(--color-bg-sunken)', borderRadius: 'var(--radius-base)', width: '60%', marginBottom: 'var(--space-2)' }} />
+                <div style={{ height: 'var(--space-3)', background: 'var(--color-bg-sunken)', borderRadius: 'var(--radius-base)', width: '40%' }} />
+              </div>
+            ))}
+          </div>
         ) : rides.length === 0 ? (
           <p style={{ textAlign: 'center', color: 'var(--color-text-secondary)', padding: '3rem 0' }}>{kurdishStrings.noRidesFound}</p>
         ) : rides.map(ride => (
