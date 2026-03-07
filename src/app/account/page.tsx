@@ -176,8 +176,11 @@ export default function AccountPage() {
         <div style={{ overflow: 'hidden' }}>
           <MenuItem icon={Icons.profile} label={kurdishStrings.profilePageTitle} onClick={() => router.push('/profile')} />
           <MenuItem icon={Icons.myRides} label={kurdishStrings.myRidesTitle} onClick={() => router.push('/my-rides')} />
-          <MenuItem icon={Icons.postRide} label={kurdishStrings.postARide} onClick={() => router.push('/post-ride')} />
-          <MenuItem icon={Icons.car} label={kurdishStrings.driverLabel} value={isDriver ? kurdishStrings.activated : kurdishStrings.notActivated} onClick={() => router.push('/post-ride')} />
+          {isDriver && isVerified ? (
+            <MenuItem icon={Icons.postRide} label={kurdishStrings.postARide} onClick={() => router.push('/post-ride')} />
+          ) : (
+            <MenuItem icon={Icons.car} label={kurdishStrings.activateDriver} onClick={() => router.push('/post-ride')} />
+          )}
           <MenuItem icon={Icons.settings} label={kurdishStrings.settings} onClick={() => router.push('/settings')} />
           <MenuItem icon={Icons.bell} label={kurdishStrings.notifications} value={kurdishStrings.notifOn} isLast onClick={comingSoon} />
         </div>
