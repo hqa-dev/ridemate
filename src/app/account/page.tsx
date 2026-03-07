@@ -187,9 +187,9 @@ export default function AccountPage() {
             <MenuItem icon={Icons.car} label={kurdishStrings.activateDriver} onClick={() => router.push('/post-ride')} />
           )}
           <MenuItem icon={Icons.settings} label={kurdishStrings.settings} onClick={() => router.push('/settings')} />
-          <MenuItem icon={Icons.bell} label={kurdishStrings.messages} value={kurdishStrings.notifOn} onClick={comingSoon} />
+          <MenuItem icon={Icons.bell} label={kurdishStrings.messages} value={kurdishStrings.notifOn} isLast={!(isDriver && isVerified)} onClick={comingSoon} />
           {isDriver && isVerified && (
-            <MenuItem icon={Icons.coins} label={kurdishStrings.driverEarnings} onClick={comingSoon} />
+            <MenuItem icon={Icons.coins} label={kurdishStrings.driverEarnings} isLast onClick={comingSoon} />
           )}
         </div>
       </Card>
