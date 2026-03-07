@@ -182,7 +182,7 @@ export default function AccountPage() {
             <MenuItem icon={Icons.car} label={kurdishStrings.activateDriver} onClick={() => router.push('/post-ride')} />
           )}
           <MenuItem icon={Icons.settings} label={kurdishStrings.settings} onClick={() => router.push('/settings')} />
-          <MenuItem icon={Icons.bell} label={kurdishStrings.notifications} value={kurdishStrings.notifOn} isLast onClick={comingSoon} />
+          <MenuItem icon={Icons.bell} label={kurdishStrings.messages} value={kurdishStrings.notifOn} isLast onClick={comingSoon} />
         </div>
       </Card>
 

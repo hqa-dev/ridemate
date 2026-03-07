@@ -9,12 +9,6 @@ import PageHeader from '@/components/ui/PageHeader'
 import SectionLabel from '@/components/ui/SectionLabel'
 import Card from '@/components/ui/Card'
 
-const Toggle = () => (
-  <div style={{ width: 36, height: 20, borderRadius: 'var(--radius-xl)', border: 'var(--border-width-medium) solid var(--color-text-primary)', background: 'var(--color-brand-fill)', display: 'flex', alignItems: 'center', padding: '0 3px', justifyContent: 'flex-end' }}>
-    <div style={{ width: 14, height: 14, borderRadius: '50%', background: 'var(--color-brand-primary)' }} />
-  </div>
-)
-
 export default function SettingsPage() {
   const router = useRouter()
   const supabase = createClient()
@@ -71,25 +65,6 @@ export default function SettingsPage() {
                 <span style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-text-primary)' }}>{kurdishStrings.kurdishLanguage}</span>
               </div>
               <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>{kurdishStrings.kurdishLanguage}</span>
-            </div>
-          </Card>
-        </div>
-
-        {/* Notifications */}
-        <div style={{ marginBottom: 'var(--space-6)' }}>
-          <SectionLabel label={kurdishStrings.notificationsTitle} />
-          <Card>
-            <div style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              padding: 'var(--space-card-lg)', direction: 'rtl',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" />
-                </svg>
-                <span style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-text-primary)' }}>{kurdishStrings.messages}</span>
-              </div>
-              <Toggle />
             </div>
           </Card>
         </div>
