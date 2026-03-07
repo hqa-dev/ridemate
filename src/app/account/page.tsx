@@ -107,6 +107,7 @@ export default function AccountPage() {
   const router = useRouter()
   const [user, setUser] = useState<any>(null)
   const [profile, setProfile] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
   const supabase = createClient()
 
   useEffect(() => {
@@ -124,6 +125,7 @@ export default function AccountPage() {
       .eq('id', user.id)
       .single()
     if (data) setProfile(data)
+    setLoading(false)
   }
 
   async function handleSignOut() {
@@ -175,40 +177,42 @@ export default function AccountPage() {
       </div>
       </Card>
 
-      {/* Account section */}
-      <SectionLabel label={kurdishStrings.navAccount} />
-      <Card style={{ margin: '0 var(--space-3)', padding: '0 var(--space-card-md)' }}>
-        <div style={{ overflow: 'hidden' }}>
-          <MenuItem icon={Icons.profile} label={kurdishStrings.profilePageTitle} onClick={() => router.push('/profile')} />
-          <MenuItem icon={Icons.myRides} label={kurdishStrings.myRidesTitle} onClick={() => router.push('/my-rides')} />
-          {isDriver && isVerified ? (
-            <MenuItem icon={Icons.postRide} label={kurdishStrings.postARide} onClick={() => router.push('/post-ride')} />
-          ) : (
-            <MenuItem icon={Icons.car} label={kurdishStrings.activateDriver} onClick={() => router.push('/post-ride')} />
-          )}
-          <MenuItem icon={Icons.settings} label={kurdishStrings.settings} onClick={() => router.push('/settings')} />
-          <MenuItem icon={Icons.bell} label={kurdishStrings.messages} value={kurdishStrings.notifOn} isLast={!(isDriver && isVerified)} onClick={comingSoon} />
-          {isDriver && isVerified && (
-            <MenuItem icon={Icons.coins} label={kurdishStrings.driverEarnings} isLast onClick={comingSoon} />
-          )}
-        </div>
-      </Card>
-
-      {/* Support section */}
-      <SectionLabel label={kurdishStrings.supportSection} />
-      <Card style={{ margin: '0 var(--space-3)', padding: '0 var(--space-card-md)' }}>
-        <div style={{ overflow: 'hidden' }}>
-          <MenuItem icon={Icons.chat} label={kurdishStrings.contactUs} onClick={comingSoon} />
-          <MenuItem icon={Icons.info} label={kurdishStrings.aboutApp} value="v1.0.0" isLast onClick={comingSoon} />
-        </div>
-      </Card>
-
-      {/* Sign out */}
-      <div style={{ marginTop: 'var(--space-4)' }}>
-        <Card danger style={{ margin: '0 var(--space-3)', padding: '0 var(--space-card-md)' }}>
-          <MenuItem icon={Icons.logout} label={kurdishStrings.logOut} danger isLast onClick={handleSignOut} />
+      {!loading && <>
+        {/* Account section */}
+        <SectionLabel label={kurdishStrings.navAccount} />
+        <Card style={{ margin: '0 var(--space-3)', padding: '0 var(--space-card-md)' }}>
+          <div style={{ overflow: 'hidden' }}>
+            <MenuItem icon={Icons.profile} label={kurdishStrings.profilePageTitle} onClick={() => router.push('/profile')} />
+            <MenuItem icon={Icons.myRides} label={kurdishStrings.myRidesTitle} onClick={() => router.push('/my-rides')} />
+            {isDriver && isVerified ? (
+              <MenuItem icon={Icons.postRide} label={kurdishStrings.postARide} onClick={() => router.push('/post-ride')} />
+            ) : (
+              <MenuItem icon={Icons.car} label={kurdishStrings.activateDriver} onClick={() => router.push('/post-ride')} />
+            )}
+            <MenuItem icon={Icons.settings} label={kurdishStrings.settings} onClick={() => router.push('/settings')} />
+            <MenuItem icon={Icons.bell} label={kurdishStrings.messages} value={kurdishStrings.notifOn} isLast={!(isDriver && isVerified)} onClick={comingSoon} />
+            {isDriver && isVerified && (
+              <MenuItem icon={Icons.coins} label={kurdishStrings.driverEarnings} isLast onClick={comingSoon} />
+            )}
+          </div>
         </Card>
-      </div>
+
+        {/* Support section */}
+        <SectionLabel label={kurdishStrings.supportSection} />
+        <Card style={{ margin: '0 var(--space-3)', padding: '0 var(--space-card-md)' }}>
+          <div style={{ overflow: 'hidden' }}>
+            <MenuItem icon={Icons.chat} label={kurdishStrings.contactUs} onClick={comingSoon} />
+            <MenuItem icon={Icons.info} label={kurdishStrings.aboutApp} value="v1.0.0" isLast onClick={comingSoon} />
+          </div>
+        </Card>
+
+        {/* Sign out */}
+        <div style={{ marginTop: 'var(--space-4)' }}>
+          <Card danger style={{ margin: '0 var(--space-3)', padding: '0 var(--space-card-md)' }}>
+            <MenuItem icon={Icons.logout} label={kurdishStrings.logOut} danger isLast onClick={handleSignOut} />
+          </Card>
+        </div>
+      </>}
 
       {/* Version */}
       <div style={{ textAlign: 'center', padding: 'var(--space-6) 0 var(--space-navClearanceLg)' }}>
