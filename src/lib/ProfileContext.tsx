@@ -35,6 +35,7 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
   const supabase = createClient()
 
   async function loadProfile() {
+    setLoading(true)
     try {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
@@ -56,7 +57,10 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
     loadProfile()
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event) => {
-      if (event === 'SIGNED_IN') {
+      if (event === 'INITIAL_SESSION') {
+        return
+      } else if (event === 'SIGNED_IN') {
+        if (loading) return
         await loadProfile()
       } else if (event === 'SIGNED_OUT') {
         setUser(null)
