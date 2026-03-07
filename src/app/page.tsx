@@ -35,6 +35,7 @@ export default function LandingPage() {
       maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto',
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
       padding: 'var(--space-8) var(--space-page-x)',
+      position: 'relative',
     }}>
 
       {/* Theme toggle */}
