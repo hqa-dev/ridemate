@@ -39,6 +39,10 @@ export default function HomePage() {
     checkBell()
   }, [from, to])
 
+  useEffect(() => {
+    checkBell()
+  }, [user])
+
   async function checkBell() {
     if (!user) return
     const { count } = await supabase
