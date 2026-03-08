@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { BottomNav } from '@/components/layout/BottomNav'
 import Link from 'next/link'
@@ -77,13 +77,13 @@ export default function HomePage() {
     if (!skipLoading) setLoading(false)
   }
 
-  function selectCity(field: 'from' | 'to', city: string) {
+  const selectCity = useCallback((field: 'from' | 'to', city: string) => {
     if (field === 'from') {
       setFrom(prev => prev === city ? '' : city)
     } else {
       setTo(prev => prev === city ? '' : city)
     }
-  }
+  }, [])
 
   return (
     <div style={{ direction: 'rtl', height: '100vh', background: 'var(--color-bg-canvas)', maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
@@ -284,11 +284,13 @@ export default function HomePage() {
       <div style={{ flex: 1, overflowY: 'auto', padding: '0 var(--space-page-x) var(--space-navClearance)' }}>
         {loading ? null : rides.length === 0 ? (
           <p style={{ textAlign: 'center', color: 'var(--color-text-secondary)', padding: '3rem 0' }}>{kurdishStrings.noRidesFound}</p>
-        ) : rides.map(ride => (
-          <div key={ride.id} style={{ opacity: blink ? 0.4 : 1, transition: 'opacity 0.3s ease' }}>
-            <RideCard ride={ride} />
+        ) : (
+          <div style={{ opacity: blink ? 0.4 : 1, transition: 'opacity 0.3s ease' }}>
+            {rides.map(ride => (
+              <RideCard key={ride.id} ride={ride} />
+            ))}
           </div>
-        ))}
+        )}
       </div>
 
       {toast && (

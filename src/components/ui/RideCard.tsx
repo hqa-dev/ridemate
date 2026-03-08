@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import Link from 'next/link'
 import { CITIES, ROUTE_DISTANCE, formatTime, estimateArrival, toKurdishNum } from '@/lib/utils'
 import { T } from '@/lib/theme'
@@ -23,7 +24,7 @@ interface RideCardProps {
   editButton?: React.ReactNode
 }
 
-export function RideCard({ ride, status, dimmed, editButton }: RideCardProps) {
+export const RideCard = memo(function RideCard({ ride, status, dimmed, editButton }: RideCardProps) {
   const driver = ride.driver || {}
   const depTime = toKurdishNum(formatTime(ride.departure_time))
   const arrTime = toKurdishNum(estimateArrival(ride.departure_time, ride.from_city, ride.to_city))
@@ -107,7 +108,7 @@ export function RideCard({ ride, status, dimmed, editButton }: RideCardProps) {
       </div>
     </Link>
   )
-}
+})
 
 // Re-export constants from canonical location
 export { REQUEST_STATUS, RIDE_CANCELLED_STATUS } from '@/lib/constants'
