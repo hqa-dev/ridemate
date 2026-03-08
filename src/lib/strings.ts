@@ -1,6 +1,6 @@
 export const kurdishStrings = {
   appName: 'لیمۆ',
-  landingSubtitle: 'هەولێر · سلێمانی · دهۆک',
+  landingSubtitle: 'تەنها بۆ هەولێر و سلێمانی و دهۆکە',
   signInWithGoogle: 'بە گووگڵ بەژداربە',
   termsAcceptance: 'بە چوونەژوورەوە، ڕێکار و مەرجەکانمان قبوڵ دەکەیت',
 
