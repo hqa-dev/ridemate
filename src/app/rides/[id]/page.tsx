@@ -498,7 +498,7 @@ export default function RideDetailPage() {
                 <div style={{ width: 'var(--size-avatar-sm)', height: 'var(--size-avatar-sm)', borderRadius: 'var(--radius-base)', border: 'var(--border-width-thin) dashed var(--color-border-divider)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <span style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)' }}>+</span>
                 </div>
-                <span style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)' }}>{toKurdishNum(ride.available_seats)} {kurdishStrings.seatsAvailableCount}</span>
+                <span style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)' }}>{toKurdishNum(ride.available_seats)} {kurdishStrings.seatsAvailableCount}</span>
               </div>
             )}
           </Card>

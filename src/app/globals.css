@@ -51,8 +51,8 @@ input, textarea, select {
 }
 
 input::placeholder, textarea::placeholder {
-  color: #9A8F78 !important;
-  -webkit-text-fill-color: #9A8F78 !important;
+  color: var(--color-text-secondary) !important;
+  -webkit-text-fill-color: var(--color-text-secondary) !important;
 }
 
 /* Hide native select arrow */
