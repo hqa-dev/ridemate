@@ -9,7 +9,7 @@ export default function RouteLine({ from, to, dep, arr }: { from: string; to: st
         <div style={{ fontSize: 'var(--font-size-body)', fontWeight: 400, color: T.textMid }}>{dep}</div>
       </div>
       {/* SVG curved line — ink right to orange left */}
-      <div style={{ flex: 1, position: 'relative', height: 20 }}>
+      <div style={{ flex: 0.7, position: 'relative', height: 20 }}>
         <svg width="100%" height="20" viewBox="0 0 300 20" preserveAspectRatio="none">
           <path d="M8 13 Q60 7 100 13 Q140 19 180 13 Q220 7 260 13 Q276 16 292 13" stroke={T.accent} strokeWidth="1.5" fill="none" strokeLinecap="round"/>
           <path d="M8 9 a4,4 0 0,0 0,8" fill={T.accent}/>
