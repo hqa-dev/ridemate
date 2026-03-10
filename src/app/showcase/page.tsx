@@ -35,7 +35,7 @@ export default function ShowcasePage() {
                 padding: `var(--button-${variant}-padding)`,
                 fontSize: `var(--button-${variant}-fontSize)`,
                 fontWeight: `var(--button-${variant}-fontWeight, 600)`,
-                fontFamily: 'var(--font-family-body)',
+                fontFamily: 'inherit',
               }}
             >
               {label}
@@ -63,7 +63,7 @@ export default function ShowcasePage() {
                 padding: 'var(--input-standard-padding)',
                 fontSize: 'var(--input-standard-fontSize)',
                 color: 'var(--input-standard-color)',
-                fontFamily: 'var(--font-family-body)',
+                fontFamily: 'inherit',
                 direction: 'rtl',
                 boxSizing: 'border-box',
               }}
@@ -82,7 +82,7 @@ export default function ShowcasePage() {
                 padding: 'var(--input-search-padding)',
                 fontSize: 'var(--input-standard-fontSize)',
                 color: 'var(--input-standard-color)',
-                fontFamily: 'var(--font-family-body)',
+                fontFamily: 'inherit',
                 direction: 'rtl',
                 boxSizing: 'border-box',
               }}
@@ -102,7 +102,7 @@ export default function ShowcasePage() {
                 fontSize: 'var(--input-standard-fontSize)',
                 color: 'var(--input-standard-color)',
                 lineHeight: 'var(--input-ride-lineHeight)',
-                fontFamily: 'var(--font-family-body)',
+                fontFamily: 'inherit',
                 direction: 'rtl',
                 boxSizing: 'border-box',
               }}
@@ -124,7 +124,7 @@ export default function ShowcasePage() {
                 color: 'var(--input-standard-color)',
                 lineHeight: 'var(--input-note-lineHeight)',
                 resize: 'none',
-                fontFamily: 'var(--font-family-body)',
+                fontFamily: 'inherit',
                 direction: 'rtl',
                 boxSizing: 'border-box',
               }}

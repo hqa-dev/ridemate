@@ -40,7 +40,7 @@ export function ConfirmModal({ isOpen, message, onConfirm, onCancel }: ConfirmMo
               flex: 1, background: T.redBg, color: T.red,
               border: 'none', borderRadius: 10, padding: '10px 0',
               fontSize: 'var(--font-size-body)', fontWeight: 400, cursor: 'pointer',
-              fontFamily: "var(--font-family-body)",
+              fontFamily: "inherit",
             }}
           >
             {kurdishStrings.yes}
@@ -51,7 +51,7 @@ export function ConfirmModal({ isOpen, message, onConfirm, onCancel }: ConfirmMo
               flex: 1, background: T.cardInner, color: T.text,
               border: 'none', borderRadius: 10, padding: '10px 0',
               fontSize: 'var(--font-size-body)', fontWeight: 400, cursor: 'pointer',
-              fontFamily: "var(--font-family-body)",
+              fontFamily: "inherit",
             }}
           >
             {kurdishStrings.no}

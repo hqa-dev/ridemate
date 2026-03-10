@@ -532,7 +532,7 @@ export default function RideDetailPage() {
                 textAlign: 'center', cursor: completing ? 'default' : 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-2)',
                 direction: 'rtl', opacity: completing ? 'var(--opacity-disabled)' as unknown as number : 1,
-                fontFamily: 'var(--font-family-body)',
+                fontFamily: 'inherit',
               }}
             >
               {completing ? '...' : kurdishStrings.rideCompleted}
@@ -571,7 +571,7 @@ export default function RideDetailPage() {
                 border: 'var(--button-secondary-border)', borderRadius: 'var(--button-secondary-radius)', padding: 'var(--button-secondary-padding)',
                 fontSize: 'var(--button-secondary-fontSize)', fontWeight: 'var(--button-secondary-fontWeight)' as unknown as number, textAlign: 'center', cursor: 'pointer',
                 boxShadow: 'var(--button-secondary-shadow)',
-                fontFamily: 'var(--font-family-body)',
+                fontFamily: 'inherit',
               }}>{kurdishStrings.cancelRide}</button>
             </div>
           )
@@ -637,7 +637,7 @@ export default function RideDetailPage() {
                 border: 'var(--border-width-thick) solid var(--color-border-strong)', borderRadius: 'var(--radius-2xl)', padding: '15px 0',
                 fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-bold)' as unknown as number, cursor: 'pointer',
                 boxShadow: 'var(--shadow-card)',
-                fontFamily: 'var(--font-family-body)',
+                fontFamily: 'inherit',
               }}
             >
               {kurdishStrings.yesSendIt}
@@ -673,7 +673,7 @@ export default function RideDetailPage() {
                   border: 'var(--button-withdraw-border)', borderRadius: 'var(--button-withdraw-radius)', padding: 'var(--button-withdraw-padding)',
                   fontSize: 'var(--button-withdraw-fontSize)', fontWeight: 'var(--button-withdraw-fontWeight)' as unknown as number,
                   textAlign: 'center', cursor: 'pointer', marginTop: 'var(--space-3)',
-                  fontFamily: 'var(--font-family-body)',
+                  fontFamily: 'inherit',
                 }}
               >
                 {kurdishStrings.withdraw}
@@ -711,7 +711,7 @@ export default function RideDetailPage() {
                   border: 'var(--button-withdraw-border)', borderRadius: 'var(--button-withdraw-radius)', padding: 'var(--button-withdraw-padding)',
                   fontSize: 'var(--button-withdraw-fontSize)', fontWeight: 'var(--button-withdraw-fontWeight)' as unknown as number,
                   textAlign: 'center', cursor: 'pointer', marginTop: 'var(--space-1)',
-                  fontFamily: 'var(--font-family-body)',
+                  fontFamily: 'inherit',
                 }}
               >
                 {kurdishStrings.withdraw}

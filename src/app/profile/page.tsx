@@ -213,7 +213,7 @@ export default function ProfilePage() {
   const inputStyle: React.CSSProperties = {
     width: '100%', background: 'var(--color-bg-sunken)', border: 'var(--border-width-thin) solid var(--color-border-strong)',
     borderRadius: 'var(--radius-base)', padding: 'var(--input-standard-padding)', fontSize: 'var(--font-size-body)', color: 'var(--color-text-primary)',
-    outline: 'none', fontFamily: 'var(--font-family-body)', boxSizing: 'border-box',
+    outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box',
   }
 
   return (
@@ -268,8 +268,8 @@ export default function ProfilePage() {
                 <input value={editName} onChange={e => setEditName(e.target.value)} style={{ ...inputStyle, direction: 'rtl' }} />
                 <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-icon-muted)', marginTop: 'var(--space-1-5)', paddingRight: 2 }}>{kurdishStrings.nameChangeNote}</div>
                 <div style={{ display: 'flex', gap: 'var(--space-2)', marginTop: 'var(--space-2-5)'}}>
-                  <button onClick={handleSaveName} disabled={saving} style={{ flex: 1, background: 'var(--button-subtle-bg)', color: 'var(--color-status-success)', border: 'none', borderRadius: 'var(--button-subtle-radius)', padding: 'var(--button-subtle-padding)', fontSize: 'var(--button-subtle-fontSize)', fontWeight: 'var(--button-subtle-fontWeight)' as unknown as number, cursor: 'pointer', fontFamily: 'var(--font-family-body)', opacity: saving ? 'var(--opacity-disabled)' as unknown as number : 1 }}>{saving ? '...' : kurdishStrings.save}</button>
-                  <button onClick={() => setEditingName(false)} style={{ background: 'none', border: 'none', color: 'var(--color-icon-muted)', fontSize: 'var(--font-size-body)', cursor: 'pointer', padding: 'var(--button-subtle-padding)', fontFamily: 'var(--font-family-body)' }}>{kurdishStrings.cancel}</button>
+                  <button onClick={handleSaveName} disabled={saving} style={{ flex: 1, background: 'var(--button-subtle-bg)', color: 'var(--color-status-success)', border: 'none', borderRadius: 'var(--button-subtle-radius)', padding: 'var(--button-subtle-padding)', fontSize: 'var(--button-subtle-fontSize)', fontWeight: 'var(--button-subtle-fontWeight)' as unknown as number, cursor: 'pointer', fontFamily: 'inherit', opacity: saving ? 'var(--opacity-disabled)' as unknown as number : 1 }}>{saving ? '...' : kurdishStrings.save}</button>
+                  <button onClick={() => setEditingName(false)} style={{ background: 'none', border: 'none', color: 'var(--color-icon-muted)', fontSize: 'var(--font-size-body)', cursor: 'pointer', padding: 'var(--button-subtle-padding)', fontFamily: 'inherit' }}>{kurdishStrings.cancel}</button>
                 </div>
               </div>
             )}
@@ -287,8 +287,8 @@ export default function ProfilePage() {
               <div style={{ padding: 'var(--space-3) 0 var(--space-card-md)', borderBottom: 'var(--border-width-medium) dashed var(--color-text-muted)' }}>
                 <input value={editPhone} onChange={e => setEditPhone(e.target.value)} dir="ltr" type="tel" placeholder="07501234567" style={inputStyle} />
                 <div style={{ display: 'flex', gap: 'var(--space-2)', marginTop: 'var(--space-2-5)'}}>
-                  <button onClick={handleSavePhone} disabled={saving} style={{ flex: 1, background: 'var(--button-subtle-bg)', color: 'var(--color-status-success)', border: 'none', borderRadius: 'var(--button-subtle-radius)', padding: 'var(--button-subtle-padding)', fontSize: 'var(--button-subtle-fontSize)', fontWeight: 'var(--button-subtle-fontWeight)' as unknown as number, cursor: 'pointer', fontFamily: 'var(--font-family-body)', opacity: saving ? 'var(--opacity-disabled)' as unknown as number : 1 }}>{saving ? '...' : kurdishStrings.save}</button>
-                  <button onClick={() => setEditingPhone(false)} style={{ background: 'none', border: 'none', color: 'var(--color-icon-muted)', fontSize: 'var(--font-size-body)', cursor: 'pointer', padding: 'var(--button-subtle-padding)', fontFamily: 'var(--font-family-body)' }}>{kurdishStrings.cancel}</button>
+                  <button onClick={handleSavePhone} disabled={saving} style={{ flex: 1, background: 'var(--button-subtle-bg)', color: 'var(--color-status-success)', border: 'none', borderRadius: 'var(--button-subtle-radius)', padding: 'var(--button-subtle-padding)', fontSize: 'var(--button-subtle-fontSize)', fontWeight: 'var(--button-subtle-fontWeight)' as unknown as number, cursor: 'pointer', fontFamily: 'inherit', opacity: saving ? 'var(--opacity-disabled)' as unknown as number : 1 }}>{saving ? '...' : kurdishStrings.save}</button>
+                  <button onClick={() => setEditingPhone(false)} style={{ background: 'none', border: 'none', color: 'var(--color-icon-muted)', fontSize: 'var(--font-size-body)', cursor: 'pointer', padding: 'var(--button-subtle-padding)', fontFamily: 'inherit' }}>{kurdishStrings.cancel}</button>
                 </div>
               </div>
             )}
@@ -307,8 +307,8 @@ export default function ProfilePage() {
                 <input value={editEmail} onChange={e => setEditEmail(e.target.value)} dir="ltr" type="email" style={inputStyle} />
                 <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-icon-muted)', marginTop: 'var(--space-1-5)', paddingRight: 2 }}>{kurdishStrings.emailVerificationNote}</div>
                 <div style={{ display: 'flex', gap: 'var(--space-2)', marginTop: 'var(--space-2-5)'}}>
-                  <button onClick={handleSaveEmail} disabled={saving} style={{ flex: 1, background: 'var(--button-subtle-bg)', color: 'var(--color-status-success)', border: 'none', borderRadius: 'var(--button-subtle-radius)', padding: 'var(--button-subtle-padding)', fontSize: 'var(--button-subtle-fontSize)', fontWeight: 'var(--button-subtle-fontWeight)' as unknown as number, cursor: 'pointer', fontFamily: 'var(--font-family-body)', opacity: saving ? 'var(--opacity-disabled)' as unknown as number : 1 }}>{saving ? '...' : kurdishStrings.save}</button>
-                  <button onClick={() => setEditingEmail(false)} style={{ background: 'none', border: 'none', color: 'var(--color-icon-muted)', fontSize: 'var(--font-size-body)', cursor: 'pointer', padding: 'var(--button-subtle-padding)', fontFamily: 'var(--font-family-body)' }}>{kurdishStrings.cancel}</button>
+                  <button onClick={handleSaveEmail} disabled={saving} style={{ flex: 1, background: 'var(--button-subtle-bg)', color: 'var(--color-status-success)', border: 'none', borderRadius: 'var(--button-subtle-radius)', padding: 'var(--button-subtle-padding)', fontSize: 'var(--button-subtle-fontSize)', fontWeight: 'var(--button-subtle-fontWeight)' as unknown as number, cursor: 'pointer', fontFamily: 'inherit', opacity: saving ? 'var(--opacity-disabled)' as unknown as number : 1 }}>{saving ? '...' : kurdishStrings.save}</button>
+                  <button onClick={() => setEditingEmail(false)} style={{ background: 'none', border: 'none', color: 'var(--color-icon-muted)', fontSize: 'var(--font-size-body)', cursor: 'pointer', padding: 'var(--button-subtle-padding)', fontFamily: 'inherit' }}>{kurdishStrings.cancel}</button>
                 </div>
               </div>
             )}

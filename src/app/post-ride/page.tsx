@@ -194,7 +194,7 @@ export default function PostRidePage() {
     borderRadius: 'var(--radius-base)', padding: 'var(--input-standard-padding)',
     width: '100%', fontSize: 'var(--font-size-body)', color: 'var(--color-text-primary)',
     WebkitTextFillColor: 'var(--color-text-primary)', outline: 'none',
-    fontFamily: 'var(--font-family-body)',
+    fontFamily: 'inherit',
   }
 
   // ─── Loading ───
@@ -296,7 +296,7 @@ export default function PostRidePage() {
             background: 'var(--color-bg-surface)', color: 'var(--color-brand-primary)', border: 'var(--border-width-thin) solid var(--color-border-strong)',
             borderRadius: 'var(--radius-4xl)', padding: 'var(--space-4)', fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-bold)' as unknown as number,
             cursor: uploading ? 'default' : 'pointer', width: '100%',
-            opacity: uploading ? 'var(--opacity-disabled)' as unknown as number : 1, fontFamily: 'var(--font-family-body)',
+            opacity: uploading ? 'var(--opacity-disabled)' as unknown as number : 1, fontFamily: 'inherit',
           }}>{uploading ? kurdishStrings.pleaseWait : kurdishStrings.send}</button>
         </div>
         <BottomNav />

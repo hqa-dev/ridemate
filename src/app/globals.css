@@ -10,7 +10,7 @@
   font-size: 12px;
   color: #1A1208 !important;
   -webkit-text-fill-color: #1A1208 !important;
-  font-family: var(--font-family-body);
+  font-family: inherit;
   direction: rtl;
   resize: none;
   min-height: 44px;
@@ -24,7 +24,7 @@
   font-size: 12px;
   color: #1A1208 !important;
   -webkit-text-fill-color: #1A1208 !important;
-  font-family: var(--font-family-body);
+  font-family: inherit;
   direction: rtl;
 }
 .money-input {
@@ -68,7 +68,7 @@ select.ride-select::-ms-expand {
 /* Date/time inputs */
 input[type="date"],
 input[type="time"] {
-  font-family: var(--font-family-body);
+  font-family: inherit;
   color: #4A3F2A;
   direction: rtl;
   text-align: right;
