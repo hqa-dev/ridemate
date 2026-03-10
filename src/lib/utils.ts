@@ -1,11 +1,11 @@
-import { ku } from '@/lib/translations'
+import { kurdishStrings } from '@/lib/strings'
 
 // ── City data ──
 
 export const CITIES: Record<string, string> = {
-  erbil: ku.erbil,
-  suli: ku.suli,
-  duhok: ku.duhok,
+  erbil: kurdishStrings.erbil,
+  suli: kurdishStrings.suli,
+  duhok: kurdishStrings.duhok,
 }
 
 export const ROUTE_HOURS: Record<string, number> = {

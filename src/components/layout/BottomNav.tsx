@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { T } from '@/lib/theme'
+import { kurdishStrings } from '@/lib/strings'
 
 function NavIcon({ type, active }: { type: string; active: boolean }) {
   const color = active ? T.onAccent : T.iconDim
@@ -12,8 +13,8 @@ function NavIcon({ type, active }: { type: string; active: boolean }) {
 }
 
 const navItems = [
-  { href: '/home', icon: 'home', label: 'گەشتەکان' },
-  { href: '/account', icon: 'profile', label: 'هەژمار' },
+  { href: '/home', icon: 'home', label: kurdishStrings.navRides },
+  { href: '/account', icon: 'profile', label: kurdishStrings.navAccount },
 ]
 
 export function BottomNav({ active: activeOverride }: { active?: 'home' | 'account' } = {}) {
