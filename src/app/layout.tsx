@@ -1,11 +1,10 @@
 import type { Metadata } from 'next'
-import { Noto_Sans_Arabic } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
 import { ProfileProvider } from '@/lib/ProfileContext'
 
-const notoSansArabic = Noto_Sans_Arabic({
-  subsets: ['arabic'],
-  weight: ['400', '500', '600', '700', '800'],
+const vazirmatn = localFont({
+  src: './fonts/Vazirmatn-VariableFont_wght.ttf',
   display: 'swap',
 })
 
@@ -25,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script dangerouslySetInnerHTML={{ __html: `(function(){var m=localStorage.getItem('limo-theme');if(m==='dark')document.documentElement.setAttribute('data-theme','dark')})()` }} />
       </head>
-      <body className={notoSansArabic.className} style={{ fontFamily: 'var(--font-family-body)', margin: 0, background: 'var(--color-bg-canvas)' }}>
+      <body className={vazirmatn.className} style={{ fontFamily: 'var(--font-family-body)', margin: 0, background: 'var(--color-bg-canvas)' }}>
         <div style={{ maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto', minHeight: '100vh', background: 'var(--color-bg-canvas)', border: 'var(--border-width-thin) solid var(--color-border-strong)', borderRadius: 'var(--radius-6xl)', boxShadow: 'var(--shadow-viewport)', overflow: 'hidden' }}>
           <ProfileProvider>{children}</ProfileProvider>
         </div>

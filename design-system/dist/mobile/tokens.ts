@@ -375,7 +375,7 @@ export const tokens = {
   },
   "font": {
     "family": {
-      "body": "'Noto Sans Arabic', sans-serif"
+      "body": "'Vazirmatn Variable', 'Vazirmatn', sans-serif"
     },
     "size": {
       "3xs": "8px",

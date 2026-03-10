@@ -1,7 +1,7 @@
 {
   "font": {
     "family": {
-      "body": { "$value": "'Noto Sans Arabic', sans-serif", "$type": "fontFamily", "$description": "Primary font — Arabic-first, Google Fonts" }
+      "body": { "$value": "'Vazirmatn Variable', 'Vazirmatn', sans-serif", "$type": "fontFamily", "$description": "Primary font — Persian/Kurdish variable font, self-hosted" }
     },
     "size": {
       "$type": "dimension",
