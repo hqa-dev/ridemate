@@ -346,7 +346,7 @@ export default function PostRidePage() {
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0 0 var(--space-card-md)' }}>
             <SketchCar size={110} color={'var(--color-brand-primary)'} />
             <svg width="40%" height="6" style={{ marginTop: -4 }}>
-              <line x1="0" y1="3" x2="100%" y2="3" stroke="var(--color-text-muted)" strokeWidth="1" strokeDasharray="6 4" opacity="0.4" />
+              <line className="road-line" x1="0" y1="3" x2="100%" y2="3" stroke="var(--color-text-muted)" strokeWidth="1" strokeDasharray="6 4" opacity="0.4" />
             </svg>
           </div>
 

@@ -1,6 +1,14 @@
 @import '../../design-system/dist/web/variables.css';
 @import '../../design-system/dist/web/theme-dark.css';
 
+@keyframes road-move {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -10; }
+}
+.road-line {
+  animation: road-move 0.4s linear infinite;
+}
+
 .note-input {
   background: #F5F3EC;
   border: none;
