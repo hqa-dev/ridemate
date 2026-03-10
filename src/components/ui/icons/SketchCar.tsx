@@ -16,14 +16,7 @@ export default function SketchCar({ size = 48, color = T.text }: { size?: number
         <line x1="2" y1="24" x2="8" y2="24" strokeDasharray="2,2" opacity="0.4"/>
         <line x1="1" y1="28" x2="6" y2="28" strokeDasharray="2,2" opacity="0.3"/>
       </g>
-      <g opacity="0.85">
-        <line x1="75" y1="28" x2="75" y2="10" stroke={color} strokeWidth="1.5"/>
-        <rect x="75" y="10" width="10" height="2.5" fill="#A85060" stroke="none"/>
-        <rect x="75" y="12.5" width="10" height="2.5" fill="#F0E8D8" stroke="none"/>
-        <rect x="75" y="15" width="10" height="2.5" fill="#4A7A5E" stroke="none"/>
-        <rect x="75" y="10" width="10" height="7.5" fill="none" stroke={color} strokeWidth="1"/>
-        <circle cx="80" cy="13.75" r="1.3" fill="#C8922A" stroke="none"/>
-      </g>
+      {/* flag removed */}
     </svg>
   )
 }
