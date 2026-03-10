@@ -26,7 +26,7 @@ export default function ConfirmPage() {
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--color-bg-canvas)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-base)' }}>{kurdishStrings.pleaseWait}</p>
+      <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-body)' }}>{kurdishStrings.pleaseWait}</p>
     </div>
   )
 }

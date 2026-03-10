@@ -65,8 +65,8 @@ function MenuItem({ icon, label, value, isLast, danger, onClick }: {
   return (
     <div onClick={onClick} style={{ display: 'flex', alignItems: 'center', padding: '13px 0', borderBottom: isLast ? 'none' : 'var(--border-width-medium) dashed var(--color-text-muted)', cursor: onClick ? 'pointer' : 'default' }}>
       <div style={{ width: 'var(--space-6)', display: 'flex', justifyContent: 'center', marginLeft: 'var(--space-3)' }}>{icon}</div>
-      <span style={{ flex: 1, fontSize: 'var(--font-size-lg)', color: danger ? 'var(--color-status-error)' : 'var(--color-text-secondary)', fontWeight: danger ? 'var(--font-weight-medium)' as unknown as number : 'var(--font-weight-regular)' as unknown as number }}>{label}</span>
-      {value && <span style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', marginLeft: 6 }}>{value}</span>}
+      <span style={{ flex: 1, fontSize: 'var(--font-size-heading)', color: danger ? 'var(--color-status-error)' : 'var(--color-text-secondary)', fontWeight: danger ? 'var(--font-weight-medium)' as unknown as number : 'var(--font-weight-regular)' as unknown as number }}>{label}</span>
+      {value && <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginLeft: 6 }}>{value}</span>}
       {!danger && <Arrow />}
     </div>
   )
@@ -212,7 +212,7 @@ export default function ProfilePage() {
 
   const inputStyle: React.CSSProperties = {
     width: '100%', background: 'var(--color-bg-sunken)', border: 'var(--border-width-thin) solid var(--color-border-strong)',
-    borderRadius: 'var(--radius-base)', padding: 'var(--input-standard-padding)', fontSize: 'var(--font-size-md)', color: 'var(--color-text-primary)',
+    borderRadius: 'var(--radius-base)', padding: 'var(--input-standard-padding)', fontSize: 'var(--font-size-body)', color: 'var(--color-text-primary)',
     outline: 'none', fontFamily: 'var(--font-family-body)', boxSizing: 'border-box',
   }
 
@@ -236,12 +236,12 @@ export default function ProfilePage() {
         </div>
         <div style={{ width: 1, height: 48, borderRight: 'var(--border-width-thin) solid var(--color-border-subtle)', margin: '0 var(--space-4)', flexShrink: 0 }} />
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontSize: 16, fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)', marginBottom: 'var(--space-2)' }}>{displayName}</div>
+          <div style={{ fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)', marginBottom: 'var(--space-2)' }}>{displayName}</div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-1-5)', marginBottom: 6 }}>
-            <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>{roleText}</span>
-            {isVerified && <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-status-success)', fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>✓</span>}
+            <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)' }}>{roleText}</span>
+            {isVerified && <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-status-success)', fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>✓</span>}
           </div>
-          <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-icon-muted)', direction: 'ltr' as const, textAlign: 'right' as const }}>{displayEmail}</div>
+          <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-icon-muted)', direction: 'ltr' as const, textAlign: 'right' as const }}>{displayEmail}</div>
         </div>
       </Card>
 
@@ -256,17 +256,17 @@ export default function ProfilePage() {
           <div>
             <div onClick={toggleName} style={{ display: 'flex', alignItems: 'center', padding: '13px 0', borderBottom: 'var(--border-width-medium) dashed var(--color-text-muted)', cursor: 'pointer' }}>
               <div style={{ width: 'var(--space-6)', display: 'flex', justifyContent: 'center', marginLeft: 'var(--space-3)' }}>{Icons.user}</div>
-              <span style={{ flex: 1, fontSize: 'var(--font-size-lg)', color: 'var(--color-text-secondary)' }}>{kurdishStrings.name}</span>
-              <span style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', marginLeft: 6 }}>{displayName}</span>
+              <span style={{ flex: 1, fontSize: 'var(--font-size-heading)', color: 'var(--color-text-secondary)' }}>{kurdishStrings.name}</span>
+              <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginLeft: 6 }}>{displayName}</span>
               <DownArrow open={editingName} />
             </div>
             {editingName && (
               <div style={{ padding: 'var(--space-3) 0 var(--space-card-md)', borderBottom: 'var(--border-width-medium) dashed var(--color-text-muted)' }}>
                 <input value={editName} onChange={e => setEditName(e.target.value)} style={{ ...inputStyle, direction: 'rtl' }} />
-                <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-icon-muted)', marginTop: 'var(--space-1-5)', paddingRight: 2 }}>{kurdishStrings.nameChangeNote}</div>
+                <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-icon-muted)', marginTop: 'var(--space-1-5)', paddingRight: 2 }}>{kurdishStrings.nameChangeNote}</div>
                 <div style={{ display: 'flex', gap: 'var(--space-2)', marginTop: 'var(--space-2-5)'}}>
                   <button onClick={handleSaveName} disabled={saving} style={{ flex: 1, background: 'var(--button-subtle-bg)', color: 'var(--color-status-success)', border: 'none', borderRadius: 'var(--button-subtle-radius)', padding: 'var(--button-subtle-padding)', fontSize: 'var(--button-subtle-fontSize)', fontWeight: 'var(--button-subtle-fontWeight)' as unknown as number, cursor: 'pointer', fontFamily: 'var(--font-family-body)', opacity: saving ? 'var(--opacity-disabled)' as unknown as number : 1 }}>{saving ? '...' : kurdishStrings.save}</button>
-                  <button onClick={() => setEditingName(false)} style={{ background: 'none', border: 'none', color: 'var(--color-icon-muted)', fontSize: 'var(--font-size-sm)', cursor: 'pointer', padding: 'var(--button-subtle-padding)', fontFamily: 'var(--font-family-body)' }}>{kurdishStrings.cancel}</button>
+                  <button onClick={() => setEditingName(false)} style={{ background: 'none', border: 'none', color: 'var(--color-icon-muted)', fontSize: 'var(--font-size-body)', cursor: 'pointer', padding: 'var(--button-subtle-padding)', fontFamily: 'var(--font-family-body)' }}>{kurdishStrings.cancel}</button>
                 </div>
               </div>
             )}
@@ -276,8 +276,8 @@ export default function ProfilePage() {
           <div>
             <div onClick={togglePhone} style={{ display: 'flex', alignItems: 'center', padding: '13px 0', borderBottom: 'var(--border-width-medium) dashed var(--color-text-muted)', cursor: 'pointer' }}>
               <div style={{ width: 'var(--space-6)', display: 'flex', justifyContent: 'center', marginLeft: 'var(--space-3)' }}>{Icons.phone}</div>
-              <span style={{ flex: 1, fontSize: 'var(--font-size-lg)', color: 'var(--color-text-secondary)' }}>{kurdishStrings.mobileNumber}</span>
-              <span style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', marginLeft: 6 }}>{profile?.phone || kurdishStrings.notAdded}</span>
+              <span style={{ flex: 1, fontSize: 'var(--font-size-heading)', color: 'var(--color-text-secondary)' }}>{kurdishStrings.mobileNumber}</span>
+              <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginLeft: 6 }}>{profile?.phone || kurdishStrings.notAdded}</span>
               <DownArrow open={editingPhone} />
             </div>
             {editingPhone && (
@@ -285,7 +285,7 @@ export default function ProfilePage() {
                 <input value={editPhone} onChange={e => setEditPhone(e.target.value)} dir="ltr" type="tel" placeholder="07501234567" style={inputStyle} />
                 <div style={{ display: 'flex', gap: 'var(--space-2)', marginTop: 'var(--space-2-5)'}}>
                   <button onClick={handleSavePhone} disabled={saving} style={{ flex: 1, background: 'var(--button-subtle-bg)', color: 'var(--color-status-success)', border: 'none', borderRadius: 'var(--button-subtle-radius)', padding: 'var(--button-subtle-padding)', fontSize: 'var(--button-subtle-fontSize)', fontWeight: 'var(--button-subtle-fontWeight)' as unknown as number, cursor: 'pointer', fontFamily: 'var(--font-family-body)', opacity: saving ? 'var(--opacity-disabled)' as unknown as number : 1 }}>{saving ? '...' : kurdishStrings.save}</button>
-                  <button onClick={() => setEditingPhone(false)} style={{ background: 'none', border: 'none', color: 'var(--color-icon-muted)', fontSize: 'var(--font-size-sm)', cursor: 'pointer', padding: 'var(--button-subtle-padding)', fontFamily: 'var(--font-family-body)' }}>{kurdishStrings.cancel}</button>
+                  <button onClick={() => setEditingPhone(false)} style={{ background: 'none', border: 'none', color: 'var(--color-icon-muted)', fontSize: 'var(--font-size-body)', cursor: 'pointer', padding: 'var(--button-subtle-padding)', fontFamily: 'var(--font-family-body)' }}>{kurdishStrings.cancel}</button>
                 </div>
               </div>
             )}
@@ -295,17 +295,17 @@ export default function ProfilePage() {
           <div>
             <div onClick={toggleEmail} style={{ display: 'flex', alignItems: 'center', padding: '13px 0', cursor: 'pointer' }}>
               <div style={{ width: 'var(--space-6)', display: 'flex', justifyContent: 'center', marginLeft: 'var(--space-3)' }}>{Icons.mail}</div>
-              <span style={{ flex: 1, fontSize: 'var(--font-size-lg)', color: 'var(--color-text-secondary)' }}>{kurdishStrings.emailLabel}</span>
-              <span style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', marginLeft: 6 }}>{displayEmail}</span>
+              <span style={{ flex: 1, fontSize: 'var(--font-size-heading)', color: 'var(--color-text-secondary)' }}>{kurdishStrings.emailLabel}</span>
+              <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginLeft: 6 }}>{displayEmail}</span>
               <DownArrow open={editingEmail} />
             </div>
             {editingEmail && (
               <div style={{ padding: 'var(--space-3) 0 var(--space-card-md)' }}>
                 <input value={editEmail} onChange={e => setEditEmail(e.target.value)} dir="ltr" type="email" style={inputStyle} />
-                <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-icon-muted)', marginTop: 'var(--space-1-5)', paddingRight: 2 }}>{kurdishStrings.emailVerificationNote}</div>
+                <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-icon-muted)', marginTop: 'var(--space-1-5)', paddingRight: 2 }}>{kurdishStrings.emailVerificationNote}</div>
                 <div style={{ display: 'flex', gap: 'var(--space-2)', marginTop: 'var(--space-2-5)'}}>
                   <button onClick={handleSaveEmail} disabled={saving} style={{ flex: 1, background: 'var(--button-subtle-bg)', color: 'var(--color-status-success)', border: 'none', borderRadius: 'var(--button-subtle-radius)', padding: 'var(--button-subtle-padding)', fontSize: 'var(--button-subtle-fontSize)', fontWeight: 'var(--button-subtle-fontWeight)' as unknown as number, cursor: 'pointer', fontFamily: 'var(--font-family-body)', opacity: saving ? 'var(--opacity-disabled)' as unknown as number : 1 }}>{saving ? '...' : kurdishStrings.save}</button>
-                  <button onClick={() => setEditingEmail(false)} style={{ background: 'none', border: 'none', color: 'var(--color-icon-muted)', fontSize: 'var(--font-size-sm)', cursor: 'pointer', padding: 'var(--button-subtle-padding)', fontFamily: 'var(--font-family-body)' }}>{kurdishStrings.cancel}</button>
+                  <button onClick={() => setEditingEmail(false)} style={{ background: 'none', border: 'none', color: 'var(--color-icon-muted)', fontSize: 'var(--font-size-body)', cursor: 'pointer', padding: 'var(--button-subtle-padding)', fontFamily: 'var(--font-family-body)' }}>{kurdishStrings.cancel}</button>
                 </div>
               </div>
             )}
@@ -320,8 +320,8 @@ export default function ProfilePage() {
             <div style={{ width: 'var(--space-6)', display: 'flex', justifyContent: 'center', marginLeft: 'var(--space-3)' }}>
               <div style={{ width: 'var(--size-statusDot)', height: 'var(--size-statusDot)', borderRadius: '50%', background: isVerified ? 'var(--color-status-success)' : 'var(--color-text-muted)' }} />
             </div>
-            <span style={{ flex: 1, fontSize: 'var(--font-size-lg)', color: 'var(--color-text-secondary)' }}>{kurdishStrings.statusLabel}</span>
-            <span style={{ fontSize: 'var(--font-size-base)', color: isVerified ? 'var(--color-status-success)' : 'var(--color-text-muted)', fontWeight: 'var(--font-weight-medium)' as unknown as number, marginLeft: 6 }}>
+            <span style={{ flex: 1, fontSize: 'var(--font-size-heading)', color: 'var(--color-text-secondary)' }}>{kurdishStrings.statusLabel}</span>
+            <span style={{ fontSize: 'var(--font-size-body)', color: isVerified ? 'var(--color-status-success)' : 'var(--color-text-muted)', fontWeight: 'var(--font-weight-medium)' as unknown as number, marginLeft: 6 }}>
               {isVerified ? kurdishStrings.verifiedStatus : kurdishStrings.unverifiedStatus}
             </span>
             <Arrow />
@@ -334,14 +334,14 @@ export default function ProfilePage() {
           {!showDeleteConfirm ? (
             <div onClick={() => setShowDeleteConfirm(true)} style={{ display: 'flex', alignItems: 'center', padding: '13px 0', cursor: 'pointer' }}>
               <div style={{ width: 'var(--space-6)', display: 'flex', justifyContent: 'center', marginLeft: 'var(--space-3)' }}>{Icons.trash}</div>
-              <span style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-status-error)', fontWeight: 'var(--font-weight-medium)' as unknown as number }}>{kurdishStrings.deleteAccount}</span>
+              <span style={{ fontSize: 'var(--font-size-heading)', color: 'var(--color-status-error)', fontWeight: 'var(--font-weight-medium)' as unknown as number }}>{kurdishStrings.deleteAccount}</span>
             </div>
           ) : (
             <div style={{ padding: 'var(--space-card-md) 0' }}>
-              <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-status-error)', margin: '0 0 var(--space-3)', lineHeight: 'var(--font-lineHeight-normal)', textAlign: 'right' }}>{kurdishStrings.confirmDeleteAccount}</p>
+              <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-status-error)', margin: '0 0 var(--space-3)', lineHeight: 'var(--font-lineHeight-normal)', textAlign: 'right' }}>{kurdishStrings.confirmDeleteAccount}</p>
               <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
-                <button onClick={handleDeleteAccount} style={{ flex: 1, background: 'var(--color-status-error)', color: 'var(--color-text-onAccent)', border: 'none', borderRadius: 'var(--radius-xl)', padding: 10, fontSize: 'var(--font-size-md)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, cursor: 'pointer' }}>{kurdishStrings.yesImSure}</button>
-                <button onClick={() => setShowDeleteConfirm(false)} style={{ flex: 1, background: 'var(--color-chip-bg)', color: 'var(--color-text-muted)', border: 'none', borderRadius: 'var(--radius-xl)', padding: 10, fontSize: 'var(--font-size-md)', cursor: 'pointer' }}>{kurdishStrings.cancel}</button>
+                <button onClick={handleDeleteAccount} style={{ flex: 1, background: 'var(--color-status-error)', color: 'var(--color-text-onAccent)', border: 'none', borderRadius: 'var(--radius-xl)', padding: 10, fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, cursor: 'pointer' }}>{kurdishStrings.yesImSure}</button>
+                <button onClick={() => setShowDeleteConfirm(false)} style={{ flex: 1, background: 'var(--color-chip-bg)', color: 'var(--color-text-muted)', border: 'none', borderRadius: 'var(--radius-xl)', padding: 10, fontSize: 'var(--font-size-body)', cursor: 'pointer' }}>{kurdishStrings.cancel}</button>
               </div>
             </div>
           )}

@@ -401,7 +401,7 @@ export default function RideDetailPage() {
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-status-error)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
             <circle cx="12" cy="12" r="10" /><path d="M15 9l-6 6M9 9l6 6" />
           </svg>
-          <span style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-status-error)', fontWeight: 'var(--font-weight-medium)' as unknown as number }}>{kurdishStrings.statusCancelled}</span>
+          <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-status-error)', fontWeight: 'var(--font-weight-medium)' as unknown as number }}>{kurdishStrings.statusCancelled}</span>
         </div>
       )}
 
@@ -425,7 +425,7 @@ export default function RideDetailPage() {
         {/* Completed badge */}
         {isCompleted && (
           <div style={{ padding: 'var(--space-2) var(--space-5) 0', display: 'flex' }}>
-            <span style={{ fontSize: 'var(--font-size-xs)', padding: '3px 10px', borderRadius: 'var(--radius-5xl)', background: 'var(--color-status-successBg)', color: 'var(--color-status-success)', fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>
+            <span style={{ fontSize: 'var(--font-size-body)', padding: '3px 10px', borderRadius: 'var(--radius-5xl)', background: 'var(--color-status-successBg)', color: 'var(--color-status-success)', fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>
               {kurdishStrings.statusCompletedBadge}
             </span>
           </div>
@@ -443,8 +443,8 @@ export default function RideDetailPage() {
             { l: kurdishStrings.car, v: ride.car_model || ride.car_make || '-' },
           ].map((s, i) => (
             <div key={i} style={{ flex: 1, textAlign: 'center', borderRight: i > 0 ? 'var(--border-width-medium) dashed var(--color-text-muted)' : 'none' }}>
-              <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)' }}>{s.l}</div>
-              <div style={{ fontSize: 'var(--font-size-md)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-secondary)' }}>{s.v}</div>
+              <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-secondary)' }}>{s.l}</div>
+              <div style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-secondary)' }}>{s.v}</div>
             </div>
           ))}
         </div>
@@ -458,11 +458,11 @@ export default function RideDetailPage() {
         </div>
         <div style={{ width: 1, height: 32, background: 'var(--color-border-divider)', flexShrink: 0 }} />
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, color: 'var(--color-text-primary)', marginBottom: 2 }}>
+          <div style={{ fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, color: 'var(--color-text-primary)', marginBottom: 2 }}>
             {driver.full_name || kurdishStrings.driverLabel}
-            {driver.verified && <span style={{ color: 'var(--color-status-success)', fontSize: 'var(--font-size-sm)', marginRight: 'var(--space-1)' }}> ✓</span>}
+            {driver.verified && <span style={{ color: 'var(--color-status-success)', fontSize: 'var(--font-size-body)', marginRight: 'var(--space-1)' }}> ✓</span>}
           </div>
-          <div style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)' }}>
+          <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-secondary)' }}>
             {driverAvgRating !== null && `${driverAvgRating} ★ · ${toKurdishNum(driverTripCount)} ${kurdishStrings.trip}`}
             {driverAvgRating !== null && carParts && ' · '}
             {carParts && `${carParts}`}
@@ -485,9 +485,9 @@ export default function RideDetailPage() {
                     <PersonIcon size={14} />
                   )}
                 </div>
-                <span style={{ flex: 1, fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)' }}>{p.passenger?.full_name || kurdishStrings.passengerFallback}</span>
+                <span style={{ flex: 1, fontSize: 'var(--font-size-body)', color: 'var(--color-text-secondary)' }}>{p.passenger?.full_name || kurdishStrings.passengerFallback}</span>
                 {(p.pickup || p.dropoff) && (
-                  <span style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)' }}>
+                  <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-secondary)' }}>
                     {p.pickup || '—'} ← {p.dropoff || '—'}
                   </span>
                 )}
@@ -496,9 +496,9 @@ export default function RideDetailPage() {
             {ride.available_seats > 0 && (
               <div style={{ display: 'flex', alignItems: 'center', padding: 'var(--space-3) 0', gap: 10, borderTop: approvedPassengers.length > 0 ? 'var(--border-width-thin) solid var(--color-border-subtle)' : 'none' }}>
                 <div style={{ width: 'var(--size-avatar-sm)', height: 'var(--size-avatar-sm)', borderRadius: 'var(--radius-base)', border: 'var(--border-width-thin) dashed var(--color-border-divider)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <span style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)' }}>+</span>
+                  <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-secondary)' }}>+</span>
                 </div>
-                <span style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)' }}>{toKurdishNum(ride.available_seats)} {kurdishStrings.seatsAvailableCount}</span>
+                <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-secondary)' }}>{toKurdishNum(ride.available_seats)} {kurdishStrings.seatsAvailableCount}</span>
               </div>
             )}
           </Card>
@@ -508,14 +508,14 @@ export default function RideDetailPage() {
       {/* Notes */}
       {ride.notes && (
         <Card style={{ margin: 'var(--space-4) var(--space-4) 0', padding: 'var(--space-3) var(--space-4)' }}>
-          <div style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)', marginBottom: 'var(--space-1)', fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>{kurdishStrings.notes}</div>
-          <div style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)', lineHeight: 'var(--font-lineHeight-relaxed)' as unknown as number }}>{ride.notes}</div>
+          <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-secondary)', marginBottom: 'var(--space-1)', fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>{kurdishStrings.notes}</div>
+          <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-secondary)', lineHeight: 'var(--font-lineHeight-relaxed)' as unknown as number }}>{ride.notes}</div>
         </Card>
       )}
 
       {/* ── Action Area ── */}
       <div style={{ padding: 'var(--space-6) var(--space-4) 40px' }}>
-        {actionError && <p style={{ color: 'var(--color-status-error)', fontSize: 'var(--font-size-base)', textAlign: 'center', marginBottom: 10 }}>{actionError}</p>}
+        {actionError && <p style={{ color: 'var(--color-status-error)', fontSize: 'var(--font-size-body)', textAlign: 'center', marginBottom: 10 }}>{actionError}</p>}
 
         {/* Driver views */}
         {isOwnRide && (
@@ -525,7 +525,7 @@ export default function RideDetailPage() {
               style={{
                 width: '100%', border: 'none',
                 background: 'var(--color-border-strong)', color: 'var(--color-text-secondary)',
-                borderRadius: 'var(--radius-2xl)', padding: 'var(--space-3)', fontSize: 'var(--font-size-md)', fontWeight: 'var(--font-weight-medium)' as unknown as number,
+                borderRadius: 'var(--radius-2xl)', padding: 'var(--space-3)', fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-medium)' as unknown as number,
                 textAlign: 'center', cursor: completing ? 'default' : 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-2)',
                 direction: 'rtl', opacity: completing ? 'var(--opacity-disabled)' as unknown as number : 1,
@@ -547,13 +547,13 @@ export default function RideDetailPage() {
               </div>
               <div style={{ width: 1, height: 32, background: 'var(--color-border-divider)', flexShrink: 0, margin: '0 5px' }} />
               <div>
-                <p style={{ fontWeight: 'var(--font-weight-medium)' as unknown as number, color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-md)', margin: '0 0 3px' }}>{kurdishStrings.rideCompleted}</p>
-                <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)', margin: 0 }}>{kurdishStrings.completedDate} {new Date(ride.completed_at).toLocaleDateString('en-GB')}</p>
+                <p style={{ fontWeight: 'var(--font-weight-medium)' as unknown as number, color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-body)', margin: '0 0 3px' }}>{kurdishStrings.rideCompleted}</p>
+                <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-secondary)', margin: 0 }}>{kurdishStrings.completedDate} {new Date(ride.completed_at).toLocaleDateString('en-GB')}</p>
               </div>
             </div>
           ) : isCancelled ? (
             <div style={{ textAlign: 'center', padding: 'var(--space-2) 0' }}>
-              <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', margin: 0 }}>{kurdishStrings.statusCancelled}</p>
+              <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', margin: 0 }}>{kurdishStrings.statusCancelled}</p>
             </div>
           ) : (
             <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
@@ -578,14 +578,14 @@ export default function RideDetailPage() {
         {!isOwnRide && (
           isCancelled ? (
             <div style={{ textAlign: 'center', padding: 'var(--space-2) 0' }}>
-              <p style={{ fontWeight: 'var(--font-weight-medium)' as unknown as number, color: 'var(--color-text-muted)', fontSize: 'var(--font-size-md)', margin: 0 }}>{kurdishStrings.statusCancelled}</p>
+              <p style={{ fontWeight: 'var(--font-weight-medium)' as unknown as number, color: 'var(--color-text-muted)', fontSize: 'var(--font-size-body)', margin: 0 }}>{kurdishStrings.statusCancelled}</p>
             </div>
           ) :
           isCompleted && requestStatus === 'approved' ? (
             !hasRated ? (
               <div style={{ textAlign: 'center' }}>
-                <p style={{ fontWeight: 'var(--font-weight-bold)' as unknown as number, fontSize: 'var(--font-size-lg)', color: 'var(--color-text-primary)', marginBottom: 'var(--space-1)' }}>{kurdishStrings.rateRideQuestion}</p>
-                <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)', marginBottom: 'var(--space-3)' }}>{kurdishStrings.ratingDelayNote}</p>
+                <p style={{ fontWeight: 'var(--font-weight-bold)' as unknown as number, fontSize: 'var(--font-size-heading)', color: 'var(--color-text-primary)', marginBottom: 'var(--space-1)' }}>{kurdishStrings.rateRideQuestion}</p>
+                <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-secondary)', marginBottom: 'var(--space-3)' }}>{kurdishStrings.ratingDelayNote}</p>
                 <StarSelector value={selectedRating} onChange={setSelectedRating} />
                 {selectedRating > 0 && (
                   <button
@@ -594,7 +594,7 @@ export default function RideDetailPage() {
                     style={{
                       marginTop: 'var(--space-3)', width: '100%', background: 'var(--color-brand-primary)',
                       color: 'var(--color-text-onAccent)', border: 'none', borderRadius: 'var(--radius-2xl)',
-                      padding: 13, fontSize: 'var(--font-size-xl)', fontWeight: 'var(--font-weight-bold)' as unknown as number, cursor: 'pointer',
+                      padding: 13, fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-bold)' as unknown as number, cursor: 'pointer',
                       opacity: submittingRating ? 'var(--opacity-disabled)' as unknown as number : 1,
                     }}
                   >
@@ -615,8 +615,8 @@ export default function RideDetailPage() {
                 </div>
                 <div style={{ width: 1, height: 32, background: 'var(--color-border-divider)', flexShrink: 0, margin: '0 5px' }} />
                 <div>
-                  <p style={{ fontWeight: 'var(--font-weight-medium)' as unknown as number, color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-md)', margin: '0 0 3px' }}>{kurdishStrings.thanksForRating}</p>
-                  <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)', margin: 0 }}>{kurdishStrings.ratingDelayNote}</p>
+                  <p style={{ fontWeight: 'var(--font-weight-medium)' as unknown as number, color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-body)', margin: '0 0 3px' }}>{kurdishStrings.thanksForRating}</p>
+                  <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-secondary)', margin: 0 }}>{kurdishStrings.ratingDelayNote}</p>
                 </div>
               </div>
             )
@@ -624,7 +624,7 @@ export default function RideDetailPage() {
           !requested ? (
             ride.available_seats <= 0 ? (
               <div style={{ textAlign: 'center', padding: 'var(--space-2) 0' }}>
-                <p style={{ fontWeight: 'var(--font-weight-semibold)' as unknown as number, color: 'var(--color-text-muted)', fontSize: 'var(--font-size-md)', margin: 0 }}>{kurdishStrings.noSeatsAvailable}</p>
+                <p style={{ fontWeight: 'var(--font-weight-semibold)' as unknown as number, color: 'var(--color-text-muted)', fontSize: 'var(--font-size-body)', margin: 0 }}>{kurdishStrings.noSeatsAvailable}</p>
               </div>
             ) : (
             <button
@@ -632,7 +632,7 @@ export default function RideDetailPage() {
               style={{
                 width: '100%', background: 'var(--color-brand-primary)', color: 'var(--color-text-onAccent)',
                 border: 'var(--border-width-thick) solid var(--color-border-strong)', borderRadius: 'var(--radius-2xl)', padding: '15px 0',
-                fontSize: 'var(--font-size-xl)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number, cursor: 'pointer',
+                fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number, cursor: 'pointer',
                 boxShadow: 'var(--shadow-card)',
                 fontFamily: 'var(--font-family-body)',
               }}
@@ -646,7 +646,7 @@ export default function RideDetailPage() {
                 <circle cx="12" cy="12" r="10" />
                 <polyline points="8 12 11 15 16 9" />
               </svg>
-              <p style={{ fontWeight: 'var(--font-weight-semibold)' as unknown as number, color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-md)', margin: '0 0 var(--space-3)' }}>{kurdishStrings.requestAccepted}</p>
+              <p style={{ fontWeight: 'var(--font-weight-semibold)' as unknown as number, color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-body)', margin: '0 0 var(--space-3)' }}>{kurdishStrings.requestAccepted}</p>
               {waLink ? (
                 <a href={waLink} target="_blank" rel="noopener noreferrer" style={{
                   background: 'var(--button-whatsapp-bg)', color: 'var(--button-whatsapp-text)',
@@ -661,7 +661,7 @@ export default function RideDetailPage() {
                   </svg>
                 </a>
               ) : (
-                <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-base)' }}>{kurdishStrings.driverNoPhone}</p>
+                <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-body)' }}>{kurdishStrings.driverNoPhone}</p>
               )}
               <button
                 onClick={() => handleCancelRequest()}
@@ -684,8 +684,8 @@ export default function RideDetailPage() {
               </svg>
               <div style={{ width: 1, height: 32, background: 'var(--color-border-divider)', flexShrink: 0, margin: '0 5px' }} />
               <div>
-                <p style={{ fontWeight: 'var(--font-weight-medium)' as unknown as number, color: 'var(--color-status-error)', fontSize: 'var(--font-size-md)', margin: '0 0 3px' }}>{kurdishStrings.requestDeclined}</p>
-                <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)', margin: 0, lineHeight: 'var(--font-lineHeight-tight)' as unknown as number }}>{kurdishStrings.driverDeclinedNote}</p>
+                <p style={{ fontWeight: 'var(--font-weight-medium)' as unknown as number, color: 'var(--color-status-error)', fontSize: 'var(--font-size-body)', margin: '0 0 3px' }}>{kurdishStrings.requestDeclined}</p>
+                <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-secondary)', margin: 0, lineHeight: 'var(--font-lineHeight-tight)' as unknown as number }}>{kurdishStrings.driverDeclinedNote}</p>
               </div>
             </div>
           ) : (
@@ -697,8 +697,8 @@ export default function RideDetailPage() {
                 </svg>
                 <div style={{ width: 1, height: 32, background: 'var(--color-border-divider)', flexShrink: 0, margin: '0 5px' }} />
                 <div>
-                  <p style={{ fontWeight: 'var(--font-weight-medium)' as unknown as number, color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-md)', margin: '0 0 3px' }}>{kurdishStrings.requestSentDetail}</p>
-                  <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)', margin: 0, lineHeight: 'var(--font-lineHeight-tight)' as unknown as number }}>{kurdishStrings.approvedContactNote}</p>
+                  <p style={{ fontWeight: 'var(--font-weight-medium)' as unknown as number, color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-body)', margin: '0 0 3px' }}>{kurdishStrings.requestSentDetail}</p>
+                  <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-secondary)', margin: 0, lineHeight: 'var(--font-lineHeight-tight)' as unknown as number }}>{kurdishStrings.approvedContactNote}</p>
                 </div>
               </div>
               <button
@@ -728,22 +728,22 @@ export default function RideDetailPage() {
             style={{ background: 'var(--card-requestModal-bg)', width: '100%', maxWidth: 'var(--card-requestModal-maxWidth)', borderRadius: 'var(--card-requestModal-radius)', padding: 'var(--space-modal-y) var(--space-modal-x)', direction: 'rtl', border: 'var(--card-requestModal-border)', boxShadow: 'var(--card-requestModal-shadow)' }}
             onClick={e => e.stopPropagation()}
           >
-            <h2 style={{ fontWeight: 'var(--font-weight-bold)' as unknown as number, fontSize: 'var(--font-size-2xl)', marginBottom: 'var(--space-3)', color: 'var(--color-text-primary)' }}>{kurdishStrings.iWantIt}</h2>
+            <h2 style={{ fontWeight: 'var(--font-weight-bold)' as unknown as number, fontSize: 'var(--font-size-heading)', marginBottom: 'var(--space-3)', color: 'var(--color-text-primary)' }}>{kurdishStrings.iWantIt}</h2>
             <div style={{ display: 'flex', gap: 'var(--space-2)', marginBottom: 'var(--space-4)' }}>
               <div style={{ flex: 1 }}>
-                <label style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)', display: 'block', marginBottom: 'var(--space-1)', textAlign: 'right', paddingRight: 'var(--space-1)' }}>{kurdishStrings.pickup}</label>
+                <label style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-secondary)', display: 'block', marginBottom: 'var(--space-1)', textAlign: 'right', paddingRight: 'var(--space-1)' }}>{kurdishStrings.pickup}</label>
                 <input value={pickup} onChange={e => setPickup(e.target.value)} style={inp} placeholder={kurdishStrings.pickupPlaceholder} />
               </div>
               <div style={{ flex: 1 }}>
-                <label style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)', display: 'block', marginBottom: 'var(--space-1)', textAlign: 'right', paddingRight: 'var(--space-1)' }}>{kurdishStrings.dropoff}</label>
+                <label style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-secondary)', display: 'block', marginBottom: 'var(--space-1)', textAlign: 'right', paddingRight: 'var(--space-1)' }}>{kurdishStrings.dropoff}</label>
                 <input value={dropoff} onChange={e => setDropoff(e.target.value)} style={inp} placeholder={kurdishStrings.dropoffPlaceholder} />
               </div>
             </div>
-            <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', textAlign: 'center', marginBottom: 'var(--space-3)', lineHeight: 'var(--font-lineHeight-tight)' as unknown as number }}>
+            <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', textAlign: 'center', marginBottom: 'var(--space-3)', lineHeight: 'var(--font-lineHeight-tight)' as unknown as number }}>
               {kurdishStrings.phoneShareNote}
             </p>
             <button
-              style={{ width: '100%', background: 'var(--color-brand-primary)', color: 'var(--color-text-onAccent)', border: 'var(--border-width-thick) solid var(--color-border-strong)', borderRadius: 'var(--radius-2xl)', padding: 'var(--space-card-md)', fontSize: 'var(--font-size-xl)', fontWeight: 'var(--font-weight-bold)' as unknown as number, cursor: 'pointer', marginBottom: 'var(--space-2)', boxShadow: 'var(--shadow-sm)', opacity: sending ? 'var(--opacity-disabled)' as unknown as number : 1 }}
+              style={{ width: '100%', background: 'var(--color-brand-primary)', color: 'var(--color-text-onAccent)', border: 'var(--border-width-thick) solid var(--color-border-strong)', borderRadius: 'var(--radius-2xl)', padding: 'var(--space-card-md)', fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-bold)' as unknown as number, cursor: 'pointer', marginBottom: 'var(--space-2)', boxShadow: 'var(--shadow-sm)', opacity: sending ? 'var(--opacity-disabled)' as unknown as number : 1 }}
               disabled={sending}
               onClick={handleSendRequest}
             >

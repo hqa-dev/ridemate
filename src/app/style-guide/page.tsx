@@ -5,7 +5,7 @@ import Button from '@/components/ui/Button'
 
 export default function StyleGuide() {
   const sectionTitle: React.CSSProperties = {
-    fontSize: 'var(--font-size-lg)',
+    fontSize: 'var(--font-size-heading)',
     fontWeight: 'var(--font-weight-bold)' as unknown as number,
     color: 'var(--color-text-primary)',
     marginBottom: 'var(--space-3)',
@@ -16,18 +16,18 @@ export default function StyleGuide() {
     <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', marginBottom: 'var(--space-2)' }}>
       <div style={{ width: 40, height: 40, borderRadius: 'var(--radius-base)', background: `var(${cssVar})`, border: '1px solid var(--color-border-divider)' }} />
       <div>
-        <div style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-primary)', fontWeight: 'var(--font-weight-medium)' as unknown as number }}>{label}</div>
-        <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>{cssVar} — {hex}</div>
+        <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-primary)', fontWeight: 'var(--font-weight-medium)' as unknown as number }}>{label}</div>
+        <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)' }}>{cssVar} — {hex}</div>
       </div>
     </div>
   )
 
   return (
     <div style={{ padding: 'var(--space-5)', paddingBottom: 120, background: 'var(--color-bg-canvas)', minHeight: '100vh' }}>
-      <h1 style={{ fontSize: 'var(--font-size-4xl)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number, color: 'var(--color-text-primary)', marginBottom: 'var(--space-2)' }}>
+      <h1 style={{ fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number, color: 'var(--color-text-primary)', marginBottom: 'var(--space-2)' }}>
         Style Guide
       </h1>
-      <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-4)' }}>
+      <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-4)' }}>
         All design tokens, components, and colors used in the app.
       </p>
 
@@ -43,16 +43,16 @@ export default function StyleGuide() {
       {/* ── TEXT COLORS ── */}
       <div style={sectionTitle}>Text Colors</div>
       <Card style={{ padding: 'var(--space-4)' }}>
-        <div style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-primary)', marginBottom: 'var(--space-2)' }}>
+        <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-primary)', marginBottom: 'var(--space-2)' }}>
           Primary text — var(--color-text-primary)
         </div>
-        <div style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)', marginBottom: 'var(--space-2)' }}>
+        <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-secondary)', marginBottom: 'var(--space-2)' }}>
           Secondary text — var(--color-text-secondary)
         </div>
-        <div style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-2)' }}>
+        <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-2)' }}>
           Muted text — var(--color-text-muted)
         </div>
-        <div style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-onAccent)', background: 'var(--color-brand-primary)', padding: 'var(--space-1) var(--space-2)', borderRadius: 'var(--radius-sm)', display: 'inline-block' }}>
+        <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-onAccent)', background: 'var(--color-brand-primary)', padding: 'var(--space-1) var(--space-2)', borderRadius: 'var(--radius-sm)', display: 'inline-block' }}>
           On-accent text — var(--color-text-onAccent)
         </div>
       </Card>
@@ -105,7 +105,7 @@ export default function StyleGuide() {
       <div style={sectionTitle}>Font Weights</div>
       <Card style={{ padding: 'var(--space-4)' }}>
         {([['Regular', '400'], ['Medium', '500'], ['Semibold', '600'], ['Bold', '700'], ['Extrabold', '800']] as const).map(([name, w]) => (
-          <div key={name} style={{ fontSize: 'var(--font-size-md)', fontWeight: Number(w), color: 'var(--color-text-primary)', marginBottom: 'var(--space-2)' }}>
+          <div key={name} style={{ fontSize: 'var(--font-size-body)', fontWeight: Number(w), color: 'var(--color-text-primary)', marginBottom: 'var(--space-2)' }}>
             {name} ({w}) — نموونەی تێکست
           </div>
         ))}
@@ -124,13 +124,13 @@ export default function StyleGuide() {
       <div style={sectionTitle}>Cards</div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
         <Card style={{ padding: 'var(--space-4)' }}>
-          <div style={{ color: 'var(--color-text-primary)', fontSize: 'var(--font-size-base)' }}>Standard Card with shadow</div>
+          <div style={{ color: 'var(--color-text-primary)', fontSize: 'var(--font-size-body)' }}>Standard Card with shadow</div>
         </Card>
         <Card shadow={false} style={{ padding: 'var(--space-4)' }}>
-          <div style={{ color: 'var(--color-text-primary)', fontSize: 'var(--font-size-base)' }}>Card without shadow</div>
+          <div style={{ color: 'var(--color-text-primary)', fontSize: 'var(--font-size-body)' }}>Card without shadow</div>
         </Card>
         <Card danger style={{ padding: 'var(--space-4)' }}>
-          <div style={{ color: 'var(--color-text-primary)', fontSize: 'var(--font-size-base)' }}>Danger Card</div>
+          <div style={{ color: 'var(--color-text-primary)', fontSize: 'var(--font-size-body)' }}>Danger Card</div>
         </Card>
       </div>
 
@@ -138,19 +138,19 @@ export default function StyleGuide() {
       <div style={sectionTitle}>Input Fields</div>
       <Card style={{ padding: 'var(--space-4)', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
         <div>
-          <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>car-input</div>
+          <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>car-input</div>
           <input className="car-input" placeholder="نموونە..." defaultValue="تێکستی تاقیکردنەوە" />
         </div>
         <div>
-          <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>note-input</div>
+          <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>note-input</div>
           <textarea className="note-input" placeholder="تێبینی..." defaultValue="تێکستی تاقیکردنەوە لە نۆت" />
         </div>
         <div>
-          <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>money-input</div>
+          <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>money-input</div>
           <input className="money-input" placeholder="0 IQD" defaultValue="5,000" style={{ direction: 'ltr' }} />
         </div>
         <div>
-          <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>Input with design token inline styles</div>
+          <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>Input with design token inline styles</div>
           <input
             style={{
               width: '100%',
@@ -168,11 +168,11 @@ export default function StyleGuide() {
           />
         </div>
         <div>
-          <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>Date input</div>
+          <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>Date input</div>
           <input type="date" style={{ width: '100%', background: 'var(--input-standard-bg)', border: 'var(--input-standard-border)', borderRadius: 'var(--input-standard-radius)', padding: 'var(--input-standard-padding)' }} />
         </div>
         <div>
-          <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>Time input</div>
+          <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>Time input</div>
           <input type="time" style={{ width: '100%', background: 'var(--input-standard-bg)', border: 'var(--input-standard-border)', borderRadius: 'var(--input-standard-radius)', padding: 'var(--input-standard-padding)' }} />
         </div>
       </Card>
@@ -181,7 +181,7 @@ export default function StyleGuide() {
       <div style={sectionTitle}>Text on Different Backgrounds</div>
 
       <div style={{ marginBottom: 'var(--space-3)' }}>
-        <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>On Canvas (page bg)</div>
+        <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>On Canvas (page bg)</div>
         <div style={{ background: 'var(--color-bg-canvas)', padding: 'var(--space-4)', border: '1px solid var(--color-border-divider)', borderRadius: 'var(--radius-base)' }}>
           <div style={{ color: 'var(--color-text-primary)' }}>Primary text on canvas</div>
           <div style={{ color: 'var(--color-text-secondary)' }}>Secondary text on canvas</div>
@@ -190,7 +190,7 @@ export default function StyleGuide() {
       </div>
 
       <div style={{ marginBottom: 'var(--space-3)' }}>
-        <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>On Surface (card bg)</div>
+        <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>On Surface (card bg)</div>
         <div style={{ background: 'var(--color-bg-surface)', padding: 'var(--space-4)', border: '1px solid var(--color-border-divider)', borderRadius: 'var(--radius-base)' }}>
           <div style={{ color: 'var(--color-text-primary)' }}>Primary text on surface</div>
           <div style={{ color: 'var(--color-text-secondary)' }}>Secondary text on surface</div>
@@ -199,7 +199,7 @@ export default function StyleGuide() {
       </div>
 
       <div style={{ marginBottom: 'var(--space-3)' }}>
-        <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>On Sunken (inner bg)</div>
+        <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>On Sunken (inner bg)</div>
         <div style={{ background: 'var(--color-bg-sunken)', padding: 'var(--space-4)', border: '1px solid var(--color-border-divider)', borderRadius: 'var(--radius-base)' }}>
           <div style={{ color: 'var(--color-text-primary)' }}>Primary text on sunken</div>
           <div style={{ color: 'var(--color-text-secondary)' }}>Secondary text on sunken</div>
@@ -213,7 +213,7 @@ export default function StyleGuide() {
         {(['xs','sm','md','base','lg','xl','2xl','3xl','4xl','5xl','6xl','full'] as const).map(size => (
           <div key={size} style={{ textAlign: 'center' }}>
             <div style={{ width: 48, height: 48, background: 'var(--color-brand-primary)', borderRadius: `var(--radius-${size})`, margin: '0 auto var(--space-1)' }} />
-            <div style={{ fontSize: 'var(--font-size-3xs)', color: 'var(--color-text-muted)' }}>{size}</div>
+            <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)' }}>{size}</div>
           </div>
         ))}
       </Card>
@@ -223,7 +223,7 @@ export default function StyleGuide() {
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-4)', marginBottom: 'var(--space-4)' }}>
         {[['sm', '--shadow-sm'], ['card', '--shadow-card'], ['pill', '--shadow-pill'], ['muted', '--shadow-muted']] .map(([name, v]) => (
           <div key={name} style={{ width: 80, height: 60, background: 'var(--color-bg-surface)', border: '2px solid var(--color-border-strong)', borderRadius: 'var(--radius-base)', boxShadow: `var(${v})`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)' }}>{name}</span>
+            <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)' }}>{name}</span>
           </div>
         ))}
       </div>
@@ -234,7 +234,7 @@ export default function StyleGuide() {
         {(['0','0-5','1','1-5','2','2-5','3','3-5','4','5','6','7','8'] as const).map(s => (
           <div key={s} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-1)' }}>
             <div style={{ width: `var(--space-${s})`, height: 12, background: 'var(--color-brand-primary)', borderRadius: 2, minWidth: 2 }} />
-            <span style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)' }}>space-{s}</span>
+            <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)' }}>space-{s}</span>
           </div>
         ))}
       </Card>
@@ -242,8 +242,8 @@ export default function StyleGuide() {
       {/* ── NOTES DISPLAY (as seen on ride detail) ── */}
       <div style={sectionTitle}>Notes Display (ride detail style)</div>
       <Card style={{ padding: 'var(--space-3) var(--space-4)' }}>
-        <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)', fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>تێبینی</div>
-        <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', lineHeight: 'var(--font-lineHeight-relaxed)' as unknown as number }}>ئەمە نموونەیەکی تێبینی گەشتە — هەمان ستایلی لاپەڕەی وردەکاری</div>
+        <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)', fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>تێبینی</div>
+        <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', lineHeight: 'var(--font-lineHeight-relaxed)' as unknown as number }}>ئەمە نموونەیەکی تێبینی گەشتە — هەمان ستایلی لاپەڕەی وردەکاری</div>
       </Card>
     </div>
   )

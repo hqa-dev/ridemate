@@ -192,7 +192,7 @@ export default function PostRidePage() {
   const carInputStyle: React.CSSProperties = {
     background: 'var(--input-ride-bg)', border: 'var(--input-standard-border)',
     borderRadius: 'var(--radius-base)', padding: 'var(--input-standard-padding)',
-    width: '100%', fontSize: 'var(--font-size-base)', color: 'var(--color-text-primary)',
+    width: '100%', fontSize: 'var(--font-size-body)', color: 'var(--color-text-primary)',
     WebkitTextFillColor: 'var(--color-text-primary)', outline: 'none',
     fontFamily: 'var(--font-family-body)',
   }
@@ -217,13 +217,13 @@ export default function PostRidePage() {
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-status-success)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: 'var(--space-5)' }}>
           <circle cx="12" cy="12" r="10" /><polyline points="8 12 11 15 16 9" />
         </svg>
-        <h2 style={{ fontSize: 'var(--font-size-4xl)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)', marginBottom: 'var(--space-2)' }}>{kurdishStrings.docsSent}</h2>
-        <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-muted)', textAlign: 'center', marginBottom: 'var(--space-8)', lineHeight: 'var(--font-lineHeight-relaxed)' }}>
+        <h2 style={{ fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)', marginBottom: 'var(--space-2)' }}>{kurdishStrings.docsSent}</h2>
+        <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', textAlign: 'center', marginBottom: 'var(--space-8)', lineHeight: 'var(--font-lineHeight-relaxed)' }}>
           {kurdishStrings.verifiedCanPost}
         </p>
         <div onClick={() => router.push('/home')} style={{
           background: 'var(--color-bg-surface)', border: 'var(--border-width-thin) solid var(--color-border-strong)', borderRadius: 'var(--radius-2xl)',
-          padding: 'var(--space-3) var(--space-6)', fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)', cursor: 'pointer',
+          padding: 'var(--space-3) var(--space-6)', fontSize: 'var(--font-size-body)', color: 'var(--color-text-secondary)', cursor: 'pointer',
         }}>{kurdishStrings.backToHome}</div>
         <BottomNav />
       </div>
@@ -235,16 +235,16 @@ export default function PostRidePage() {
         maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto', display: 'flex', flexDirection: 'column',
       }}>
         <div style={{ padding: 'var(--space-page-top) var(--space-page-x) 0', flexShrink: 0 }}>
-          <span onClick={() => router.push('/home')} style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-md)', cursor: 'pointer' }}>← {kurdishStrings.back}</span>
+          <span onClick={() => router.push('/home')} style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-body)', cursor: 'pointer' }}>← {kurdishStrings.back}</span>
         </div>
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 var(--space-page-x)' }}>
-          <h1 style={{ fontSize: 'var(--font-size-4xl)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number, color: 'var(--color-text-primary)', marginBottom: 10, lineHeight: 'var(--font-lineHeight-tight)' }}>
+          <h1 style={{ fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number, color: 'var(--color-text-primary)', marginBottom: 10, lineHeight: 'var(--font-lineHeight-tight)' }}>
             {kurdishStrings.verifyDriverPrefix}<span style={{ color: 'var(--color-brand-primary)' }}>{kurdishStrings.verifyDriverHighlight}</span>{kurdishStrings.verifyDriverSuffix}
           </h1>
-          <p style={{ color: 'var(--color-text-muted)', marginBottom: 'var(--space-7)', fontSize: 'var(--font-size-base)', lineHeight: 'var(--font-lineHeight-relaxed)' }}>
+          <p style={{ color: 'var(--color-text-muted)', marginBottom: 'var(--space-7)', fontSize: 'var(--font-size-body)', lineHeight: 'var(--font-lineHeight-relaxed)' }}>
             {kurdishStrings.verifyDriverDesc}
           </p>
-          {uploadError && <p style={{ color: 'var(--color-status-error)', fontSize: 'var(--font-size-base)', marginBottom: 'var(--space-3)' }}>{uploadError}</p>}
+          {uploadError && <p style={{ color: 'var(--color-status-error)', fontSize: 'var(--font-size-body)', marginBottom: 'var(--space-3)' }}>{uploadError}</p>}
 
           <input type="file" accept="image/*" ref={licenseRef} style={{ display: 'none' }} onChange={e => setLicenseFile(e.target.files?.[0] || null)} />
           <div onClick={() => licenseRef.current?.click()} style={{
@@ -252,9 +252,9 @@ export default function PostRidePage() {
             borderRadius: 'var(--radius-4xl)', padding: 'var(--space-5)', marginBottom: 10, cursor: 'pointer',
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-4)' }}>
-              <span style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', letterSpacing: 'var(--font-letterSpacing-wide)' }}>{kurdishStrings.uploadLicense}</span>
+              <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', letterSpacing: 'var(--font-letterSpacing-wide)' }}>{kurdishStrings.uploadLicense}</span>
               <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-1-5)' }}>
-                <span style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', letterSpacing: 'var(--font-letterSpacing-wider)' }}>{kurdishStrings.kurdistan}</span>
+                <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', letterSpacing: 'var(--font-letterSpacing-wider)' }}>{kurdishStrings.kurdistan}</span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M2 12h20" /><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20" /></svg>
               </div>
             </div>
@@ -269,7 +269,7 @@ export default function PostRidePage() {
               </div>
             </div>
             <div style={{ borderTop: 'var(--border-width-thin) solid var(--color-border-strong)', marginTop: 'var(--space-4)', paddingTop: 'var(--space-3)', textAlign: 'center' }}>
-              <span style={{ fontSize: 'var(--font-size-base)', color: licenseFile ? 'var(--color-status-success)' : 'var(--color-text-muted)', fontWeight: 'var(--font-weight-medium)' as unknown as number }}>
+              <span style={{ fontSize: 'var(--font-size-body)', color: licenseFile ? 'var(--color-status-success)' : 'var(--color-text-muted)', fontWeight: 'var(--font-weight-medium)' as unknown as number }}>
                 {licenseFile ? kurdishStrings.licenseSent : kurdishStrings.uploadLicensePhoto}
               </span>
             </div>
@@ -285,8 +285,8 @@ export default function PostRidePage() {
                 {selfieFile ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-status-success)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="8 12 11 15 16 9" /></svg> : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-icon-muted)" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" /><circle cx="12" cy="13" r="4" /></svg>}
               </div>
               <div>
-                <div style={{ fontWeight: 'var(--font-weight-semibold)' as unknown as number, color: selfieFile ? 'var(--color-status-success)' : 'var(--color-text-secondary)', fontSize: 'var(--font-size-md)', marginBottom: 'var(--space-1)' }}>{selfieFile ? kurdishStrings.selfieSuccess : kurdishStrings.takeSelfieShort}</div>
-                <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>{kurdishStrings.selfieDesc}</div>
+                <div style={{ fontWeight: 'var(--font-weight-semibold)' as unknown as number, color: selfieFile ? 'var(--color-status-success)' : 'var(--color-text-secondary)', fontSize: 'var(--font-size-body)', marginBottom: 'var(--space-1)' }}>{selfieFile ? kurdishStrings.selfieSuccess : kurdishStrings.takeSelfieShort}</div>
+                <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)' }}>{kurdishStrings.selfieDesc}</div>
               </div>
             </div>
           </div>
@@ -294,7 +294,7 @@ export default function PostRidePage() {
         <div style={{ flexShrink: 0, padding: '0 var(--space-page-x) var(--space-navClearance)' }}>
           <button onClick={handleVerifySubmit} disabled={uploading} style={{
             background: 'var(--color-bg-surface)', color: 'var(--color-brand-primary)', border: 'var(--border-width-thin) solid var(--color-border-strong)',
-            borderRadius: 'var(--radius-4xl)', padding: 'var(--space-4)', fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-semibold)' as unknown as number,
+            borderRadius: 'var(--radius-4xl)', padding: 'var(--space-4)', fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-semibold)' as unknown as number,
             cursor: uploading ? 'default' : 'pointer', width: '100%',
             opacity: uploading ? 'var(--opacity-disabled)' as unknown as number : 1, fontFamily: 'var(--font-family-body)',
           }}>{uploading ? kurdishStrings.pleaseWait : kurdishStrings.send}</button>
@@ -311,14 +311,14 @@ export default function PostRidePage() {
     <div style={{ direction: 'rtl', minHeight: '100vh', background: 'var(--color-bg-canvas)', maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto', padding: 'var(--space-page-top) var(--space-page-x) var(--space-navClearance)', position: 'relative' }}>
 
       <div style={{ marginBottom: 'var(--space-5)' }}>
-        <h1 style={{ fontSize: 'var(--font-size-4xl)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)' }}><span style={{ color: 'var(--color-brand-primary)' }}>{kurdishStrings.appShortName}</span> {kurdishStrings.postRideTitle}</h1>
+        <h1 style={{ fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)' }}><span style={{ color: 'var(--color-brand-primary)' }}>{kurdishStrings.appShortName}</span> {kurdishStrings.postRideTitle}</h1>
       </div>
 
       {/* Tab switcher */}
       <div style={{ display: 'flex', gap: 'var(--space-2)', marginBottom: 'var(--space-6)' }}>
         <div onClick={() => setActiveTab('post')} style={{
           flex: 1, padding: '9px 0', textAlign: 'center', borderRadius: 'var(--radius-lg)',
-          fontSize: 'var(--font-size-base)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, cursor: 'pointer',
+          fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, cursor: 'pointer',
           background: activeTab === 'post' ? 'var(--color-brand-primary)' : 'var(--color-bg-surface)',
           color: activeTab === 'post' ? 'var(--color-text-onAccent)' : 'var(--color-text-primary)',
           border: 'var(--border-width-thick) solid var(--color-text-primary)',
@@ -326,7 +326,7 @@ export default function PostRidePage() {
         }}>{kurdishStrings.newRide}</div>
         <div onClick={() => setActiveTab('manage')} style={{
           flex: 1, padding: '9px 0', textAlign: 'center', borderRadius: 'var(--radius-lg)',
-          fontSize: 'var(--font-size-base)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, cursor: 'pointer',
+          fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, cursor: 'pointer',
           background: activeTab === 'manage' ? 'var(--color-brand-primary)' : 'var(--color-bg-surface)',
           color: activeTab === 'manage' ? 'var(--color-text-onAccent)' : 'var(--color-text-primary)',
           border: 'var(--border-width-thick) solid var(--color-text-primary)',
@@ -354,11 +354,11 @@ export default function PostRidePage() {
                 <div style={{ width: 'var(--size-routeDotSm)', height: 'var(--size-routeDotSm)', borderRadius: '50%', background: 'var(--color-text-primary)' }} />
               </div>
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 0 }}>
-                <div onClick={() => cycleCity(fromCity, setFromCity)} style={{ background: 'var(--color-bg-sunken)', borderRadius: 'var(--radius-xl)', padding: 'var(--input-ride-padding)', fontSize: 'var(--font-size-md)', color: fromCity ? 'var(--color-text-primary)' : 'var(--color-text-muted)', cursor: 'pointer' }}>
+                <div onClick={() => cycleCity(fromCity, setFromCity)} style={{ background: 'var(--color-bg-sunken)', borderRadius: 'var(--radius-xl)', padding: 'var(--input-ride-padding)', fontSize: 'var(--font-size-body)', color: fromCity ? 'var(--color-text-primary)' : 'var(--color-text-muted)', cursor: 'pointer' }}>
                   {fromCity ? CITIES[fromCity] : kurdishStrings.fromWhere}
                 </div>
                 <DashedDivider style={{ margin: '0 var(--space-1)' }} />
-                <div onClick={() => cycleCity(toCity, setToCity)} style={{ background: 'var(--color-bg-sunken)', borderRadius: 'var(--radius-xl)', padding: 'var(--input-ride-padding)', fontSize: 'var(--font-size-md)', color: toCity ? 'var(--color-text-primary)' : 'var(--color-text-muted)', cursor: 'pointer' }}>
+                <div onClick={() => cycleCity(toCity, setToCity)} style={{ background: 'var(--color-bg-sunken)', borderRadius: 'var(--radius-xl)', padding: 'var(--input-ride-padding)', fontSize: 'var(--font-size-body)', color: toCity ? 'var(--color-text-primary)' : 'var(--color-text-muted)', cursor: 'pointer' }}>
                   {toCity ? CITIES[toCity] : kurdishStrings.toWhere}
                 </div>
               </div>
@@ -369,8 +369,8 @@ export default function PostRidePage() {
           <Card style={{ marginBottom: 'var(--space-card-md)', overflow: 'hidden' }}>
             <div style={{ padding: 'var(--space-3) var(--space-card-lg)', display: 'flex', alignItems: 'center' }}>
               <div onClick={() => dateRef.current?.showPicker()} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer', position: 'relative' }}>
-                <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-secondary)', marginBottom: 3 }}>{kurdishStrings.date}</div>
-                <div style={{ fontSize: 'var(--font-size-md)', color: date ? 'var(--color-text-primary)' : 'var(--color-text-muted)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-secondary)', marginBottom: 3 }}>{kurdishStrings.date}</div>
+                <div style={{ fontSize: 'var(--font-size-body)', color: date ? 'var(--color-text-primary)' : 'var(--color-text-muted)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {date ? formatDate(date) : (
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-icon-muted)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
                   )}
@@ -379,8 +379,8 @@ export default function PostRidePage() {
               </div>
               <div style={{ width: 0, height: 'var(--space-7)', borderRight: 'var(--border-width-medium) dashed var(--color-text-muted)' }} />
               <div onClick={() => timeRef.current?.showPicker()} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer', position: 'relative' }}>
-                <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-secondary)', marginBottom: 3 }}>{kurdishStrings.time}</div>
-                <div style={{ fontSize: 'var(--font-size-md)', color: time ? 'var(--color-text-primary)' : 'var(--color-text-muted)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-secondary)', marginBottom: 3 }}>{kurdishStrings.time}</div>
+                <div style={{ fontSize: 'var(--font-size-body)', color: time ? 'var(--color-text-primary)' : 'var(--color-text-muted)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {time ? time : (
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-icon-muted)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
                   )}
@@ -389,15 +389,15 @@ export default function PostRidePage() {
               </div>
               <div style={{ width: 0, height: 'var(--space-7)', borderRight: 'var(--border-width-medium) dashed var(--color-text-muted)' }} />
               <div onClick={cycleSeats} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer' }}>
-                <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-secondary)', marginBottom: 3 }}>{kurdishStrings.seat}</div>
-                <div style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-primary)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-secondary)', marginBottom: 3 }}>{kurdishStrings.seat}</div>
+                <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-primary)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={seatsTapped ? 'var(--color-text-primary)' : 'var(--color-icon-muted)'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M6 19v2" /><path d="M18 19v2" />
                     <path d="M7 19h10a2 2 0 0 0 2-2v-3a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v3a2 2 0 0 0 2 2z" />
                     <path d="M7 10V7a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v3" />
                     <path d="M9 14h6" />
                   </svg>
-                  {seatsTapped && <span style={{ fontSize: 'var(--font-size-xs)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)', marginRight: 'var(--space-1)' }}>{seats}</span>}
+                  {seatsTapped && <span style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)', marginRight: 'var(--space-1)' }}>{seats}</span>}
                 </div>
               </div>
             </div>
@@ -405,7 +405,7 @@ export default function PostRidePage() {
 
           {/* Price card */}
           <Card style={{ marginBottom: 'var(--space-card-md)', overflow: 'hidden', padding: 'var(--space-3) var(--space-card-lg)' }}>
-            <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 0, fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>{kurdishStrings.price}</div>
+            <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 0, fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>{kurdishStrings.price}</div>
             <DashedDivider style={{ margin: '6px 0' }} />
             <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
               <div onClick={() => setPriceType('coffee')} style={{
@@ -413,14 +413,14 @@ export default function PostRidePage() {
                 background: priceType === 'coffee' ? 'var(--color-brand-primary)' : 'var(--color-bg-surface)',
                 border: 'var(--border-width-thick) solid var(--color-text-primary)',
                 boxShadow: priceType === 'coffee' ? 'var(--shadow-card)' : 'var(--shadow-muted)',
-                color: priceType === 'coffee' ? 'var(--color-text-onAccent)' : 'var(--color-text-primary)', fontSize: 'var(--font-size-base)', fontWeight: 'var(--font-weight-medium)' as unknown as number,
+                color: priceType === 'coffee' ? 'var(--color-text-onAccent)' : 'var(--color-text-primary)', fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-medium)' as unknown as number,
               }}>{kurdishStrings.aCoffee}</div>
               <div onClick={() => setPriceType('iqd')} style={{
                 flex: 1, padding: '10px 0', textAlign: 'center', borderRadius: 'var(--radius-lg)', cursor: 'pointer',
                 background: priceType === 'iqd' ? 'var(--color-brand-primary)' : 'var(--color-bg-surface)',
                 border: 'var(--border-width-thick) solid var(--color-text-primary)',
                 boxShadow: priceType === 'iqd' ? 'var(--shadow-card)' : 'var(--shadow-muted)',
-                color: priceType === 'iqd' ? 'var(--color-text-onAccent)' : 'var(--color-text-primary)', fontSize: 'var(--font-size-base)', fontWeight: 'var(--font-weight-medium)' as unknown as number,
+                color: priceType === 'iqd' ? 'var(--color-text-onAccent)' : 'var(--color-text-primary)', fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-medium)' as unknown as number,
               }}>{kurdishStrings.money}</div>
             </div>
             {priceType === 'iqd' && (
@@ -433,30 +433,30 @@ export default function PostRidePage() {
 
           {/* Car + Notes card */}
           <Card style={{ marginBottom: 'var(--space-card-md)', overflow: 'hidden', padding: 'var(--space-3) var(--space-card-lg)' }}>
-            <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 0, fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>{kurdishStrings.carDetails}</div>
+            <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 0, fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>{kurdishStrings.carDetails}</div>
             <DashedDivider style={{ margin: '6px 0' }} />
             <div style={{ display: 'flex', gap: 'var(--space-2)', marginBottom: 0 }}>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>{kurdishStrings.make}</div>
+                <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>{kurdishStrings.make}</div>
                 <input value={carMake} onChange={e => setCarMake(e.target.value)} placeholder="Toyota" maxLength={30} className="car-input" style={carInputStyle} />
               </div>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>{kurdishStrings.model}</div>
+                <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>{kurdishStrings.model}</div>
                 <input value={carModel} onChange={e => setCarModel(e.target.value)} placeholder="Camry" maxLength={30} className="car-input" style={carInputStyle} />
               </div>
             </div>
             <DashedDivider style={{ margin: '10px var(--space-1)' }} />
             <div style={{ marginBottom: 0 }}>
-              <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>{kurdishStrings.color}</div>
+              <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>{kurdishStrings.color}</div>
               <input value={carColor} onChange={e => setCarColor(e.target.value)} placeholder="White" maxLength={20} className="car-input" style={carInputStyle} />
             </div>
             <DashedDivider style={{ margin: '10px var(--space-1)' }} />
-            <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 0, fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>{kurdishStrings.notes}</div>
+            <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 0, fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>{kurdishStrings.notes}</div>
             <DashedDivider style={{ margin: '6px 0' }} />
             <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder={kurdishStrings.rideNotesPlaceholder} rows={2} maxLength={200} className="note-input" style={{ ...carInputStyle, resize: 'var(--input-note-resize)' as React.CSSProperties['resize'], lineHeight: 'var(--input-note-lineHeight)' }} />
           </Card>
 
-          {error && <p style={{ color: 'var(--color-status-error)', fontSize: 'var(--font-size-base)', textAlign: 'center', marginBottom: 'var(--space-3)' }}>{error}</p>}
+          {error && <p style={{ color: 'var(--color-status-error)', fontSize: 'var(--font-size-body)', textAlign: 'center', marginBottom: 'var(--space-3)' }}>{error}</p>}
 
           <div onClick={handleSubmit} style={{
             background: 'var(--color-brand-primary)', color: 'var(--color-text-onAccent)', border: 'var(--border-width-thick) solid var(--color-text-primary)', borderRadius: 'var(--radius-2xl)',
@@ -464,7 +464,7 @@ export default function PostRidePage() {
             opacity: loading ? 'var(--opacity-disabled)' as unknown as number : 1, width: '100%',
             boxShadow: 'var(--shadow-card)',
           }}>
-            <span style={{ fontSize: 'var(--font-size-xl)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number }}>{loading ? '...' : editingRideId ? kurdishStrings.update : kurdishStrings.sendExclaim}</span>
+            <span style={{ fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number }}>{loading ? '...' : editingRideId ? kurdishStrings.update : kurdishStrings.sendExclaim}</span>
           </div>
         </div>
       )}
@@ -474,7 +474,7 @@ export default function PostRidePage() {
         <div>
           {loadingManage ? <div /> : myPostedRides.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '4rem 0' }}>
-              <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-lg)' }}>{kurdishStrings.noPostedRides}</p>
+              <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-heading)' }}>{kurdishStrings.noPostedRides}</p>
             </div>
           ) : myPostedRides.map(ride => {
             const isCompleted = ride.status === 'completed'
@@ -498,7 +498,7 @@ export default function PostRidePage() {
                 editButton={!isCompleted && !isCancelled ? (
                   <span
                     onClick={() => startEdit(ride)}
-                    style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', cursor: 'pointer' }}
+                    style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', cursor: 'pointer' }}
                   >{kurdishStrings.edit}</span>
                 ) : undefined}
               />

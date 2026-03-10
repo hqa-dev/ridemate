@@ -8,7 +8,7 @@
       "shadow": { "$value": "{shadow.card}", "$type": "shadow" },
       "radius": { "$value": "{radius.lg}", "$type": "dimension" },
       "padding": { "$value": "12px 0", "$type": "string" },
-      "fontSize": { "$value": "{font.size.md}", "$type": "dimension" },
+      "fontSize": { "$value": "{font.size.body}", "$type": "dimension" },
       "fontWeight": { "$value": "{font.weight.extrabold}", "$type": "fontWeight" }
     },
     "secondary": {
@@ -19,7 +19,7 @@
       "shadow": { "$value": "{shadow.card}", "$type": "shadow" },
       "radius": { "$value": "{radius.lg}", "$type": "dimension" },
       "padding": { "$value": "12px 0", "$type": "string" },
-      "fontSize": { "$value": "{font.size.md}", "$type": "dimension" },
+      "fontSize": { "$value": "{font.size.body}", "$type": "dimension" },
       "fontWeight": { "$value": "{font.weight.extrabold}", "$type": "fontWeight" }
     },
     "danger": {
@@ -30,7 +30,7 @@
       "shadow": { "$value": "{shadow.card}", "$type": "shadow" },
       "radius": { "$value": "{radius.lg}", "$type": "dimension" },
       "padding": { "$value": "12px 0", "$type": "string" },
-      "fontSize": { "$value": "{font.size.md}", "$type": "dimension" },
+      "fontSize": { "$value": "{font.size.body}", "$type": "dimension" },
       "fontWeight": { "$value": "{font.weight.extrabold}", "$type": "fontWeight" }
     },
     "success": {
@@ -48,7 +48,7 @@
       "border": { "$value": "none", "$type": "border" },
       "radius": { "$value": "{radius.2xl}", "$type": "dimension" },
       "padding": { "$value": "12px", "$type": "string" },
-      "fontSize": { "$value": "{font.size.lg}", "$type": "dimension" }
+      "fontSize": { "$value": "{font.size.heading}", "$type": "dimension" }
     },
     "subtle": {
       "$description": "Save button — light green bg, green text (profile page)",
@@ -57,7 +57,7 @@
       "border": { "$value": "none", "$type": "border" },
       "radius": { "$value": "{radius.xl}", "$type": "dimension" },
       "padding": { "$value": "10px 16px", "$type": "string" },
-      "fontSize": { "$value": "{font.size.base}", "$type": "dimension" },
+      "fontSize": { "$value": "{font.size.body}", "$type": "dimension" },
       "fontWeight": { "$value": "{font.weight.semibold}", "$type": "fontWeight" }
     },
     "whatsapp": {
@@ -67,7 +67,7 @@
       "border": { "$value": "none", "$type": "border" },
       "radius": { "$value": "{radius.2xl}", "$type": "dimension" },
       "padding": { "$value": "12px", "$type": "string" },
-      "fontSize": { "$value": "{font.size.md}", "$type": "dimension" },
+      "fontSize": { "$value": "{font.size.body}", "$type": "dimension" },
       "fontWeight": { "$value": "{font.weight.medium}", "$type": "fontWeight" }
     },
     "withdraw": {
@@ -77,7 +77,7 @@
       "border": { "$value": "{border.width.medium} solid {color.status.error}", "$type": "border" },
       "radius": { "$value": "{radius.xl}", "$type": "dimension" },
       "padding": { "$value": "10px", "$type": "string" },
-      "fontSize": { "$value": "{font.size.base}", "$type": "dimension" },
+      "fontSize": { "$value": "{font.size.body}", "$type": "dimension" },
       "fontWeight": { "$value": "{font.weight.semibold}", "$type": "fontWeight" }
     }
   },
@@ -116,7 +116,7 @@
       "border": { "$value": "{border.width.medium} solid {color.text.muted}", "$type": "border" },
       "radius": { "$value": "{radius.base}", "$type": "dimension" },
       "padding": { "$value": "10px 12px", "$type": "string" },
-      "fontSize": { "$value": "{font.size.base}", "$type": "dimension" },
+      "fontSize": { "$value": "{font.size.body}", "$type": "dimension" },
       "color": { "$value": "{color.text.primary}", "$type": "color" }
     },
     "note": {
@@ -145,7 +145,7 @@
     "radius": { "$value": "{radius.2xl}", "$type": "dimension" },
     "shadow": { "$value": "{shadow.float}", "$type": "shadow" },
     "blur": { "$value": "blur(12px)", "$type": "string" },
-    "fontSize": { "$value": "{font.size.md}", "$type": "dimension" },
+    "fontSize": { "$value": "{font.size.body}", "$type": "dimension" },
     "fontWeight": { "$value": "{font.weight.semibold}", "$type": "fontWeight" }
   },
   "nav": {

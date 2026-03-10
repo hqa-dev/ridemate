@@ -53,7 +53,7 @@ export const RideCard = memo(function RideCard({ ride, status, dimmed, editButto
           <div style={{ padding: '8px 12px 0', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }} dir="rtl">
             {status ? (
               <span style={{
-                fontSize: 11, padding: '3px 8px', borderRadius: 6,
+                fontSize: 'var(--font-size-body)', padding: '3px 8px', borderRadius: 6,
                 background: status.bg, color: status.color, fontWeight: 700,
                 border: `2px solid ${T.text}`,
                 boxShadow: `2px 2px 0 ${T.text}`,
@@ -97,10 +97,10 @@ export const RideCard = memo(function RideCard({ ride, status, dimmed, editButto
             }}>
               <SketchPerson size={14} />
             </div>
-            <span style={{ fontSize: 11, fontWeight: 700, color: T.text }}>{driver.full_name || kurdishStrings.driverLabel}</span>
+            <span style={{ fontSize: 'var(--font-size-heading)', fontWeight: 700, color: T.text }}>{driver.full_name || kurdishStrings.driverLabel}</span>
           </div>
           {/* Seats · price */}
-          <span style={{ fontSize: 10, color: T.textDim }}>
+          <span style={{ fontSize: 'var(--font-size-body)', color: T.textDim }}>
             {isFull ? kurdishStrings.statusFull : seatsDisplay} · {priceDisplay}
           </span>
         </div>

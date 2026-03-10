@@ -30,7 +30,7 @@ export function ConfirmModal({ isOpen, message, onConfirm, onCancel }: ConfirmMo
           direction: 'rtl',
         }}
       >
-        <p style={{ fontSize: 14, color: T.text, marginBottom: 20, marginTop: 0, lineHeight: 1.8, textAlign: 'center' }}>
+        <p style={{ fontSize: 'var(--font-size-heading)', color: T.text, marginBottom: 20, marginTop: 0, lineHeight: 1.8, textAlign: 'center' }}>
           {message}
         </p>
         <div style={{ display: 'flex', gap: 8 }}>
@@ -39,7 +39,7 @@ export function ConfirmModal({ isOpen, message, onConfirm, onCancel }: ConfirmMo
             style={{
               flex: 1, background: T.redBg, color: T.red,
               border: 'none', borderRadius: 10, padding: '10px 0',
-              fontSize: 13, fontWeight: 600, cursor: 'pointer',
+              fontSize: 'var(--font-size-body)', fontWeight: 600, cursor: 'pointer',
               fontFamily: "var(--font-family-body)",
             }}
           >
@@ -50,7 +50,7 @@ export function ConfirmModal({ isOpen, message, onConfirm, onCancel }: ConfirmMo
             style={{
               flex: 1, background: T.cardInner, color: T.text,
               border: 'none', borderRadius: 10, padding: '10px 0',
-              fontSize: 13, fontWeight: 500, cursor: 'pointer',
+              fontSize: 'var(--font-size-body)', fontWeight: 500, cursor: 'pointer',
               fontFamily: "var(--font-family-body)",
             }}
           >

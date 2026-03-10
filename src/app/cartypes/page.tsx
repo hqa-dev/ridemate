@@ -34,8 +34,8 @@ function CarCard({ label, labelEn, children }: { label: string; labelEn: string;
     }}>
       {children}
       <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 600, color: 'var(--color-text-primary)' }}>{label}</div>
-        <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>{labelEn}</div>
+        <div style={{ fontSize: 'var(--font-size-heading)', fontWeight: 600, color: 'var(--color-text-primary)' }}>{label}</div>
+        <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)' }}>{labelEn}</div>
       </div>
     </div>
   )
@@ -60,7 +60,7 @@ export default function CarTypesPage() {
         borderRadius: 'var(--radius-lg)',
         padding: '8px 12px',
         marginBottom: '20px',
-        fontSize: 'var(--font-size-sm)',
+        fontSize: 'var(--font-size-body)',
         color: 'var(--color-text-secondary)',
         textAlign: 'center',
       }}>

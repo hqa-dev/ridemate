@@ -224,7 +224,7 @@ export default function NotificationsPage() {
     }}>
       <PageHeader title={kurdishStrings.notificationsTitle} back />
 
-      {error && <p style={{ color: 'var(--color-status-error)', fontSize: 'var(--font-size-base)', textAlign: 'center', padding: '0 var(--space-4) var(--space-2)' }}>{error}</p>}
+      {error && <p style={{ color: 'var(--color-status-error)', fontSize: 'var(--font-size-body)', textAlign: 'center', padding: '0 var(--space-4) var(--space-2)' }}>{error}</p>}
 
       {loading ? <div /> : (
         <>
@@ -256,7 +256,7 @@ export default function NotificationsPage() {
                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
                 <path d="M13.73 21a2 2 0 0 1-3.46 0" />
               </svg>
-              <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-muted)' }}>{kurdishStrings.noNotifications}</p>
+              <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)' }}>{kurdishStrings.noNotifications}</p>
             </div>
           )}
         </>
@@ -279,13 +279,13 @@ function NotifRow({ n, isLast, onApprove, onDecline, processing, router }: {
       <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', padding: 'var(--space-card-md) 0' }}>
         {/* Avatar + name */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', flexShrink: 0, cursor: 'pointer' }}>
-          <div style={{ width: 'var(--size-button-iconLg)', height: 'var(--size-button-iconLg)', borderRadius: 'var(--radius-base)', border: 'var(--border-width-thick) solid var(--color-text-primary)', background: nameColor(n.personName), display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number, color: 'var(--color-text-onAccent)', flexShrink: 0 }}>
+          <div style={{ width: 'var(--size-button-iconLg)', height: 'var(--size-button-iconLg)', borderRadius: 'var(--radius-base)', border: 'var(--border-width-thick) solid var(--color-text-primary)', background: nameColor(n.personName), display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number, color: 'var(--color-text-onAccent)', flexShrink: 0 }}>
             {n.personName.charAt(0)}
           </div>
           <div style={{ width: 1, height: 'var(--space-7)', background: 'var(--color-border-subtle)', flexShrink: 0 }} />
           <div>
-            <div style={{ fontSize: 'var(--font-size-md)', fontWeight: !n.seen ? 'var(--font-weight-bold)' as unknown as number : 'var(--font-weight-medium)' as unknown as number, color: !n.seen ? 'var(--color-text-primary)' : 'var(--color-text-muted)' }}>{n.personName}</div>
-            <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', marginTop: 2 }}>{[n.route, n.date].filter(Boolean).join(' · ')}</div>
+            <div style={{ fontSize: 'var(--font-size-body)', fontWeight: !n.seen ? 'var(--font-weight-bold)' as unknown as number : 'var(--font-weight-medium)' as unknown as number, color: !n.seen ? 'var(--color-text-primary)' : 'var(--color-text-muted)' }}>{n.personName}</div>
+            <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginTop: 2 }}>{[n.route, n.date].filter(Boolean).join(' · ')}</div>
           </div>
         </div>
 
@@ -295,17 +295,17 @@ function NotifRow({ n, isLast, onApprove, onDecline, processing, router }: {
           onClick={() => { if (!isActionable) router.push(`/rides/${n.rideId}`) }}
         >
           {(n.type === 'request_received' || n.type === 'passenger_cancelled') ? (
-            <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, border: 'var(--border-width-medium) solid var(--color-text-muted)', borderRadius: 'var(--radius-xs)', padding: '2px var(--space-2)', background: 'var(--color-bg-sunken)', display: 'inline-block' }}>{st.text}</span>
+            <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-secondary)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, border: 'var(--border-width-medium) solid var(--color-text-muted)', borderRadius: 'var(--radius-xs)', padding: '2px var(--space-2)', background: 'var(--color-bg-sunken)', display: 'inline-block' }}>{st.text}</span>
           ) : (
-            <span style={{ fontSize: 'var(--font-size-xs)', color: st.color, fontWeight: 'var(--font-weight-bold)' as unknown as number, border: 'var(--border-width-thick) solid currentColor', borderRadius: 'var(--radius-sm)', padding: '2px 7px', boxShadow: 'var(--shadow-sm)', display: 'inline-block' }}>{st.text}</span>
+            <span style={{ fontSize: 'var(--font-size-body)', color: st.color, fontWeight: 'var(--font-weight-bold)' as unknown as number, border: 'var(--border-width-thick) solid currentColor', borderRadius: 'var(--radius-sm)', padding: '2px 7px', boxShadow: 'var(--shadow-sm)', display: 'inline-block' }}>{st.text}</span>
           )}
           {(n.pickup && n.pickup.length > 2 && n.dropoff && n.dropoff.length > 2) && (
-            <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-icon-muted)', marginTop: 2 }}>
+            <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-icon-muted)', marginTop: 2 }}>
               {n.pickup} ← {n.dropoff}
             </div>
           )}
           {n.type === 'ride_updated' && n.metadata?.changes && (
-            <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-icon-muted)', marginTop: 2 }}>
+            <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-icon-muted)', marginTop: 2 }}>
               {(n.metadata.changes as string[]).join(' · ')}
             </div>
           )}

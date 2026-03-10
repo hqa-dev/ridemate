@@ -4,7 +4,7 @@ export default function ShowcasePage() {
   if (process.env.NODE_ENV === 'production') notFound()
   return (
     <div dir="rtl" style={{ padding: 'var(--space-page-x)', background: 'var(--color-bg-canvas)', minHeight: '100vh' }}>
-      <h1 style={{ fontSize: 'var(--font-size-5xl)', fontWeight: 'var(--font-weight-extrabold)', color: 'var(--color-text-primary)', marginBottom: 'var(--space-6)' }}>
+      <h1 style={{ fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-extrabold)', color: 'var(--color-text-primary)', marginBottom: 'var(--space-6)' }}>
         ڤیترینی دیزاین
       </h1>
 
@@ -39,7 +39,7 @@ export default function ShowcasePage() {
               }}
             >
               {label}
-              <span style={{ fontSize: 'var(--font-size-2xs)', opacity: 0.6, marginRight: 'var(--space-1)' }}>
+              <span style={{ fontSize: 'var(--font-size-body)', opacity: 0.6, marginRight: 'var(--space-1)' }}>
                 ({variant})
               </span>
             </button>
@@ -144,10 +144,10 @@ export default function ShowcasePage() {
             boxShadow: 'var(--card-standard-shadow)',
             padding: 'var(--space-card-lg)',
           }}>
-            <p style={{ fontSize: 'var(--font-size-md)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)', margin: 0 }}>
+            <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)', margin: 0 }}>
               کارتی ئاسایی (standard)
             </p>
-            <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', margin: 'var(--space-1) 0 0' }}>
+            <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', margin: 'var(--space-1) 0 0' }}>
               ئەمە نموونەیەکی کارتی ئاساییە
             </p>
           </div>
@@ -159,10 +159,10 @@ export default function ShowcasePage() {
             boxShadow: 'var(--card-danger-shadow)',
             padding: 'var(--space-card-lg)',
           }}>
-            <p style={{ fontSize: 'var(--font-size-md)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-status-error)', margin: 0 }}>
+            <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-status-error)', margin: 0 }}>
               کارتی مەترسی (danger)
             </p>
-            <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', margin: 'var(--space-1) 0 0' }}>
+            <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', margin: 'var(--space-1) 0 0' }}>
               ئەمە بۆ ئاگادارکردنەوەی گرنگ بەکاردێت
             </p>
           </div>
@@ -175,10 +175,10 @@ export default function ShowcasePage() {
             padding: 'var(--space-modal-y) var(--space-modal-x)',
             boxShadow: 'var(--shadow-float)',
           }}>
-            <p style={{ fontSize: 'var(--font-size-md)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)', margin: 0 }}>
+            <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)', margin: 0 }}>
               کارتی مۆداڵ (modal)
             </p>
-            <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', margin: 'var(--space-1) 0 0' }}>
+            <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', margin: 'var(--space-1) 0 0' }}>
               بۆ دیالۆگ و پەنجەرەی سەرەوە
             </p>
           </div>
@@ -191,10 +191,10 @@ export default function ShowcasePage() {
             maxWidth: 'var(--card-requestModal-maxWidth)',
             padding: 'var(--space-modal-y) var(--space-modal-x)',
           }}>
-            <p style={{ fontSize: 'var(--font-size-md)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)', margin: 0 }}>
+            <p style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)', margin: 0 }}>
               کارتی داواکاری (requestModal)
             </p>
-            <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', margin: 'var(--space-1) 0 0' }}>
+            <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', margin: 'var(--space-1) 0 0' }}>
               بۆ داواکاری سواربوون
             </p>
           </div>
@@ -236,7 +236,7 @@ export default function ShowcasePage() {
               }}>
                 {word}
               </span>
-              <span style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', fontFamily: 'monospace' }}>
+              <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', fontFamily: 'monospace' }}>
                 --font-size-{size}
               </span>
             </div>
@@ -332,7 +332,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   return (
     <div style={{ marginBottom: 'var(--space-6)' }}>
       <h2 style={{
-        fontSize: 'var(--font-size-3xl)',
+        fontSize: 'var(--font-size-heading)',
         fontWeight: 'var(--font-weight-extrabold)',
         color: 'var(--color-text-primary)',
         marginBottom: 'var(--space-3)',
@@ -350,7 +350,7 @@ function Label({ text }: { text: string }) {
   return (
     <span style={{
       display: 'block',
-      fontSize: 'var(--font-size-xs)',
+      fontSize: 'var(--font-size-body)',
       fontWeight: 'var(--font-weight-semibold)',
       color: 'var(--color-text-muted)',
       marginBottom: 'var(--space-1)',
@@ -366,7 +366,7 @@ function Chip({ label, bg, color }: { label: string; bg: string; color: string }
       display: 'inline-block',
       background: bg,
       color: color,
-      fontSize: 'var(--font-size-sm)',
+      fontSize: 'var(--font-size-body)',
       fontWeight: 'var(--font-weight-bold)',
       padding: 'var(--space-1) var(--space-3)',
       borderRadius: 'var(--radius-sm)',
@@ -382,7 +382,7 @@ function ColorGroup({ title, swatches }: { title: string; swatches: [string, str
   return (
     <div>
       <p style={{
-        fontSize: 'var(--font-size-sm)',
+        fontSize: 'var(--font-size-body)',
         fontWeight: 'var(--font-weight-semibold)',
         color: 'var(--color-text-secondary)',
         marginBottom: 'var(--space-2)',
@@ -399,7 +399,7 @@ function ColorGroup({ title, swatches }: { title: string; swatches: [string, str
               background: `var(${token})`,
               border: 'var(--border-width-thin) solid var(--color-border-divider)',
             }} />
-            <span style={{ fontSize: 'var(--font-size-3xs)', color: 'var(--color-text-muted)', fontFamily: 'monospace', textAlign: 'center', maxWidth: 'var(--size-avatar-xl)' }}>
+            <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', fontFamily: 'monospace', textAlign: 'center', maxWidth: 'var(--size-avatar-xl)' }}>
               {name}
             </span>
           </div>

@@ -33,7 +33,7 @@ export default function PageHeader({ title, back = false, onBack, bell = false, 
           </svg>
         </div>
       )}
-      <h1 style={{ fontSize: 18, fontWeight: 700, color: T.text, margin: 0, flex: 1 }}>{title}</h1>
+      <h1 style={{ fontSize: 'var(--font-size-heading)', fontWeight: 700, color: T.text, margin: 0, flex: 1 }}>{title}</h1>
       {bell && (
         <Link href="/notifications" style={{ textDecoration: 'none' }}>
           <div style={{

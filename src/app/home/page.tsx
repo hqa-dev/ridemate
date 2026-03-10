@@ -96,7 +96,7 @@ export default function HomePage() {
 
           {/* App name */}
           <h1 style={{
-            fontSize: 'var(--font-size-5xl)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number, color: 'var(--color-text-primary)', letterSpacing: 'var(--font-letterSpacing-tight)',
+            fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number, color: 'var(--color-text-primary)', letterSpacing: 'var(--font-letterSpacing-tight)',
             textShadow: 'var(--font-textShadow-brandSm)',
             margin: 0,
           }}>{kurdishStrings.appName}</h1>
@@ -210,7 +210,7 @@ export default function HomePage() {
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-brand-primary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
             </svg>
-            <span style={{ fontSize: 13.5, color: 'var(--color-text-secondary)' }}>
+            <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-secondary)' }}>
               {from && to ? (
                 <>{CITIES[from]} ← {CITIES[to]}</>
               ) : (
@@ -243,7 +243,7 @@ export default function HomePage() {
                   <path d="M18 6L6 18"/><path d="M6 6l12 12"/>
                 </svg>
               </div>
-              <span style={{ fontSize: 'var(--font-size-xl)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)' }}>{kurdishStrings.findRide}</span>
+              <span style={{ fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)' }}>{kurdishStrings.findRide}</span>
             </div>
 
             {/* Vertical route */}
@@ -259,7 +259,7 @@ export default function HomePage() {
                   style={{
                     background: 'var(--color-bg-sunken)', border: 'var(--border-width-medium) solid var(--color-border-strong)',
                     borderRadius: 'var(--radius-2xl)', padding: 'var(--space-3) var(--space-4)',
-                    fontSize: 'var(--font-size-lg)', color: from ? 'var(--color-text-primary)' : 'var(--color-text-muted)', cursor: 'pointer',
+                    fontSize: 'var(--font-size-heading)', color: from ? 'var(--color-text-primary)' : 'var(--color-text-muted)', cursor: 'pointer',
                   }}
                 >
                   {from ? CITIES[from] : kurdishStrings.fromWhere}
@@ -269,7 +269,7 @@ export default function HomePage() {
                   style={{
                     background: 'var(--color-bg-sunken)', border: 'var(--border-width-medium) solid var(--color-border-strong)',
                     borderRadius: 'var(--radius-2xl)', padding: 'var(--space-3) var(--space-4)',
-                    fontSize: 'var(--font-size-lg)', color: to ? 'var(--color-text-primary)' : 'var(--color-text-muted)', cursor: 'pointer',
+                    fontSize: 'var(--font-size-heading)', color: to ? 'var(--color-text-primary)' : 'var(--color-text-muted)', cursor: 'pointer',
                   }}
                 >
                   {to ? CITIES[to] : kurdishStrings.toWhere}

@@ -43,7 +43,7 @@ export default function MyRidesPage() {
       <div style={{ padding: '0 var(--space-page-x)' }}>
         {loading ? <div /> : rides.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '60px var(--space-page-x)' }}>
-            <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-muted)' }}>{kurdishStrings.noRequestedRides}</p>
+            <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)' }}>{kurdishStrings.noRequestedRides}</p>
           </div>
         ) : rides.map(req => {
           const ride = req.ride

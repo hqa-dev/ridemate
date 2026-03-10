@@ -5,18 +5,8 @@
     },
     "size": {
       "$type": "dimension",
-      "3xs": { "$value": "8px", "$description": "Smallest — stats labels (نرخ, جێگا)" },
-      "2xs": { "$value": "9px", "$description": "Section labels, tiny meta, price labels" },
-      "xs": { "$value": "10px", "$description": "Seats/price footer, notification pills, helper text" },
-      "sm": { "$value": "11px", "$description": "Status pill text, ride card footer, badge text" },
-      "base": { "$value": "12px", "$description": "Default — inputs, buttons, nav labels, form fields" },
-      "md": { "$value": "13px", "$description": "Button labels, route pickers, menu items, toast text" },
-      "lg": { "$value": "14px", "$description": "Menu item labels, confirm modal text, driver name" },
-      "xl": { "$value": "15px", "$description": "Search bar, modal titles, submit buttons" },
-      "2xl": { "$value": "17px", "$description": "Modal headings (rides/[id] request modal)" },
-      "3xl": { "$value": "18px", "$description": "Page header titles" },
-      "4xl": { "$value": "20px", "$description": "Section headings (account, post-ride, verification)" },
-      "5xl": { "$value": "26px", "$description": "App name لیمۆ on home page" }
+      "heading": { "$value": "15px", "$description": "City names, driver name, page titles, CTA buttons" },
+      "body": { "$value": "11px", "$description": "Time, date, price, seats, pills, labels, nav, helper text" }
     },
     "weight": {
       "$type": "fontWeight",

@@ -39,11 +39,11 @@ function MenuItem({ icon, label, value, isLast, danger, onClick }: {
       <div style={{ width: 'var(--space-6)', display: 'flex', justifyContent: 'center', marginLeft: 'var(--space-3)' }}>
         {icon}
       </div>
-      <span style={{ flex: 1, fontSize: 'var(--font-size-lg)', color: danger ? 'var(--color-status-error)' : 'var(--color-text-secondary)', fontWeight: danger ? 'var(--font-weight-medium)' as unknown as number : 'var(--font-weight-regular)' as unknown as number }}>
+      <span style={{ flex: 1, fontSize: 'var(--font-size-heading)', color: danger ? 'var(--color-status-error)' : 'var(--color-text-secondary)', fontWeight: danger ? 'var(--font-weight-medium)' as unknown as number : 'var(--font-weight-regular)' as unknown as number }}>
         {label}
       </span>
       {value && (
-        <span style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', marginLeft: 6 }}>{value}</span>
+        <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginLeft: 6 }}>{value}</span>
       )}
       {!danger && <Arrow />}
     </div>
@@ -133,7 +133,7 @@ export default function AccountPage() {
 
       {/* Header */}
       <div style={{ padding: 'var(--space-page-top) var(--space-page-x) 0' }}>
-        <h1 style={{ fontSize: 'var(--font-size-4xl)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number, color: 'var(--color-text-primary)', margin: '0 0 var(--space-5)' }}>{kurdishStrings.navAccount}</h1>
+        <h1 style={{ fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number, color: 'var(--color-text-primary)', margin: '0 0 var(--space-5)' }}>{kurdishStrings.navAccount}</h1>
       </div>
 
       {/* Profile row */}
@@ -151,10 +151,10 @@ export default function AccountPage() {
           <SketchPerson size={26} hat={true} />
         </div>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 'var(--font-size-xl)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)' }}>
+          <div style={{ fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)' }}>
             {profile?.full_name || user?.user_metadata?.full_name || kurdishStrings.userFallback}
           </div>
-          <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>
+          <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)' }}>
             {isDriver ? kurdishStrings.driverLabel : kurdishStrings.person}
             {isVerified && kurdishStrings.verifiedBadgeInline}
           </div>
@@ -199,7 +199,7 @@ export default function AccountPage() {
 
       {/* Version */}
       <div style={{ textAlign: 'center', padding: 'var(--space-6) 0 var(--space-navClearanceLg)' }}>
-        <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>{kurdishStrings.appShortName} v1.0.0</span>
+        <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)' }}>{kurdishStrings.appShortName} v1.0.0</span>
       </div>
 
       {/* Toast */}
