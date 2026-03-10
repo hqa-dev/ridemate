@@ -15,8 +15,7 @@ export default function Card({ children, style, shadow = true, danger = false }:
     <div style={{
       background: T.card,
       borderRadius: 10,
-      border: `2px solid ${borderColor}`,
-      boxShadow: shadow ? `3px 3px 0 ${borderColor}` : undefined,
+      border: `1px solid ${borderColor}`,
       ...style,
     }}>
       {children}
