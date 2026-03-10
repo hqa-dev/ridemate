@@ -5,8 +5,8 @@ export default function RouteLine({ from, to, dep, arr }: { from: string; to: st
     <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-1-5)'}} dir="rtl">
       {/* Departure — RIGHT — orange */}
       <div style={{ textAlign: 'center', minWidth: 38 }}>
-        <div style={{ fontSize: 12, fontWeight: 600, color: T.accent }}>{dep}</div>
         <div style={{ fontSize: 14, fontWeight: 700, color: T.text }}>{from}</div>
+        <div style={{ fontSize: 10, fontWeight: 500, color: T.accent }}>{dep}</div>
       </div>
       {/* SVG curved line */}
       <div style={{ flex: 1, position: 'relative', height: 20 }}>
@@ -18,8 +18,8 @@ export default function RouteLine({ from, to, dep, arr }: { from: string; to: st
       </div>
       {/* Arrival — LEFT — ink */}
       <div style={{ textAlign: 'center', minWidth: 38 }}>
-        <div style={{ fontSize: 12, fontWeight: 600, color: T.text }}>{arr}</div>
         <div style={{ fontSize: 14, fontWeight: 700, color: T.text }}>{to}</div>
+        <div style={{ fontSize: 10, fontWeight: 500, color: T.textMid }}>{arr}</div>
       </div>
     </div>
   )
