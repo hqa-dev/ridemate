@@ -71,11 +71,8 @@ export const RideCard = memo(function RideCard({ ride, status, dimmed, editButto
         />
 
         {/* Footer — driver · seats · price */}
-        <div style={{ marginTop: 12, display: 'flex', alignItems: 'center', justifyContent: 'space-between', direction: 'rtl' }}>
-          <span style={{ fontSize: 'var(--font-size-body)', color: T.textDim }}>{driver.full_name || kurdishStrings.driverLabel}</span>
-          <span style={{ fontSize: 'var(--font-size-body)', color: T.textDim }}>
-            {isFull ? kurdishStrings.statusFull : seatsDisplay} · {priceDisplay}
-          </span>
+        <div style={{ marginTop: 12, textAlign: 'center', fontSize: 'var(--font-size-body)', color: T.textDim }}>
+          {driver.full_name || kurdishStrings.driverLabel} · {isFull ? kurdishStrings.statusFull : seatsDisplay} · {priceDisplay}
         </div>
 
       </div>
