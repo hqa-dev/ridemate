@@ -443,8 +443,8 @@ export default function RideDetailPage() {
             { l: kurdishStrings.car, v: ride.car_model || ride.car_make || '-' },
           ].map((s, i) => (
             <div key={i} style={{ flex: 1, textAlign: 'center', borderRight: i > 0 ? 'var(--border-width-medium) dashed var(--color-text-muted)' : 'none' }}>
-              <div style={{ fontSize: 'var(--font-size-3xs)', color: 'var(--color-text-muted)' }}>{s.l}</div>
-              <div style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-secondary)' }}>{s.v}</div>
+              <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)' }}>{s.l}</div>
+              <div style={{ fontSize: 'var(--font-size-md)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-secondary)' }}>{s.v}</div>
             </div>
           ))}
         </div>
