@@ -494,9 +494,9 @@ export default function RideDetailPage() {
               </div>
             ))}
             {ride.available_seats > 0 && (
-              <div style={{ display: 'flex', alignItems: 'center', padding: 'var(--space-3) 0', gap: 10, borderTop: approvedPassengers.length > 0 ? 'var(--border-width-thin) solid var(--color-border-subtle)' : 'none', opacity: 'var(--opacity-ghost)' as unknown as number }}>
+              <div style={{ display: 'flex', alignItems: 'center', padding: 'var(--space-3) 0', gap: 10, borderTop: approvedPassengers.length > 0 ? 'var(--border-width-thin) solid var(--color-border-subtle)' : 'none' }}>
                 <div style={{ width: 'var(--size-avatar-sm)', height: 'var(--size-avatar-sm)', borderRadius: 'var(--radius-base)', border: 'var(--border-width-thin) dashed var(--color-border-divider)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <span style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)' }}>+</span>
+                  <span style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)' }}>+</span>
                 </div>
                 <span style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)' }}>{toKurdishNum(ride.available_seats)} {kurdishStrings.seatsAvailableCount}</span>
               </div>
