@@ -462,7 +462,7 @@ export default function RideDetailPage() {
             {driver.full_name || kurdishStrings.driverLabel}
             {driver.verified && <span style={{ color: 'var(--color-status-success)', fontSize: 'var(--font-size-sm)', marginRight: 'var(--space-1)' }}> ✓</span>}
           </div>
-          <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
+          <div style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)' }}>
             {driverAvgRating !== null && `${driverAvgRating} ★ · ${toKurdishNum(driverTripCount)} ${kurdishStrings.trip}`}
             {driverAvgRating !== null && carParts && ' · '}
             {carParts && `${carParts}`}
@@ -487,7 +487,7 @@ export default function RideDetailPage() {
                 </div>
                 <span style={{ flex: 1, fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)' }}>{p.passenger?.full_name || kurdishStrings.passengerFallback}</span>
                 {(p.pickup || p.dropoff) && (
-                  <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
+                  <span style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)' }}>
                     {p.pickup || '—'} ← {p.dropoff || '—'}
                   </span>
                 )}
@@ -508,8 +508,8 @@ export default function RideDetailPage() {
       {/* Notes */}
       {ride.notes && (
         <Card style={{ margin: 'var(--space-4) var(--space-4) 0', padding: 'var(--space-3) var(--space-4)' }}>
-          <div style={{ fontSize: 'var(--font-size-2xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)', fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>{kurdishStrings.notes}</div>
-          <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', lineHeight: 'var(--font-lineHeight-relaxed)' as unknown as number }}>{ride.notes}</div>
+          <div style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)', marginBottom: 'var(--space-1)', fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>{kurdishStrings.notes}</div>
+          <div style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)', lineHeight: 'var(--font-lineHeight-relaxed)' as unknown as number }}>{ride.notes}</div>
         </Card>
       )}
 
@@ -548,7 +548,7 @@ export default function RideDetailPage() {
               <div style={{ width: 1, height: 32, background: 'var(--color-border-divider)', flexShrink: 0, margin: '0 5px' }} />
               <div>
                 <p style={{ fontWeight: 'var(--font-weight-medium)' as unknown as number, color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-md)', margin: '0 0 3px' }}>{kurdishStrings.rideCompleted}</p>
-                <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', margin: 0 }}>{kurdishStrings.completedDate} {new Date(ride.completed_at).toLocaleDateString('en-GB')}</p>
+                <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)', margin: 0 }}>{kurdishStrings.completedDate} {new Date(ride.completed_at).toLocaleDateString('en-GB')}</p>
               </div>
             </div>
           ) : isCancelled ? (
@@ -585,7 +585,7 @@ export default function RideDetailPage() {
             !hasRated ? (
               <div style={{ textAlign: 'center' }}>
                 <p style={{ fontWeight: 'var(--font-weight-bold)' as unknown as number, fontSize: 'var(--font-size-lg)', color: 'var(--color-text-primary)', marginBottom: 'var(--space-1)' }}>{kurdishStrings.rateRideQuestion}</p>
-                <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-3)' }}>{kurdishStrings.ratingDelayNote}</p>
+                <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)', marginBottom: 'var(--space-3)' }}>{kurdishStrings.ratingDelayNote}</p>
                 <StarSelector value={selectedRating} onChange={setSelectedRating} />
                 {selectedRating > 0 && (
                   <button
@@ -616,7 +616,7 @@ export default function RideDetailPage() {
                 <div style={{ width: 1, height: 32, background: 'var(--color-border-divider)', flexShrink: 0, margin: '0 5px' }} />
                 <div>
                   <p style={{ fontWeight: 'var(--font-weight-medium)' as unknown as number, color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-md)', margin: '0 0 3px' }}>{kurdishStrings.thanksForRating}</p>
-                  <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', margin: 0 }}>{kurdishStrings.ratingDelayNote}</p>
+                  <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)', margin: 0 }}>{kurdishStrings.ratingDelayNote}</p>
                 </div>
               </div>
             )
@@ -685,7 +685,7 @@ export default function RideDetailPage() {
               <div style={{ width: 1, height: 32, background: 'var(--color-border-divider)', flexShrink: 0, margin: '0 5px' }} />
               <div>
                 <p style={{ fontWeight: 'var(--font-weight-medium)' as unknown as number, color: 'var(--color-status-error)', fontSize: 'var(--font-size-md)', margin: '0 0 3px' }}>{kurdishStrings.requestDeclined}</p>
-                <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', margin: 0, lineHeight: 'var(--font-lineHeight-tight)' as unknown as number }}>{kurdishStrings.driverDeclinedNote}</p>
+                <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)', margin: 0, lineHeight: 'var(--font-lineHeight-tight)' as unknown as number }}>{kurdishStrings.driverDeclinedNote}</p>
               </div>
             </div>
           ) : (
@@ -698,7 +698,7 @@ export default function RideDetailPage() {
                 <div style={{ width: 1, height: 32, background: 'var(--color-border-divider)', flexShrink: 0, margin: '0 5px' }} />
                 <div>
                   <p style={{ fontWeight: 'var(--font-weight-medium)' as unknown as number, color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-md)', margin: '0 0 3px' }}>{kurdishStrings.requestSentDetail}</p>
-                  <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', margin: 0, lineHeight: 'var(--font-lineHeight-tight)' as unknown as number }}>{kurdishStrings.approvedContactNote}</p>
+                  <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-secondary)', margin: 0, lineHeight: 'var(--font-lineHeight-tight)' as unknown as number }}>{kurdishStrings.approvedContactNote}</p>
                 </div>
               </div>
               <button
