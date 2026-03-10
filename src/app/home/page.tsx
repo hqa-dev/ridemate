@@ -96,7 +96,7 @@ export default function HomePage() {
 
           {/* App name */}
           <h1 style={{
-            fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number, color: 'var(--color-text-primary)', letterSpacing: 'var(--font-letterSpacing-tight)',
+            fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)', letterSpacing: 'var(--font-letterSpacing-tight)',
             textShadow: 'var(--font-textShadow-brandSm)',
             margin: 0,
           }}>{kurdishStrings.appName}</h1>

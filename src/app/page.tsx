@@ -96,7 +96,7 @@ export default function LandingPage() {
           <span style={{ fontSize: 24 }}>🍋</span>
         </div>
         <h1 style={{
-          fontSize: '2.5rem', fontWeight: 'var(--font-weight-extrabold)' as unknown as number, color: 'var(--color-text-primary)', marginBottom: 'var(--space-2)',
+          fontSize: '2.5rem', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)', marginBottom: 'var(--space-2)',
           textShadow: 'var(--font-textShadow-brandLg)',
         }}>{kurdishStrings.appName}</h1>
         <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-body)', margin: 0, textAlign: 'center' }}>
@@ -122,7 +122,7 @@ export default function LandingPage() {
           <path fill="#FBBC05" d="M10.53 28.59a14.5 14.5 0 0 1 0-9.18l-7.98-6.19a24.01 24.01 0 0 0 0 21.56l7.98-6.19z"/>
           <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
         </svg>
-        <span style={{ fontWeight: 'var(--font-weight-semibold)' as unknown as number, color: 'var(--color-text-primary)', fontSize: 'var(--font-size-heading)' }}>{kurdishStrings.signInWithGoogle}</span>
+        <span style={{ fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)', fontSize: 'var(--font-size-heading)' }}>{kurdishStrings.signInWithGoogle}</span>
       </div>
 
       <div style={{ marginTop: 'var(--space-4)', fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', textAlign: 'center', lineHeight: 'var(--font-lineHeight-normal)' }}>

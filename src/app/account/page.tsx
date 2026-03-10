@@ -39,7 +39,7 @@ function MenuItem({ icon, label, value, isLast, danger, onClick }: {
       <div style={{ width: 'var(--space-6)', display: 'flex', justifyContent: 'center', marginLeft: 'var(--space-3)' }}>
         {icon}
       </div>
-      <span style={{ flex: 1, fontSize: 'var(--font-size-heading)', color: danger ? 'var(--color-status-error)' : 'var(--color-text-secondary)', fontWeight: danger ? 'var(--font-weight-medium)' as unknown as number : 'var(--font-weight-regular)' as unknown as number }}>
+      <span style={{ flex: 1, fontSize: 'var(--font-size-heading)', color: danger ? 'var(--color-status-error)' : 'var(--color-text-secondary)', fontWeight: danger ? 'var(--font-weight-regular)' as unknown as number : 'var(--font-weight-regular)' as unknown as number }}>
         {label}
       </span>
       {value && (
@@ -133,7 +133,7 @@ export default function AccountPage() {
 
       {/* Header */}
       <div style={{ padding: 'var(--space-page-top) var(--space-page-x) 0' }}>
-        <h1 style={{ fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number, color: 'var(--color-text-primary)', margin: '0 0 var(--space-5)' }}>{kurdishStrings.navAccount}</h1>
+        <h1 style={{ fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)', margin: '0 0 var(--space-5)' }}>{kurdishStrings.navAccount}</h1>
       </div>
 
       {/* Profile row */}

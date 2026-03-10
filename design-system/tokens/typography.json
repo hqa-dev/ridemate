@@ -10,11 +10,8 @@
     },
     "weight": {
       "$type": "fontWeight",
-      "regular": { "$value": 400, "$description": "Normal body text, menu items" },
-      "medium": { "$value": 500, "$description": "Secondary buttons, status labels, cancel buttons" },
-      "semibold": { "$value": 600, "$description": "Section labels, save buttons, nav labels" },
-      "bold": { "$value": 700, "$description": "Page headers, driver names, card titles, headings" },
-      "extrabold": { "$value": 800, "$description": "Primary buttons, app name, submit buttons — most common CTA weight" }
+      "regular": { "$value": 400, "$description": "Body text — everything at 11px" },
+      "bold": { "$value": 700, "$description": "Headings — everything at 15px" }
     },
     "lineHeight": {
       "$type": "number",

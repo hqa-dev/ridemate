@@ -16,7 +16,7 @@ export default function StyleGuide() {
     <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', marginBottom: 'var(--space-2)' }}>
       <div style={{ width: 40, height: 40, borderRadius: 'var(--radius-base)', background: `var(${cssVar})`, border: '1px solid var(--color-border-divider)' }} />
       <div>
-        <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-primary)', fontWeight: 'var(--font-weight-medium)' as unknown as number }}>{label}</div>
+        <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-primary)', fontWeight: 'var(--font-weight-regular)' as unknown as number }}>{label}</div>
         <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)' }}>{cssVar} — {hex}</div>
       </div>
     </div>
@@ -24,7 +24,7 @@ export default function StyleGuide() {
 
   return (
     <div style={{ padding: 'var(--space-5)', paddingBottom: 120, background: 'var(--color-bg-canvas)', minHeight: '100vh' }}>
-      <h1 style={{ fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-extrabold)' as unknown as number, color: 'var(--color-text-primary)', marginBottom: 'var(--space-2)' }}>
+      <h1 style={{ fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)', marginBottom: 'var(--space-2)' }}>
         Style Guide
       </h1>
       <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-4)' }}>
@@ -242,7 +242,7 @@ export default function StyleGuide() {
       {/* ── NOTES DISPLAY (as seen on ride detail) ── */}
       <div style={sectionTitle}>Notes Display (ride detail style)</div>
       <Card style={{ padding: 'var(--space-3) var(--space-4)' }}>
-        <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)', fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>تێبینی</div>
+        <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)', fontWeight: 'var(--font-weight-bold)' as unknown as number }}>تێبینی</div>
         <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', lineHeight: 'var(--font-lineHeight-relaxed)' as unknown as number }}>ئەمە نموونەیەکی تێبینی گەشتە — هەمان ستایلی لاپەڕەی وردەکاری</div>
       </Card>
     </div>

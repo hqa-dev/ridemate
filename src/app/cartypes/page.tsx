@@ -34,7 +34,7 @@ function CarCard({ label, labelEn, children }: { label: string; labelEn: string;
     }}>
       {children}
       <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: 'var(--font-size-heading)', fontWeight: 600, color: 'var(--color-text-primary)' }}>{label}</div>
+        <div style={{ fontSize: 'var(--font-size-heading)', fontWeight: 700, color: 'var(--color-text-primary)' }}>{label}</div>
         <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)' }}>{labelEn}</div>
       </div>
     </div>

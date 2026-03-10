@@ -92,7 +92,7 @@ export default function AdminPage() {
                 {(p.full_name || '?').charAt(0)}
               </div>
               <div>
-                <div style={{ fontWeight: 'var(--font-weight-semibold)' as unknown as number, fontSize: '0.95rem', color: 'var(--color-text-primary)' }}>{p.full_name || 'No name'}</div>
+                <div style={{ fontWeight: 'var(--font-weight-bold)' as unknown as number, fontSize: '0.95rem', color: 'var(--color-text-primary)' }}>{p.full_name || 'No name'}</div>
                 <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-icon-muted)' }}>{p.email} &middot; {p.role}</div>
               </div>
             </div>
@@ -107,19 +107,19 @@ export default function AdminPage() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)', marginTop: 'var(--space-4)' }}>
                   {docUrls[p.id]?.id && (
                     <div>
-                      <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)', fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>ID</div>
+                      <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)', fontWeight: 'var(--font-weight-bold)' as unknown as number }}>ID</div>
                       <a href={docUrls[p.id].id} target="_blank" rel="noopener noreferrer"><img src={docUrls[p.id].id} alt="ID" style={imgStyle} /></a>
                     </div>
                   )}
                   {docUrls[p.id]?.selfie && (
                     <div>
-                      <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)', fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>Selfie</div>
+                      <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)', fontWeight: 'var(--font-weight-bold)' as unknown as number }}>Selfie</div>
                       <a href={docUrls[p.id].selfie} target="_blank" rel="noopener noreferrer"><img src={docUrls[p.id].selfie} alt="Selfie" style={imgStyle} /></a>
                     </div>
                   )}
                   {docUrls[p.id]?.license && (
                     <div>
-                      <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)', fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>License</div>
+                      <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)', fontWeight: 'var(--font-weight-bold)' as unknown as number }}>License</div>
                       <a href={docUrls[p.id].license} target="_blank" rel="noopener noreferrer"><img src={docUrls[p.id].license} alt="License" style={imgStyle} /></a>
                     </div>
                   )}
@@ -132,13 +132,13 @@ export default function AdminPage() {
               <div style={{ display: 'flex', gap: 'var(--space-2)', marginTop: 'var(--space-5)' }}>
                 <button
                   onClick={() => handleApprove(p.id)}
-                  style={{ flex: 1, background: 'var(--color-status-success)', color: 'var(--color-text-onAccent)', border: 'none', borderRadius: 'var(--radius-2xl)', padding: '0.7rem', fontSize: '0.9rem', fontWeight: 'var(--font-weight-semibold)' as unknown as number, cursor: 'pointer' }}
+                  style={{ flex: 1, background: 'var(--color-status-success)', color: 'var(--color-text-onAccent)', border: 'none', borderRadius: 'var(--radius-2xl)', padding: '0.7rem', fontSize: '0.9rem', fontWeight: 'var(--font-weight-bold)' as unknown as number, cursor: 'pointer' }}
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => handleDecline(p.id)}
-                  style={{ flex: 1, background: 'var(--color-status-error)', color: 'var(--color-text-onAccent)', border: 'none', borderRadius: 'var(--radius-2xl)', padding: '0.7rem', fontSize: '0.9rem', fontWeight: 'var(--font-weight-semibold)' as unknown as number, cursor: 'pointer' }}
+                  style={{ flex: 1, background: 'var(--color-status-error)', color: 'var(--color-text-onAccent)', border: 'none', borderRadius: 'var(--radius-2xl)', padding: '0.7rem', fontSize: '0.9rem', fontWeight: 'var(--font-weight-bold)' as unknown as number, cursor: 'pointer' }}
                 >
                   Decline
                 </button>

@@ -6,7 +6,7 @@ export default function RouteLine({ from, to, dep, arr }: { from: string; to: st
       {/* Origin — RIGHT — ink */}
       <div style={{ textAlign: 'center', minWidth: 38 }}>
         <div style={{ fontSize: 'var(--font-size-heading)', fontWeight: 700, color: T.text }}>{from}</div>
-        <div style={{ fontSize: 'var(--font-size-body)', fontWeight: 500, color: T.textMid }}>{dep}</div>
+        <div style={{ fontSize: 'var(--font-size-body)', fontWeight: 400, color: T.textMid }}>{dep}</div>
       </div>
       {/* SVG curved line — ink right to orange left */}
       <div style={{ flex: 1, position: 'relative', height: 20 }}>
@@ -25,7 +25,7 @@ export default function RouteLine({ from, to, dep, arr }: { from: string; to: st
       {/* Destination — LEFT — orange */}
       <div style={{ textAlign: 'center', minWidth: 38 }}>
         <div style={{ fontSize: 'var(--font-size-heading)', fontWeight: 700, color: T.accent }}>{to}</div>
-        <div style={{ fontSize: 'var(--font-size-body)', fontWeight: 500, color: T.accent }}>{arr}</div>
+        <div style={{ fontSize: 'var(--font-size-body)', fontWeight: 400, color: T.accent }}>{arr}</div>
       </div>
     </div>
   )

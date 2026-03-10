@@ -111,7 +111,7 @@ export const tokens = {
       "radius": "9px",
       "padding": "12px 0",
       "fontSize": "11px",
-      "fontWeight": 800
+      "fontWeight": 700
     },
     "secondary": {
       "bg": "#ffffff",
@@ -121,7 +121,7 @@ export const tokens = {
       "radius": "9px",
       "padding": "12px 0",
       "fontSize": "11px",
-      "fontWeight": 800
+      "fontWeight": 700
     },
     "danger": {
       "bg": "#c8001a",
@@ -131,7 +131,7 @@ export const tokens = {
       "radius": "9px",
       "padding": "12px 0",
       "fontSize": "11px",
-      "fontWeight": 800
+      "fontWeight": 700
     },
     "success": {
       "bg": "#2a7a1a",
@@ -155,7 +155,7 @@ export const tokens = {
       "radius": "10px",
       "padding": "10px 16px",
       "fontSize": "11px",
-      "fontWeight": 600
+      "fontWeight": 700
     },
     "whatsapp": {
       "bg": "#1a1208",
@@ -164,7 +164,7 @@ export const tokens = {
       "radius": "12px",
       "padding": "12px",
       "fontSize": "11px",
-      "fontWeight": 500
+      "fontWeight": 400
     },
     "withdraw": {
       "bg": "#c8001a12",
@@ -173,7 +173,7 @@ export const tokens = {
       "radius": "10px",
       "padding": "10px",
       "fontSize": "11px",
-      "fontWeight": 600
+      "fontWeight": 700
     }
   },
   "card": {
@@ -232,7 +232,7 @@ export const tokens = {
     "shadow": "0 8px 32px rgba(0,0,0,0.6)",
     "blur": "blur(12px)",
     "fontSize": "11px",
-    "fontWeight": 600
+    "fontWeight": 700
   },
   "nav": {
     "bg": "#ffffff",
@@ -383,10 +383,7 @@ export const tokens = {
     },
     "weight": {
       "regular": 400,
-      "medium": 500,
-      "semibold": 600,
-      "bold": 700,
-      "extrabold": 800
+      "bold": 700
     },
     "lineHeight": {
       "tight": 1.6,

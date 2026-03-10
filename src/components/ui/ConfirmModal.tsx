@@ -39,7 +39,7 @@ export function ConfirmModal({ isOpen, message, onConfirm, onCancel }: ConfirmMo
             style={{
               flex: 1, background: T.redBg, color: T.red,
               border: 'none', borderRadius: 10, padding: '10px 0',
-              fontSize: 'var(--font-size-body)', fontWeight: 600, cursor: 'pointer',
+              fontSize: 'var(--font-size-body)', fontWeight: 400, cursor: 'pointer',
               fontFamily: "var(--font-family-body)",
             }}
           >
@@ -50,7 +50,7 @@ export function ConfirmModal({ isOpen, message, onConfirm, onCancel }: ConfirmMo
             style={{
               flex: 1, background: T.cardInner, color: T.text,
               border: 'none', borderRadius: 10, padding: '10px 0',
-              fontSize: 'var(--font-size-body)', fontWeight: 500, cursor: 'pointer',
+              fontSize: 'var(--font-size-body)', fontWeight: 400, cursor: 'pointer',
               fontFamily: "var(--font-family-body)",
             }}
           >

@@ -58,7 +58,7 @@ export function BottomNav({ active: activeOverride }: { active?: 'home' | 'accou
             }}>
               <NavIcon type={item.icon} active={active} />
               <span className="nav-label" style={{
-                fontSize: 'var(--font-size-body)', fontWeight: 600,
+                fontSize: 'var(--font-size-body)', fontWeight: 400,
                 color: T.onAccent,
                 opacity: active ? 1 : 0,
                 maxWidth: active ? 100 : 0,

@@ -9,7 +9,7 @@
       "radius": { "$value": "{radius.lg}", "$type": "dimension" },
       "padding": { "$value": "12px 0", "$type": "string" },
       "fontSize": { "$value": "{font.size.body}", "$type": "dimension" },
-      "fontWeight": { "$value": "{font.weight.extrabold}", "$type": "fontWeight" }
+      "fontWeight": { "$value": "{font.weight.bold}", "$type": "fontWeight" }
     },
     "secondary": {
       "$description": "Secondary button — white bg, dark text",
@@ -20,7 +20,7 @@
       "radius": { "$value": "{radius.lg}", "$type": "dimension" },
       "padding": { "$value": "12px 0", "$type": "string" },
       "fontSize": { "$value": "{font.size.body}", "$type": "dimension" },
-      "fontWeight": { "$value": "{font.weight.extrabold}", "$type": "fontWeight" }
+      "fontWeight": { "$value": "{font.weight.bold}", "$type": "fontWeight" }
     },
     "danger": {
       "$description": "Destructive button — red bg, white text",
@@ -31,7 +31,7 @@
       "radius": { "$value": "{radius.lg}", "$type": "dimension" },
       "padding": { "$value": "12px 0", "$type": "string" },
       "fontSize": { "$value": "{font.size.body}", "$type": "dimension" },
-      "fontWeight": { "$value": "{font.weight.extrabold}", "$type": "fontWeight" }
+      "fontWeight": { "$value": "{font.weight.bold}", "$type": "fontWeight" }
     },
     "success": {
       "$description": "Approve button — green bg, inline in rides/[id]",
@@ -58,7 +58,7 @@
       "radius": { "$value": "{radius.xl}", "$type": "dimension" },
       "padding": { "$value": "10px 16px", "$type": "string" },
       "fontSize": { "$value": "{font.size.body}", "$type": "dimension" },
-      "fontWeight": { "$value": "{font.weight.semibold}", "$type": "fontWeight" }
+      "fontWeight": { "$value": "{font.weight.bold}", "$type": "fontWeight" }
     },
     "whatsapp": {
       "$description": "WhatsApp contact button — dark bg, green icon",
@@ -68,7 +68,7 @@
       "radius": { "$value": "{radius.2xl}", "$type": "dimension" },
       "padding": { "$value": "12px", "$type": "string" },
       "fontSize": { "$value": "{font.size.body}", "$type": "dimension" },
-      "fontWeight": { "$value": "{font.weight.medium}", "$type": "fontWeight" }
+      "fontWeight": { "$value": "{font.weight.regular}", "$type": "fontWeight" }
     },
     "withdraw": {
       "$description": "Withdraw/cancel request button — red tint bg, red text",
@@ -78,7 +78,7 @@
       "radius": { "$value": "{radius.xl}", "$type": "dimension" },
       "padding": { "$value": "10px", "$type": "string" },
       "fontSize": { "$value": "{font.size.body}", "$type": "dimension" },
-      "fontWeight": { "$value": "{font.weight.semibold}", "$type": "fontWeight" }
+      "fontWeight": { "$value": "{font.weight.bold}", "$type": "fontWeight" }
     }
   },
   "card": {
@@ -146,7 +146,7 @@
     "shadow": { "$value": "{shadow.float}", "$type": "shadow" },
     "blur": { "$value": "blur(12px)", "$type": "string" },
     "fontSize": { "$value": "{font.size.body}", "$type": "dimension" },
-    "fontWeight": { "$value": "{font.weight.semibold}", "$type": "fontWeight" }
+    "fontWeight": { "$value": "{font.weight.bold}", "$type": "fontWeight" }
   },
   "nav": {
     "$description": "Bottom navigation bar",

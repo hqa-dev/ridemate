@@ -65,7 +65,7 @@ function MenuItem({ icon, label, value, isLast, danger, onClick }: {
   return (
     <div onClick={onClick} style={{ display: 'flex', alignItems: 'center', padding: '13px 0', borderBottom: isLast ? 'none' : 'var(--border-width-medium) dashed var(--color-text-muted)', cursor: onClick ? 'pointer' : 'default' }}>
       <div style={{ width: 'var(--space-6)', display: 'flex', justifyContent: 'center', marginLeft: 'var(--space-3)' }}>{icon}</div>
-      <span style={{ flex: 1, fontSize: 'var(--font-size-heading)', color: danger ? 'var(--color-status-error)' : 'var(--color-text-secondary)', fontWeight: danger ? 'var(--font-weight-medium)' as unknown as number : 'var(--font-weight-regular)' as unknown as number }}>{label}</span>
+      <span style={{ flex: 1, fontSize: 'var(--font-size-heading)', color: danger ? 'var(--color-status-error)' : 'var(--color-text-secondary)', fontWeight: danger ? 'var(--font-weight-regular)' as unknown as number : 'var(--font-weight-regular)' as unknown as number }}>{label}</span>
       {value && <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', marginLeft: 6 }}>{value}</span>}
       {!danger && <Arrow />}
     </div>
@@ -239,7 +239,7 @@ export default function ProfilePage() {
           <div style={{ fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)', marginBottom: 'var(--space-2)' }}>{displayName}</div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-1-5)', marginBottom: 6 }}>
             <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)' }}>{roleText}</span>
-            {isVerified && <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-status-success)', fontWeight: 'var(--font-weight-semibold)' as unknown as number }}>✓</span>}
+            {isVerified && <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-status-success)', fontWeight: 'var(--font-weight-bold)' as unknown as number }}>✓</span>}
           </div>
           <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-icon-muted)', direction: 'ltr' as const, textAlign: 'right' as const }}>{displayEmail}</div>
         </div>
@@ -321,7 +321,7 @@ export default function ProfilePage() {
               <div style={{ width: 'var(--size-statusDot)', height: 'var(--size-statusDot)', borderRadius: '50%', background: isVerified ? 'var(--color-status-success)' : 'var(--color-text-muted)' }} />
             </div>
             <span style={{ flex: 1, fontSize: 'var(--font-size-heading)', color: 'var(--color-text-secondary)' }}>{kurdishStrings.statusLabel}</span>
-            <span style={{ fontSize: 'var(--font-size-body)', color: isVerified ? 'var(--color-status-success)' : 'var(--color-text-muted)', fontWeight: 'var(--font-weight-medium)' as unknown as number, marginLeft: 6 }}>
+            <span style={{ fontSize: 'var(--font-size-body)', color: isVerified ? 'var(--color-status-success)' : 'var(--color-text-muted)', fontWeight: 'var(--font-weight-regular)' as unknown as number, marginLeft: 6 }}>
               {isVerified ? kurdishStrings.verifiedStatus : kurdishStrings.unverifiedStatus}
             </span>
             <Arrow />
@@ -334,13 +334,13 @@ export default function ProfilePage() {
           {!showDeleteConfirm ? (
             <div onClick={() => setShowDeleteConfirm(true)} style={{ display: 'flex', alignItems: 'center', padding: '13px 0', cursor: 'pointer' }}>
               <div style={{ width: 'var(--space-6)', display: 'flex', justifyContent: 'center', marginLeft: 'var(--space-3)' }}>{Icons.trash}</div>
-              <span style={{ fontSize: 'var(--font-size-heading)', color: 'var(--color-status-error)', fontWeight: 'var(--font-weight-medium)' as unknown as number }}>{kurdishStrings.deleteAccount}</span>
+              <span style={{ fontSize: 'var(--font-size-heading)', color: 'var(--color-status-error)', fontWeight: 'var(--font-weight-regular)' as unknown as number }}>{kurdishStrings.deleteAccount}</span>
             </div>
           ) : (
             <div style={{ padding: 'var(--space-card-md) 0' }}>
               <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-status-error)', margin: '0 0 var(--space-3)', lineHeight: 'var(--font-lineHeight-normal)', textAlign: 'right' }}>{kurdishStrings.confirmDeleteAccount}</p>
               <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
-                <button onClick={handleDeleteAccount} style={{ flex: 1, background: 'var(--color-status-error)', color: 'var(--color-text-onAccent)', border: 'none', borderRadius: 'var(--radius-xl)', padding: 10, fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-semibold)' as unknown as number, cursor: 'pointer' }}>{kurdishStrings.yesImSure}</button>
+                <button onClick={handleDeleteAccount} style={{ flex: 1, background: 'var(--color-status-error)', color: 'var(--color-text-onAccent)', border: 'none', borderRadius: 'var(--radius-xl)', padding: 10, fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)' as unknown as number, cursor: 'pointer' }}>{kurdishStrings.yesImSure}</button>
                 <button onClick={() => setShowDeleteConfirm(false)} style={{ flex: 1, background: 'var(--color-chip-bg)', color: 'var(--color-text-muted)', border: 'none', borderRadius: 'var(--radius-xl)', padding: 10, fontSize: 'var(--font-size-body)', cursor: 'pointer' }}>{kurdishStrings.cancel}</button>
               </div>
             </div>

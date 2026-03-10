@@ -4,7 +4,7 @@ export default function ShowcasePage() {
   if (process.env.NODE_ENV === 'production') notFound()
   return (
     <div dir="rtl" style={{ padding: 'var(--space-page-x)', background: 'var(--color-bg-canvas)', minHeight: '100vh' }}>
-      <h1 style={{ fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-extrabold)', color: 'var(--color-text-primary)', marginBottom: 'var(--space-6)' }}>
+      <h1 style={{ fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-text-primary)', marginBottom: 'var(--space-6)' }}>
         ڤیترینی دیزاین
       </h1>
 
@@ -333,7 +333,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
     <div style={{ marginBottom: 'var(--space-6)' }}>
       <h2 style={{
         fontSize: 'var(--font-size-heading)',
-        fontWeight: 'var(--font-weight-extrabold)',
+        fontWeight: 'var(--font-weight-bold)',
         color: 'var(--color-text-primary)',
         marginBottom: 'var(--space-3)',
         paddingBottom: 'var(--space-2)',
@@ -351,7 +351,7 @@ function Label({ text }: { text: string }) {
     <span style={{
       display: 'block',
       fontSize: 'var(--font-size-body)',
-      fontWeight: 'var(--font-weight-semibold)',
+      fontWeight: 'var(--font-weight-bold)',
       color: 'var(--color-text-muted)',
       marginBottom: 'var(--space-1)',
     }}>
@@ -383,7 +383,7 @@ function ColorGroup({ title, swatches }: { title: string; swatches: [string, str
     <div>
       <p style={{
         fontSize: 'var(--font-size-body)',
-        fontWeight: 'var(--font-weight-semibold)',
+        fontWeight: 'var(--font-weight-bold)',
         color: 'var(--color-text-secondary)',
         marginBottom: 'var(--space-2)',
       }}>
