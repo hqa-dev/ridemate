@@ -129,13 +129,14 @@ export default function AccountPage() {
   const isVerified = profile?.verification_status === 'verified'
 
   return (
-    <div style={{ direction: 'rtl', minHeight: '100vh', background: 'var(--color-bg-canvas)', maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto' }}>
+    <div style={{ direction: 'rtl', height: '100vh', background: 'var(--color-bg-canvas)', maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
 
       {/* Header */}
-      <div style={{ padding: 'var(--space-page-top) var(--space-page-x) 0' }}>
+      <div style={{ flexShrink: 0, padding: 'var(--space-page-top) var(--space-page-x) 0' }}>
         <h1 style={{ fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)', margin: '0 0 var(--space-5)' }}>{kurdishStrings.navAccount}</h1>
       </div>
 
+      <div style={{ flex: 1, overflowY: 'auto', paddingBottom: 'var(--space-navClearance)' }}>
       {/* Profile row */}
       <Card style={{ margin: '0 var(--space-3) var(--space-4)' }}>
       <div
@@ -198,8 +199,9 @@ export default function AccountPage() {
         </div>
 
       {/* Version */}
-      <div style={{ textAlign: 'center', padding: 'var(--space-6) 0 var(--space-navClearanceLg)' }}>
+      <div style={{ textAlign: 'center', padding: 'var(--space-6) 0' }}>
         <span style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)' }}>{kurdishStrings.appShortName} v1.0.0</span>
+      </div>
       </div>
 
       {/* Toast */}

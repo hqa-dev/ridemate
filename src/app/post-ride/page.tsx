@@ -308,38 +308,40 @@ export default function PostRidePage() {
   // VERIFIED DRIVER — POST + MANAGE
   // ═══════════════════════════════════════
   return (
-    <div style={{ direction: 'rtl', minHeight: '100vh', background: 'var(--color-bg-canvas)', maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto', padding: 'var(--space-page-top) var(--space-page-x) var(--space-navClearance)', position: 'relative' }}>
+    <div style={{ direction: 'rtl', height: '100vh', background: 'var(--color-bg-canvas)', maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
 
-      <div style={{ marginBottom: 'var(--space-5)' }}>
-        <h1 style={{ fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)' }}><span style={{ color: 'var(--color-brand-primary)' }}>{kurdishStrings.appShortName}</span> {kurdishStrings.postRideTitle}</h1>
-      </div>
+      <div style={{ flexShrink: 0, padding: 'var(--space-page-top) var(--space-page-x) 0' }}>
+        <div style={{ marginBottom: 'var(--space-5)' }}>
+          <h1 style={{ fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)' }}><span style={{ color: 'var(--color-brand-primary)' }}>{kurdishStrings.appShortName}</span> {kurdishStrings.postRideTitle}</h1>
+        </div>
 
-      {/* Tab switcher */}
-      <div style={{ display: 'flex', gap: 'var(--space-2)', marginBottom: 'var(--space-6)' }}>
-        <div onClick={() => setActiveTab('post')} style={{
-          flex: 1, padding: '9px 0', textAlign: 'center', borderRadius: 'var(--radius-lg)',
-          fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)' as unknown as number, cursor: 'pointer',
-          background: activeTab === 'post' ? 'var(--color-brand-primary)' : 'var(--color-bg-surface)',
-          color: activeTab === 'post' ? 'var(--color-text-onAccent)' : 'var(--color-text-primary)',
-          border: 'var(--border-width-thick) solid var(--color-text-primary)',
-          boxShadow: activeTab === 'post' ? 'var(--shadow-card)' : 'var(--shadow-muted)',
-        }}>{kurdishStrings.newRide}</div>
-        <div onClick={() => setActiveTab('manage')} style={{
-          flex: 1, padding: '9px 0', textAlign: 'center', borderRadius: 'var(--radius-lg)',
-          fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)' as unknown as number, cursor: 'pointer',
-          background: activeTab === 'manage' ? 'var(--color-brand-primary)' : 'var(--color-bg-surface)',
-          color: activeTab === 'manage' ? 'var(--color-text-onAccent)' : 'var(--color-text-primary)',
-          border: 'var(--border-width-thick) solid var(--color-text-primary)',
-          boxShadow: activeTab === 'manage' ? 'var(--shadow-card)' : 'var(--shadow-muted)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-1-5)',
-        }}>
-          {kurdishStrings.myRidesAsDriver}
+        {/* Tab switcher */}
+        <div style={{ display: 'flex', gap: 'var(--space-2)', marginBottom: 'var(--space-6)' }}>
+          <div onClick={() => setActiveTab('post')} style={{
+            flex: 1, padding: '9px 0', textAlign: 'center', borderRadius: 'var(--radius-lg)',
+            fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)' as unknown as number, cursor: 'pointer',
+            background: activeTab === 'post' ? 'var(--color-brand-primary)' : 'var(--color-bg-surface)',
+            color: activeTab === 'post' ? 'var(--color-text-onAccent)' : 'var(--color-text-primary)',
+            border: 'var(--border-width-thick) solid var(--color-text-primary)',
+            boxShadow: activeTab === 'post' ? 'var(--shadow-card)' : 'var(--shadow-muted)',
+          }}>{kurdishStrings.newRide}</div>
+          <div onClick={() => setActiveTab('manage')} style={{
+            flex: 1, padding: '9px 0', textAlign: 'center', borderRadius: 'var(--radius-lg)',
+            fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-bold)' as unknown as number, cursor: 'pointer',
+            background: activeTab === 'manage' ? 'var(--color-brand-primary)' : 'var(--color-bg-surface)',
+            color: activeTab === 'manage' ? 'var(--color-text-onAccent)' : 'var(--color-text-primary)',
+            border: 'var(--border-width-thick) solid var(--color-text-primary)',
+            boxShadow: activeTab === 'manage' ? 'var(--shadow-card)' : 'var(--shadow-muted)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-1-5)',
+          }}>
+            {kurdishStrings.myRidesAsDriver}
+          </div>
         </div>
       </div>
 
       {/* ═══ POST TAB ═══ */}
       {activeTab === 'post' && (
-        <div style={{ paddingBottom: 'var(--space-navClearanceLg)' }}>
+        <div style={{ flex: 1, overflowY: 'auto', padding: '0 var(--space-page-x) var(--space-navClearance)' }}>
           {/* SketchCar */}
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0 0 var(--space-card-md)' }}>
             <SketchCar size={110} color={'var(--color-brand-primary)'} />
@@ -474,7 +476,7 @@ export default function PostRidePage() {
 
       {/* ═══ MANAGE TAB ═══ */}
       {activeTab === 'manage' && (
-        <div>
+        <div style={{ flex: 1, overflowY: 'auto', padding: '0 var(--space-page-x) var(--space-navClearance)' }}>
           {loadingManage ? <div /> : myPostedRides.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '4rem 0' }}>
               <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-heading)' }}>{kurdishStrings.noPostedRides}</p>

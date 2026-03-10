@@ -218,12 +218,15 @@ export default function NotificationsPage() {
 
   return (
     <div style={{
-      direction: 'rtl', minHeight: '100vh', background: 'var(--color-bg-canvas)',
+      direction: 'rtl', height: '100vh', background: 'var(--color-bg-canvas)',
       maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto',
-      paddingBottom: 'var(--space-navClearanceLg)',
+      display: 'flex', flexDirection: 'column', overflow: 'hidden',
     }}>
-      <PageHeader title={kurdishStrings.notificationsTitle} back />
+      <div style={{ flexShrink: 0 }}>
+        <PageHeader title={kurdishStrings.notificationsTitle} back />
+      </div>
 
+      <div style={{ flex: 1, overflowY: 'auto', paddingBottom: 'var(--space-navClearance)' }}>
       {error && <p style={{ color: 'var(--color-status-error)', fontSize: 'var(--font-size-body)', textAlign: 'center', padding: '0 var(--space-4) var(--space-2)' }}>{error}</p>}
 
       {loading ? <div /> : (
@@ -261,6 +264,7 @@ export default function NotificationsPage() {
           )}
         </>
       )}
+      </div>
 
       <BottomNav active="home" />
     </div>

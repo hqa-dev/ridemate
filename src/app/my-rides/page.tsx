@@ -34,13 +34,15 @@ export default function MyRidesPage() {
 
   return (
     <div style={{
-      direction: 'rtl', minHeight: '100vh', background: 'var(--color-bg-canvas)',
+      direction: 'rtl', height: '100vh', background: 'var(--color-bg-canvas)',
       maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto',
-      paddingBottom: 'var(--space-navClearanceLg)',
+      display: 'flex', flexDirection: 'column', overflow: 'hidden',
     }}>
-      <PageHeader title={kurdishStrings.myRidesTitle} back />
+      <div style={{ flexShrink: 0 }}>
+        <PageHeader title={kurdishStrings.myRidesTitle} back />
+      </div>
 
-      <div style={{ padding: '0 var(--space-page-x)' }}>
+      <div style={{ flex: 1, overflowY: 'auto', padding: '0 var(--space-page-x) var(--space-navClearance)' }}>
         {loading ? <div /> : rides.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '60px var(--space-page-x)' }}>
             <p style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)' }}>{kurdishStrings.noRequestedRides}</p>

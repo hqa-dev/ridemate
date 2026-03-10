@@ -48,13 +48,15 @@ export default function SettingsPage() {
 
   return (
     <div style={{
-      direction: 'rtl', minHeight: '100vh', background: 'var(--color-bg-canvas)',
+      direction: 'rtl', height: '100vh', background: 'var(--color-bg-canvas)',
       maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto',
-      paddingBottom: 'var(--space-navClearanceLg)',
+      display: 'flex', flexDirection: 'column', overflow: 'hidden',
     }}>
-      <PageHeader title={kurdishStrings.settings} back />
+      <div style={{ flexShrink: 0 }}>
+        <PageHeader title={kurdishStrings.settings} back />
+      </div>
 
-      <div style={{ padding: '0 var(--space-4)' }}>
+      <div style={{ flex: 1, overflowY: 'auto', padding: '0 var(--space-4) var(--space-navClearance)' }}>
 
         {/* Language */}
         <div style={{ marginBottom: 'var(--space-6)' }}>

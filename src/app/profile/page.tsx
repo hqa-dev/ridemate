@@ -217,10 +217,13 @@ export default function ProfilePage() {
   }
 
   return (
-    <div style={{ direction: 'rtl', minHeight: '100vh', background: 'var(--color-bg-canvas)', maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto' }}>
+    <div style={{ direction: 'rtl', height: '100vh', background: 'var(--color-bg-canvas)', maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
 
-      <PageHeader title={kurdishStrings.profilePageTitle} back onBack={() => router.push('/account')} />
+      <div style={{ flexShrink: 0 }}>
+        <PageHeader title={kurdishStrings.profilePageTitle} back onBack={() => router.push('/account')} />
+      </div>
 
+      <div style={{ flex: 1, overflowY: 'auto', paddingBottom: 'var(--space-navClearance)' }}>
       {/* Profile card — avatar right, divider, details left */}
       <input type="file" accept="image/*" ref={avatarInputRef} style={{ display: 'none' }} onChange={e => { const f = e.target.files?.[0]; if (f) handleAvatarUpload(f) }} />
       <Card style={{ margin: '0 var(--space-3) var(--space-2)', padding: 'var(--space-5) var(--space-card-lg)', display: 'flex', alignItems: 'center' }}>
@@ -346,6 +349,7 @@ export default function ProfilePage() {
             </div>
           )}
         </Card>
+      </div>
       </div>
 
       {/* Toast */}
