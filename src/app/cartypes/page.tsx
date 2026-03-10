@@ -33,6 +33,9 @@ function CarCard({ label, labelEn, children }: { label: string; labelEn: string;
       boxShadow: 'var(--shadow-card)',
     }}>
       {children}
+      <svg width="40%" height="6" style={{ marginTop: -8 }}>
+        <line x1="0" y1="3" x2="100%" y2="3" stroke="var(--color-text-muted)" strokeWidth="1" strokeDasharray="6 4" opacity="0.4" />
+      </svg>
       <div style={{ textAlign: 'center' }}>
         <div style={{ fontSize: 'var(--font-size-heading)', fontWeight: 700, color: 'var(--color-text-primary)' }}>{label}</div>
         <div style={{ fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)' }}>{labelEn}</div>
