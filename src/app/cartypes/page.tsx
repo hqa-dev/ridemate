@@ -71,7 +71,7 @@ export default function CarTypesPage() {
 
         {/* Minivan — current SketchCar */}
         <CarCard label="ڤان" labelEn="Minivan">
-          <SketchCar size={120} />
+          <SketchCar size={120} color="var(--color-brand-primary)" />
         </CarCard>
 
         {/* Sedan */}

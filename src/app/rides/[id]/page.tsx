@@ -407,7 +407,7 @@ export default function RideDetailPage() {
 
       {/* SketchCar above card */}
       <div style={{ display: 'flex', justifyContent: 'center', padding: '0 0 var(--space-2)' }}>
-        <SketchCar size={140} color="var(--color-text-primary)" />
+        <SketchCar size={140} />
       </div>
 
       {/* Timeline + Stats */}

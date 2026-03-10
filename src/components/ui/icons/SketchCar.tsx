@@ -1,6 +1,6 @@
 import { T } from '@/lib/theme'
 
-export default function SketchCar({ size = 48, color = T.text }: { size?: number; color?: string }) {
+export default function SketchCar({ size = 48, color = T.accent }: { size?: number; color?: string }) {
   return (
     <svg width={size} height={size * 0.55} viewBox="0 0 92 44" fill="none"
       stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

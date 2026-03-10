@@ -66,7 +66,7 @@ export const RideCard = memo(function RideCard({ ride, status, dimmed, editButto
 
         {/* Sketch car */}
         <div style={{ display: 'flex', justifyContent: 'center', padding: '10px 12px 6px' }}>
-          <SketchCar size={52} color={dimmed ? T.textDim : T.text} />
+          <SketchCar size={52} color={dimmed ? T.textDim : T.accent} />
         </div>
 
         {/* Dashed divider above route */}
