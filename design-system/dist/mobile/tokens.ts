@@ -110,7 +110,7 @@ export const tokens = {
       "shadow": "3px 3px 0 #1A1208",
       "radius": "9px",
       "padding": "12px 0",
-      "fontSize": "10px",
+      "fontSize": "13px",
       "fontWeight": 700
     },
     "secondary": {
@@ -120,7 +120,7 @@ export const tokens = {
       "shadow": "3px 3px 0 #1A1208",
       "radius": "9px",
       "padding": "12px 0",
-      "fontSize": "10px",
+      "fontSize": "13px",
       "fontWeight": 700
     },
     "danger": {
@@ -130,7 +130,7 @@ export const tokens = {
       "shadow": "3px 3px 0 #1A1208",
       "radius": "9px",
       "padding": "12px 0",
-      "fontSize": "10px",
+      "fontSize": "13px",
       "fontWeight": 700
     },
     "success": {
@@ -146,7 +146,7 @@ export const tokens = {
       "border": "none",
       "radius": "12px",
       "padding": "12px",
-      "fontSize": "12px"
+      "fontSize": "16px"
     },
     "subtle": {
       "bg": "#4ade801f",
@@ -154,7 +154,7 @@ export const tokens = {
       "border": "none",
       "radius": "10px",
       "padding": "10px 16px",
-      "fontSize": "10px",
+      "fontSize": "13px",
       "fontWeight": 700
     },
     "whatsapp": {
@@ -163,7 +163,7 @@ export const tokens = {
       "border": "none",
       "radius": "12px",
       "padding": "12px",
-      "fontSize": "10px",
+      "fontSize": "13px",
       "fontWeight": 400
     },
     "withdraw": {
@@ -172,7 +172,7 @@ export const tokens = {
       "border": "1.5px solid #c8001a",
       "radius": "10px",
       "padding": "10px",
-      "fontSize": "10px",
+      "fontSize": "13px",
       "fontWeight": 700
     }
   },
@@ -206,7 +206,7 @@ export const tokens = {
       "border": "1.5px solid #9a8f78",
       "radius": "8px",
       "padding": "10px 12px",
-      "fontSize": "10px",
+      "fontSize": "13px",
       "color": "#1a1208"
     },
     "note": {
@@ -231,7 +231,7 @@ export const tokens = {
     "radius": "12px",
     "shadow": "0 8px 32px rgba(0,0,0,0.6)",
     "blur": "blur(12px)",
-    "fontSize": "10px",
+    "fontSize": "13px",
     "fontWeight": 700
   },
   "nav": {
@@ -378,8 +378,8 @@ export const tokens = {
       "body": "'Vazirmatn Variable', 'Vazirmatn', sans-serif"
     },
     "size": {
-      "heading": "12px",
-      "body": "10px"
+      "heading": "16px",
+      "body": "13px"
     },
     "weight": {
       "regular": 400,
