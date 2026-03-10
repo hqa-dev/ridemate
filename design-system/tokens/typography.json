@@ -5,8 +5,8 @@
     },
     "size": {
       "$type": "dimension",
-      "heading": { "$value": "15px", "$description": "City names, driver name, page titles, CTA buttons" },
-      "body": { "$value": "11px", "$description": "Time, date, price, seats, pills, labels, nav, helper text" }
+      "heading": { "$value": "12px", "$description": "City names, driver name, page titles, CTA buttons" },
+      "body": { "$value": "10px", "$description": "Time, date, price, seats, pills, labels, nav, helper text" }
     },
     "weight": {
       "$type": "fontWeight",
