@@ -1,7 +1,7 @@
 {
   "font": {
     "family": {
-      "body": { "$value": "'Vazirmatn Variable', 'Vazirmatn', sans-serif", "$type": "fontFamily", "$description": "Primary font — Persian/Kurdish variable font, self-hosted" }
+      "body": { "$value": "'Rubik Variable', 'Rubik', sans-serif", "$type": "fontFamily", "$description": "Primary font — Rubik variable font, self-hosted" }
     },
     "size": {
       "$type": "dimension",
