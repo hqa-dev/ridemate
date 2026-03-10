@@ -375,7 +375,7 @@ export const tokens = {
   },
   "font": {
     "family": {
-      "body": "'Rubik Variable', 'Rubik', sans-serif"
+      "body": "'Gulzar', sans-serif"
     },
     "size": {
       "heading": "16px",
