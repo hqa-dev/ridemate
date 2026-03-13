@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const NOTIFY_EMAIL = 'hawkara@icloud.com';
-const ADMIN_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ridemate.vercel.app';
+const ADMIN_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ridemate-roan.vercel.app';
 
 export async function POST(req: NextRequest) {
   try {
