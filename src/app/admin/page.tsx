@@ -55,27 +55,23 @@ export default function AdminPage() {
     await loadDocs(userId)
   }
 
-  const handleApprove = async (userId: string) => {
-    await supabase.from('profiles').update({ verification_status: 'verified' }).eq('id', userId)
-    await supabase.from('notifications').insert({
-      user_id: userId,
-      type: 'verification_approved',
-      seen: false,
+  const callVerifyApi = async (userId: string, action: 'approve' | 'decline') => {
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session) return
+    await fetch('/api/admin/verify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${session.access_token}`,
+      },
+      body: JSON.stringify({ userId, action }),
     })
     setPending(prev => prev.filter(p => p.id !== userId))
     setExpanded(null)
   }
 
-  const handleDecline = async (userId: string) => {
-    await supabase.from('profiles').update({ verification_status: 'none' }).eq('id', userId)
-    await supabase.from('notifications').insert({
-      user_id: userId,
-      type: 'verification_declined',
-      seen: false,
-    })
-    setPending(prev => prev.filter(p => p.id !== userId))
-    setExpanded(null)
-  }
+  const handleApprove = (userId: string) => callVerifyApi(userId, 'approve')
+  const handleDecline = (userId: string) => callVerifyApi(userId, 'decline')
 
   if (loading) return <div style={{ padding: 'var(--space-8)', textAlign: 'center' }}>Loading...</div>
   if (!authorized) return <div style={{ padding: 'var(--space-8)', textAlign: 'center', color: 'var(--color-status-error)' }}>Access denied</div>
