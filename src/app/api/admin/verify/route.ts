@@ -59,6 +59,30 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: true, notifError: notifErr.message });
     }
 
+    // Send push notification if user has a push token
+    const { data: profile } = await supabaseAdmin
+      .from('profiles')
+      .select('expo_push_token')
+      .eq('id', userId)
+      .single();
+
+    if (profile?.expo_push_token) {
+      const pushBody = action === 'approve'
+        ? 'پشتڕاستکراوە! ئێستا دەتوانیت گەشت پۆستبکەیت.'
+        : 'داواکارییەکەت ڕەتکرایەوە. تکایە پەیوەندی بە پشتگیری بکە.';
+
+      await fetch('https://exp.host/--/api/v2/push/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: profile.expo_push_token,
+          title: 'ڕێ',
+          body: pushBody,
+          data: { type: notifType },
+        }),
+      }).catch((err) => console.error('Push notification error:', err));
+    }
+
     return NextResponse.json({ success: true });
   } catch (e: any) {
     return NextResponse.json({ error: e.message }, { status: 500 });
