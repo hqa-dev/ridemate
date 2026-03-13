@@ -95,11 +95,16 @@ export default function PostRidePage() {
     if (!user) { setUploadError(kurdishStrings.errorSignInFirst); return }
     if (!licenseFile || !selfieFile) { setUploadError(kurdishStrings.errorUploadBoth); return }
     setUploading(true)
-    const licExt = licenseFile.name.split('.').pop()
-    const { error: licErr } = await supabase.storage.from('documents').upload(`${user.id}/license.${licExt}`, licenseFile, { upsert: true })
+    // Delete existing files in user folder before uploading (avoids stale files with different extensions)
+    const { data: existingFiles } = await supabase.storage.from('documents').list(user.id)
+    if (existingFiles && existingFiles.length > 0) {
+      const paths = existingFiles.map(f => `${user.id}/${f.name}`)
+      await supabase.storage.from('documents').remove(paths)
+    }
+    // Normalize uploads to .jpg
+    const { error: licErr } = await supabase.storage.from('documents').upload(`${user.id}/license.jpg`, licenseFile, { upsert: true })
     if (licErr) { setUploadError(licErr.message); setUploading(false); return }
-    const selfieExt = selfieFile.name.split('.').pop()
-    const { error: selfieErr } = await supabase.storage.from('documents').upload(`${user.id}/selfie.${selfieExt}`, selfieFile, { upsert: true })
+    const { error: selfieErr } = await supabase.storage.from('documents').upload(`${user.id}/selfie.jpg`, selfieFile, { upsert: true })
     if (selfieErr) { setUploadError(selfieErr.message); setUploading(false); return }
     await supabase.from('profiles').update({ role: 'both', verification_status: 'pending' }).eq('id', user.id)
     setUploading(false)
