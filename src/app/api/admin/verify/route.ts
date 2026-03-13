@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Update profile
-    const newStatus = action === 'approve' ? 'verified' : 'none';
+    const newStatus = action === 'approve' ? 'verified' : 'declined';
     const { error: profileErr } = await supabaseAdmin
       .from('profiles')
       .update({ verification_status: newStatus })
