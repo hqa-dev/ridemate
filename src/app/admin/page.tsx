@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 
-const ADMIN_EMAILS = ['hawiefr@gmail.com', 'hawkarakrd@gmail.com']
+const ADMIN_EMAILS = ['hawiefr@gmail.com', 'hawkarakrd@gmail.com', 'hawkara@icloud.com']
 
 export default function AdminPage() {
   const [authorized, setAuthorized] = useState(false)
