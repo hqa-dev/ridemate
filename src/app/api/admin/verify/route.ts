@@ -48,12 +48,15 @@ export async function POST(req: NextRequest) {
       .insert({
         user_id: userId,
         type: notifType,
-        seen: false,
+        ride_id: null,
+        from_user_id: null,
+        ride_request_id: null,
+        metadata: null,
       });
 
     if (notifErr) {
       console.error('Notification insert error:', notifErr);
-      // Don't fail the whole request if notification fails
+      return NextResponse.json({ success: true, notifError: notifErr.message });
     }
 
     return NextResponse.json({ success: true });

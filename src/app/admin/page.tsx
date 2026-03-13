@@ -58,7 +58,7 @@ export default function AdminPage() {
   const callVerifyApi = async (userId: string, action: 'approve' | 'decline') => {
     const { data: { session } } = await supabase.auth.getSession()
     if (!session) return
-    await fetch('/api/admin/verify', {
+    const res = await fetch('/api/admin/verify', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -66,6 +66,8 @@ export default function AdminPage() {
       },
       body: JSON.stringify({ userId, action }),
     })
+    const result = await res.json()
+    if (result.notifError) alert('Notification error: ' + result.notifError)
     setPending(prev => prev.filter(p => p.id !== userId))
     setExpanded(null)
   }
