@@ -17,230 +17,203 @@ const c = {
   yellowFill: 'rgba(244,249,29,0.10)',
   border: 'rgba(255,255,255,0.20)',
   borderSubtle: 'rgba(255,255,255,0.08)',
+  outer: '#0A0C09',
 }
 
 export default function LandingPage() {
   return (
     <div style={{
       direction: 'rtl',
-      minHeight: '100vh',
-      background: c.bg,
-      color: c.text,
-      fontFamily: 'inherit',
+      height: '100vh',
       overflow: 'hidden',
+      background: c.outer,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontFamily: 'inherit',
     }}>
-
-      {/* ── Hero ── */}
-      <section style={{
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '60px 24px',
-        textAlign: 'center',
+      {/* ── Phone Frame ── */}
+      <div style={{
+        width: '100%',
+        maxWidth: 390,
+        height: '85vh',
+        background: c.bg,
+        borderRadius: 44,
+        border: `2px solid ${c.borderSubtle}`,
+        overflow: 'hidden',
         position: 'relative',
+        boxShadow: '0 0 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04)',
       }}>
-        <div style={{ textAlign: 'center', maxWidth: 500 }}>
-          <h1 style={{
-            fontSize: 'clamp(4.5rem, 14vw, 7rem)',
-            fontWeight: 700,
-            lineHeight: 1,
-            color: c.yellow,
-            margin: 0,
-            marginBottom: 12,
-          }}>
-            ڕێ
-          </h1>
-
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 8,
-            marginBottom: 24,
-          }}>
-            <span style={{
-              fontSize: 15,
-              color: c.textMuted,
-              fontFamily: 'Georgia, "Times New Roman", serif',
-              fontStyle: 'italic',
-              direction: 'ltr',
-            }}>
-              /ɾeː/
-            </span>
-            <span style={{
-              width: 4,
-              height: 4,
-              borderRadius: '50%',
-              background: c.textMuted,
-              display: 'inline-block',
-            }} />
-            <span style={{
-              fontSize: 14,
-              color: c.textMuted,
-              fontStyle: 'italic',
-            }}>
-              ناو
-            </span>
-          </div>
-
-          <div style={{
-            width: 40,
-            height: 1,
-            background: c.border,
-            margin: '0 auto 24px',
-          }} />
-
-          <p style={{
-            fontSize: 'clamp(1rem, 3vw, 1.15rem)',
-            color: c.textSecondary,
-            lineHeight: 1.9,
-            margin: '0 0 8px',
-          }}>
-            ڕێگا، ئاڕاستە، شوێنی چوون و هاتن
-          </p>
-          <p style={{
-            fontSize: 'clamp(0.85rem, 2.5vw, 0.95rem)',
-            color: c.textMuted,
-            lineHeight: 1.9,
-            margin: 0,
-            fontStyle: 'italic',
-          }}>
-            «هاوسەفەری لە نێوان شارەکانی کوردستان»
-          </p>
-        </div>
-
-      </section>
-
-      {/* ── How it works ── */}
-      <section style={{
-        padding: '80px 24px',
-        maxWidth: 900,
-        margin: '0 auto',
-      }}>
-        <h2 style={{
-          fontSize: 'clamp(1.5rem, 5vw, 2rem)',
-          fontWeight: 700,
-          marginBottom: 48,
-          textAlign: 'center',
-          color: c.text,
-        }}>
-          کو ئیش دەکا؟
-        </h2>
-
+        {/* Notch */}
         <div style={{
-          display: 'flex',
-          gap: 60,
-          alignItems: 'center',
-          justifyContent: 'center',
+          position: 'absolute',
+          top: 0,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: 126,
+          height: 34,
+          background: c.bg,
+          borderRadius: '0 0 20px 20px',
+          zIndex: 10,
+        }} />
+
+        {/* Home indicator */}
+        <div style={{
+          position: 'absolute',
+          bottom: 8,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: 134,
+          height: 5,
+          background: 'rgba(255,255,255,0.15)',
+          borderRadius: 100,
+          zIndex: 10,
+        }} />
+
+        {/* ── Scrollable content inside phone ── */}
+        <div style={{
+          height: '100%',
+          overflowY: 'auto',
+          overflowX: 'hidden',
+          color: c.text,
+          WebkitOverflowScrolling: 'touch',
         }}>
-          {/* Steps */}
-          <div style={{
+          {/* ── Hero ── */}
+          <section style={{
+            minHeight: '100%',
             display: 'flex',
             flexDirection: 'column',
-            gap: 32,
-            flex: '1 1 0',
-            maxWidth: 400,
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '60px 24px',
+            textAlign: 'center',
           }}>
-            <Step number="١" title="شۆفێر ڕێیەک پۆست دەکا" desc="شوێن، بەروار، کات، و ژمارەی جێ دیاری دەکات" />
-            <Step number="٢" title="سەرنشین داوای دەکای" desc="ڕێیەکی گونجاو دەدۆزێتەوە و داوای دەکات" />
-            <Step number="٣" title="شۆفێرەکە رازی دەبێت و ڕێیەکە دەست پێ دەکات" desc="شۆفێر قبوڵ دەکات، ژمارەی مۆبایل شێر دەکرێ، پێکەوە دەچن" />
-          </div>
-
-        </div>
-      </section>
-
-      {/* ── Cities ── */}
-      <section style={{
-        padding: '80px 24px',
-        textAlign: 'center',
-      }}>
-        <h2 style={{
-          fontSize: 'clamp(1.5rem, 5vw, 2rem)',
-          fontWeight: 700,
-          marginBottom: 12,
-          color: c.text,
-        }}>
-          لە کوردستان
-        </h2>
-        <p style={{
-          color: c.textMuted,
-          marginBottom: 36,
-          fontSize: 13,
-        }}>
-          هەولێر · سلێمانی · دهۆک و شارۆچکەکانیان
-        </p>
-
-        <div style={{
-          display: 'flex',
-          gap: 10,
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          maxWidth: 500,
-          margin: '0 auto',
-        }}>
-          {['هەولێر', 'سلێمانی', 'دهۆک', 'شەقڵاوە', 'ئاکرێ', 'کۆیە', 'ڕانیە', 'دۆکان', 'ڕەواندز', 'سێمێل', 'ئامێدی', 'چیای سەفین'].map((city) => (
-            <span key={city} style={{
-              padding: '8px 16px',
-              borderRadius: 50,
-              border: `1.5px solid ${c.border}`,
-              fontSize: 13,
+            <h1 style={{
+              fontSize: 72,
               fontWeight: 700,
-              background: c.surface,
+              lineHeight: 1,
+              color: c.yellow,
+              margin: 0,
+            }}>
+              ڕێ
+            </h1>
+          </section>
+
+          {/* ── How it works ── */}
+          <section style={{
+            padding: '60px 24px',
+          }}>
+            <h2 style={{
+              fontSize: 22,
+              fontWeight: 700,
+              marginBottom: 36,
+              textAlign: 'center',
               color: c.text,
             }}>
-              {city}
-            </span>
-          ))}
-        </div>
-      </section>
+              کو ئیش دەکا؟
+            </h2>
 
-      {/* ── CTA ── */}
-      <section style={{
-        padding: '80px 24px',
-        textAlign: 'center',
-      }}>
-        <p style={{
-          fontSize: 'clamp(1.25rem, 4vw, 1.75rem)',
-          fontWeight: 700,
-          marginBottom: 32,
-          color: c.text,
-        }}>
-          ڕێت چاوەڕوانە
-        </p>
-        <div style={{
-          display: 'flex',
-          gap: 12,
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-        }}>
-          <StoreButton label="App Store" sublabel="بەردەستە لە" icon="apple" />
-          <StoreButton label="Google Play" sublabel="بەردەستە لە" icon="play" />
-        </div>
-      </section>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 28,
+            }}>
+              <Step number="١" title="شۆفێر ڕێیەک پۆست دەکا" desc="شوێن، بەروار، کات، و ژمارەی جێ دیاری دەکات" />
+              <Step number="٢" title="سەرنشین داوای دەکای" desc="ڕێیەکی گونجاو دەدۆزێتەوە و داوای دەکات" />
+              <Step number="٣" title="شۆفێرەکە رازی دەبێت و ڕێیەکە دەست پێ دەکات" desc="شۆفێر قبوڵ دەکات، ژمارەی مۆبایل شێر دەکرێ، پێکەوە دەچن" />
+            </div>
+          </section>
 
-      {/* ── Footer ── */}
-      <footer style={{
-        padding: '40px 24px',
-        textAlign: 'center',
-        borderTop: `1px solid ${c.borderSubtle}`,
-        color: c.textMuted,
-        fontSize: 13,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 12,
-      }}>
-        <div style={{ display: 'flex', gap: 24, justifyContent: 'center' }}>
-          <a href="/privacy" style={{ color: c.textMuted, textDecoration: 'none' }}>
-            پاراستنی زانیاری
-          </a>
-          <a href="mailto:hello@reapp.krd" style={{ color: c.textMuted, textDecoration: 'none' }}>
-            پەیوەندی
-          </a>
+          {/* ── Cities ── */}
+          <section style={{
+            padding: '60px 24px',
+            textAlign: 'center',
+          }}>
+            <h2 style={{
+              fontSize: 22,
+              fontWeight: 700,
+              marginBottom: 10,
+              color: c.text,
+            }}>
+              لە کوردستان
+            </h2>
+            <p style={{
+              color: c.textMuted,
+              marginBottom: 28,
+              fontSize: 13,
+            }}>
+              هەولێر · سلێمانی · دهۆک و شارۆچکەکانیان
+            </p>
+
+            <div style={{
+              display: 'flex',
+              gap: 8,
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+            }}>
+              {['هەولێر', 'سلێمانی', 'دهۆک', 'شەقڵاوە', 'ئاکرێ', 'کۆیە', 'ڕانیە', 'دۆکان', 'ڕەواندز', 'سێمێل', 'ئامێدی', 'چیای سەفین'].map((city) => (
+                <span key={city} style={{
+                  padding: '6px 14px',
+                  borderRadius: 50,
+                  border: `1.5px solid ${c.border}`,
+                  fontSize: 12,
+                  fontWeight: 700,
+                  background: c.surface,
+                  color: c.text,
+                }}>
+                  {city}
+                </span>
+              ))}
+            </div>
+          </section>
+
+          {/* ── CTA ── */}
+          <section style={{
+            padding: '60px 24px',
+            textAlign: 'center',
+          }}>
+            <p style={{
+              fontSize: 20,
+              fontWeight: 700,
+              marginBottom: 24,
+              color: c.text,
+            }}>
+              ڕێت چاوەڕوانە
+            </p>
+            <div style={{
+              display: 'flex',
+              gap: 10,
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+            }}>
+              <StoreButton label="App Store" sublabel="بەردەستە لە" icon="apple" />
+              <StoreButton label="Google Play" sublabel="بەردەستە لە" icon="play" />
+            </div>
+          </section>
+
+          {/* ── Footer ── */}
+          <footer style={{
+            padding: '32px 24px',
+            textAlign: 'center',
+            borderTop: `1px solid ${c.borderSubtle}`,
+            color: c.textMuted,
+            fontSize: 12,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 10,
+          }}>
+            <div style={{ display: 'flex', gap: 20, justifyContent: 'center' }}>
+              <a href="/privacy" style={{ color: c.textMuted, textDecoration: 'none' }}>
+                پاراستنی زانیاری
+              </a>
+              <a href="mailto:hello@reapp.krd" style={{ color: c.textMuted, textDecoration: 'none' }}>
+                پەیوەندی
+              </a>
+            </div>
+            <p style={{ margin: 0 }}>© ٢٠٢٦ ڕێ</p>
+          </footer>
         </div>
-        <p>© ٢٠٢٦ ڕێ</p>
-      </footer>
+      </div>
     </div>
   )
 }
@@ -251,13 +224,13 @@ function Step({ number, title, desc }: { number: string; title: string; desc: st
   return (
     <div style={{
       display: 'flex',
-      gap: 16,
+      gap: 14,
       alignItems: 'flex-start',
     }}>
       <div style={{
-        width: 40,
-        height: 40,
-        minWidth: 40,
+        width: 36,
+        height: 36,
+        minWidth: 36,
         borderRadius: 9,
         background: c.yellow,
         color: c.bg,
@@ -265,15 +238,15 @@ function Step({ number, title, desc }: { number: string; title: string; desc: st
         alignItems: 'center',
         justifyContent: 'center',
         fontWeight: 700,
-        fontSize: 18,
+        fontSize: 16,
       }}>
         {number}
       </div>
       <div>
-        <p style={{ fontWeight: 700, fontSize: 16, marginBottom: 4, color: c.text }}>
+        <p style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: c.text }}>
           {title}
         </p>
-        <p style={{ color: c.textSecondary, fontSize: 13, lineHeight: 1.8 }}>
+        <p style={{ color: c.textSecondary, fontSize: 12, lineHeight: 1.8 }}>
           {desc}
         </p>
       </div>
@@ -289,7 +262,7 @@ function StoreButton({ label, sublabel, icon }: { label: string; sublabel: strin
         display: 'flex',
         alignItems: 'center',
         gap: 10,
-        padding: '12px 24px',
+        padding: '10px 20px',
         borderRadius: 12,
         background: c.surface,
         border: `1.5px solid ${c.border}`,
@@ -299,17 +272,17 @@ function StoreButton({ label, sublabel, icon }: { label: string; sublabel: strin
       }}
     >
       {icon === 'apple' ? (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
           <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
         </svg>
       ) : (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
           <path d="M3 20.5v-17c0-.59.34-1.11.84-1.35L13.69 12l-9.85 9.85c-.5-.24-.84-.76-.84-1.35m13.81-5.38L6.05 21.34l8.49-8.49 2.27 2.27m3.35-4.31c.34.27.56.69.56 1.19s-.22.92-.56 1.19l-2.29 1.32-2.5-2.5 2.5-2.5 2.29 1.3M6.05 2.66l10.76 6.22-2.27 2.27-8.49-8.49z"/>
         </svg>
       )}
       <div>
-        <div style={{ fontSize: 10, opacity: 0.7, lineHeight: 1.2 }}>{sublabel}</div>
-        <div style={{ fontSize: 16, fontWeight: 700, lineHeight: 1.3 }}>{label}</div>
+        <div style={{ fontSize: 9, opacity: 0.7, lineHeight: 1.2 }}>{sublabel}</div>
+        <div style={{ fontSize: 14, fontWeight: 700, lineHeight: 1.3 }}>{label}</div>
       </div>
     </a>
   )
