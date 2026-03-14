@@ -1,253 +1,134 @@
-import type { Metadata } from 'next'
-
-export const metadata: Metadata = {
-  title: 'ڕێ — گەشتی ئاسان لە کوردستان',
-  description: 'ڕێ ئەپێکە بۆ هاوسەفەری لە نێوان شارەکانی کوردستان. شۆفێر ڕێیەک پۆست دەکا، سەرنشین داوای دەکای. ڕێیەکی گونجاو دەدۆزێتەوە و داوای دەکات، پێکەوە دەچن.',
-}
-
-/* ── Mobile app colors (Wise dark theme) ── */
-const c = {
-  bg: '#121511',
-  surface: '#1E211D',
-  sunken: '#161916',
-  text: '#F2F0EB',
-  textSecondary: '#9BA8A2',
-  textMuted: '#6A6C6A',
-  yellow: '#F4F91D',
-  yellowFill: 'rgba(244,249,29,0.10)',
-  border: 'rgba(255,255,255,0.20)',
-  borderSubtle: 'rgba(255,255,255,0.08)',
-  outer: '#0A0C09',
-}
+'use client'
+import { useState, useEffect } from 'react'
+import { createClient } from '@/lib/supabase/client'
+import { kurdishStrings } from '@/lib/strings'
+import { getThemeMode, setThemeMode } from '@/lib/theme-mode'
 
 export default function LandingPage() {
+  const supabase = createClient()
+  const [themeMode, setThemeMode2] = useState<'light' | 'dark' | null>(null)
+
+  useEffect(() => {
+    setThemeMode2(getThemeMode())
+  }, [])
+
+  useEffect(() => {
+    const check = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) window.location.href = '/home'
+    }
+    check()
+  }, [])
+
+  const handleGoogleSignIn = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    })
+  }
+
   return (
     <div style={{
-      direction: 'rtl',
-      height: '100vh',
-      overflow: 'hidden',
-      background: c.outer,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontFamily: 'inherit',
+      direction: 'rtl', minHeight: '100vh', background: 'var(--color-bg-canvas)',
+      maxWidth: 'var(--size-app-maxWidth)', margin: '0 auto',
+      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+      padding: 'var(--space-8) var(--space-page-x)',
+      position: 'relative',
     }}>
-      {/* ── Content Panel ── */}
-      <div style={{
-        width: '100%',
-        maxWidth: 520,
-        height: '100vh',
-        background: c.bg,
-        overflowY: 'auto',
-        overflowX: 'hidden',
-        color: c.text,
-        WebkitOverflowScrolling: 'touch',
-      }}>
-          {/* ── Hero ── */}
-          <section style={{
-            minHeight: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '60px 24px',
-            textAlign: 'center',
-          }}>
-            <h1 style={{
-              fontSize: 72,
-              fontWeight: 700,
-              lineHeight: 1,
-              color: c.yellow,
-              margin: 0,
-            }}>
-              ڕێ
-            </h1>
-          </section>
 
-          {/* ── How it works ── */}
-          <section style={{
-            padding: '60px 24px',
-          }}>
-            <h2 style={{
-              fontSize: 22,
-              fontWeight: 700,
-              marginBottom: 36,
-              textAlign: 'center',
-              color: c.text,
-            }}>
-              کو ئیش دەکا؟
-            </h2>
+      {/* Theme toggle */}
+      {themeMode !== null && <div
+        onClick={(e) => {
+          e.stopPropagation()
+          e.preventDefault()
+          const next = themeMode === 'dark' ? 'light' : 'dark'
+          setThemeMode(next)
+          setThemeMode2(next)
+        }}
+        style={{
+          position: 'absolute', top: 'var(--space-page-top)', left: 'var(--space-page-x)',
+          cursor: 'pointer',
+          width: 'var(--size-button-iconLg)',
+          height: 'var(--size-button-iconLg)',
+          border: 'var(--border-width-thick) solid var(--color-border-strong)',
+          borderRadius: 'var(--radius-lg)',
+          background: 'var(--color-bg-surface)',
+          boxShadow: 'var(--shadow-sm)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: 16,
+        }}
+      >
+        {themeMode === 'dark' ? (
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="5" />
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </svg>
+        ) : (
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        )}
+      </div>}
 
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 28,
-            }}>
-              <Step number="١" title="شۆفێر ڕێیەک پۆست دەکا" desc="شوێن، بەروار، کات، و ژمارەی جێ دیاری دەکات" />
-              <Step number="٢" title="سەرنشین داوای دەکای" desc="ڕێیەکی گونجاو دەدۆزێتەوە و داوای دەکات" />
-              <Step number="٣" title="شۆفێرەکە رازی دەبێت و ڕێیەکە دەست پێ دەکات" desc="شۆفێر قبوڵ دەکات، ژمارەی مۆبایل شێر دەکرێ، پێکەوە دەچن" />
-            </div>
-          </section>
-
-          {/* ── Cities ── */}
-          <section style={{
-            padding: '60px 24px',
-            textAlign: 'center',
-          }}>
-            <h2 style={{
-              fontSize: 22,
-              fontWeight: 700,
-              marginBottom: 10,
-              color: c.text,
-            }}>
-              لە کوردستان
-            </h2>
-            <p style={{
-              color: c.textMuted,
-              marginBottom: 28,
-              fontSize: 13,
-            }}>
-              هەولێر · سلێمانی · دهۆک و شارۆچکەکانیان
-            </p>
-
-            <div style={{
-              display: 'flex',
-              gap: 8,
-              flexWrap: 'wrap',
-              justifyContent: 'center',
-            }}>
-              {['هەولێر', 'سلێمانی', 'دهۆک', 'شەقڵاوە', 'ئاکرێ', 'کۆیە', 'ڕانیە', 'دۆکان', 'ڕەواندز', 'سێمێل', 'ئامێدی', 'چیای سەفین'].map((city) => (
-                <span key={city} style={{
-                  padding: '6px 14px',
-                  borderRadius: 50,
-                  border: `1.5px solid ${c.border}`,
-                  fontSize: 12,
-                  fontWeight: 700,
-                  background: c.surface,
-                  color: c.text,
-                }}>
-                  {city}
-                </span>
-              ))}
-            </div>
-          </section>
-
-          {/* ── CTA ── */}
-          <section style={{
-            padding: '60px 24px',
-            textAlign: 'center',
-          }}>
-            <p style={{
-              fontSize: 20,
-              fontWeight: 700,
-              marginBottom: 24,
-              color: c.text,
-            }}>
-              ڕێت چاوەڕوانە
-            </p>
-            <div style={{
-              display: 'flex',
-              gap: 10,
-              flexWrap: 'wrap',
-              justifyContent: 'center',
-            }}>
-              <StoreButton label="App Store" sublabel="بەردەستە لە" icon="apple" />
-              <StoreButton label="Google Play" sublabel="بەردەستە لە" icon="play" />
-            </div>
-          </section>
-
-          {/* ── Footer ── */}
-          <footer style={{
-            padding: '32px 24px',
-            textAlign: 'center',
-            borderTop: `1px solid ${c.borderSubtle}`,
-            color: c.textMuted,
-            fontSize: 12,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 10,
-          }}>
-            <div style={{ display: 'flex', gap: 20, justifyContent: 'center' }}>
-              <a href="/privacy" style={{ color: c.textMuted, textDecoration: 'none' }}>
-                پاراستنی زانیاری
-              </a>
-              <a href="mailto:hello@reapp.krd" style={{ color: c.textMuted, textDecoration: 'none' }}>
-                پەیوەندی
-              </a>
-            </div>
-            <p style={{ margin: 0 }}>© ٢٠٢٦ ڕێ</p>
-          </footer>
-      </div>
-    </div>
-  )
-}
-
-/* ── Components ── */
-
-function Step({ number, title, desc }: { number: string; title: string; desc: string }) {
-  return (
-    <div style={{
-      display: 'flex',
-      gap: 14,
-      alignItems: 'flex-start',
-    }}>
-      <div style={{
-        width: 36,
-        height: 36,
-        minWidth: 36,
-        borderRadius: 9,
-        background: c.yellow,
-        color: c.bg,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontWeight: 700,
-        fontSize: 16,
-      }}>
-        {number}
-      </div>
-      <div>
-        <p style={{ fontWeight: 700, fontSize: 15, marginBottom: 4, color: c.text }}>
-          {title}
-        </p>
-        <p style={{ color: c.textSecondary, fontSize: 12, lineHeight: 1.8 }}>
-          {desc}
+      {/* Logo */}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 'var(--space-8)' }}>
+        <div style={{
+          background: 'var(--color-status-warning)',
+          border: '3px solid var(--color-border-strong)',
+          borderRadius: '50%',
+          width: 64, height: 48,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          boxShadow: 'var(--shadow-card)',
+          marginBottom: 'var(--space-3)',
+          transform: 'rotate(-4deg)',
+        }}>
+          <span style={{ fontSize: 24 }}>🍋</span>
+        </div>
+        <h1 style={{
+          fontSize: '2.5rem', fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)', marginBottom: 'var(--space-2)',
+          textShadow: 'var(--font-textShadow-brandLg)',
+        }}>{kurdishStrings.appName}</h1>
+        <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-body)', margin: 0, textAlign: 'center' }}>
+          {kurdishStrings.landingSubtitle}
         </p>
       </div>
-    </div>
-  )
-}
 
-function StoreButton({ label, sublabel, icon }: { label: string; sublabel: string; icon: 'apple' | 'play' }) {
-  return (
-    <a
-      href="#"
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 10,
-        padding: '10px 20px',
-        borderRadius: 12,
-        background: c.surface,
-        border: `1.5px solid ${c.border}`,
-        textDecoration: 'none',
-        color: c.text,
-        direction: 'ltr',
-      }}
-    >
-      {icon === 'apple' ? (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+      {/* Google button */}
+      <div
+        onClick={handleGoogleSignIn}
+        style={{
+          background: 'var(--color-bg-surface)',
+          border: 'var(--border-width-thick) solid var(--color-border-strong)',
+          borderRadius: 'var(--radius-2xl)', padding: 'var(--space-card-md) var(--space-6)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-3)',
+          cursor: 'pointer', width: '100%', maxWidth: 320,
+          boxShadow: 'var(--shadow-card)',
+        }}
+      >
+        <svg width="20" height="20" viewBox="0 0 48 48">
+          <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+          <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+          <path fill="#FBBC05" d="M10.53 28.59a14.5 14.5 0 0 1 0-9.18l-7.98-6.19a24.01 24.01 0 0 0 0 21.56l7.98-6.19z"/>
+          <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
         </svg>
-      ) : (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M3 20.5v-17c0-.59.34-1.11.84-1.35L13.69 12l-9.85 9.85c-.5-.24-.84-.76-.84-1.35m13.81-5.38L6.05 21.34l8.49-8.49 2.27 2.27m3.35-4.31c.34.27.56.69.56 1.19s-.22.92-.56 1.19l-2.29 1.32-2.5-2.5 2.5-2.5 2.29 1.3M6.05 2.66l10.76 6.22-2.27 2.27-8.49-8.49z"/>
-        </svg>
-      )}
-      <div>
-        <div style={{ fontSize: 9, opacity: 0.7, lineHeight: 1.2 }}>{sublabel}</div>
-        <div style={{ fontSize: 14, fontWeight: 700, lineHeight: 1.3 }}>{label}</div>
+        <span style={{ fontWeight: 'var(--font-weight-bold)' as unknown as number, color: 'var(--color-text-primary)', fontSize: 'var(--font-size-heading)' }}>{kurdishStrings.signInWithGoogle}</span>
       </div>
-    </a>
+
+      <div style={{ marginTop: 'var(--space-4)', fontSize: 'var(--font-size-body)', color: 'var(--color-text-muted)', textAlign: 'center', lineHeight: 'var(--font-lineHeight-normal)' }}>
+        {kurdishStrings.termsAcceptance}
+      </div>
+
+    </div>
   )
 }
