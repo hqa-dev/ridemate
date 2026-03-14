@@ -2,6 +2,27 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
+  // ── Site-wide password gate (remove when ready to launch) ──
+  const sitePassword = process.env.SITE_PASSWORD
+  if (sitePassword) {
+    const authHeader = request.headers.get('authorization')
+    if (!authHeader || !authHeader.startsWith('Basic ')) {
+      return new NextResponse('Authentication required', {
+        status: 401,
+        headers: { 'WWW-Authenticate': 'Basic realm="ڕێ — Private Preview"' },
+      })
+    }
+    const base64 = authHeader.split(' ')[1]
+    const decoded = atob(base64)
+    const [, password] = decoded.split(':')
+    if (password !== sitePassword) {
+      return new NextResponse('Invalid password', {
+        status: 401,
+        headers: { 'WWW-Authenticate': 'Basic realm="ڕێ — Private Preview"' },
+      })
+    }
+  }
+
   let supabaseResponse = NextResponse.next({ request })
 
   const supabase = createServerClient(
