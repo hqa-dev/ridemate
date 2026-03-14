@@ -21,6 +21,8 @@ const c = {
 
 export default function LandingPage() {
   return (
+    <>
+    <style>{`html, body { background: ${c.bg} !important; }`}</style>
     <div style={{
       direction: 'rtl',
       minHeight: '100vh',
@@ -242,6 +244,7 @@ export default function LandingPage() {
         <p>© ٢٠٢٦ ڕێ</p>
       </footer>
     </div>
+    </>
   )
 }
 
