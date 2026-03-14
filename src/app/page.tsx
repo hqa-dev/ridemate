@@ -27,7 +27,7 @@ export default function LandingPage() {
       background: c.bg,
       color: c.text,
       fontFamily: 'inherit',
-      overflow: 'hidden',
+      overflowX: 'hidden',
     }}>
 
       {/* ── Hero ── */}
