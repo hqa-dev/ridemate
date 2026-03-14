@@ -41,15 +41,75 @@ export default function LandingPage() {
         textAlign: 'center',
         position: 'relative',
       }}>
-        <h1 style={{
-          fontSize: 'clamp(4.5rem, 14vw, 7rem)',
-          fontWeight: 700,
-          lineHeight: 1,
-          color: c.yellow,
-          margin: 0,
-        }}>
-          ڕێ
-        </h1>
+        <div style={{ textAlign: 'center', maxWidth: 500 }}>
+          <h1 style={{
+            fontSize: 'clamp(4.5rem, 14vw, 7rem)',
+            fontWeight: 700,
+            lineHeight: 1,
+            color: c.yellow,
+            margin: 0,
+            marginBottom: 12,
+          }}>
+            ڕێ
+          </h1>
+
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 8,
+            marginBottom: 24,
+          }}>
+            <span style={{
+              fontSize: 15,
+              color: c.textMuted,
+              fontFamily: 'Georgia, "Times New Roman", serif',
+              fontStyle: 'italic',
+              direction: 'ltr',
+            }}>
+              /ɾeː/
+            </span>
+            <span style={{
+              width: 4,
+              height: 4,
+              borderRadius: '50%',
+              background: c.textMuted,
+              display: 'inline-block',
+            }} />
+            <span style={{
+              fontSize: 14,
+              color: c.textMuted,
+              fontStyle: 'italic',
+            }}>
+              ناو
+            </span>
+          </div>
+
+          <div style={{
+            width: 40,
+            height: 1,
+            background: c.border,
+            margin: '0 auto 24px',
+          }} />
+
+          <p style={{
+            fontSize: 'clamp(1rem, 3vw, 1.15rem)',
+            color: c.textSecondary,
+            lineHeight: 1.9,
+            margin: '0 0 8px',
+          }}>
+            ڕێگا، ئاڕاستە، شوێنی چوون و هاتن
+          </p>
+          <p style={{
+            fontSize: 'clamp(0.85rem, 2.5vw, 0.95rem)',
+            color: c.textMuted,
+            lineHeight: 1.9,
+            margin: 0,
+            fontStyle: 'italic',
+          }}>
+            «هاوسەفەری لە نێوان شارەکانی کوردستان»
+          </p>
+        </div>
 
       </section>
 
