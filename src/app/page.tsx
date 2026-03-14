@@ -32,52 +32,17 @@ export default function LandingPage() {
       justifyContent: 'center',
       fontFamily: 'inherit',
     }}>
-      {/* ── Phone Frame ── */}
+      {/* ── Content Panel ── */}
       <div style={{
         width: '100%',
-        maxWidth: 390,
-        height: '85vh',
+        maxWidth: 520,
+        height: '100vh',
         background: c.bg,
-        borderRadius: 44,
-        border: `2px solid ${c.borderSubtle}`,
-        overflow: 'hidden',
-        position: 'relative',
-        boxShadow: '0 0 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04)',
+        overflowY: 'auto',
+        overflowX: 'hidden',
+        color: c.text,
+        WebkitOverflowScrolling: 'touch',
       }}>
-        {/* Notch */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: 126,
-          height: 34,
-          background: c.bg,
-          borderRadius: '0 0 20px 20px',
-          zIndex: 10,
-        }} />
-
-        {/* Home indicator */}
-        <div style={{
-          position: 'absolute',
-          bottom: 8,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: 134,
-          height: 5,
-          background: 'rgba(255,255,255,0.15)',
-          borderRadius: 100,
-          zIndex: 10,
-        }} />
-
-        {/* ── Scrollable content inside phone ── */}
-        <div style={{
-          height: '100%',
-          overflowY: 'auto',
-          overflowX: 'hidden',
-          color: c.text,
-          WebkitOverflowScrolling: 'touch',
-        }}>
           {/* ── Hero ── */}
           <section style={{
             minHeight: '100%',
@@ -212,7 +177,6 @@ export default function LandingPage() {
             </div>
             <p style={{ margin: 0 }}>© ٢٠٢٦ ڕێ</p>
           </footer>
-        </div>
       </div>
     </div>
   )
