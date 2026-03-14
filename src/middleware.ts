@@ -5,21 +5,19 @@ export async function middleware(request: NextRequest) {
   // ── Site-wide password gate (remove when ready to launch) ──
   const sitePassword = process.env.SITE_PASSWORD
   if (sitePassword) {
-    const authHeader = request.headers.get('authorization')
-    if (!authHeader || !authHeader.startsWith('Basic ')) {
-      return new NextResponse('Authentication required', {
-        status: 401,
-        headers: { 'WWW-Authenticate': 'Basic realm="ڕێ — Private Preview"' },
-      })
+    const pathname = request.nextUrl.pathname
+
+    // Allow the gate page itself and its form submission
+    if (pathname === '/gate') {
+      return NextResponse.next({ request })
     }
-    const base64 = authHeader.split(' ')[1]
-    const decoded = atob(base64)
-    const [, password] = decoded.split(':')
-    if (password !== sitePassword) {
-      return new NextResponse('Invalid password', {
-        status: 401,
-        headers: { 'WWW-Authenticate': 'Basic realm="ڕێ — Private Preview"' },
-      })
+
+    // Check for access cookie
+    const accessCookie = request.cookies.get('site_access')
+    if (!accessCookie || accessCookie.value !== 'granted') {
+      const gateUrl = request.nextUrl.clone()
+      gateUrl.pathname = '/gate'
+      return NextResponse.redirect(gateUrl)
     }
   }
 
