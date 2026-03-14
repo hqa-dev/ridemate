@@ -207,7 +207,7 @@ export default function LandingPage() {
           marginBottom: 32,
           color: c.text,
         }}>
-          لە چاوەڕوانی <span style={{ color: c.yellow }}>ڕێ</span> بە
+          <span style={{ color: c.yellow }}>ڕێ</span> لە ڕێیە
         </p>
         <div style={{
           display: 'flex',
